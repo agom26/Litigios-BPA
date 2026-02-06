@@ -48,7 +48,24 @@ namespace Dominio.Entidades
                 return new ApiGetUserListResponse<List<UserListDataResponse>>
                 {
                     success = false,
-                    message = "Error en dominio: " + ex.Message
+                    message = "Error: " + ex.Message
+                };
+            }
+        }
+
+        public async Task<ApiGetUserListResponse<List<UserListDataResponse>>> ObtenerUsuariosFiltrados(int pagina, int cantidad, string filtro)
+        {
+            try
+            {
+                // Aquí podrías validar que página sea > 0, etc.
+                return await userData.GetUsuariosFiltrados(pagina, cantidad, filtro);
+            }
+            catch (Exception ex)
+            {
+                return new ApiGetUserListResponse<List<UserListDataResponse>>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
                 };
             }
         }
@@ -64,7 +81,7 @@ namespace Dominio.Entidades
             catch (Exception ex)
             {
                 
-                throw new Exception("Error en dominio: " + ex.Message);
+                throw new Exception("Error: " + ex.Message);
             }
 
         }
@@ -111,6 +128,9 @@ namespace Dominio.Entidades
 
             if (string.IsNullOrWhiteSpace(nombres))
                 return new ApiResponse<object> { success = false, message = "El nombre es obligatorio" };
+
+            if (string.IsNullOrWhiteSpace(telefono))
+                return new ApiResponse<object> { success = false, message = "El teléfono es obligatorio" };
 
             if (string.IsNullOrWhiteSpace(apellidos))
                 return new ApiResponse<object> { success = false, message = "El apellido es obligatorio" };
@@ -161,7 +181,9 @@ namespace Dominio.Entidades
 
             if (string.IsNullOrWhiteSpace(apellidos))
                 return new ApiResponse<object> { success = false, message = "El apellido es obligatorio" };
-
+            
+            if (string.IsNullOrWhiteSpace(telefono))
+                return new ApiResponse<object> { success = false, message = "El teléfono es obligatorio" };
 
             if (!string.IsNullOrWhiteSpace(correo))
             {
@@ -169,7 +191,6 @@ namespace Dominio.Entidades
                 if (!emailRegex.IsMatch(correo))
                     return new ApiResponse<object> { success = false, message = "El correo no tiene un formato válido" };
             }
-
 
             if (!string.IsNullOrWhiteSpace(telefono))
             {

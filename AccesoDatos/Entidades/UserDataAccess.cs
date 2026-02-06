@@ -78,6 +78,39 @@ namespace AccesoDatos.Entidades
             }
         }
 
+        public async Task<ApiGetUserListResponse<List<UserListDataResponse>>> GetUsuariosFiltrados(int paginaActual, int cantidad, string filtro)
+        {
+            using (var client = new HttpClient())
+            {
+
+                var parameters = new Dictionary<string, string>
+                {
+                    { "action", "get_usuarios_filtrados" },
+                    { "pagina",  paginaActual.ToString()},
+                    { "registrosPorPagina", cantidad.ToString()},
+                    { "filtro", filtro}
+                };
+
+                var content = new FormUrlEncodedContent(parameters);
+
+                try
+                {
+                    var response = await client.PostAsync(_apiUrl, content);
+                    var jsonResult = await response.Content.ReadAsStringAsync();
+
+                    return JsonConvert.DeserializeObject<ApiGetUserListResponse<List<UserListDataResponse>>>(jsonResult);
+                }
+                catch (Exception ex)
+                {
+                    return new ApiGetUserListResponse<List<UserListDataResponse>>
+                    {
+                        success = false,
+                        message = "Error en servidor: " + ex.Message
+                    };
+                }
+            }
+        }
+
         public async Task<ApiGetModulosRoles> GetModulosRoles()
         {
             using (var client = new HttpClient())

@@ -364,12 +364,12 @@ namespace Presentacion.Personas
 
         private async Task Filtrar()
         {
-            /*
+            
             string filtro = txtBuscar.Text;
             int pagina = 1;
             int registrosPorPagina = 10;
 
-            var resultado = await _userModel.ObtenerUsuariosFiltrados(filtro, pagina, registrosPorPagina);
+            var resultado = await userModel.ObtenerUsuariosFiltrados( pagina, registrosPorPagina, filtro);
 
             if (resultado.success)
             {
@@ -380,7 +380,7 @@ namespace Presentacion.Personas
             else
             {
                 MessageBox.Show(resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
+            }
         }
 
         private async void txtBuscar_KeyDown(object sender, KeyEventArgs e)
