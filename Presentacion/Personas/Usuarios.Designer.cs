@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Usuarios));
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
             panelBusqueda = new Panel();
             btnAdd = new Presentacion.Clases.RoundedButton();
             txtBuscar = new TextBox();
@@ -57,6 +57,9 @@
             roundedButton10 = new Presentacion.Clases.RoundedButton();
             roundedButton11 = new Presentacion.Clases.RoundedButton();
             panelInformacionPersonal = new Panel();
+            label5 = new Label();
+            txtTelefono = new TextBox();
+            roundedButton12 = new Presentacion.Clases.RoundedButton();
             txtPass = new TextBox();
             lblNombre = new Label();
             lblApellido = new Label();
@@ -79,9 +82,6 @@
             roundedButton8 = new Presentacion.Clases.RoundedButton();
             roundedButton2 = new Presentacion.Clases.RoundedButton();
             lblTitulo = new Label();
-            label5 = new Label();
-            txtTelefono = new TextBox();
-            roundedButton12 = new Presentacion.Clases.RoundedButton();
             panelBusqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgUsuarios).BeginInit();
             tabControl1.SuspendLayout();
@@ -118,14 +118,16 @@
             btnAdd.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAdd.ForeColor = Color.White;
             btnAdd.Image = (Image)resources.GetObject("btnAdd.Image");
-            btnAdd.ImageAlign = ContentAlignment.MiddleLeft;
+            btnAdd.ImageAlign = ContentAlignment.MiddleRight;
             btnAdd.Location = new Point(602, 24);
             btnAdd.Name = "btnAdd";
             btnAdd.Padding = new Padding(3, 0, 0, 0);
             btnAdd.Size = new Size(150, 40);
             btnAdd.TabIndex = 2;
-            btnAdd.Text = "Agregar Usuario";
+            btnAdd.Text = "Agregar Demandado";
+            btnAdd.TextAlign = ContentAlignment.MiddleLeft;
             btnAdd.TextColor = Color.White;
+            btnAdd.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += btnAdd_Click;
             // 
@@ -176,46 +178,46 @@
             dtgUsuarios.AllowUserToAddRows = false;
             dtgUsuarios.AllowUserToDeleteRows = false;
             dtgUsuarios.AllowUserToResizeRows = false;
-            dataGridViewCellStyle9.BackColor = Color.FromArgb(249, 247, 242);
-            dtgUsuarios.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle25.BackColor = Color.FromArgb(249, 247, 242);
+            dtgUsuarios.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle25;
             dtgUsuarios.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dtgUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dtgUsuarios.BackgroundColor = Color.White;
             dtgUsuarios.BorderStyle = BorderStyle.None;
             dtgUsuarios.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgUsuarios.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle10.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle10.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle10.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle10.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
-            dtgUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle26.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle26.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle26.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle26.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle26.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle26.WrapMode = DataGridViewTriState.True;
+            dtgUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle26;
             dtgUsuarios.ColumnHeadersHeight = 40;
             dtgUsuarios.EnableHeadersVisualStyles = false;
             dtgUsuarios.Location = new Point(36, 161);
             dtgUsuarios.MinimumSize = new Size(719, 226);
             dtgUsuarios.MultiSelect = false;
             dtgUsuarios.Name = "dtgUsuarios";
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = Color.White;
-            dataGridViewCellStyle11.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle11.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle11.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dtgUsuarios.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle27.BackColor = Color.White;
+            dataGridViewCellStyle27.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle27.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle27.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle27.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.True;
+            dtgUsuarios.RowHeadersDefaultCellStyle = dataGridViewCellStyle27;
             dtgUsuarios.RowHeadersVisible = false;
-            dataGridViewCellStyle12.BackColor = Color.White;
-            dataGridViewCellStyle12.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle12.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle12.SelectionForeColor = Color.Black;
-            dtgUsuarios.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle28.BackColor = Color.White;
+            dataGridViewCellStyle28.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle28.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle28.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle28.SelectionForeColor = Color.Black;
+            dtgUsuarios.RowsDefaultCellStyle = dataGridViewCellStyle28;
             dtgUsuarios.RowTemplate.Height = 45;
             dtgUsuarios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgUsuarios.Size = new Size(744, 229);
+            dtgUsuarios.Size = new Size(744, 226);
             dtgUsuarios.TabIndex = 1;
             dtgUsuarios.CellClick += dtgUsuarios_CellClick;
             dtgUsuarios.CellFormatting += dtgUsuarios_CellFormatting;
@@ -245,7 +247,7 @@
             btnAnterior.ForeColor = Color.White;
             btnAnterior.Image = (Image)resources.GetObject("btnAnterior.Image");
             btnAnterior.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAnterior.Location = new Point(587, 407);
+            btnAnterior.Location = new Point(587, 390);
             btnAnterior.Name = "btnAnterior";
             btnAnterior.Padding = new Padding(3, 0, 0, 0);
             btnAnterior.Size = new Size(87, 40);
@@ -270,7 +272,7 @@
             btnSiguiente.ForeColor = Color.White;
             btnSiguiente.Image = (Image)resources.GetObject("btnSiguiente.Image");
             btnSiguiente.ImageAlign = ContentAlignment.MiddleRight;
-            btnSiguiente.Location = new Point(693, 407);
+            btnSiguiente.Location = new Point(693, 390);
             btnSiguiente.Name = "btnSiguiente";
             btnSiguiente.Padding = new Padding(3, 0, 0, 0);
             btnSiguiente.Size = new Size(87, 40);
@@ -346,10 +348,10 @@
             roundedButton19.BorderSize = 1;
             roundedButton19.FlatAppearance.BorderSize = 0;
             roundedButton19.FlatStyle = FlatStyle.Flat;
-            roundedButton19.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            roundedButton19.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
             roundedButton19.ForeColor = Color.Black;
             roundedButton19.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton19.Location = new Point(433, 800);
+            roundedButton19.Location = new Point(417, 794);
             roundedButton19.Name = "roundedButton19";
             roundedButton19.Padding = new Padding(3, 0, 0, 0);
             roundedButton19.Size = new Size(150, 40);
@@ -369,10 +371,10 @@
             btnGuardarUsuario.BorderSize = 1;
             btnGuardarUsuario.FlatAppearance.BorderSize = 0;
             btnGuardarUsuario.FlatStyle = FlatStyle.Flat;
-            btnGuardarUsuario.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardarUsuario.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
             btnGuardarUsuario.ForeColor = Color.White;
             btnGuardarUsuario.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGuardarUsuario.Location = new Point(616, 800);
+            btnGuardarUsuario.Location = new Point(600, 794);
             btnGuardarUsuario.Name = "btnGuardarUsuario";
             btnGuardarUsuario.Padding = new Padding(3, 0, 0, 0);
             btnGuardarUsuario.Size = new Size(150, 40);
@@ -389,7 +391,7 @@
             panel1.Controls.Add(dtgPermisos);
             panel1.Controls.Add(roundedButton10);
             panel1.Controls.Add(roundedButton11);
-            panel1.Location = new Point(52, 489);
+            panel1.Location = new Point(36, 487);
             panel1.Name = "panel1";
             panel1.Size = new Size(714, 288);
             panel1.TabIndex = 4;
@@ -399,43 +401,43 @@
             dtgPermisos.AllowUserToAddRows = false;
             dtgPermisos.AllowUserToDeleteRows = false;
             dtgPermisos.AllowUserToResizeRows = false;
-            dataGridViewCellStyle13.BackColor = Color.FromArgb(249, 247, 242);
-            dtgPermisos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle29.BackColor = Color.FromArgb(249, 247, 242);
+            dtgPermisos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle29;
             dtgPermisos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dtgPermisos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dtgPermisos.BackgroundColor = Color.White;
             dtgPermisos.BorderStyle = BorderStyle.None;
             dtgPermisos.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgPermisos.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle14.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle14.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle14.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle14.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.True;
-            dtgPermisos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle30.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle30.Font = new Font("Microsoft Sans Serif", 8.25F);
+            dataGridViewCellStyle30.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle30.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle30.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle30.WrapMode = DataGridViewTriState.True;
+            dtgPermisos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle30;
             dtgPermisos.ColumnHeadersHeight = 40;
             dtgPermisos.EnableHeadersVisualStyles = false;
             dtgPermisos.Location = new Point(3, 62);
             dtgPermisos.MinimumSize = new Size(619, 226);
             dtgPermisos.MultiSelect = false;
             dtgPermisos.Name = "dtgPermisos";
-            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = Color.White;
-            dataGridViewCellStyle15.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle15.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle15.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
-            dtgPermisos.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle31.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle31.BackColor = Color.White;
+            dataGridViewCellStyle31.Font = new Font("Microsoft Sans Serif", 8.25F);
+            dataGridViewCellStyle31.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle31.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle31.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle31.WrapMode = DataGridViewTriState.True;
+            dtgPermisos.RowHeadersDefaultCellStyle = dataGridViewCellStyle31;
             dtgPermisos.RowHeadersVisible = false;
-            dataGridViewCellStyle16.BackColor = Color.White;
-            dataGridViewCellStyle16.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle16.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle16.SelectionForeColor = Color.Black;
-            dtgPermisos.RowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle32.BackColor = Color.White;
+            dataGridViewCellStyle32.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle32.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle32.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle32.SelectionForeColor = Color.Black;
+            dtgPermisos.RowsDefaultCellStyle = dataGridViewCellStyle32;
             dtgPermisos.RowTemplate.Height = 45;
             dtgPermisos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgPermisos.Size = new Size(708, 226);
@@ -510,16 +512,58 @@
             panelInformacionPersonal.Controls.Add(roundedButton6);
             panelInformacionPersonal.Controls.Add(roundedButton8);
             panelInformacionPersonal.Controls.Add(roundedButton2);
-            panelInformacionPersonal.Location = new Point(55, 71);
+            panelInformacionPersonal.Location = new Point(39, 69);
             panelInformacionPersonal.Name = "panelInformacionPersonal";
             panelInformacionPersonal.Size = new Size(711, 363);
             panelInformacionPersonal.TabIndex = 3;
+            // 
+            // label5
+            // 
+            label5.Anchor = AnchorStyles.Top;
+            label5.AutoSize = true;
+            label5.BackColor = Color.White;
+            label5.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label5.Location = new Point(477, 146);
+            label5.Name = "label5";
+            label5.Size = new Size(77, 19);
+            label5.TabIndex = 20;
+            label5.Text = "Teléfono *";
+            // 
+            // txtTelefono
+            // 
+            txtTelefono.Anchor = AnchorStyles.Top;
+            txtTelefono.BorderStyle = BorderStyle.None;
+            txtTelefono.Location = new Point(477, 181);
+            txtTelefono.Name = "txtTelefono";
+            txtTelefono.PlaceholderText = "...";
+            txtTelefono.Size = new Size(156, 13);
+            txtTelefono.TabIndex = 21;
+            // 
+            // roundedButton12
+            // 
+            roundedButton12.Anchor = AnchorStyles.Top;
+            roundedButton12.BackColor = Color.White;
+            roundedButton12.BackgroundColor = Color.White;
+            roundedButton12.BorderColor = Color.LightGray;
+            roundedButton12.BorderRadius = 10;
+            roundedButton12.BorderSize = 1;
+            roundedButton12.Enabled = false;
+            roundedButton12.FlatAppearance.BorderSize = 0;
+            roundedButton12.FlatStyle = FlatStyle.Flat;
+            roundedButton12.ForeColor = Color.White;
+            roundedButton12.ImageAlign = ContentAlignment.MiddleLeft;
+            roundedButton12.Location = new Point(472, 168);
+            roundedButton12.Name = "roundedButton12";
+            roundedButton12.Size = new Size(170, 40);
+            roundedButton12.TabIndex = 22;
+            roundedButton12.TextColor = Color.White;
+            roundedButton12.UseVisualStyleBackColor = false;
             // 
             // txtPass
             // 
             txtPass.Anchor = AnchorStyles.Top;
             txtPass.BorderStyle = BorderStyle.None;
-            txtPass.Location = new Point(101, 264);
+            txtPass.Location = new Point(82, 265);
             txtPass.Name = "txtPass";
             txtPass.PlaceholderText = "...";
             txtPass.Size = new Size(156, 13);
@@ -531,7 +575,7 @@
             lblNombre.AutoSize = true;
             lblNombre.BackColor = Color.White;
             lblNombre.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblNombre.Location = new Point(101, 64);
+            lblNombre.Location = new Point(82, 65);
             lblNombre.Name = "lblNombre";
             lblNombre.Size = new Size(75, 19);
             lblNombre.TabIndex = 4;
@@ -543,7 +587,7 @@
             lblApellido.AutoSize = true;
             lblApellido.BackColor = Color.White;
             lblApellido.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblApellido.Location = new Point(294, 64);
+            lblApellido.Location = new Point(275, 65);
             lblApellido.Name = "lblApellido";
             lblApellido.Size = new Size(76, 19);
             lblApellido.TabIndex = 5;
@@ -555,7 +599,7 @@
             lblUsuario.AutoSize = true;
             lblUsuario.BackColor = Color.White;
             lblUsuario.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblUsuario.Location = new Point(501, 64);
+            lblUsuario.Location = new Point(482, 65);
             lblUsuario.Name = "lblUsuario";
             lblUsuario.Size = new Size(70, 19);
             lblUsuario.TabIndex = 6;
@@ -565,7 +609,7 @@
             // 
             txtUsuario.Anchor = AnchorStyles.Top;
             txtUsuario.BorderStyle = BorderStyle.None;
-            txtUsuario.Location = new Point(501, 99);
+            txtUsuario.Location = new Point(482, 100);
             txtUsuario.Name = "txtUsuario";
             txtUsuario.PlaceholderText = "...";
             txtUsuario.Size = new Size(156, 13);
@@ -575,7 +619,7 @@
             // 
             txtNombre.Anchor = AnchorStyles.Top;
             txtNombre.BorderStyle = BorderStyle.None;
-            txtNombre.Location = new Point(101, 99);
+            txtNombre.Location = new Point(82, 100);
             txtNombre.Name = "txtNombre";
             txtNombre.PlaceholderText = "...";
             txtNombre.Size = new Size(156, 13);
@@ -587,7 +631,7 @@
             checkBoxCambiarPass.AutoSize = true;
             checkBoxCambiarPass.BackColor = Color.White;
             checkBoxCambiarPass.Font = new Font("Microsoft Sans Serif", 10F);
-            checkBoxCambiarPass.Location = new Point(101, 308);
+            checkBoxCambiarPass.Location = new Point(82, 309);
             checkBoxCambiarPass.Name = "checkBoxCambiarPass";
             checkBoxCambiarPass.Size = new Size(156, 21);
             checkBoxCambiarPass.TabIndex = 7;
@@ -598,7 +642,7 @@
             // 
             txtConfirmarPass.Anchor = AnchorStyles.Top;
             txtConfirmarPass.BorderStyle = BorderStyle.None;
-            txtConfirmarPass.Location = new Point(299, 264);
+            txtConfirmarPass.Location = new Point(280, 265);
             txtConfirmarPass.Name = "txtConfirmarPass";
             txtConfirmarPass.PlaceholderText = "...";
             txtConfirmarPass.Size = new Size(156, 13);
@@ -610,7 +654,7 @@
             lblConfirmarPassword.AutoSize = true;
             lblConfirmarPassword.BackColor = Color.White;
             lblConfirmarPassword.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblConfirmarPassword.Location = new Point(294, 229);
+            lblConfirmarPassword.Location = new Point(275, 230);
             lblConfirmarPassword.Name = "lblConfirmarPassword";
             lblConfirmarPassword.Size = new Size(154, 19);
             lblConfirmarPassword.TabIndex = 9;
@@ -622,7 +666,7 @@
             label2.AutoSize = true;
             label2.BackColor = Color.White;
             label2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label2.Location = new Point(101, 145);
+            label2.Location = new Point(82, 146);
             label2.Name = "label2";
             label2.Size = new Size(56, 19);
             label2.TabIndex = 7;
@@ -634,7 +678,7 @@
             lblPassword.AutoSize = true;
             lblPassword.BackColor = Color.White;
             lblPassword.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblPassword.Location = new Point(101, 229);
+            lblPassword.Location = new Point(82, 230);
             lblPassword.Name = "lblPassword";
             lblPassword.Size = new Size(94, 19);
             lblPassword.TabIndex = 8;
@@ -644,7 +688,7 @@
             // 
             txtCorreo.Anchor = AnchorStyles.Top;
             txtCorreo.BorderStyle = BorderStyle.None;
-            txtCorreo.Location = new Point(101, 180);
+            txtCorreo.Location = new Point(82, 181);
             txtCorreo.Name = "txtCorreo";
             txtCorreo.PlaceholderText = "...";
             txtCorreo.Size = new Size(273, 13);
@@ -685,7 +729,7 @@
             roundedButton7.FlatStyle = FlatStyle.Flat;
             roundedButton7.ForeColor = Color.White;
             roundedButton7.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton7.Location = new Point(96, 251);
+            roundedButton7.Location = new Point(77, 252);
             roundedButton7.Name = "roundedButton7";
             roundedButton7.Size = new Size(170, 40);
             roundedButton7.TabIndex = 17;
@@ -705,7 +749,7 @@
             roundedButton5.FlatStyle = FlatStyle.Flat;
             roundedButton5.ForeColor = Color.White;
             roundedButton5.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton5.Location = new Point(496, 86);
+            roundedButton5.Location = new Point(477, 87);
             roundedButton5.Name = "roundedButton5";
             roundedButton5.Size = new Size(170, 40);
             roundedButton5.TabIndex = 13;
@@ -716,7 +760,7 @@
             // 
             txtApellido.Anchor = AnchorStyles.Top;
             txtApellido.BorderStyle = BorderStyle.None;
-            txtApellido.Location = new Point(299, 99);
+            txtApellido.Location = new Point(280, 100);
             txtApellido.Name = "txtApellido";
             txtApellido.PlaceholderText = "...";
             txtApellido.Size = new Size(156, 13);
@@ -735,7 +779,7 @@
             roundedButton4.FlatStyle = FlatStyle.Flat;
             roundedButton4.ForeColor = Color.White;
             roundedButton4.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton4.Location = new Point(294, 86);
+            roundedButton4.Location = new Point(275, 87);
             roundedButton4.Name = "roundedButton4";
             roundedButton4.Size = new Size(170, 40);
             roundedButton4.TabIndex = 11;
@@ -755,7 +799,7 @@
             roundedButton3.FlatStyle = FlatStyle.Flat;
             roundedButton3.ForeColor = Color.White;
             roundedButton3.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton3.Location = new Point(96, 86);
+            roundedButton3.Location = new Point(77, 87);
             roundedButton3.Name = "roundedButton3";
             roundedButton3.Size = new Size(170, 40);
             roundedButton3.TabIndex = 5;
@@ -775,7 +819,7 @@
             roundedButton6.FlatStyle = FlatStyle.Flat;
             roundedButton6.ForeColor = Color.White;
             roundedButton6.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton6.Location = new Point(96, 167);
+            roundedButton6.Location = new Point(77, 168);
             roundedButton6.Name = "roundedButton6";
             roundedButton6.Size = new Size(289, 40);
             roundedButton6.TabIndex = 15;
@@ -795,7 +839,7 @@
             roundedButton8.FlatStyle = FlatStyle.Flat;
             roundedButton8.ForeColor = Color.White;
             roundedButton8.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton8.Location = new Point(294, 251);
+            roundedButton8.Location = new Point(275, 252);
             roundedButton8.Name = "roundedButton8";
             roundedButton8.Size = new Size(170, 40);
             roundedButton8.TabIndex = 19;
@@ -825,53 +869,11 @@
             // 
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitulo.Location = new Point(52, 38);
+            lblTitulo.Location = new Point(36, 36);
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(97, 30);
             lblTitulo.TabIndex = 1;
             lblTitulo.Text = "Usuarios";
-            // 
-            // label5
-            // 
-            label5.Anchor = AnchorStyles.Top;
-            label5.AutoSize = true;
-            label5.BackColor = Color.White;
-            label5.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label5.Location = new Point(496, 145);
-            label5.Name = "label5";
-            label5.Size = new Size(77, 19);
-            label5.TabIndex = 20;
-            label5.Text = "Teléfono *";
-            // 
-            // txtTelefono
-            // 
-            txtTelefono.Anchor = AnchorStyles.Top;
-            txtTelefono.BorderStyle = BorderStyle.None;
-            txtTelefono.Location = new Point(496, 180);
-            txtTelefono.Name = "txtTelefono";
-            txtTelefono.PlaceholderText = "...";
-            txtTelefono.Size = new Size(156, 13);
-            txtTelefono.TabIndex = 21;
-            // 
-            // roundedButton12
-            // 
-            roundedButton12.Anchor = AnchorStyles.Top;
-            roundedButton12.BackColor = Color.White;
-            roundedButton12.BackgroundColor = Color.White;
-            roundedButton12.BorderColor = Color.LightGray;
-            roundedButton12.BorderRadius = 10;
-            roundedButton12.BorderSize = 1;
-            roundedButton12.Enabled = false;
-            roundedButton12.FlatAppearance.BorderSize = 0;
-            roundedButton12.FlatStyle = FlatStyle.Flat;
-            roundedButton12.ForeColor = Color.White;
-            roundedButton12.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton12.Location = new Point(491, 167);
-            roundedButton12.Name = "roundedButton12";
-            roundedButton12.Size = new Size(170, 40);
-            roundedButton12.TabIndex = 22;
-            roundedButton12.TextColor = Color.White;
-            roundedButton12.UseVisualStyleBackColor = false;
             // 
             // Usuarios
             // 

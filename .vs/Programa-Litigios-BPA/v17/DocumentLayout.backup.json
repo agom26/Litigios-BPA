@@ -3,36 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\personas\\demandados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\personas\\demandados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBC29124-6DD3-480B-99B2-62A0F443B303}|Dominio\\Dominio.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\dominio\\entidades\\demandadomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBC29124-6DD3-480B-99B2-62A0F443B303}|Dominio\\Dominio.csproj|solutionrelative:dominio\\entidades\\demandadomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FBC29124-6DD3-480B-99B2-62A0F443B303}|Dominio\\Dominio.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\dominio\\entidades\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBC29124-6DD3-480B-99B2-62A0F443B303}|Dominio\\Dominio.csproj|solutionrelative:dominio\\entidades\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\personas\\usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\personas\\usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5C3D814D-CF05-4F2F-8758-E36F50B68539}|AccesoDatos\\AccesoDatos.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\accesodatos\\entidades\\demandadodataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C3D814D-CF05-4F2F-8758-E36F50B68539}|AccesoDatos\\AccesoDatos.csproj|solutionrelative:accesodatos\\entidades\\demandadodataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C3D814D-CF05-4F2F-8758-E36F50B68539}|AccesoDatos\\AccesoDatos.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\accesodatos\\entidades\\userdataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C3D814D-CF05-4F2F-8758-E36F50B68539}|AccesoDatos\\AccesoDatos.csproj|solutionrelative:accesodatos\\entidades\\userdataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\abogado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\abogado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\userdataresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\userdataresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\apidemandadodetalleresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\apidemandadodetalleresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\apigetuserlistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\apigetuserlistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\usuariodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\usuariodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\presentacion\\personas\\usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\personas\\usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\apigetusuariodetalles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\apigetusuariodetalles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,105 +46,94 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ApiGetUserListResponse.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\ApiGetUserListResponse.cs",
-              "RelativeDocumentMoniker": "Comun\\Models\\ApiGetUserListResponse.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\ApiGetUserListResponse.cs",
-              "RelativeToolTip": "Comun\\Models\\ApiGetUserListResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T06:06:27.151Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UserDataResponse.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\UserDataResponse.cs",
-              "RelativeDocumentMoniker": "Comun\\Models\\UserDataResponse.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\UserDataResponse.cs",
-              "RelativeToolTip": "Comun\\Models\\UserDataResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T06:06:19.067Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UsuarioData.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\UsuarioData.cs",
-              "RelativeDocumentMoniker": "Comun\\Models\\UsuarioData.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\UsuarioData.cs",
-              "RelativeToolTip": "Comun\\Models\\UsuarioData.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T06:06:04.366Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ApiResponse.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\ApiResponse.cs",
-              "RelativeDocumentMoniker": "Comun\\Models\\ApiResponse.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\ApiResponse.cs",
-              "RelativeToolTip": "Comun\\Models\\ApiResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T06:05:54.671Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "UserModel.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Dominio\\Entidades\\UserModel.cs",
               "RelativeDocumentMoniker": "Dominio\\Entidades\\UserModel.cs",
               "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Dominio\\Entidades\\UserModel.cs",
               "RelativeToolTip": "Dominio\\Entidades\\UserModel.cs",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAawIIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMcAAAAAAAAAAAAEwN4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T03:26:00.429Z",
+              "WhenOpened": "2026-02-06T22:57:11.778Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserDataAccess.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\AccesoDatos\\Entidades\\UserDataAccess.cs",
-              "RelativeDocumentMoniker": "AccesoDatos\\Entidades\\UserDataAccess.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\AccesoDatos\\Entidades\\UserDataAccess.cs",
-              "RelativeToolTip": "AccesoDatos\\Entidades\\UserDataAccess.cs",
-              "ViewState": "AgIAAEkAAAAAAAAAAADwv3AAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "Abogado.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Abogado.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\Abogado.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Abogado.cs",
+              "RelativeToolTip": "Comun\\Models\\Abogado.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T03:08:01.102Z",
+              "WhenOpened": "2026-02-06T19:59:42.546Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ApiGetUsuarioDetalles.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\ApiGetUsuarioDetalles.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\ApiGetUsuarioDetalles.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\ApiGetUsuarioDetalles.cs",
+              "RelativeToolTip": "Comun\\Models\\ApiGetUsuarioDetalles.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T19:58:28.477Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Usuarios.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Personas\\Usuarios.cs",
-              "RelativeDocumentMoniker": "Presentacion\\Personas\\Usuarios.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Personas\\Usuarios.cs",
-              "RelativeToolTip": "Presentacion\\Personas\\Usuarios.cs",
-              "ViewState": "AgIAAGUBAAAAAAAAAAAvwG4BAAAMAAAAAAAAAA==",
+              "Title": "DemandadoModel.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Dominio\\Entidades\\DemandadoModel.cs",
+              "RelativeDocumentMoniker": "Dominio\\Entidades\\DemandadoModel.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Dominio\\Entidades\\DemandadoModel.cs",
+              "RelativeToolTip": "Dominio\\Entidades\\DemandadoModel.cs",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAQwKkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T00:40:34.863Z",
+              "WhenOpened": "2026-02-06T17:30:13.247Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Usuarios.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Personas\\Usuarios.cs",
-              "RelativeDocumentMoniker": "Presentacion\\Personas\\Usuarios.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Personas\\Usuarios.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Presentacion\\Personas\\Usuarios.cs [Dise\u00F1o]",
+              "DocumentIndex": 3,
+              "Title": "DemandadoDataAccess.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\AccesoDatos\\Entidades\\DemandadoDataAccess.cs",
+              "RelativeDocumentMoniker": "AccesoDatos\\Entidades\\DemandadoDataAccess.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\AccesoDatos\\Entidades\\DemandadoDataAccess.cs",
+              "RelativeToolTip": "AccesoDatos\\Entidades\\DemandadoDataAccess.cs",
+              "ViewState": "AgIAAOEAAAAAAAAAAAAEwOoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T00:39:38.706Z"
+              "WhenOpened": "2026-02-06T17:24:38.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Demandados.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Personas\\Demandados.cs",
+              "RelativeDocumentMoniker": "Presentacion\\Personas\\Demandados.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Personas\\Demandados.cs",
+              "RelativeToolTip": "Presentacion\\Personas\\Demandados.cs",
+              "ViewState": "AgIAAIEBAAAAAAAAAAAEwIkBAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T06:20:15.62Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ApiDemandadoDetalleResponse.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\ApiDemandadoDetalleResponse.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\ApiDemandadoDetalleResponse.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\ApiDemandadoDetalleResponse.cs",
+              "RelativeToolTip": "Comun\\Models\\ApiDemandadoDetalleResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T20:00:52.085Z",
+              "EditorCaption": ""
             }
           ]
         }

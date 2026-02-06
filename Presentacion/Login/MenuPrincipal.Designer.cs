@@ -157,7 +157,7 @@
             imageList1.Images.SetKeyName(2, "civil");
             imageList1.Images.SetKeyName(3, "constitucional");
             imageList1.Images.SetKeyName(4, "contencioso");
-            imageList1.Images.SetKeyName(5, "participantes");
+            imageList1.Images.SetKeyName(5, "personas");
             imageList1.Images.SetKeyName(6, "usuarios");
             imageList1.Images.SetKeyName(7, "icons8-prisoner-24.png");
             imageList1.Images.SetKeyName(8, "icons8-court-24 (1).png");

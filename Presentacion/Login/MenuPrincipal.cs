@@ -94,10 +94,6 @@ namespace Presentacion
             {
                 switch (modulo.ToLower())
                 {
-                    case "usuarios":
-                        treeView1.Nodes.Add(CrearNodo("Usuarios", "usuarios"));
-                        break;
-
                     case "laboral":
                         treeView1.Nodes.Add(CrearNodo("Laboral", "laboral"));
                         break;
@@ -117,12 +113,25 @@ namespace Presentacion
                         treeView1.Nodes.Add(contencioso);
                         break;
 
+                    case "personas involucradas":
+                        
+                        TreeNode personas = CrearNodo("Personas involucradas", "personas");
+                        personas.Nodes.Add(CrearNodo("Demandados / Autoridad Responsable", "personas"));
+                        personas.Nodes.Add(CrearNodo("Demandantes / Actor", "personas"));
+                        personas.Nodes.Add(CrearNodo("Terceros Interesados", "personas"));
+                        treeView1.Nodes.Add(personas);
+                        break;
+
                     case "vencimientos":
                         treeView1.Nodes.Add(CrearNodo("Vencimientos", "vencimientos"));
                         break;
 
                     case "plazos":
                         treeView1.Nodes.Add(CrearNodo("Plazos", "plazos"));
+                        break;
+
+                    case "usuarios":
+                        treeView1.Nodes.Add(CrearNodo("Usuarios", "usuarios"));
                         break;
                 }
             }
@@ -163,13 +172,17 @@ namespace Presentacion
                 {
                     openChildForm(new Usuarios());
 
-
                 }
-                else if (nodo.Text == "Casos")
+                else if (nodo.Text == "Personas involucradas")
                 {
-
-
-
+                    if (nodo.IsExpanded)
+                        nodo.Collapse();
+                    else
+                        nodo.Expand();
+                }
+                else if (nodo.Text == "Demandados / Autoridad Responsable" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
+                {
+                    openChildForm(new Demandados());
                 }
                 else if (nodo.Text == "Inicio")
                 {

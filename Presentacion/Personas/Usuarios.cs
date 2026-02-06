@@ -56,7 +56,8 @@ namespace Presentacion.Personas
 
             if (!resultado.success)
             {
-                MessageBox.Show("Error al cargar módulos y roles: " + resultado.message);
+                MessageBox.Show("Error al cargar módulos y roles: " + resultado.message
+                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -116,6 +117,9 @@ namespace Presentacion.Personas
 
         private async Task CargarPermisosUsuario(int idUsuario)
         {
+            checkBoxCambiarPass.Visible = true;
+            checkBoxCambiarPass.Enabled = true;
+
             var usuario=await userModel.ObtenerUsuarioPorId(idUsuario);
 
             txtNombre.Text = usuario.data.nombres.ToString();
@@ -260,6 +264,8 @@ namespace Presentacion.Personas
             lblTitulo.Text = "Nuevo Usuario";
             lblPassword.Text = "Contraseña *";
             lblConfirmarPassword.Text = "Confirmar Contraseña *";
+            checkBoxCambiarPass.Visible = false;
+            checkBoxCambiarPass.Enabled = false;
             LimpiarFormulario();
             await CargarModulosRoles();
             AnadirTabPage(Detalles);
@@ -403,13 +409,15 @@ namespace Presentacion.Personas
             {
                 if (string.IsNullOrWhiteSpace(txtPass.Text) && string.IsNullOrWhiteSpace(txtConfirmarPass.Text))
                 {
-                    MessageBox.Show("Debe escribir la nueva contraseña");
+                    MessageBox.Show("Debe escribir la nueva contraseña",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 if (txtPass.Text != txtConfirmarPass.Text)
                 {
-                    MessageBox.Show("Las contraseñas no coinciden");
+                    MessageBox.Show("Las contraseñas no coinciden",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -430,7 +438,8 @@ namespace Presentacion.Personas
 
             if (resultado.success)
             {
-                MessageBox.Show("Usuario actualizado correctamente");
+                MessageBox.Show("Usuario actualizado correctamente",
+                    "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await CargarUsuarios();
                 LimpiarFormulario();
                 AnadirTabPage(Listar);
@@ -438,7 +447,8 @@ namespace Presentacion.Personas
             }
             else
             {
-                MessageBox.Show("Error: " + resultado.message);
+                MessageBox.Show("Error: " + resultado.message
+                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -515,12 +525,13 @@ namespace Presentacion.Personas
 
                     if (resultado.success)
                     {
-                        MessageBox.Show("Usuario eliminado correctamente.");
+                        MessageBox.Show("Usuario eliminado correctamente.",
+                            "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         await CargarUsuarios();
                     }
                     else
                     {
-                        MessageBox.Show("Error: " + resultado.message);
+                        MessageBox.Show("Error: " + resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
