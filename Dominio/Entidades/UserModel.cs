@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -92,6 +93,112 @@ namespace Dominio.Entidades
                 throw new Exception("Error: " + ex.Message);
             }
 
+        }
+
+        public async Task<ApiResponse<object>> EditarUsuario(
+            int idUsuario,
+            string usuario,
+            string password,
+            string nombres,
+            string apellidos,
+            string correo,
+            string telefono,
+            string permisosJson
+        )
+        {
+            if (string.IsNullOrWhiteSpace(usuario))
+                return new ApiResponse<object> { success = false, message = "El usuario es obligatorio" };
+
+            if (string.IsNullOrWhiteSpace(nombres))
+                return new ApiResponse<object> { success = false, message = "El nombre es obligatorio" };
+
+            if (string.IsNullOrWhiteSpace(apellidos))
+                return new ApiResponse<object> { success = false, message = "El apellido es obligatorio" };
+
+            
+            if (!string.IsNullOrWhiteSpace(correo))
+            {
+                var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+                if (!emailRegex.IsMatch(correo))
+                    return new ApiResponse<object> { success = false, message = "El correo no tiene un formato válido" };
+            }
+
+           
+            if (!string.IsNullOrWhiteSpace(telefono))
+            {
+                var phoneRegex = new Regex(@"^\+?\d{7,15}$"); 
+                if (!phoneRegex.IsMatch(telefono))
+                    return new ApiResponse<object> { success = false, message = "El teléfono no tiene un formato válido" };
+            }
+            
+            return await userData.EditarUsuario(
+                idUsuario,
+                usuario,
+                password,
+                nombres,
+                apellidos,
+                correo,
+                telefono,
+                permisosJson
+            );
+        }
+
+        public async Task<ApiResponse<object>> CrearUsuario(
+            string usuario,
+            string password,
+            string nombres,
+            string apellidos,
+            string correo,
+            string telefono,
+            string permisosJson
+        )
+        {
+            if (string.IsNullOrWhiteSpace(usuario))
+                return new ApiResponse<object> { success = false, message = "El usuario es obligatorio" };
+
+            if (string.IsNullOrWhiteSpace(nombres))
+                return new ApiResponse<object> { success = false, message = "El nombre es obligatorio" };
+
+            if (string.IsNullOrWhiteSpace(apellidos))
+                return new ApiResponse<object> { success = false, message = "El apellido es obligatorio" };
+
+
+            if (!string.IsNullOrWhiteSpace(correo))
+            {
+                var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+                if (!emailRegex.IsMatch(correo))
+                    return new ApiResponse<object> { success = false, message = "El correo no tiene un formato válido" };
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(telefono))
+            {
+                var phoneRegex = new Regex(@"^\+?\d{7,15}$");
+                if (!phoneRegex.IsMatch(telefono))
+                    return new ApiResponse<object> { success = false, message = "El teléfono no tiene un formato válido" };
+            }
+
+            return await userData.CrearUsuario(
+                usuario,
+                password,
+                nombres,
+                apellidos,
+                correo,
+                telefono,
+                permisosJson
+            );
+        }
+
+        public async Task<ApiResponse<object>> EliminarUsuario(int idUsuario)
+        {
+            if (idUsuario <= 0)
+                return new ApiResponse<object>
+                {
+                    success = false,
+                    message = "ID de usuario inválido"
+                };
+
+            return await userData.EliminarUsuario(idUsuario);
         }
     }
 }

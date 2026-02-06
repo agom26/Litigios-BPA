@@ -30,6 +30,7 @@ namespace Presentacion.Personas
             txtConfirmarPass.Text = "";
             _idUsuarioEditar = 0;
         }
+
         private string ObtenerPermisosSeleccionados()
         {
             var lista = new List<object>();
@@ -415,14 +416,15 @@ namespace Presentacion.Personas
                 passwordFinal = txtPass.Text; // Dominio la va a hashear
             }
 
-            /*
-            var resultado = await _userModel.EditarUsuario(
+            
+            var resultado = await userModel.EditarUsuario(
                 _idUsuarioEditar,
                 txtUsuario.Text,
                 passwordFinal, // vacío = no cambia
                 txtNombre.Text,
                 txtApellido.Text,
                 txtCorreo.Text,
+                txtTelefono.Text,
                 permisosJson
             );
 
@@ -437,7 +439,7 @@ namespace Presentacion.Personas
             else
             {
                 MessageBox.Show("Error: " + resultado.message);
-            }*/
+            }
         }
 
         
@@ -453,7 +455,7 @@ namespace Presentacion.Personas
 
             string permisosJson = ObtenerPermisosSeleccionados();
 
-           /*
+           
             UserModel userModel = new UserModel();
             var resultado = await userModel.CrearUsuario(usuario, contrasena, nombres, apellidos, correo, telefono, permisosJson);
 
@@ -468,7 +470,7 @@ namespace Presentacion.Personas
             else
             {
                 MessageBox.Show("Error: " + resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
+            }
         }
 
 
@@ -507,10 +509,9 @@ namespace Presentacion.Personas
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
-                /*
                 if (confirm == DialogResult.Yes)
                 {
-                    var resultado = await _userModel.EliminarUsuario(idUsuario);
+                    var resultado = await userModel.EliminarUsuario(idUsuario);
 
                     if (resultado.success)
                     {
@@ -521,7 +522,7 @@ namespace Presentacion.Personas
                     {
                         MessageBox.Show("Error: " + resultado.message);
                     }
-                }*/
+                }
             }
 
             if (dtgUsuarios.Columns[e.ColumnIndex].Name == "Editar")

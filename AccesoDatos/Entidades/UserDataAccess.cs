@@ -171,6 +171,136 @@ namespace AccesoDatos.Entidades
             }
         }
 
+        public async Task<ApiResponse<object>> EditarUsuario(
+            int idUsuario,
+            string usuario,
+            string password, // null si no se cambia
+            string nombres,
+            string apellidos,
+            string correo,
+            string telefono,
+            string permisosJson
+        )
+        {
+            using (var client = new HttpClient())
+            {
+                // Preparamos los parámetros según lo que espera PHP
+                var parameters = new Dictionary<string, string>
+                {
+                    { "action", "editar_usuario" },
+                    { "id_usuario", idUsuario.ToString() },
+                    { "usuario", usuario },
+                    { "nombres", nombres },
+                    { "apellidos", apellidos },
+                    { "correo", correo ?? "" },
+                    { "telefono", telefono ?? "" },
+                    { "permisos", permisosJson }
+                };
+
+                // Solo enviamos password si se cambió
+                if (!string.IsNullOrEmpty(password))
+                    parameters.Add("contrasena", password);
+
+                var content = new FormUrlEncodedContent(parameters);
+
+                try
+                {
+                    var response = await client.PostAsync(_apiUrl, content);
+                    var jsonResult = await response.Content.ReadAsStringAsync();
+
+                    return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult);
+                }
+                catch (Exception ex)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = "Error de conexión: " + ex.Message
+                    };
+                }
+            }
+        }
+
+        public async Task<ApiResponse<object>> CrearUsuario(
+            
+            string usuario,
+            string password, // null si no se cambia
+            string nombres,
+            string apellidos,
+            string correo,
+            string telefono,
+            string permisosJson
+        )
+        {
+            using (var client = new HttpClient())
+            {
+                // Preparamos los parámetros según lo que espera PHP
+                var parameters = new Dictionary<string, string>
+                {
+                    { "action", "crear_usuario" },
+                    { "usuario", usuario },
+                    { "nombres", nombres },
+                    { "apellidos", apellidos },
+                    { "correo", correo ?? "" },
+                    { "telefono", telefono ?? "" },
+                    { "permisos", permisosJson }
+                };
+
+                // Solo enviamos password si se cambió
+                if (!string.IsNullOrEmpty(password))
+                    parameters.Add("contrasena", password);
+
+                var content = new FormUrlEncodedContent(parameters);
+
+                try
+                {
+                    var response = await client.PostAsync(_apiUrl, content);
+                    var jsonResult = await response.Content.ReadAsStringAsync();
+
+                    return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult);
+                }
+                catch (Exception ex)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = "Error de conexión: " + ex.Message
+                    };
+                }
+            }
+        }
+
+        public async Task<ApiResponse<object>> EliminarUsuario(int idUsuario)
+        {
+            using (var client = new HttpClient())
+            {
+                var parameters = new Dictionary<string, string>
+                {
+                    { "action", "eliminar_usuario" },
+                    { "id", idUsuario.ToString() }
+                };
+
+                var content = new FormUrlEncodedContent(parameters);
+
+                try
+                {
+                    var response = await client.PostAsync(_apiUrl, content);
+                    var jsonResult = await response.Content.ReadAsStringAsync();
+
+                    return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult);
+                }
+                catch (Exception ex)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = "Error de conexión: " + ex.Message
+                    };
+                }
+            }
+        }
+
+
 
     }
 }
