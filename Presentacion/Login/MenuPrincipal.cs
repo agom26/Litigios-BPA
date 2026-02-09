@@ -190,6 +190,11 @@ namespace Presentacion
                     openChildForm(new Demandantes());
 
                 }
+                else if (nodo.Text == "Terceros Interesados" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
+                {
+                    openChildForm(new TercerosInteresados());
+
+                }
                 else if (nodo.Text == "Inicio")
                 {
 
