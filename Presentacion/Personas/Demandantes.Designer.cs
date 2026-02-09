@@ -1,6 +1,6 @@
 ﻿namespace Presentacion.Personas
 {
-    partial class Demandados
+    partial class Demandantes
     {
         /// <summary>
         /// Required designer variable.
@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Demandados));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Demandantes));
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             panelBusqueda = new Panel();
             btnAdd = new Presentacion.Clases.RoundedButton();
             txtBuscar = new TextBox();
             roundedButton1 = new Presentacion.Clases.RoundedButton();
             label1 = new Label();
-            dtgDemandados = new DataGridView();
+            dtgDemandantes = new DataGridView();
             lblPagina = new Label();
             btnAnterior = new Presentacion.Clases.RoundedButton();
             btnSiguiente = new Presentacion.Clases.RoundedButton();
@@ -77,7 +77,7 @@
             roundedButton2 = new Presentacion.Clases.RoundedButton();
             lblTitulo = new Label();
             panelBusqueda.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgDemandados).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dtgDemandantes).BeginInit();
             tabControl1.SuspendLayout();
             Listar.SuspendLayout();
             Detalles.SuspendLayout();
@@ -162,59 +162,59 @@
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(47, 25);
             label1.Name = "label1";
-            label1.Size = new Size(270, 60);
+            label1.Size = new Size(162, 60);
             label1.TabIndex = 0;
-            label1.Text = "Demandados / \r\nAutoridades Responsables";
+            label1.Text = "Demandantes /\r\nActores";
             // 
-            // dtgDemandados
+            // dtgDemandantes
             // 
-            dtgDemandados.AllowUserToAddRows = false;
-            dtgDemandados.AllowUserToDeleteRows = false;
-            dtgDemandados.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(249, 247, 242);
-            dtgDemandados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dtgDemandados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dtgDemandados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgDemandados.BackgroundColor = Color.White;
-            dtgDemandados.BorderStyle = BorderStyle.None;
-            dtgDemandados.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgDemandados.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dtgDemandados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dtgDemandados.ColumnHeadersHeight = 40;
-            dtgDemandados.EnableHeadersVisualStyles = false;
-            dtgDemandados.Location = new Point(36, 161);
-            dtgDemandados.MinimumSize = new Size(719, 226);
-            dtgDemandados.MultiSelect = false;
-            dtgDemandados.Name = "dtgDemandados";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dtgDemandados.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dtgDemandados.RowHeadersVisible = false;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle4.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dtgDemandados.RowsDefaultCellStyle = dataGridViewCellStyle4;
-            dtgDemandados.RowTemplate.Height = 45;
-            dtgDemandados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgDemandados.Size = new Size(744, 226);
-            dtgDemandados.TabIndex = 1;
-            dtgDemandados.CellClick += dtgDemandados_CellClick;
-            dtgDemandados.CellFormatting += dtgDemandados_CellFormatting;
-            dtgDemandados.DataBindingComplete += dtgDemandados_DataBindingComplete;
+            dtgDemandantes.AllowUserToAddRows = false;
+            dtgDemandantes.AllowUserToDeleteRows = false;
+            dtgDemandantes.AllowUserToResizeRows = false;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(249, 247, 242);
+            dtgDemandantes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dtgDemandantes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dtgDemandantes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgDemandantes.BackgroundColor = Color.White;
+            dtgDemandantes.BorderStyle = BorderStyle.None;
+            dtgDemandantes.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgDemandantes.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle6.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dtgDemandantes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dtgDemandantes.ColumnHeadersHeight = 40;
+            dtgDemandantes.EnableHeadersVisualStyles = false;
+            dtgDemandantes.Location = new Point(36, 161);
+            dtgDemandantes.MinimumSize = new Size(719, 226);
+            dtgDemandantes.MultiSelect = false;
+            dtgDemandantes.Name = "dtgDemandantes";
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.White;
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle7.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle7.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dtgDemandantes.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dtgDemandantes.RowHeadersVisible = false;
+            dataGridViewCellStyle8.BackColor = Color.White;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle8.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle8.SelectionForeColor = Color.Black;
+            dtgDemandantes.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dtgDemandantes.RowTemplate.Height = 45;
+            dtgDemandantes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgDemandantes.Size = new Size(744, 226);
+            dtgDemandantes.TabIndex = 1;
+            dtgDemandantes.CellClick += dtgDemandantes_CellClick;
+            dtgDemandantes.CellFormatting += dtgDemandantes_CellFormatting;
+            dtgDemandantes.DataBindingComplete += dtgDemandantes_DataBindingComplete;
             // 
             // lblPagina
             // 
@@ -296,7 +296,7 @@
             Listar.Controls.Add(btnSiguiente);
             Listar.Controls.Add(lblPagina);
             Listar.Controls.Add(btnAnterior);
-            Listar.Controls.Add(dtgDemandados);
+            Listar.Controls.Add(dtgDemandantes);
             Listar.Location = new Point(4, 24);
             Listar.Name = "Listar";
             Listar.Padding = new Padding(3);
@@ -802,11 +802,11 @@
             lblTitulo.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitulo.Location = new Point(52, 38);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(141, 30);
+            lblTitulo.Size = new Size(147, 30);
             lblTitulo.TabIndex = 1;
-            lblTitulo.Text = "Demandados";
+            lblTitulo.Text = "Demandantes";
             // 
-            // Demandados
+            // Demandantes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -814,13 +814,13 @@
             ClientSize = new Size(807, 560);
             Controls.Add(tabControl1);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "Demandados";
-            Text = "Demandados";
-            Load += Demandados_Load;
-            Resize += Demandados_Resize;
+            Name = "Demandantes";
+            Text = "Demandantes";
+            Load += Demandantes_Load;
+            Resize += Demandantes_Resize;
             panelBusqueda.ResumeLayout(false);
             panelBusqueda.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgDemandados).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dtgDemandantes).EndInit();
             tabControl1.ResumeLayout(false);
             Listar.ResumeLayout(false);
             Listar.PerformLayout();
@@ -840,7 +840,7 @@
         private Label label1;
         private Clases.RoundedButton btnAdd;
         private TextBox txtBuscar;
-        private DataGridView dtgDemandados;
+        private DataGridView dtgDemandantes;
         private Label lblPagina;
         private Clases.RoundedButton btnAnterior;
         private Clases.RoundedButton btnSiguiente;

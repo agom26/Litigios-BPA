@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace AccesoDatos.Entidades
 {
-    public class DemandadoDataAccess
+    public class DemandanteDataAccess
     {
-        private readonly string _apiUrl = "http://bpa.com.es/peticiones-litigios/demandados.php";
+        private readonly string _apiUrl = "http://bpa.com.es/peticiones-litigios/demandantes.php";
 
-        public async Task<ApiGetUserListResponse<List<PersonaListDataResponse>>> GetDemandados(int paginaActual, int cantidad)
+        public async Task<ApiGetUserListResponse<List<PersonaListDataResponse>>> GetDemandantes(int paginaActual, int cantidad)
         {
             using (var client = new HttpClient())
             {
 
                 var parameters = new Dictionary<string, string>
                 {
-                    { "action", "get_demandados" },
+                    { "action", "get_demandantes" },
                     { "pagina",  paginaActual.ToString()},
                     { "registrosPorPagina", cantidad.ToString()}
                 };
@@ -44,14 +44,14 @@ namespace AccesoDatos.Entidades
             }
         }
 
-        public async Task<ApiGetUserListResponse<List<PersonaListDataResponse>>> GetDemandadosFiltrados(int paginaActual, int cantidad, string filtro)
+        public async Task<ApiGetUserListResponse<List<PersonaListDataResponse>>> GetDemandantesFiltrados(int paginaActual, int cantidad, string filtro)
         {
             using (var client = new HttpClient())
             {
 
                 var parameters = new Dictionary<string, string>
                 {
-                    { "action", "get_demandados_filtrados" },
+                    { "action", "get_demandantes_filtrados" },
                     { "pagina",  paginaActual.ToString()},
                     { "registrosPorPagina", cantidad.ToString()},
                     {"filtro",filtro}
@@ -77,13 +77,13 @@ namespace AccesoDatos.Entidades
             }
         }
 
-        public async Task<ApiDemandadoDetalleResponse> ObtenerDetallesDemandadoPorId(int id)
+        public async Task<ApiDemandadoDetalleResponse> ObtenerDetallesDemandantePorId(int id)
         {
             using (var client = new HttpClient())
             {
                 var parameters = new Dictionary<string, string>
                 {
-                    { "action", "get_demandado_por_id" },
+                    { "action", "get_demandante_por_id" },
                     { "id_persona", id.ToString()}
                 };
 
@@ -107,10 +107,10 @@ namespace AccesoDatos.Entidades
                 }
             }
         }
-        public async Task<ApiResponse<object>> EditarDemandado(
+        public async Task<ApiResponse<object>> EditarDemandante(
             int idPersona,
             string nombre,
-            string direccion, 
+            string direccion,
             string correo,
             string telefono,
             string nombreAbogado,
@@ -123,7 +123,7 @@ namespace AccesoDatos.Entidades
                 // Preparamos los parámetros según lo que espera PHP
                 var parameters = new Dictionary<string, string>
                 {
-                    { "action", "editar_demandado" },
+                    { "action", "editar_demandante" },
                     { "id_persona", idPersona.ToString() },
                     { "nombre_persona", nombre},
                     { "direccion_persona", direccion},
@@ -134,7 +134,7 @@ namespace AccesoDatos.Entidades
                     { "telefono_abogado",telefonoAbogado ?? ""}
                 };
 
-               
+
                 var content = new FormUrlEncodedContent(parameters);
 
                 try
@@ -155,10 +155,10 @@ namespace AccesoDatos.Entidades
             }
         }
 
-        public async Task<ApiResponse<object>> CrearDemandado(
+        public async Task<ApiResponse<object>> CrearDemandante(
 
             string nombre,
-            string direccion, 
+            string direccion,
             string correo,
             string telefono,
             string nombreAbogado,
@@ -171,7 +171,7 @@ namespace AccesoDatos.Entidades
                 // Preparamos los parámetros según lo que espera PHP
                 var parameters = new Dictionary<string, string>
                 {
-                    { "action", "crear_demandado" },
+                    { "action", "crear_demandante" },
                     { "nombre_persona", nombre},
                     { "direccion_persona",direccion},
                     { "telefono_persona", telefono ?? ""},
@@ -201,13 +201,13 @@ namespace AccesoDatos.Entidades
             }
         }
 
-        public async Task<ApiResponse<object>> EliminarDemandado(int idPersona)
+        public async Task<ApiResponse<object>> EliminarDemandante(int idPersona)
         {
             using (var client = new HttpClient())
             {
                 var parameters = new Dictionary<string, string>
                 {
-                    { "action", "eliminar_demandado" },
+                    { "action", "eliminar_demandante" },
                     { "id", idPersona.ToString() }
                 };
 
@@ -225,7 +225,7 @@ namespace AccesoDatos.Entidades
                     return new ApiResponse<object>
                     {
                         success = false,
-                        message = "Error de conexión: " + ex.Message
+                        message = "Error: " + ex.Message
                     };
                 }
             }

@@ -5,17 +5,17 @@ using System.Data;
 
 namespace Presentacion.Personas
 {
-    public partial class Demandados : Form
+    public partial class Demandantes : Form
     {
 
         private int paginaActual = 1;
         private int registrosPorPagina = 10;
         private int totalRegistros = 0;
-        private BindingSource bsDemandados = new BindingSource();
-        private int _idDemandadoEditar;
-        DemandadoModel demandadoModel= new DemandadoModel();
+        private BindingSource bsDemandantes = new BindingSource();
+        private int _idDemandanteEditar;
+        DemandanteModel demandanteModel= new DemandanteModel();
 
-        public Demandados()
+        public Demandantes()
         {
             InitializeComponent();
         }
@@ -32,13 +32,9 @@ namespace Presentacion.Personas
         }
 
         
-
-
-
-        
         private async Task CargarDatosPersona(int idPersona)
         {
-            var persona=await demandadoModel.ObtenerDetallesDemandadoPorId(idPersona);
+            var persona=await demandanteModel.ObtenerDetallesDemandantePorId(idPersona);
 
             if (persona.success && persona.data != null)
             {
@@ -82,7 +78,7 @@ namespace Presentacion.Personas
             if (tabControl1.TabPages.Contains(nombre))
             {
                 tabControl1.TabPages.Remove(nombre);
-                dtgDemandados.ClearSelection();
+                dtgDemandantes.ClearSelection();
             }
         }
         private void AnadirTabPage(TabPage nombre)
@@ -156,7 +152,7 @@ namespace Presentacion.Personas
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            lblTitulo.Text = "Nuevo Demandado / Autoridad Responsable";
+            lblTitulo.Text = "Nuevo Demandante / Actor";
             btnGuardarUsuario.Text = "Guardar";
             LimpiarFormulario();
             AnadirTabPage(Detalles);
@@ -165,19 +161,19 @@ namespace Presentacion.Personas
 
 
         
-        private async Task CargarDemandados()
+        private async Task CargarDemandantes()
         {
             
-            var response = await demandadoModel.ObtenerDemandados(paginaActual, registrosPorPagina);
+            var response = await demandanteModel.ObtenerDemanante(paginaActual, registrosPorPagina);
 
             if (response.success)
             {
                 // Asignar los datos al BindingSource
-                bsDemandados.DataSource = response.data;
-                dtgDemandados.Refresh();
+                bsDemandantes.DataSource = response.data;
+                dtgDemandantes.Refresh();
                 // Actualizar paginación
                 totalRegistros = response.totalRegistros;
-                labelTotal.Text = $"Total de Demandados: {totalRegistros}";
+                labelTotal.Text = $"Total de Demandantes: {totalRegistros}";
                 lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)totalRegistros / registrosPorPagina)}";
             }
             else
@@ -187,32 +183,32 @@ namespace Presentacion.Personas
         }
 
 
-        private async void Demandados_Load(object sender, EventArgs e)
+        private async void Demandantes_Load(object sender, EventArgs e)
         {
 
             // Asignar BindingSource al DataGridView
-            dtgDemandados.DataSource = bsDemandados;
+            dtgDemandantes.DataSource = bsDemandantes;
 
             // Cargar Demandados
-            await CargarDemandados();
+            await CargarDemandantes();
 
-            dtgDemandados.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            dtgDemandados.Columns["Editar"].Width = 40;
-            dtgDemandados.Columns["Eliminar"].Width = 40;
+            dtgDemandantes.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            dtgDemandantes.Columns["Editar"].Width = 40;
+            dtgDemandantes.Columns["Eliminar"].Width = 40;
 
             EliminarTabPage(Detalles);
 
         }
 
-        private void dtgDemandados_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void dtgDemandantes_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dtgDemandados.Columns[e.ColumnIndex].Name == "Nombre" && e.Value != null)
+            if (dtgDemandantes.Columns[e.ColumnIndex].Name == "Nombre" && e.Value != null)
             {
                 string nombres = e.Value.ToString();
                 string[] partes = nombres.Split(' ');
                 string iniciales = string.Join("", partes.Select(p => p[0])).ToUpper();
                 // Puedes agregarlo como tooltip o columna extra
-                dtgDemandados.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = iniciales;
+                dtgDemandantes.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = iniciales;
             }
         }
 
@@ -223,7 +219,7 @@ namespace Presentacion.Personas
             if (paginaActual * registrosPorPagina < totalRegistros)
             {
                 paginaActual++;
-                await CargarDemandados();
+                await CargarDemandantes();
             }
         }
 
@@ -232,29 +228,29 @@ namespace Presentacion.Personas
             if (paginaActual > 1)
             {
                 paginaActual--;
-                await CargarDemandados();
+                await CargarDemandantes();
             }
         }
 
-        private void dtgDemandados_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void dtgDemandantes_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // Oculta la columna 'id'
-            if (dtgDemandados.Columns["id"] != null)
+            if (dtgDemandantes.Columns["id"] != null)
             {
-                dtgDemandados.Columns["id"].Visible = false;
+                dtgDemandantes.Columns["id"].Visible = false;
             }
 
             // Oculta la columna 'id'
-            if (dtgDemandados.Columns["id_rol"] != null)
+            if (dtgDemandantes.Columns["id_rol"] != null)
             {
-                dtgDemandados.Columns["id_rol"].Visible = false;
+                dtgDemandantes.Columns["id_rol"].Visible = false;
             }
 
-            CrearBotonesAccion(dtgDemandados);
-            dtgDemandados.ClearSelection();
+            CrearBotonesAccion(dtgDemandantes);
+            dtgDemandantes.ClearSelection();
         }
 
-        private void Demandados_Resize(object sender, EventArgs e)
+        private void Demandantes_Resize(object sender, EventArgs e)
         {
             CentrarPanel();
         }
@@ -266,13 +262,13 @@ namespace Presentacion.Personas
             int pagina = 1;
             int registrosPorPagina = 10;
 
-            var resultado = await demandadoModel.ObtenerDemandadosFiltrados( pagina, registrosPorPagina, filtro);
+            var resultado = await demandanteModel.ObtenerDemandantesFiltrados( pagina, registrosPorPagina, filtro);
 
             if (resultado.success)
             {
-                bsDemandados.DataSource = resultado.data;  
-                dtgDemandados.Refresh();
-                labelTotal.Text = $"Total de Demandados: {resultado.totalRegistros}";
+                bsDemandantes.DataSource = resultado.data;  
+                dtgDemandantes.Refresh();
+                labelTotal.Text = $"Total de Demandantes: {resultado.totalRegistros}";
                 lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)totalRegistros / registrosPorPagina)}";
             }
             else
@@ -294,10 +290,10 @@ namespace Presentacion.Personas
         }
 
         
-        private async Task ActualizarDemandado()
+        private async Task ActualizarDemandante()
         {
-            var resultado = await demandadoModel.EditarDemandado(
-                _idDemandadoEditar,
+            var resultado = await demandanteModel.EditarDemandante(
+                _idDemandanteEditar,
                 txtNombre.Text,
                 txtDireccion.Text, 
                 txtCorreo.Text,
@@ -309,9 +305,9 @@ namespace Presentacion.Personas
 
             if (resultado.success)
             {
-                MessageBox.Show("Datos del demandado actualizado correctamente",
+                MessageBox.Show("Datos del demandante actualizados correctamente",
                     "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await CargarDemandados();
+                await CargarDemandantes();
                 LimpiarFormulario();
                 AnadirTabPage(Listar);
                 EliminarTabPage(Detalles);
@@ -325,7 +321,7 @@ namespace Presentacion.Personas
 
         
 
-        private async Task GuardarDemandado()
+        private async Task GuardarDemandante()
         {
             string nombre = txtNombre.Text;
             string direccion = txtDireccion.Text;
@@ -336,12 +332,12 @@ namespace Presentacion.Personas
             string correoA=txtCorreoA.Text;
 
            
-            var resultado = await demandadoModel.CrearDemandado(nombre, direccion, correo,telefono, nombreA, telefonoA, correoA);
+            var resultado = await demandanteModel.CrearDemandante(nombre, direccion, correo,telefono, nombreA, telefonoA, correoA);
 
             if (resultado.success)
             {
-                MessageBox.Show("Demandado creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await CargarDemandados();
+                MessageBox.Show("Demandante creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await CargarDemandantes();
                 LimpiarFormulario();
                 AnadirTabPage(Listar);
                 EliminarTabPage(Detalles);
@@ -356,13 +352,13 @@ namespace Presentacion.Personas
 
         private async void roundedButton18_Click(object sender, EventArgs e)
         {
-            if (lblTitulo.Text == "Nuevo Demandado / Autoridad Responsable")
+            if (lblTitulo.Text == "Nuevo Demandante / Actor")
             {
-                await GuardarDemandado();
+                await GuardarDemandante();
             }
             else
             {
-                await ActualizarDemandado();
+                await ActualizarDemandante();
             }
         }
 
@@ -374,31 +370,30 @@ namespace Presentacion.Personas
         }
 
         
-        private async void dtgDemandados_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dtgDemandantes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             
             if (e.RowIndex < 0) return;
 
-            if (dtgDemandados.Columns[e.ColumnIndex].Name == "Eliminar")
+            if (dtgDemandantes.Columns[e.ColumnIndex].Name == "Eliminar")
             {
-                int idDemandado = Convert.ToInt32(dtgDemandados.Rows[e.RowIndex].Cells["id"].Value);
-                string? demandado = Convert.ToString(dtgDemandados.Rows[e.RowIndex].Cells["nombre"].Value);
+                int idDemandante= Convert.ToInt32(dtgDemandantes.Rows[e.RowIndex].Cells["id"].Value);
+                string? demandante = Convert.ToString(dtgDemandantes.Rows[e.RowIndex].Cells["nombre"].Value);
                 var confirm = MessageBox.Show(
-                    "¿Seguro que deseas eliminar a la persona "+demandado+"?",
+                    "¿Seguro que deseas eliminar a la persona "+demandante+"?",
                     "Confirmar",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
                 if (confirm == DialogResult.Yes)
                 {
-                    
-                    var resultado = await demandadoModel.EliminarDemandado(idDemandado);
+                    var resultado = await demandanteModel.EliminarDemandante(idDemandante);
 
                     if (resultado.success)
                     {
-                        MessageBox.Show("Demandado eliminado correctamente.", "Éxito",
+                        MessageBox.Show("Demandante eliminado correctamente.", "Éxito",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        await CargarDemandados();
+                        await CargarDemandantes();
                     }
                     else
                     {
@@ -408,12 +403,12 @@ namespace Presentacion.Personas
                 }
             }
 
-            if (dtgDemandados.Columns[e.ColumnIndex].Name == "Editar")
+            if (dtgDemandantes.Columns[e.ColumnIndex].Name == "Editar")
             {
                 btnGuardarUsuario.Text = "Actualizar";
-                lblTitulo.Text = "Editar Demandado / Autoridad Responsable";
-                int idPersona = Convert.ToInt32(dtgDemandados.Rows[e.RowIndex].Cells["id"].Value);
-                _idDemandadoEditar= idPersona;
+                lblTitulo.Text = "Editar Demandante / Actor";
+                int idPersona = Convert.ToInt32(dtgDemandantes.Rows[e.RowIndex].Cells["id"].Value);
+                _idDemandanteEditar= idPersona;
                 await CargarDatosPersona(idPersona);
             }
 

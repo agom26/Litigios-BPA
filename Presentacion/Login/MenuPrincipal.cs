@@ -183,6 +183,12 @@ namespace Presentacion
                 else if (nodo.Text == "Demandados / Autoridad Responsable" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
                 {
                     openChildForm(new Demandados());
+
+                }
+                else if (nodo.Text == "Demandantes / Actor" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
+                {
+                    openChildForm(new Demandantes());
+
                 }
                 else if (nodo.Text == "Inicio")
                 {

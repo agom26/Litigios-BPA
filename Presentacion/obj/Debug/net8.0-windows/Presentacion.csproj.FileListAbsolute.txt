@@ -60,3 +60,4 @@ C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.genruntimeconfig.cache
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\ref\Presentacion.dll
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Personas.Demandados.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Personas.Demandantes.resources
