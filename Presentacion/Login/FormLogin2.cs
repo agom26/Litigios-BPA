@@ -15,6 +15,8 @@ namespace Presentacion
         public FormLogin2()
         {
             InitializeComponent();
+           
+
         }
 
         [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]
@@ -60,6 +62,7 @@ namespace Presentacion
                 {
 
                     RecordarSesion(user, pass);
+                    UserSession.Id=response.data.id;
                     UserSession.Usuario = response.data.usuario;
                     UserSession.Nombres = response.data.nombres;
                     UserSession.Apellidos= response.data.apellidos;
@@ -73,7 +76,15 @@ namespace Presentacion
                 }
                 else
                 {
-                    MessageBox.Show(response.message, "Error de Autenticación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if(response != null)
+                    {
+                        MessageBox.Show(response.message, "Error de Autenticación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No fue posible conectarse con la base de datos", "Error de Autenticación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
                     txtPassword.Enabled = true;
                     txtUsuario.Enabled = true;
                     btnLogin.Enabled = true;

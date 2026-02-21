@@ -53,15 +53,29 @@
             treeView1 = new TreeView();
             imageList1 = new ImageList(components);
             panelChildForm = new Panel();
-            panel1 = new Panel();
+            panelDatosUsuarioContraido = new Panel();
+            pictureBoxUserContraido = new PictureBox();
+            btnLogOut2 = new Presentacion.Clases.RoundedButton();
+            panelDatosUsuarioExpandido = new Panel();
             lblUsuario = new Label();
+            pictureBoxUser = new PictureBox();
             lblNombre = new Label();
             btnLogOut = new Presentacion.Clases.RoundedButton();
-            pictureBoxUser = new PictureBox();
-            panel2 = new Panel();
-            panel1.SuspendLayout();
+            panelDatosUsuario = new Panel();
+            panelMenu = new Panel();
+            panelTreeView = new Panel();
+            panelColapsarMenu = new Panel();
+            btnMenu = new Presentacion.Clases.RoundedButton();
+            timerMenu = new System.Windows.Forms.Timer(components);
+            toolTip1 = new ToolTip(components);
+            panelDatosUsuarioContraido.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUserContraido).BeginInit();
+            panelDatosUsuarioExpandido.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxUser).BeginInit();
-            panel2.SuspendLayout();
+            panelDatosUsuario.SuspendLayout();
+            panelMenu.SuspendLayout();
+            panelTreeView.SuspendLayout();
+            panelColapsarMenu.SuspendLayout();
             SuspendLayout();
             // 
             // treeView1
@@ -142,8 +156,10 @@
             treeNode20.Text = "Plazos";
             treeView1.Nodes.AddRange(new TreeNode[] { treeNode1, treeNode4, treeNode7, treeNode8, treeNode11, treeNode16, treeNode17, treeNode18, treeNode19, treeNode20 });
             treeView1.SelectedImageIndex = 0;
-            treeView1.Size = new Size(242, 360);
+            treeView1.Size = new Size(264, 323);
             treeView1.TabIndex = 0;
+            treeView1.DrawNode += treeView1_DrawNode;
+            treeView1.NodeMouseHover += treeView1_NodeMouseHover;
             treeView1.AfterSelect += treeView1_AfterSelect;
             treeView1.NodeMouseClick += treeView1_NodeMouseClick;
             // 
@@ -172,39 +188,95 @@
             // 
             panelChildForm.BackColor = Color.FromArgb(208, 221, 238);
             panelChildForm.Dock = DockStyle.Fill;
-            panelChildForm.Location = new Point(243, 0);
+            panelChildForm.Location = new Point(265, 0);
             panelChildForm.Name = "panelChildForm";
-            panelChildForm.Size = new Size(908, 475);
+            panelChildForm.Size = new Size(886, 475);
             panelChildForm.TabIndex = 1;
             // 
-            // panel1
+            // panelDatosUsuarioContraido
             // 
-            panel1.BackColor = Color.White;
-            panel1.Controls.Add(lblUsuario);
-            panel1.Controls.Add(lblNombre);
-            panel1.Controls.Add(btnLogOut);
-            panel1.Controls.Add(pictureBoxUser);
-            panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 360);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(243, 115);
-            panel1.TabIndex = 2;
+            panelDatosUsuarioContraido.BackColor = Color.White;
+            panelDatosUsuarioContraido.Controls.Add(pictureBoxUserContraido);
+            panelDatosUsuarioContraido.Controls.Add(btnLogOut2);
+            panelDatosUsuarioContraido.Dock = DockStyle.Left;
+            panelDatosUsuarioContraido.Location = new Point(0, 0);
+            panelDatosUsuarioContraido.Name = "panelDatosUsuarioContraido";
+            panelDatosUsuarioContraido.Size = new Size(50, 115);
+            panelDatosUsuarioContraido.TabIndex = 1;
+            // 
+            // pictureBoxUserContraido
+            // 
+            pictureBoxUserContraido.Image = Properties.Resources.perfil__1_;
+            pictureBoxUserContraido.InitialImage = Properties.Resources.perfil;
+            pictureBoxUserContraido.Location = new Point(8, 13);
+            pictureBoxUserContraido.Name = "pictureBoxUserContraido";
+            pictureBoxUserContraido.Size = new Size(31, 31);
+            pictureBoxUserContraido.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBoxUserContraido.TabIndex = 3;
+            pictureBoxUserContraido.TabStop = false;
+            pictureBoxUserContraido.MouseHover += pictureBox1_MouseHover;
+            // 
+            // btnLogOut2
+            // 
+            btnLogOut2.BackColor = Color.FromArgb(44, 40, 36);
+            btnLogOut2.BackgroundColor = Color.FromArgb(44, 40, 36);
+            btnLogOut2.BorderColor = Color.Empty;
+            btnLogOut2.BorderRadius = 25;
+            btnLogOut2.BorderSize = 1;
+            btnLogOut2.FlatAppearance.BorderSize = 0;
+            btnLogOut2.FlatStyle = FlatStyle.Flat;
+            btnLogOut2.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLogOut2.ForeColor = Color.White;
+            btnLogOut2.Image = Properties.Resources.salida;
+            btnLogOut2.Location = new Point(5, 50);
+            btnLogOut2.Name = "btnLogOut2";
+            btnLogOut2.Size = new Size(39, 40);
+            btnLogOut2.TabIndex = 2;
+            btnLogOut2.TextAlign = ContentAlignment.MiddleLeft;
+            btnLogOut2.TextColor = Color.White;
+            btnLogOut2.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnLogOut2.UseVisualStyleBackColor = false;
+            btnLogOut2.Click += btnLogOut2_Click;
+            // 
+            // panelDatosUsuarioExpandido
+            // 
+            panelDatosUsuarioExpandido.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelDatosUsuarioExpandido.BackColor = Color.White;
+            panelDatosUsuarioExpandido.Controls.Add(lblUsuario);
+            panelDatosUsuarioExpandido.Controls.Add(pictureBoxUser);
+            panelDatosUsuarioExpandido.Controls.Add(lblNombre);
+            panelDatosUsuarioExpandido.Controls.Add(btnLogOut);
+            panelDatosUsuarioExpandido.Location = new Point(0, 0);
+            panelDatosUsuarioExpandido.Name = "panelDatosUsuarioExpandido";
+            panelDatosUsuarioExpandido.Size = new Size(265, 115);
+            panelDatosUsuarioExpandido.TabIndex = 0;
             // 
             // lblUsuario
             // 
             lblUsuario.AutoSize = true;
             lblUsuario.Font = new Font("Segoe UI", 9F);
-            lblUsuario.Location = new Point(75, 36);
+            lblUsuario.Location = new Point(81, 42);
             lblUsuario.Name = "lblUsuario";
             lblUsuario.Size = new Size(38, 15);
             lblUsuario.TabIndex = 3;
             lblUsuario.Text = "label1";
             // 
+            // pictureBoxUser
+            // 
+            pictureBoxUser.Image = Properties.Resources.perfil__1_;
+            pictureBoxUser.InitialImage = Properties.Resources.perfil;
+            pictureBoxUser.Location = new Point(27, 9);
+            pictureBoxUser.Name = "pictureBoxUser";
+            pictureBoxUser.Size = new Size(48, 48);
+            pictureBoxUser.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBoxUser.TabIndex = 0;
+            pictureBoxUser.TabStop = false;
+            // 
             // lblNombre
             // 
             lblNombre.AutoSize = true;
             lblNombre.Font = new Font("Segoe UI", 9F);
-            lblNombre.Location = new Point(75, 3);
+            lblNombre.Location = new Point(81, 9);
             lblNombre.Name = "lblNombre";
             lblNombre.Size = new Size(38, 15);
             lblNombre.TabIndex = 2;
@@ -223,7 +295,7 @@
             btnLogOut.ForeColor = Color.White;
             btnLogOut.Image = Properties.Resources.salida;
             btnLogOut.ImageAlign = ContentAlignment.MiddleRight;
-            btnLogOut.Location = new Point(12, 63);
+            btnLogOut.Location = new Point(16, 63);
             btnLogOut.Name = "btnLogOut";
             btnLogOut.Size = new Size(215, 40);
             btnLogOut.TabIndex = 1;
@@ -234,26 +306,70 @@
             btnLogOut.UseVisualStyleBackColor = false;
             btnLogOut.Click += roundedButton1_Click;
             // 
-            // pictureBoxUser
+            // panelDatosUsuario
             // 
-            pictureBoxUser.Image = Properties.Resources.perfil__1_;
-            pictureBoxUser.InitialImage = Properties.Resources.perfil;
-            pictureBoxUser.Location = new Point(21, 3);
-            pictureBoxUser.Name = "pictureBoxUser";
-            pictureBoxUser.Size = new Size(48, 48);
-            pictureBoxUser.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBoxUser.TabIndex = 0;
-            pictureBoxUser.TabStop = false;
+            panelDatosUsuario.BackColor = Color.White;
+            panelDatosUsuario.Controls.Add(panelDatosUsuarioExpandido);
+            panelDatosUsuario.Controls.Add(panelDatosUsuarioContraido);
+            panelDatosUsuario.Dock = DockStyle.Bottom;
+            panelDatosUsuario.Location = new Point(0, 360);
+            panelDatosUsuario.Name = "panelDatosUsuario";
+            panelDatosUsuario.Size = new Size(265, 115);
+            panelDatosUsuario.TabIndex = 2;
             // 
-            // panel2
+            // panelMenu
             // 
-            panel2.Controls.Add(treeView1);
-            panel2.Controls.Add(panel1);
-            panel2.Dock = DockStyle.Left;
-            panel2.Location = new Point(0, 0);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(243, 475);
-            panel2.TabIndex = 3;
+            panelMenu.BackColor = Color.White;
+            panelMenu.Controls.Add(panelTreeView);
+            panelMenu.Controls.Add(panelColapsarMenu);
+            panelMenu.Controls.Add(panelDatosUsuario);
+            panelMenu.Dock = DockStyle.Left;
+            panelMenu.Location = new Point(0, 0);
+            panelMenu.Name = "panelMenu";
+            panelMenu.Size = new Size(265, 475);
+            panelMenu.TabIndex = 3;
+            // 
+            // panelTreeView
+            // 
+            panelTreeView.Controls.Add(treeView1);
+            panelTreeView.Dock = DockStyle.Left;
+            panelTreeView.Location = new Point(0, 37);
+            panelTreeView.Name = "panelTreeView";
+            panelTreeView.Size = new Size(264, 323);
+            panelTreeView.TabIndex = 4;
+            // 
+            // panelColapsarMenu
+            // 
+            panelColapsarMenu.BackColor = Color.White;
+            panelColapsarMenu.Controls.Add(btnMenu);
+            panelColapsarMenu.Dock = DockStyle.Top;
+            panelColapsarMenu.Location = new Point(0, 0);
+            panelColapsarMenu.Name = "panelColapsarMenu";
+            panelColapsarMenu.Size = new Size(265, 37);
+            panelColapsarMenu.TabIndex = 3;
+            // 
+            // btnMenu
+            // 
+            btnMenu.BackColor = Color.White;
+            btnMenu.BackgroundColor = Color.White;
+            btnMenu.BorderColor = Color.Empty;
+            btnMenu.BorderRadius = 37;
+            btnMenu.BorderSize = 0;
+            btnMenu.FlatAppearance.BorderSize = 0;
+            btnMenu.FlatStyle = FlatStyle.Flat;
+            btnMenu.ForeColor = Color.White;
+            btnMenu.Image = Properties.Resources.menu;
+            btnMenu.Location = new Point(0, 0);
+            btnMenu.Name = "btnMenu";
+            btnMenu.Size = new Size(44, 37);
+            btnMenu.TabIndex = 0;
+            btnMenu.TextColor = Color.White;
+            btnMenu.UseVisualStyleBackColor = false;
+            btnMenu.Click += btnMenu_Click_1;
+            // 
+            // timerMenu
+            // 
+            timerMenu.Tick += timerMenu_Tick;
             // 
             // MenuPrincipal
             // 
@@ -262,16 +378,21 @@
             AutoScroll = true;
             ClientSize = new Size(1151, 475);
             Controls.Add(panelChildForm);
-            Controls.Add(panel2);
+            Controls.Add(panelMenu);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MenuPrincipal";
             WindowState = FormWindowState.Maximized;
             FormClosing += MenuPrincipal_FormClosing_1;
             Load += MenuPrincipal_Load;
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            panelDatosUsuarioContraido.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUserContraido).EndInit();
+            panelDatosUsuarioExpandido.ResumeLayout(false);
+            panelDatosUsuarioExpandido.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxUser).EndInit();
-            panel2.ResumeLayout(false);
+            panelDatosUsuario.ResumeLayout(false);
+            panelMenu.ResumeLayout(false);
+            panelTreeView.ResumeLayout(false);
+            panelColapsarMenu.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -280,11 +401,20 @@
         private TreeView treeView1;
         private ImageList imageList1;
         private Panel panelChildForm;
-        private Panel panel1;
+        private Panel panelDatosUsuario;
         private PictureBox pictureBoxUser;
         private Clases.RoundedButton btnLogOut;
         private Label lblNombre;
         private Label lblUsuario;
-        private Panel panel2;
+        private Panel panelMenu;
+        private Panel panelColapsarMenu;
+        private Clases.RoundedButton btnMenu;
+        private Panel panelTreeView;
+        private System.Windows.Forms.Timer timerMenu;
+        private Panel panelDatosUsuarioExpandido;
+        private Panel panelDatosUsuarioContraido;
+        private Clases.RoundedButton btnLogOut2;
+        private PictureBox pictureBoxUserContraido;
+        private ToolTip toolTip1;
     }
 }

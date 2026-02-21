@@ -9,9 +9,9 @@ namespace Comun.Models
     public class UserListDataResponse
     {
         public int id { get; set; }
-        public string usuario { get; set; }
-        public string nombres { get; set; }
-        public string apellidos { get; set; }
-        public string correo { get; set; }
+        public string Usuario { get; set; }
+        public string Nombres { get; set; }
+        public string Apellidos { get; set; }
+        public string Correo { get; set; }
     }
 }

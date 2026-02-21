@@ -117,6 +117,7 @@ namespace Presentacion.Personas
 
         private async Task CargarPermisosUsuario(int idUsuario)
         {
+            btnGuardarUsuario.Text = "Actualizar Datos";
             checkBoxCambiarPass.Visible = true;
             checkBoxCambiarPass.Enabled = true;
 
@@ -238,9 +239,6 @@ namespace Presentacion.Personas
             dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
         }
 
-
-
-
         private void CentrarPanel()
         {
             int anchoMinimo = panelBusqueda.Width + 100;
@@ -261,6 +259,7 @@ namespace Presentacion.Personas
 
         private async void btnAdd_Click(object sender, EventArgs e)
         {
+            btnGuardarUsuario.Text = "Guardar Usuario";
             lblTitulo.Text = "Nuevo Usuario";
             lblPassword.Text = "Contraseña *";
             lblConfirmarPassword.Text = "Confirmar Contraseña *";
