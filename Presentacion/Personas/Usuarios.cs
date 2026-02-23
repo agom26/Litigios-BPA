@@ -176,10 +176,6 @@ namespace Presentacion.Personas
             EliminarTabPage(Listar);
         }
 
-
-
-
-
         private void EliminarTabPage(TabPage nombre)
         {
             if (tabControl1.TabPages.Contains(nombre))
@@ -296,7 +292,6 @@ namespace Presentacion.Personas
 
         private async void Usuarios_Load(object sender, EventArgs e)
         {
-
             // Asignar BindingSource al DataGridView
             dtgUsuarios.DataSource = bsUsuarios;
 

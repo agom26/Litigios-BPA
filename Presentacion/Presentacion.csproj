@@ -14,6 +14,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Casos\Abogados asignados\FrmAgregarAbogadoAsistente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Abogados asignados\FrmAgregarSocioResponsable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Abogados asignados\FrmAgregarAbogadoDirector.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Casos\Laborales\Laboral_primer_instancia.cs">
       <SubType>Form</SubType>
     </Compile>
