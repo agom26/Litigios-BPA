@@ -17,6 +17,15 @@
     <Compile Update="Casos\Laborales\Laboral_primer_instancia.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Casos\Participantes\FrmAgregarContactoEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Participantes\FrmAgregarTerceroInteresado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Participantes\FrmAgregarDemandante.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Personas\ContactoEmpresa.cs">
       <SubType>Form</SubType>
     </Compile>

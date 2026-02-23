@@ -13,23 +13,21 @@ using System.Windows.Forms;
 
 namespace Presentacion.Casos.Participantes
 {
-    public partial class FrmAgregarDemandado : Form
+    public partial class FrmAgregarTerceroInteresado : Form
     {
         private readonly BindingList<PersonaListDataResponse> _listaDestino;
-        public List<PersonaListDataResponse> DemandadosSeleccionados { get; private set; }
-        = new List<PersonaListDataResponse>();
 
-        DemandadoModel demandadoModel = new DemandadoModel();
+        TerceroInteresadoModel TerceroInteresadoModel = new TerceroInteresadoModel();
         private int paginaActual = 1;
         private int registrosPorPagina = 10;
         private int totalRegistros = 0;
-        private BindingSource bsDemandados = new BindingSource();
-        public FrmAgregarDemandado(BindingList<PersonaListDataResponse> listaDestino)
+        private BindingSource bsTerceroInteresados = new BindingSource();
+
+        public FrmAgregarTerceroInteresado(BindingList<PersonaListDataResponse> listaDestino)
         {
             InitializeComponent();
             _listaDestino = listaDestino;
         }
-
 
         private void EliminarTabPage(TabPage nombre)
         {
@@ -54,12 +52,12 @@ namespace Presentacion.Casos.Participantes
                 EliminarTabPage(tabPageAgregar);
                 AnadirTabPage(tabPageBuscar);
 
-                btnAgregarDemandado.Visible = true;
+                btnAgregarTerceroInteresado.Visible = true;
                 btnCancelar.Visible = true;
             }
         }
 
-        private async void txtBuscarDemandado_KeyDown(object sender, KeyEventArgs e)
+        private async void txtBuscarTerceroInteresado_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -67,15 +65,15 @@ namespace Presentacion.Casos.Participantes
             }
         }
 
-        private void dtgDemandados_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void dtgTerceroInteresados_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
 
-            if (dtgDemandados.Columns["id"] != null)
+            if (dtgTerceroInteresados.Columns["id"] != null)
             {
-                dtgDemandados.Columns["id"].Visible = false;
+                dtgTerceroInteresados.Columns["id"].Visible = false;
             }
 
-            dtgDemandados.ClearSelection();
+            dtgTerceroInteresados.ClearSelection();
         }
 
         private void radioButtonAgregar_CheckedChanged(object sender, EventArgs e)
@@ -85,39 +83,39 @@ namespace Presentacion.Casos.Participantes
                 AnadirTabPage(tabPageAgregar);
                 EliminarTabPage(tabPageBuscar);
 
-                btnAgregarDemandado.Visible = false;
+                btnAgregarTerceroInteresado.Visible = false;
                 btnCancelar.Visible = false;
             }
 
         }
 
-        private void btnAgregarDemandado_Click(object sender, EventArgs e)
+        private void btnAgregarDemante_Click(object sender, EventArgs e)
         {
-            if (dtgDemandados.SelectedRows.Count > 0)
+            if (dtgTerceroInteresados.SelectedRows.Count > 0)
             {
-                foreach (DataGridViewRow row in dtgDemandados.SelectedRows)
+                foreach (DataGridViewRow row in dtgTerceroInteresados.SelectedRows)
                 {
-                    var demandado = (PersonaListDataResponse)row.DataBoundItem;
+                    var TerceroInteresado = (PersonaListDataResponse)row.DataBoundItem;
 
-                    if (!_listaDestino.Any(x => x.id == demandado.id))
-                        _listaDestino.Add(demandado);
+                    if (!_listaDestino.Any(x => x.id == TerceroInteresado.id))
+                        _listaDestino.Add(TerceroInteresado);
                 }
 
-                dtgDemandados.ClearSelection();
-                MessageBox.Show("Demandado agregado a la lista", "Éxito",
+                dtgTerceroInteresados.ClearSelection();
+                MessageBox.Show("Tercero Interesado agregado a la lista", "Éxito",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
             else
             {
-                MessageBox.Show("Debe seleccionar un demandado para poder agregarlo", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Debe seleccionar un Tercero Interesado para poder agregarlo", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        private void dtgDemandados_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dtgTerceroInteresados_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            int idPersona = Convert.ToInt32(dtgDemandados.Rows[e.RowIndex].Cells["id"].Value);
+            int idPersona = Convert.ToInt32(dtgTerceroInteresados.Rows[e.RowIndex].Cells["id"].Value);
         }
 
         private void roundedButton19_Click(object sender, EventArgs e)
@@ -139,7 +137,7 @@ namespace Presentacion.Casos.Participantes
             txtTelefonoA.Text = "";
         }
 
-        private async Task GuardarDemandado()
+        private async Task GuardarTerceroInteresado()
         {
             string nombre = txtNombre.Text;
             string direccion = txtDireccion.Text;
@@ -150,11 +148,11 @@ namespace Presentacion.Casos.Participantes
             string correoA = txtCorreoA.Text;
 
 
-            var resultado = await demandadoModel.CrearDemandado(nombre, direccion, correo, telefono, nombreA, telefonoA, correoA);
+            var resultado = await TerceroInteresadoModel.CrearTerceroInteresado(nombre, direccion, correo, telefono, nombreA, telefonoA, correoA);
 
             if (resultado.success)
             {
-                MessageBox.Show("Demandado creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Tercero Interesado creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await Filtrar();
                 LimpiarFormulario();
                 AnadirTabPage(tabPageBuscar);
@@ -168,25 +166,25 @@ namespace Presentacion.Casos.Participantes
             }
         }
 
-        private async void btnGuardarDemandado_Click(object sender, EventArgs e)
+        private async void btnGuardarTerceroInteresado_Click(object sender, EventArgs e)
         {
-            await GuardarDemandado();
+            await GuardarTerceroInteresado();
         }
 
         private async Task Filtrar()
         {
 
-            string filtro = txtBuscarDemandado.Text;
+            string filtro = txtBuscarTerceroInteresado.Text;
             int pagina = 1;
             int registrosPorPagina = 10;
 
-            var resultado = await demandadoModel.ObtenerDemandadosFiltrados(pagina, registrosPorPagina, filtro);
+            var resultado = await TerceroInteresadoModel.ObtenerTercerosInteresadosFiltrados(pagina, registrosPorPagina, filtro);
 
             if (resultado.success)
             {
-                bsDemandados.DataSource = resultado.data;
-                dtgDemandados.Refresh();
-                labelTotal.Text = $"Total de Demandados: {resultado.totalRegistros}";
+                bsTerceroInteresados.DataSource = resultado.data;
+                dtgTerceroInteresados.Refresh();
+                labelTotal.Text = $"Total de Terceros Interesados: {resultado.totalRegistros}";
                 lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)resultado.totalRegistros / resultado.registrosPorPagina)}";
             }
             else
@@ -195,9 +193,9 @@ namespace Presentacion.Casos.Participantes
             }
         }
 
-        private async void FrmAgregarDemandado_Load(object sender, EventArgs e)
+        private async void FrmAgregarTerceroInteresado_Load(object sender, EventArgs e)
         {
-            dtgDemandados.DataSource = bsDemandados;
+            dtgTerceroInteresados.DataSource = bsTerceroInteresados;
             await Filtrar();
         }
 

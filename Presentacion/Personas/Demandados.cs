@@ -30,12 +30,6 @@ namespace Presentacion.Personas
             txtCorreoA.Text = "";
             txtTelefonoA.Text = "";
         }
-
-        
-
-
-
-        
         private async Task CargarDatosPersona(int idPersona)
         {
             var persona=await demandadoModel.ObtenerDetallesDemandadoPorId(idPersona);

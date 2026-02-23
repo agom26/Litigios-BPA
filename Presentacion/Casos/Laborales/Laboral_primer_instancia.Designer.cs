@@ -29,38 +29,38 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Laboral_primer_instancia));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle23 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle24 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle37 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle38 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle39 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle40 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle41 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle42 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle43 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle44 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle45 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle46 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle47 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle48 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle49 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle50 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle51 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle52 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle53 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle54 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle55 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle56 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle57 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle58 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle59 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle60 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle61 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle62 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle63 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle64 = new DataGridViewCellStyle();
             tabControl1 = new TabControl();
             Listar = new TabPage();
             panel7 = new Panel();
@@ -75,35 +75,48 @@
             roundedButton1 = new Presentacion.Clases.RoundedButton();
             label1 = new Label();
             lblPagina = new Label();
-            dtgTercerosInteresados = new DataGridView();
+            dtgCasosLaborales = new DataGridView();
             Detalles = new TabPage();
-            label14 = new Label();
-            label17 = new Label();
-            panel9 = new Panel();
-            btnAgregarAbogadosAsistentes = new Presentacion.Clases.RoundedButton();
-            label13 = new Label();
-            dtgAbogadosAsistentes = new DataGridView();
-            roundedButton16 = new Presentacion.Clases.RoundedButton();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            panelDemandantes = new Panel();
+            btnAgregarDemandantes = new Presentacion.Clases.RoundedButton();
+            label3 = new Label();
+            dtgDemandantes = new DataGridView();
+            roundedButton7 = new Presentacion.Clases.RoundedButton();
+            roundedButton13 = new Presentacion.Clases.RoundedButton();
+            panelDemandados = new Panel();
+            btnAgregarDemandados = new Presentacion.Clases.RoundedButton();
+            label4 = new Label();
+            dtgDemandados = new DataGridView();
+            roundedButton10 = new Presentacion.Clases.RoundedButton();
+            panelTercerosInteresados = new Panel();
+            btnAgregarPartesInteresadas = new Presentacion.Clases.RoundedButton();
+            label7 = new Label();
+            dtgTercerosInteresados = new DataGridView();
+            roundedButton5 = new Presentacion.Clases.RoundedButton();
+            panelContactosEmpresas = new Panel();
+            btnAgregarContactoEmpresa = new Presentacion.Clases.RoundedButton();
+            label10 = new Label();
+            dtgContactoEmpresa = new DataGridView();
+            roundedButton11 = new Presentacion.Clases.RoundedButton();
+            panel2 = new Panel();
+            btnAgregarAbogadosDirectores = new Presentacion.Clases.RoundedButton();
+            label11 = new Label();
+            dtgAbogadosDirectores = new DataGridView();
+            roundedButton15 = new Presentacion.Clases.RoundedButton();
+            roundedButton18 = new Presentacion.Clases.RoundedButton();
             panel8 = new Panel();
             btnAgregarSociosResponsables = new Presentacion.Clases.RoundedButton();
             label12 = new Label();
             dtgSociosResponsables = new DataGridView();
             roundedButton14 = new Presentacion.Clases.RoundedButton();
-            panel6 = new Panel();
-            btnAgregarContactoEmpresa = new Presentacion.Clases.RoundedButton();
-            label10 = new Label();
-            dtgContactoEmpresa = new DataGridView();
-            roundedButton11 = new Presentacion.Clases.RoundedButton();
-            panel5 = new Panel();
-            btnAgregarPartesInteresadas = new Presentacion.Clases.RoundedButton();
-            label7 = new Label();
-            dtgPartesInteresadas = new DataGridView();
-            roundedButton5 = new Presentacion.Clases.RoundedButton();
-            panel4 = new Panel();
-            btnAgregarDemandados = new Presentacion.Clases.RoundedButton();
-            label4 = new Label();
-            dtgDemandados = new DataGridView();
-            roundedButton10 = new Presentacion.Clases.RoundedButton();
+            panel9 = new Panel();
+            btnAgregarAbogadosAsistentes = new Presentacion.Clases.RoundedButton();
+            label13 = new Label();
+            dtgAbogadosAsistentes = new DataGridView();
+            roundedButton16 = new Presentacion.Clases.RoundedButton();
+            label14 = new Label();
+            label17 = new Label();
             panel3 = new Panel();
             btnAgregarEstado = new Presentacion.Clases.RoundedButton();
             label15 = new Label();
@@ -114,20 +127,8 @@
             roundedButton24 = new Presentacion.Clases.RoundedButton();
             roundedButton22 = new Presentacion.Clases.RoundedButton();
             roundedButton26 = new Presentacion.Clases.RoundedButton();
-            panel2 = new Panel();
-            btnAgregarAbogadosDirectores = new Presentacion.Clases.RoundedButton();
-            label11 = new Label();
-            dtgAbogadosDirectores = new DataGridView();
-            roundedButton15 = new Presentacion.Clases.RoundedButton();
-            roundedButton18 = new Presentacion.Clases.RoundedButton();
-            panel1 = new Panel();
-            btnAgregarDemandantes = new Presentacion.Clases.RoundedButton();
-            label3 = new Label();
-            dtgDemandantes = new DataGridView();
-            roundedButton7 = new Presentacion.Clases.RoundedButton();
-            roundedButton13 = new Presentacion.Clases.RoundedButton();
             roundedButton19 = new Presentacion.Clases.RoundedButton();
-            btnGuardarUsuario = new Presentacion.Clases.RoundedButton();
+            btnGuardarCaso = new Presentacion.Clases.RoundedButton();
             panelInformacionPersonal = new Panel();
             comboboxNotificador = new ComboBox();
             comboboxOficial = new ComboBox();
@@ -149,23 +150,24 @@
             Listar.SuspendLayout();
             panel7.SuspendLayout();
             panelBusquedaCaso.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgTercerosInteresados).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dtgCasosLaborales).BeginInit();
             Detalles.SuspendLayout();
-            panel9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgAbogadosAsistentes).BeginInit();
-            panel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgSociosResponsables).BeginInit();
-            panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgContactoEmpresa).BeginInit();
-            panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgPartesInteresadas).BeginInit();
-            panel4.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
+            panelDemandantes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgDemandantes).BeginInit();
+            panelDemandados.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDemandados).BeginInit();
-            panel3.SuspendLayout();
+            panelTercerosInteresados.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgTercerosInteresados).BeginInit();
+            panelContactosEmpresas.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgContactoEmpresa).BeginInit();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgAbogadosDirectores).BeginInit();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgDemandantes).BeginInit();
+            panel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgSociosResponsables).BeginInit();
+            panel9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgAbogadosAsistentes).BeginInit();
+            panel3.SuspendLayout();
             panelInformacionPersonal.SuspendLayout();
             SuspendLayout();
             // 
@@ -189,7 +191,7 @@
             Listar.Controls.Add(labelTotal);
             Listar.Controls.Add(panelBusquedaCaso);
             Listar.Controls.Add(lblPagina);
-            Listar.Controls.Add(dtgTercerosInteresados);
+            Listar.Controls.Add(dtgCasosLaborales);
             Listar.Location = new Point(4, 24);
             Listar.Name = "Listar";
             Listar.Padding = new Padding(3);
@@ -379,73 +381,67 @@
             lblPagina.TabIndex = 2;
             lblPagina.Text = "label2";
             // 
-            // dtgTercerosInteresados
+            // dtgCasosLaborales
             // 
-            dtgTercerosInteresados.AllowUserToAddRows = false;
-            dtgTercerosInteresados.AllowUserToDeleteRows = false;
-            dtgTercerosInteresados.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(249, 247, 242);
-            dtgTercerosInteresados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dtgTercerosInteresados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dtgTercerosInteresados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgTercerosInteresados.BackgroundColor = Color.White;
-            dtgTercerosInteresados.BorderStyle = BorderStyle.None;
-            dtgTercerosInteresados.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgTercerosInteresados.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dtgTercerosInteresados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dtgTercerosInteresados.ColumnHeadersHeight = 40;
-            dtgTercerosInteresados.EnableHeadersVisualStyles = false;
-            dtgTercerosInteresados.Location = new Point(36, 161);
-            dtgTercerosInteresados.MinimumSize = new Size(719, 226);
-            dtgTercerosInteresados.MultiSelect = false;
-            dtgTercerosInteresados.Name = "dtgTercerosInteresados";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dtgTercerosInteresados.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dtgTercerosInteresados.RowHeadersVisible = false;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle4.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dtgTercerosInteresados.RowsDefaultCellStyle = dataGridViewCellStyle4;
-            dtgTercerosInteresados.RowTemplate.Height = 45;
-            dtgTercerosInteresados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgTercerosInteresados.Size = new Size(744, 226);
-            dtgTercerosInteresados.TabIndex = 1;
-            dtgTercerosInteresados.CellClick += dtgTercerosInteresados_CellClick;
-            dtgTercerosInteresados.CellFormatting += dtgTercerosInteresados_CellFormatting;
-            dtgTercerosInteresados.DataBindingComplete += dtgTercerosInteresados_DataBindingComplete;
+            dtgCasosLaborales.AllowUserToAddRows = false;
+            dtgCasosLaborales.AllowUserToDeleteRows = false;
+            dtgCasosLaborales.AllowUserToResizeRows = false;
+            dataGridViewCellStyle33.BackColor = Color.FromArgb(249, 247, 242);
+            dtgCasosLaborales.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle33;
+            dtgCasosLaborales.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dtgCasosLaborales.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgCasosLaborales.BackgroundColor = Color.White;
+            dtgCasosLaborales.BorderStyle = BorderStyle.None;
+            dtgCasosLaborales.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgCasosLaborales.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle34.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle34.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle34.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle34.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle34.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle34.WrapMode = DataGridViewTriState.True;
+            dtgCasosLaborales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle34;
+            dtgCasosLaborales.ColumnHeadersHeight = 40;
+            dtgCasosLaborales.EnableHeadersVisualStyles = false;
+            dtgCasosLaborales.Location = new Point(36, 161);
+            dtgCasosLaborales.MinimumSize = new Size(719, 226);
+            dtgCasosLaborales.MultiSelect = false;
+            dtgCasosLaborales.Name = "dtgCasosLaborales";
+            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle35.BackColor = Color.White;
+            dataGridViewCellStyle35.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle35.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle35.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle35.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle35.WrapMode = DataGridViewTriState.True;
+            dtgCasosLaborales.RowHeadersDefaultCellStyle = dataGridViewCellStyle35;
+            dtgCasosLaborales.RowHeadersVisible = false;
+            dataGridViewCellStyle36.BackColor = Color.White;
+            dataGridViewCellStyle36.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle36.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle36.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle36.SelectionForeColor = Color.Black;
+            dtgCasosLaborales.RowsDefaultCellStyle = dataGridViewCellStyle36;
+            dtgCasosLaborales.RowTemplate.Height = 45;
+            dtgCasosLaborales.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgCasosLaborales.Size = new Size(744, 226);
+            dtgCasosLaborales.TabIndex = 1;
+            dtgCasosLaborales.CellClick += dtgCasosLaborales_CellClick;
+            dtgCasosLaborales.CellFormatting += dtgCasosLaborales_CellFormatting;
+            dtgCasosLaborales.DataBindingComplete += dtgCasosLaborales_DataBindingComplete;
             // 
             // Detalles
             // 
             Detalles.AutoScroll = true;
             Detalles.AutoScrollMinSize = new Size(799, 532);
             Detalles.BackColor = Color.FromArgb(250, 249, 246);
+            Detalles.Controls.Add(flowLayoutPanel1);
             Detalles.Controls.Add(label14);
             Detalles.Controls.Add(label17);
-            Detalles.Controls.Add(panel9);
-            Detalles.Controls.Add(panel8);
-            Detalles.Controls.Add(panel6);
-            Detalles.Controls.Add(panel5);
-            Detalles.Controls.Add(panel4);
             Detalles.Controls.Add(panel3);
-            Detalles.Controls.Add(panel2);
-            Detalles.Controls.Add(panel1);
             Detalles.Controls.Add(roundedButton19);
-            Detalles.Controls.Add(btnGuardarUsuario);
+            Detalles.Controls.Add(btnGuardarCaso);
             Detalles.Controls.Add(panelInformacionPersonal);
             Detalles.Controls.Add(lblTitulo);
             Detalles.Font = new Font("Microsoft Sans Serif", 8.25F);
@@ -456,142 +452,660 @@
             Detalles.TabIndex = 1;
             Detalles.Click += Detalles_Click;
             // 
-            // label14
+            // flowLayoutPanel1
             // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.ForeColor = Color.FromArgb(194, 160, 91);
-            label14.Location = new Point(179, 25);
-            label14.Name = "label14";
-            label14.Size = new Size(109, 13);
-            label14.TabIndex = 17;
-            label14.Text = "PRIMER INSTANCIA";
+            flowLayoutPanel1.AutoSize = true;
+            flowLayoutPanel1.Controls.Add(panelDemandantes);
+            flowLayoutPanel1.Controls.Add(panelDemandados);
+            flowLayoutPanel1.Controls.Add(panelTercerosInteresados);
+            flowLayoutPanel1.Controls.Add(panelContactosEmpresas);
+            flowLayoutPanel1.Controls.Add(panel2);
+            flowLayoutPanel1.Controls.Add(panel8);
+            flowLayoutPanel1.Controls.Add(panel9);
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            flowLayoutPanel1.Location = new Point(52, 633);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(676, 1351);
+            flowLayoutPanel1.TabIndex = 18;
+            flowLayoutPanel1.WrapContents = false;
             // 
-            // label17
+            // panelDemandantes
             // 
-            label17.AutoSize = true;
-            label17.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label17.ForeColor = Color.FromArgb(168, 162, 158);
-            label17.Location = new Point(55, 25);
-            label17.Name = "label17";
-            label17.Size = new Size(129, 13);
-            label17.TabIndex = 16;
-            label17.Text = "CASOS > LABORALES >";
+            panelDemandantes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panelDemandantes.BackColor = Color.FromArgb(250, 249, 246);
+            panelDemandantes.Controls.Add(btnAgregarDemandantes);
+            panelDemandantes.Controls.Add(label3);
+            panelDemandantes.Controls.Add(dtgDemandantes);
+            panelDemandantes.Controls.Add(roundedButton7);
+            panelDemandantes.Controls.Add(roundedButton13);
+            panelDemandantes.Location = new Point(3, 3);
+            panelDemandantes.Name = "panelDemandantes";
+            panelDemandantes.Size = new Size(670, 203);
+            panelDemandantes.TabIndex = 7;
             // 
-            // panel9
+            // btnAgregarDemandantes
             // 
-            panel9.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel9.BackColor = Color.FromArgb(250, 249, 246);
-            panel9.Controls.Add(btnAgregarAbogadosAsistentes);
-            panel9.Controls.Add(label13);
-            panel9.Controls.Add(dtgAbogadosAsistentes);
-            panel9.Controls.Add(roundedButton16);
-            panel9.Location = new Point(49, 1822);
-            panel9.Name = "panel9";
-            panel9.Size = new Size(670, 170);
-            panel9.TabIndex = 14;
+            btnAgregarDemandantes.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarDemandantes.BackColor = Color.FromArgb(194, 160, 91);
+            btnAgregarDemandantes.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnAgregarDemandantes.BorderColor = Color.Empty;
+            btnAgregarDemandantes.BorderRadius = 10;
+            btnAgregarDemandantes.BorderSize = 1;
+            btnAgregarDemandantes.FlatAppearance.BorderSize = 0;
+            btnAgregarDemandantes.FlatStyle = FlatStyle.Flat;
+            btnAgregarDemandantes.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarDemandantes.ForeColor = Color.White;
+            btnAgregarDemandantes.Image = Properties.Resources.boton_agregar;
+            btnAgregarDemandantes.ImageAlign = ContentAlignment.MiddleRight;
+            btnAgregarDemandantes.Location = new Point(534, 49);
+            btnAgregarDemandantes.Name = "btnAgregarDemandantes";
+            btnAgregarDemandantes.Padding = new Padding(3, 0, 0, 0);
+            btnAgregarDemandantes.Size = new Size(117, 32);
+            btnAgregarDemandantes.TabIndex = 7;
+            btnAgregarDemandantes.Text = "  Agregar";
+            btnAgregarDemandantes.TextAlign = ContentAlignment.MiddleLeft;
+            btnAgregarDemandantes.TextColor = Color.White;
+            btnAgregarDemandantes.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnAgregarDemandantes.UseVisualStyleBackColor = false;
+            btnAgregarDemandantes.Click += btnAgregarDemandantes_Click;
             // 
-            // btnAgregarAbogadosAsistentes
+            // label3
             // 
-            btnAgregarAbogadosAsistentes.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAgregarAbogadosAsistentes.BackColor = Color.FromArgb(194, 160, 91);
-            btnAgregarAbogadosAsistentes.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnAgregarAbogadosAsistentes.BorderColor = Color.Empty;
-            btnAgregarAbogadosAsistentes.BorderRadius = 10;
-            btnAgregarAbogadosAsistentes.BorderSize = 1;
-            btnAgregarAbogadosAsistentes.FlatAppearance.BorderSize = 0;
-            btnAgregarAbogadosAsistentes.FlatStyle = FlatStyle.Flat;
-            btnAgregarAbogadosAsistentes.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAgregarAbogadosAsistentes.ForeColor = Color.White;
-            btnAgregarAbogadosAsistentes.Image = Properties.Resources.boton_agregar;
-            btnAgregarAbogadosAsistentes.ImageAlign = ContentAlignment.MiddleRight;
-            btnAgregarAbogadosAsistentes.Location = new Point(531, 16);
-            btnAgregarAbogadosAsistentes.Name = "btnAgregarAbogadosAsistentes";
-            btnAgregarAbogadosAsistentes.Padding = new Padding(3, 0, 0, 0);
-            btnAgregarAbogadosAsistentes.Size = new Size(117, 32);
-            btnAgregarAbogadosAsistentes.TabIndex = 13;
-            btnAgregarAbogadosAsistentes.Text = "  Agregar";
-            btnAgregarAbogadosAsistentes.TextAlign = ContentAlignment.MiddleLeft;
-            btnAgregarAbogadosAsistentes.TextColor = Color.White;
-            btnAgregarAbogadosAsistentes.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnAgregarAbogadosAsistentes.UseVisualStyleBackColor = false;
+            label3.AutoSize = true;
+            label3.BackColor = Color.White;
+            label3.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label3.Location = new Point(27, 56);
+            label3.Name = "label3";
+            label3.Size = new Size(120, 19);
+            label3.TabIndex = 7;
+            label3.Text = "Demandante(s) *";
             // 
-            // label13
+            // dtgDemandantes
             // 
-            label13.AutoSize = true;
-            label13.BackColor = Color.White;
-            label13.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label13.Location = new Point(35, 12);
-            label13.Name = "label13";
-            label13.Size = new Size(178, 19);
-            label13.TabIndex = 8;
-            label13.Text = "Abogado(s) Asistente(s) *";
+            dtgDemandantes.AllowUserToAddRows = false;
+            dtgDemandantes.AllowUserToDeleteRows = false;
+            dtgDemandantes.AllowUserToResizeRows = false;
+            dataGridViewCellStyle37.BackColor = Color.FromArgb(249, 247, 242);
+            dtgDemandantes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle37;
+            dtgDemandantes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtgDemandantes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgDemandantes.BackgroundColor = Color.White;
+            dtgDemandantes.BorderStyle = BorderStyle.None;
+            dtgDemandantes.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgDemandantes.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle38.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle38.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle38.Font = new Font("Microsoft Sans Serif", 8.25F);
+            dataGridViewCellStyle38.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle38.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle38.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle38.WrapMode = DataGridViewTriState.True;
+            dtgDemandantes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle38;
+            dtgDemandantes.ColumnHeadersHeight = 40;
+            dtgDemandantes.EnableHeadersVisualStyles = false;
+            dtgDemandantes.Location = new Point(27, 87);
+            dtgDemandantes.MinimumSize = new Size(619, 100);
+            dtgDemandantes.MultiSelect = false;
+            dtgDemandantes.Name = "dtgDemandantes";
+            dataGridViewCellStyle39.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle39.BackColor = Color.White;
+            dataGridViewCellStyle39.Font = new Font("Microsoft Sans Serif", 8.25F);
+            dataGridViewCellStyle39.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle39.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle39.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle39.WrapMode = DataGridViewTriState.True;
+            dtgDemandantes.RowHeadersDefaultCellStyle = dataGridViewCellStyle39;
+            dtgDemandantes.RowHeadersVisible = false;
+            dataGridViewCellStyle40.BackColor = Color.White;
+            dataGridViewCellStyle40.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle40.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle40.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle40.SelectionForeColor = Color.Black;
+            dtgDemandantes.RowsDefaultCellStyle = dataGridViewCellStyle40;
+            dtgDemandantes.RowTemplate.Height = 45;
+            dtgDemandantes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgDemandantes.Size = new Size(619, 100);
+            dtgDemandantes.TabIndex = 6;
+            dtgDemandantes.CellClick += dtgDemandantes_CellClick;
+            dtgDemandantes.DataBindingComplete += dtgDemandantes_DataBindingComplete;
             // 
-            // dtgAbogadosAsistentes
+            // roundedButton7
             // 
-            dtgAbogadosAsistentes.AllowUserToAddRows = false;
-            dtgAbogadosAsistentes.AllowUserToDeleteRows = false;
-            dtgAbogadosAsistentes.AllowUserToResizeRows = false;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(249, 247, 242);
-            dtgAbogadosAsistentes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            dtgAbogadosAsistentes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dtgAbogadosAsistentes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgAbogadosAsistentes.BackgroundColor = Color.White;
-            dtgAbogadosAsistentes.BorderStyle = BorderStyle.None;
-            dtgAbogadosAsistentes.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgAbogadosAsistentes.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle6.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dtgAbogadosAsistentes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            dtgAbogadosAsistentes.ColumnHeadersHeight = 40;
-            dtgAbogadosAsistentes.EnableHeadersVisualStyles = false;
-            dtgAbogadosAsistentes.Location = new Point(30, 54);
-            dtgAbogadosAsistentes.MinimumSize = new Size(619, 100);
-            dtgAbogadosAsistentes.MultiSelect = false;
-            dtgAbogadosAsistentes.Name = "dtgAbogadosAsistentes";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = Color.White;
-            dataGridViewCellStyle7.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle7.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle7.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dtgAbogadosAsistentes.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            dtgAbogadosAsistentes.RowHeadersVisible = false;
-            dataGridViewCellStyle8.BackColor = Color.White;
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle8.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle8.SelectionForeColor = Color.Black;
-            dtgAbogadosAsistentes.RowsDefaultCellStyle = dataGridViewCellStyle8;
-            dtgAbogadosAsistentes.RowTemplate.Height = 45;
-            dtgAbogadosAsistentes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgAbogadosAsistentes.Size = new Size(619, 100);
-            dtgAbogadosAsistentes.TabIndex = 6;
+            roundedButton7.BackColor = Color.FromArgb(249, 247, 242);
+            roundedButton7.BackgroundColor = Color.FromArgb(249, 247, 242);
+            roundedButton7.BorderColor = Color.Empty;
+            roundedButton7.BorderRadius = 22;
+            roundedButton7.BorderSize = 0;
+            roundedButton7.Dock = DockStyle.Top;
+            roundedButton7.Enabled = false;
+            roundedButton7.FlatAppearance.BorderSize = 0;
+            roundedButton7.FlatStyle = FlatStyle.Flat;
+            roundedButton7.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            roundedButton7.ForeColor = Color.Black;
+            roundedButton7.Location = new Point(0, 0);
+            roundedButton7.Name = "roundedButton7";
+            roundedButton7.Size = new Size(670, 43);
+            roundedButton7.TabIndex = 4;
+            roundedButton7.Text = "Partes Involucradas";
+            roundedButton7.TextAlign = ContentAlignment.MiddleLeft;
+            roundedButton7.TextColor = Color.Black;
+            roundedButton7.UseVisualStyleBackColor = false;
             // 
-            // roundedButton16
+            // roundedButton13
             // 
-            roundedButton16.BackColor = Color.White;
-            roundedButton16.BackgroundColor = Color.White;
-            roundedButton16.BorderColor = Color.Empty;
-            roundedButton16.BorderRadius = 30;
-            roundedButton16.BorderSize = 0;
-            roundedButton16.Dock = DockStyle.Fill;
-            roundedButton16.Enabled = false;
-            roundedButton16.FlatAppearance.BorderSize = 0;
-            roundedButton16.FlatStyle = FlatStyle.Flat;
-            roundedButton16.ForeColor = Color.White;
-            roundedButton16.Location = new Point(0, 0);
-            roundedButton16.Name = "roundedButton16";
-            roundedButton16.Size = new Size(670, 170);
-            roundedButton16.TabIndex = 2;
-            roundedButton16.TextColor = Color.White;
-            roundedButton16.UseVisualStyleBackColor = false;
+            roundedButton13.BackColor = Color.White;
+            roundedButton13.BackgroundColor = Color.White;
+            roundedButton13.BorderColor = Color.Empty;
+            roundedButton13.BorderRadius = 30;
+            roundedButton13.BorderSize = 0;
+            roundedButton13.Dock = DockStyle.Bottom;
+            roundedButton13.Enabled = false;
+            roundedButton13.FlatAppearance.BorderSize = 0;
+            roundedButton13.FlatStyle = FlatStyle.Flat;
+            roundedButton13.ForeColor = Color.White;
+            roundedButton13.Location = new Point(0, 49);
+            roundedButton13.Name = "roundedButton13";
+            roundedButton13.Size = new Size(670, 154);
+            roundedButton13.TabIndex = 2;
+            roundedButton13.TextColor = Color.White;
+            roundedButton13.UseVisualStyleBackColor = false;
+            // 
+            // panelDemandados
+            // 
+            panelDemandados.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panelDemandados.AutoSize = true;
+            panelDemandados.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            panelDemandados.BackColor = Color.FromArgb(250, 249, 246);
+            panelDemandados.Controls.Add(btnAgregarDemandados);
+            panelDemandados.Controls.Add(label4);
+            panelDemandados.Controls.Add(dtgDemandados);
+            panelDemandados.Controls.Add(roundedButton10);
+            panelDemandados.Location = new Point(3, 212);
+            panelDemandados.Name = "panelDemandados";
+            panelDemandados.Size = new Size(670, 150);
+            panelDemandados.TabIndex = 10;
+            // 
+            // btnAgregarDemandados
+            // 
+            btnAgregarDemandados.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarDemandados.BackColor = Color.FromArgb(194, 160, 91);
+            btnAgregarDemandados.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnAgregarDemandados.BorderColor = Color.Empty;
+            btnAgregarDemandados.BorderRadius = 10;
+            btnAgregarDemandados.BorderSize = 1;
+            btnAgregarDemandados.FlatAppearance.BorderSize = 0;
+            btnAgregarDemandados.FlatStyle = FlatStyle.Flat;
+            btnAgregarDemandados.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarDemandados.ForeColor = Color.White;
+            btnAgregarDemandados.Image = Properties.Resources.boton_agregar;
+            btnAgregarDemandados.ImageAlign = ContentAlignment.MiddleRight;
+            btnAgregarDemandados.Location = new Point(534, 9);
+            btnAgregarDemandados.Name = "btnAgregarDemandados";
+            btnAgregarDemandados.Padding = new Padding(3, 0, 0, 0);
+            btnAgregarDemandados.Size = new Size(117, 32);
+            btnAgregarDemandados.TabIndex = 8;
+            btnAgregarDemandados.Text = "  Agregar";
+            btnAgregarDemandados.TextAlign = ContentAlignment.MiddleLeft;
+            btnAgregarDemandados.TextColor = Color.White;
+            btnAgregarDemandados.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnAgregarDemandados.UseVisualStyleBackColor = false;
+            btnAgregarDemandados.Click += btnAgregarDemandados_Click;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.White;
+            label4.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label4.Location = new Point(32, 16);
+            label4.Name = "label4";
+            label4.Size = new Size(117, 19);
+            label4.TabIndex = 8;
+            label4.Text = "Demandado(s) *";
+            // 
+            // dtgDemandados
+            // 
+            dtgDemandados.AllowUserToAddRows = false;
+            dtgDemandados.AllowUserToDeleteRows = false;
+            dtgDemandados.AllowUserToResizeRows = false;
+            dataGridViewCellStyle41.BackColor = Color.FromArgb(249, 247, 242);
+            dtgDemandados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle41;
+            dtgDemandados.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtgDemandados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgDemandados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dtgDemandados.BackgroundColor = Color.White;
+            dtgDemandados.BorderStyle = BorderStyle.None;
+            dtgDemandados.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgDemandados.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle42.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle42.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle42.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle42.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle42.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle42.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle42.WrapMode = DataGridViewTriState.True;
+            dtgDemandados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle42;
+            dtgDemandados.ColumnHeadersHeight = 22;
+            dtgDemandados.EnableHeadersVisualStyles = false;
+            dtgDemandados.Location = new Point(30, 47);
+            dtgDemandados.MinimumSize = new Size(619, 100);
+            dtgDemandados.MultiSelect = false;
+            dtgDemandados.Name = "dtgDemandados";
+            dataGridViewCellStyle43.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle43.BackColor = Color.White;
+            dataGridViewCellStyle43.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle43.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle43.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle43.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle43.WrapMode = DataGridViewTriState.True;
+            dtgDemandados.RowHeadersDefaultCellStyle = dataGridViewCellStyle43;
+            dtgDemandados.RowHeadersVisible = false;
+            dataGridViewCellStyle44.BackColor = Color.White;
+            dataGridViewCellStyle44.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle44.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle44.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle44.SelectionForeColor = Color.Black;
+            dtgDemandados.RowsDefaultCellStyle = dataGridViewCellStyle44;
+            dtgDemandados.RowTemplate.Height = 45;
+            dtgDemandados.ScrollBars = ScrollBars.None;
+            dtgDemandados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgDemandados.Size = new Size(619, 100);
+            dtgDemandados.TabIndex = 6;
+            dtgDemandados.CellClick += dtgDemandados_CellClick;
+            dtgDemandados.DataBindingComplete += dtgDemandados_DataBindingComplete;
+            // 
+            // roundedButton10
+            // 
+            roundedButton10.BackColor = Color.White;
+            roundedButton10.BackgroundColor = Color.White;
+            roundedButton10.BorderColor = Color.Empty;
+            roundedButton10.BorderRadius = 30;
+            roundedButton10.BorderSize = 0;
+            roundedButton10.Dock = DockStyle.Fill;
+            roundedButton10.Enabled = false;
+            roundedButton10.FlatAppearance.BorderSize = 0;
+            roundedButton10.FlatStyle = FlatStyle.Flat;
+            roundedButton10.ForeColor = Color.White;
+            roundedButton10.Location = new Point(0, 0);
+            roundedButton10.Name = "roundedButton10";
+            roundedButton10.Size = new Size(670, 150);
+            roundedButton10.TabIndex = 2;
+            roundedButton10.TextColor = Color.White;
+            roundedButton10.UseVisualStyleBackColor = false;
+            // 
+            // panelTercerosInteresados
+            // 
+            panelTercerosInteresados.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panelTercerosInteresados.BackColor = Color.FromArgb(250, 249, 246);
+            panelTercerosInteresados.Controls.Add(btnAgregarPartesInteresadas);
+            panelTercerosInteresados.Controls.Add(label7);
+            panelTercerosInteresados.Controls.Add(dtgTercerosInteresados);
+            panelTercerosInteresados.Controls.Add(roundedButton5);
+            panelTercerosInteresados.Location = new Point(3, 368);
+            panelTercerosInteresados.Name = "panelTercerosInteresados";
+            panelTercerosInteresados.Size = new Size(670, 170);
+            panelTercerosInteresados.TabIndex = 11;
+            // 
+            // btnAgregarPartesInteresadas
+            // 
+            btnAgregarPartesInteresadas.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarPartesInteresadas.BackColor = Color.FromArgb(194, 160, 91);
+            btnAgregarPartesInteresadas.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnAgregarPartesInteresadas.BorderColor = Color.Empty;
+            btnAgregarPartesInteresadas.BorderRadius = 10;
+            btnAgregarPartesInteresadas.BorderSize = 1;
+            btnAgregarPartesInteresadas.FlatAppearance.BorderSize = 0;
+            btnAgregarPartesInteresadas.FlatStyle = FlatStyle.Flat;
+            btnAgregarPartesInteresadas.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarPartesInteresadas.ForeColor = Color.White;
+            btnAgregarPartesInteresadas.Image = Properties.Resources.boton_agregar;
+            btnAgregarPartesInteresadas.ImageAlign = ContentAlignment.MiddleRight;
+            btnAgregarPartesInteresadas.Location = new Point(534, 9);
+            btnAgregarPartesInteresadas.Name = "btnAgregarPartesInteresadas";
+            btnAgregarPartesInteresadas.Padding = new Padding(3, 0, 0, 0);
+            btnAgregarPartesInteresadas.Size = new Size(117, 32);
+            btnAgregarPartesInteresadas.TabIndex = 9;
+            btnAgregarPartesInteresadas.Text = "  Agregar";
+            btnAgregarPartesInteresadas.TextAlign = ContentAlignment.MiddleLeft;
+            btnAgregarPartesInteresadas.TextColor = Color.White;
+            btnAgregarPartesInteresadas.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnAgregarPartesInteresadas.UseVisualStyleBackColor = false;
+            btnAgregarPartesInteresadas.Click += btnAgregarPartesInteresadas_Click;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.BackColor = Color.White;
+            label7.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label7.Location = new Point(30, 22);
+            label7.Name = "label7";
+            label7.Size = new Size(177, 19);
+            label7.TabIndex = 8;
+            label7.Text = "Tercero(s) Interesado(s) *";
+            // 
+            // dtgTercerosInteresados
+            // 
+            dtgTercerosInteresados.AllowUserToAddRows = false;
+            dtgTercerosInteresados.AllowUserToDeleteRows = false;
+            dtgTercerosInteresados.AllowUserToResizeRows = false;
+            dataGridViewCellStyle45.BackColor = Color.FromArgb(249, 247, 242);
+            dtgTercerosInteresados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle45;
+            dtgTercerosInteresados.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtgTercerosInteresados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgTercerosInteresados.BackgroundColor = Color.White;
+            dtgTercerosInteresados.BorderStyle = BorderStyle.None;
+            dtgTercerosInteresados.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgTercerosInteresados.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle46.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle46.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle46.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle46.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle46.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle46.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle46.WrapMode = DataGridViewTriState.True;
+            dtgTercerosInteresados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle46;
+            dtgTercerosInteresados.ColumnHeadersHeight = 40;
+            dtgTercerosInteresados.EnableHeadersVisualStyles = false;
+            dtgTercerosInteresados.Location = new Point(32, 53);
+            dtgTercerosInteresados.MinimumSize = new Size(619, 100);
+            dtgTercerosInteresados.MultiSelect = false;
+            dtgTercerosInteresados.Name = "dtgTercerosInteresados";
+            dataGridViewCellStyle47.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle47.BackColor = Color.White;
+            dataGridViewCellStyle47.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle47.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle47.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle47.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle47.WrapMode = DataGridViewTriState.True;
+            dtgTercerosInteresados.RowHeadersDefaultCellStyle = dataGridViewCellStyle47;
+            dtgTercerosInteresados.RowHeadersVisible = false;
+            dataGridViewCellStyle48.BackColor = Color.White;
+            dataGridViewCellStyle48.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle48.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle48.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle48.SelectionForeColor = Color.Black;
+            dtgTercerosInteresados.RowsDefaultCellStyle = dataGridViewCellStyle48;
+            dtgTercerosInteresados.RowTemplate.Height = 45;
+            dtgTercerosInteresados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgTercerosInteresados.Size = new Size(619, 100);
+            dtgTercerosInteresados.TabIndex = 6;
+            dtgTercerosInteresados.CellClick += dtgPartesInteresadas_CellClick;
+            dtgTercerosInteresados.DataBindingComplete += dtgPartesInteresadas_DataBindingComplete;
+            // 
+            // roundedButton5
+            // 
+            roundedButton5.BackColor = Color.White;
+            roundedButton5.BackgroundColor = Color.White;
+            roundedButton5.BorderColor = Color.Empty;
+            roundedButton5.BorderRadius = 30;
+            roundedButton5.BorderSize = 0;
+            roundedButton5.Dock = DockStyle.Fill;
+            roundedButton5.Enabled = false;
+            roundedButton5.FlatAppearance.BorderSize = 0;
+            roundedButton5.FlatStyle = FlatStyle.Flat;
+            roundedButton5.ForeColor = Color.White;
+            roundedButton5.Location = new Point(0, 0);
+            roundedButton5.Name = "roundedButton5";
+            roundedButton5.Size = new Size(670, 170);
+            roundedButton5.TabIndex = 2;
+            roundedButton5.TextColor = Color.White;
+            roundedButton5.UseVisualStyleBackColor = false;
+            // 
+            // panelContactosEmpresas
+            // 
+            panelContactosEmpresas.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panelContactosEmpresas.BackColor = Color.FromArgb(250, 249, 246);
+            panelContactosEmpresas.Controls.Add(btnAgregarContactoEmpresa);
+            panelContactosEmpresas.Controls.Add(label10);
+            panelContactosEmpresas.Controls.Add(dtgContactoEmpresa);
+            panelContactosEmpresas.Controls.Add(roundedButton11);
+            panelContactosEmpresas.Location = new Point(3, 544);
+            panelContactosEmpresas.Name = "panelContactosEmpresas";
+            panelContactosEmpresas.Size = new Size(670, 170);
+            panelContactosEmpresas.TabIndex = 12;
+            // 
+            // btnAgregarContactoEmpresa
+            // 
+            btnAgregarContactoEmpresa.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarContactoEmpresa.BackColor = Color.FromArgb(194, 160, 91);
+            btnAgregarContactoEmpresa.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnAgregarContactoEmpresa.BorderColor = Color.Empty;
+            btnAgregarContactoEmpresa.BorderRadius = 10;
+            btnAgregarContactoEmpresa.BorderSize = 1;
+            btnAgregarContactoEmpresa.FlatAppearance.BorderSize = 0;
+            btnAgregarContactoEmpresa.FlatStyle = FlatStyle.Flat;
+            btnAgregarContactoEmpresa.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarContactoEmpresa.ForeColor = Color.White;
+            btnAgregarContactoEmpresa.Image = Properties.Resources.boton_agregar;
+            btnAgregarContactoEmpresa.ImageAlign = ContentAlignment.MiddleRight;
+            btnAgregarContactoEmpresa.Location = new Point(532, 16);
+            btnAgregarContactoEmpresa.Name = "btnAgregarContactoEmpresa";
+            btnAgregarContactoEmpresa.Padding = new Padding(3, 0, 0, 0);
+            btnAgregarContactoEmpresa.Size = new Size(117, 32);
+            btnAgregarContactoEmpresa.TabIndex = 10;
+            btnAgregarContactoEmpresa.Text = "  Agregar";
+            btnAgregarContactoEmpresa.TextAlign = ContentAlignment.MiddleLeft;
+            btnAgregarContactoEmpresa.TextColor = Color.White;
+            btnAgregarContactoEmpresa.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnAgregarContactoEmpresa.UseVisualStyleBackColor = false;
+            btnAgregarContactoEmpresa.Click += btnAgregarContactoEmpresa_Click;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.BackColor = Color.White;
+            label10.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label10.Location = new Point(35, 12);
+            label10.Name = "label10";
+            label10.Size = new Size(193, 19);
+            label10.TabIndex = 8;
+            label10.Text = "Contacto(s) de Empresa(s) *";
+            // 
+            // dtgContactoEmpresa
+            // 
+            dtgContactoEmpresa.AllowUserToAddRows = false;
+            dtgContactoEmpresa.AllowUserToDeleteRows = false;
+            dtgContactoEmpresa.AllowUserToResizeRows = false;
+            dataGridViewCellStyle49.BackColor = Color.FromArgb(249, 247, 242);
+            dtgContactoEmpresa.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle49;
+            dtgContactoEmpresa.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtgContactoEmpresa.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgContactoEmpresa.BackgroundColor = Color.White;
+            dtgContactoEmpresa.BorderStyle = BorderStyle.None;
+            dtgContactoEmpresa.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgContactoEmpresa.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle50.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle50.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle50.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle50.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle50.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle50.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle50.WrapMode = DataGridViewTriState.True;
+            dtgContactoEmpresa.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle50;
+            dtgContactoEmpresa.ColumnHeadersHeight = 40;
+            dtgContactoEmpresa.EnableHeadersVisualStyles = false;
+            dtgContactoEmpresa.Location = new Point(30, 54);
+            dtgContactoEmpresa.MinimumSize = new Size(619, 100);
+            dtgContactoEmpresa.MultiSelect = false;
+            dtgContactoEmpresa.Name = "dtgContactoEmpresa";
+            dataGridViewCellStyle51.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle51.BackColor = Color.White;
+            dataGridViewCellStyle51.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle51.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle51.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle51.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle51.WrapMode = DataGridViewTriState.True;
+            dtgContactoEmpresa.RowHeadersDefaultCellStyle = dataGridViewCellStyle51;
+            dtgContactoEmpresa.RowHeadersVisible = false;
+            dataGridViewCellStyle52.BackColor = Color.White;
+            dataGridViewCellStyle52.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle52.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle52.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle52.SelectionForeColor = Color.Black;
+            dtgContactoEmpresa.RowsDefaultCellStyle = dataGridViewCellStyle52;
+            dtgContactoEmpresa.RowTemplate.Height = 45;
+            dtgContactoEmpresa.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgContactoEmpresa.Size = new Size(619, 100);
+            dtgContactoEmpresa.TabIndex = 6;
+            dtgContactoEmpresa.CellClick += dtgContactoEmpresa_CellClick;
+            dtgContactoEmpresa.DataBindingComplete += dtgContactoEmpresa_DataBindingComplete;
+            // 
+            // roundedButton11
+            // 
+            roundedButton11.BackColor = Color.White;
+            roundedButton11.BackgroundColor = Color.White;
+            roundedButton11.BorderColor = Color.Empty;
+            roundedButton11.BorderRadius = 30;
+            roundedButton11.BorderSize = 0;
+            roundedButton11.Dock = DockStyle.Fill;
+            roundedButton11.Enabled = false;
+            roundedButton11.FlatAppearance.BorderSize = 0;
+            roundedButton11.FlatStyle = FlatStyle.Flat;
+            roundedButton11.ForeColor = Color.White;
+            roundedButton11.Location = new Point(0, 0);
+            roundedButton11.Name = "roundedButton11";
+            roundedButton11.Size = new Size(670, 170);
+            roundedButton11.TabIndex = 2;
+            roundedButton11.TextColor = Color.White;
+            roundedButton11.UseVisualStyleBackColor = false;
+            // 
+            // panel2
+            // 
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel2.BackColor = Color.FromArgb(250, 249, 246);
+            panel2.Controls.Add(btnAgregarAbogadosDirectores);
+            panel2.Controls.Add(label11);
+            panel2.Controls.Add(dtgAbogadosDirectores);
+            panel2.Controls.Add(roundedButton15);
+            panel2.Controls.Add(roundedButton18);
+            panel2.Location = new Point(3, 720);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(670, 203);
+            panel2.TabIndex = 8;
+            // 
+            // btnAgregarAbogadosDirectores
+            // 
+            btnAgregarAbogadosDirectores.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarAbogadosDirectores.BackColor = Color.FromArgb(194, 160, 91);
+            btnAgregarAbogadosDirectores.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnAgregarAbogadosDirectores.BorderColor = Color.Empty;
+            btnAgregarAbogadosDirectores.BorderRadius = 10;
+            btnAgregarAbogadosDirectores.BorderSize = 1;
+            btnAgregarAbogadosDirectores.FlatAppearance.BorderSize = 0;
+            btnAgregarAbogadosDirectores.FlatStyle = FlatStyle.Flat;
+            btnAgregarAbogadosDirectores.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarAbogadosDirectores.ForeColor = Color.White;
+            btnAgregarAbogadosDirectores.Image = Properties.Resources.boton_agregar;
+            btnAgregarAbogadosDirectores.ImageAlign = ContentAlignment.MiddleRight;
+            btnAgregarAbogadosDirectores.Location = new Point(532, 50);
+            btnAgregarAbogadosDirectores.Name = "btnAgregarAbogadosDirectores";
+            btnAgregarAbogadosDirectores.Padding = new Padding(3, 0, 0, 0);
+            btnAgregarAbogadosDirectores.Size = new Size(117, 32);
+            btnAgregarAbogadosDirectores.TabIndex = 11;
+            btnAgregarAbogadosDirectores.Text = "  Agregar";
+            btnAgregarAbogadosDirectores.TextAlign = ContentAlignment.MiddleLeft;
+            btnAgregarAbogadosDirectores.TextColor = Color.White;
+            btnAgregarAbogadosDirectores.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnAgregarAbogadosDirectores.UseVisualStyleBackColor = false;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.BackColor = Color.White;
+            label11.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label11.Location = new Point(26, 57);
+            label11.Name = "label11";
+            label11.Size = new Size(180, 19);
+            label11.TabIndex = 9;
+            label11.Text = "Abogado(s) director(es) *";
+            // 
+            // dtgAbogadosDirectores
+            // 
+            dtgAbogadosDirectores.AllowUserToAddRows = false;
+            dtgAbogadosDirectores.AllowUserToDeleteRows = false;
+            dtgAbogadosDirectores.AllowUserToResizeRows = false;
+            dataGridViewCellStyle53.BackColor = Color.FromArgb(249, 247, 242);
+            dtgAbogadosDirectores.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle53;
+            dtgAbogadosDirectores.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtgAbogadosDirectores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgAbogadosDirectores.BackgroundColor = Color.White;
+            dtgAbogadosDirectores.BorderStyle = BorderStyle.None;
+            dtgAbogadosDirectores.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgAbogadosDirectores.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle54.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle54.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle54.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle54.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle54.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle54.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle54.WrapMode = DataGridViewTriState.True;
+            dtgAbogadosDirectores.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle54;
+            dtgAbogadosDirectores.ColumnHeadersHeight = 40;
+            dtgAbogadosDirectores.EnableHeadersVisualStyles = false;
+            dtgAbogadosDirectores.Location = new Point(26, 88);
+            dtgAbogadosDirectores.MinimumSize = new Size(619, 100);
+            dtgAbogadosDirectores.MultiSelect = false;
+            dtgAbogadosDirectores.Name = "dtgAbogadosDirectores";
+            dataGridViewCellStyle55.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle55.BackColor = Color.White;
+            dataGridViewCellStyle55.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle55.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle55.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle55.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle55.WrapMode = DataGridViewTriState.True;
+            dtgAbogadosDirectores.RowHeadersDefaultCellStyle = dataGridViewCellStyle55;
+            dtgAbogadosDirectores.RowHeadersVisible = false;
+            dataGridViewCellStyle56.BackColor = Color.White;
+            dataGridViewCellStyle56.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle56.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle56.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle56.SelectionForeColor = Color.Black;
+            dtgAbogadosDirectores.RowsDefaultCellStyle = dataGridViewCellStyle56;
+            dtgAbogadosDirectores.RowTemplate.Height = 45;
+            dtgAbogadosDirectores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgAbogadosDirectores.Size = new Size(619, 100);
+            dtgAbogadosDirectores.TabIndex = 8;
+            // 
+            // roundedButton15
+            // 
+            roundedButton15.BackColor = Color.FromArgb(249, 247, 242);
+            roundedButton15.BackgroundColor = Color.FromArgb(249, 247, 242);
+            roundedButton15.BorderColor = Color.Empty;
+            roundedButton15.BorderRadius = 22;
+            roundedButton15.BorderSize = 0;
+            roundedButton15.Dock = DockStyle.Top;
+            roundedButton15.Enabled = false;
+            roundedButton15.FlatAppearance.BorderSize = 0;
+            roundedButton15.FlatStyle = FlatStyle.Flat;
+            roundedButton15.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            roundedButton15.ForeColor = Color.Black;
+            roundedButton15.Location = new Point(0, 0);
+            roundedButton15.Name = "roundedButton15";
+            roundedButton15.Size = new Size(670, 43);
+            roundedButton15.TabIndex = 4;
+            roundedButton15.Text = "Equipo Legal";
+            roundedButton15.TextAlign = ContentAlignment.MiddleLeft;
+            roundedButton15.TextColor = Color.Black;
+            roundedButton15.UseVisualStyleBackColor = false;
+            // 
+            // roundedButton18
+            // 
+            roundedButton18.BackColor = Color.White;
+            roundedButton18.BackgroundColor = Color.White;
+            roundedButton18.BorderColor = Color.Empty;
+            roundedButton18.BorderRadius = 30;
+            roundedButton18.BorderSize = 0;
+            roundedButton18.Dock = DockStyle.Bottom;
+            roundedButton18.Enabled = false;
+            roundedButton18.FlatAppearance.BorderSize = 0;
+            roundedButton18.FlatStyle = FlatStyle.Flat;
+            roundedButton18.ForeColor = Color.White;
+            roundedButton18.Location = new Point(0, 46);
+            roundedButton18.Name = "roundedButton18";
+            roundedButton18.Size = new Size(670, 157);
+            roundedButton18.TabIndex = 2;
+            roundedButton18.TextColor = Color.White;
+            roundedButton18.UseVisualStyleBackColor = false;
             // 
             // panel8
             // 
@@ -601,7 +1115,7 @@
             panel8.Controls.Add(label12);
             panel8.Controls.Add(dtgSociosResponsables);
             panel8.Controls.Add(roundedButton14);
-            panel8.Location = new Point(52, 1635);
+            panel8.Location = new Point(3, 929);
             panel8.Name = "panel8";
             panel8.Size = new Size(670, 170);
             panel8.TabIndex = 13;
@@ -647,43 +1161,43 @@
             dtgSociosResponsables.AllowUserToAddRows = false;
             dtgSociosResponsables.AllowUserToDeleteRows = false;
             dtgSociosResponsables.AllowUserToResizeRows = false;
-            dataGridViewCellStyle9.BackColor = Color.FromArgb(249, 247, 242);
-            dtgSociosResponsables.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle57.BackColor = Color.FromArgb(249, 247, 242);
+            dtgSociosResponsables.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle57;
             dtgSociosResponsables.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dtgSociosResponsables.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dtgSociosResponsables.BackgroundColor = Color.White;
             dtgSociosResponsables.BorderStyle = BorderStyle.None;
             dtgSociosResponsables.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgSociosResponsables.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle10.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle10.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle10.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle10.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
-            dtgSociosResponsables.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle58.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle58.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle58.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle58.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle58.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle58.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle58.WrapMode = DataGridViewTriState.True;
+            dtgSociosResponsables.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle58;
             dtgSociosResponsables.ColumnHeadersHeight = 40;
             dtgSociosResponsables.EnableHeadersVisualStyles = false;
             dtgSociosResponsables.Location = new Point(30, 54);
             dtgSociosResponsables.MinimumSize = new Size(619, 100);
             dtgSociosResponsables.MultiSelect = false;
             dtgSociosResponsables.Name = "dtgSociosResponsables";
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = Color.White;
-            dataGridViewCellStyle11.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle11.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle11.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dtgSociosResponsables.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle59.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle59.BackColor = Color.White;
+            dataGridViewCellStyle59.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle59.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle59.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle59.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle59.WrapMode = DataGridViewTriState.True;
+            dtgSociosResponsables.RowHeadersDefaultCellStyle = dataGridViewCellStyle59;
             dtgSociosResponsables.RowHeadersVisible = false;
-            dataGridViewCellStyle12.BackColor = Color.White;
-            dataGridViewCellStyle12.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle12.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle12.SelectionForeColor = Color.Black;
-            dtgSociosResponsables.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle60.BackColor = Color.White;
+            dataGridViewCellStyle60.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle60.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle60.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle60.SelectionForeColor = Color.Black;
+            dtgSociosResponsables.RowsDefaultCellStyle = dataGridViewCellStyle60;
             dtgSociosResponsables.RowTemplate.Height = 45;
             dtgSociosResponsables.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgSociosResponsables.Size = new Size(619, 100);
@@ -708,351 +1222,142 @@
             roundedButton14.TextColor = Color.White;
             roundedButton14.UseVisualStyleBackColor = false;
             // 
-            // panel6
+            // panel9
             // 
-            panel6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel6.BackColor = Color.FromArgb(250, 249, 246);
-            panel6.Controls.Add(btnAgregarContactoEmpresa);
-            panel6.Controls.Add(label10);
-            panel6.Controls.Add(dtgContactoEmpresa);
-            panel6.Controls.Add(roundedButton11);
-            panel6.Location = new Point(52, 1224);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(670, 170);
-            panel6.TabIndex = 12;
+            panel9.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel9.BackColor = Color.FromArgb(250, 249, 246);
+            panel9.Controls.Add(btnAgregarAbogadosAsistentes);
+            panel9.Controls.Add(label13);
+            panel9.Controls.Add(dtgAbogadosAsistentes);
+            panel9.Controls.Add(roundedButton16);
+            panel9.Location = new Point(3, 1105);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(670, 170);
+            panel9.TabIndex = 14;
             // 
-            // btnAgregarContactoEmpresa
+            // btnAgregarAbogadosAsistentes
             // 
-            btnAgregarContactoEmpresa.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAgregarContactoEmpresa.BackColor = Color.FromArgb(194, 160, 91);
-            btnAgregarContactoEmpresa.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnAgregarContactoEmpresa.BorderColor = Color.Empty;
-            btnAgregarContactoEmpresa.BorderRadius = 10;
-            btnAgregarContactoEmpresa.BorderSize = 1;
-            btnAgregarContactoEmpresa.FlatAppearance.BorderSize = 0;
-            btnAgregarContactoEmpresa.FlatStyle = FlatStyle.Flat;
-            btnAgregarContactoEmpresa.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAgregarContactoEmpresa.ForeColor = Color.White;
-            btnAgregarContactoEmpresa.Image = Properties.Resources.boton_agregar;
-            btnAgregarContactoEmpresa.ImageAlign = ContentAlignment.MiddleRight;
-            btnAgregarContactoEmpresa.Location = new Point(532, 16);
-            btnAgregarContactoEmpresa.Name = "btnAgregarContactoEmpresa";
-            btnAgregarContactoEmpresa.Padding = new Padding(3, 0, 0, 0);
-            btnAgregarContactoEmpresa.Size = new Size(117, 32);
-            btnAgregarContactoEmpresa.TabIndex = 10;
-            btnAgregarContactoEmpresa.Text = "  Agregar";
-            btnAgregarContactoEmpresa.TextAlign = ContentAlignment.MiddleLeft;
-            btnAgregarContactoEmpresa.TextColor = Color.White;
-            btnAgregarContactoEmpresa.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnAgregarContactoEmpresa.UseVisualStyleBackColor = false;
+            btnAgregarAbogadosAsistentes.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarAbogadosAsistentes.BackColor = Color.FromArgb(194, 160, 91);
+            btnAgregarAbogadosAsistentes.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnAgregarAbogadosAsistentes.BorderColor = Color.Empty;
+            btnAgregarAbogadosAsistentes.BorderRadius = 10;
+            btnAgregarAbogadosAsistentes.BorderSize = 1;
+            btnAgregarAbogadosAsistentes.FlatAppearance.BorderSize = 0;
+            btnAgregarAbogadosAsistentes.FlatStyle = FlatStyle.Flat;
+            btnAgregarAbogadosAsistentes.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarAbogadosAsistentes.ForeColor = Color.White;
+            btnAgregarAbogadosAsistentes.Image = Properties.Resources.boton_agregar;
+            btnAgregarAbogadosAsistentes.ImageAlign = ContentAlignment.MiddleRight;
+            btnAgregarAbogadosAsistentes.Location = new Point(531, 16);
+            btnAgregarAbogadosAsistentes.Name = "btnAgregarAbogadosAsistentes";
+            btnAgregarAbogadosAsistentes.Padding = new Padding(3, 0, 0, 0);
+            btnAgregarAbogadosAsistentes.Size = new Size(117, 32);
+            btnAgregarAbogadosAsistentes.TabIndex = 13;
+            btnAgregarAbogadosAsistentes.Text = "  Agregar";
+            btnAgregarAbogadosAsistentes.TextAlign = ContentAlignment.MiddleLeft;
+            btnAgregarAbogadosAsistentes.TextColor = Color.White;
+            btnAgregarAbogadosAsistentes.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnAgregarAbogadosAsistentes.UseVisualStyleBackColor = false;
             // 
-            // label10
+            // label13
             // 
-            label10.AutoSize = true;
-            label10.BackColor = Color.White;
-            label10.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label10.Location = new Point(35, 12);
-            label10.Name = "label10";
-            label10.Size = new Size(193, 19);
-            label10.TabIndex = 8;
-            label10.Text = "Contacto(s) de Empresa(s) *";
+            label13.AutoSize = true;
+            label13.BackColor = Color.White;
+            label13.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label13.Location = new Point(35, 12);
+            label13.Name = "label13";
+            label13.Size = new Size(178, 19);
+            label13.TabIndex = 8;
+            label13.Text = "Abogado(s) Asistente(s) *";
             // 
-            // dtgContactoEmpresa
+            // dtgAbogadosAsistentes
             // 
-            dtgContactoEmpresa.AllowUserToAddRows = false;
-            dtgContactoEmpresa.AllowUserToDeleteRows = false;
-            dtgContactoEmpresa.AllowUserToResizeRows = false;
-            dataGridViewCellStyle13.BackColor = Color.FromArgb(249, 247, 242);
-            dtgContactoEmpresa.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
-            dtgContactoEmpresa.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dtgContactoEmpresa.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgContactoEmpresa.BackgroundColor = Color.White;
-            dtgContactoEmpresa.BorderStyle = BorderStyle.None;
-            dtgContactoEmpresa.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgContactoEmpresa.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle14.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle14.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle14.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle14.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.True;
-            dtgContactoEmpresa.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
-            dtgContactoEmpresa.ColumnHeadersHeight = 40;
-            dtgContactoEmpresa.EnableHeadersVisualStyles = false;
-            dtgContactoEmpresa.Location = new Point(30, 54);
-            dtgContactoEmpresa.MinimumSize = new Size(619, 100);
-            dtgContactoEmpresa.MultiSelect = false;
-            dtgContactoEmpresa.Name = "dtgContactoEmpresa";
-            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = Color.White;
-            dataGridViewCellStyle15.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle15.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle15.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
-            dtgContactoEmpresa.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
-            dtgContactoEmpresa.RowHeadersVisible = false;
-            dataGridViewCellStyle16.BackColor = Color.White;
-            dataGridViewCellStyle16.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle16.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle16.SelectionForeColor = Color.Black;
-            dtgContactoEmpresa.RowsDefaultCellStyle = dataGridViewCellStyle16;
-            dtgContactoEmpresa.RowTemplate.Height = 45;
-            dtgContactoEmpresa.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgContactoEmpresa.Size = new Size(619, 100);
-            dtgContactoEmpresa.TabIndex = 6;
+            dtgAbogadosAsistentes.AllowUserToAddRows = false;
+            dtgAbogadosAsistentes.AllowUserToDeleteRows = false;
+            dtgAbogadosAsistentes.AllowUserToResizeRows = false;
+            dataGridViewCellStyle61.BackColor = Color.FromArgb(249, 247, 242);
+            dtgAbogadosAsistentes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle61;
+            dtgAbogadosAsistentes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtgAbogadosAsistentes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgAbogadosAsistentes.BackgroundColor = Color.White;
+            dtgAbogadosAsistentes.BorderStyle = BorderStyle.None;
+            dtgAbogadosAsistentes.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgAbogadosAsistentes.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle62.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle62.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle62.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle62.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle62.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle62.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle62.WrapMode = DataGridViewTriState.True;
+            dtgAbogadosAsistentes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle62;
+            dtgAbogadosAsistentes.ColumnHeadersHeight = 40;
+            dtgAbogadosAsistentes.EnableHeadersVisualStyles = false;
+            dtgAbogadosAsistentes.Location = new Point(30, 54);
+            dtgAbogadosAsistentes.MinimumSize = new Size(619, 100);
+            dtgAbogadosAsistentes.MultiSelect = false;
+            dtgAbogadosAsistentes.Name = "dtgAbogadosAsistentes";
+            dataGridViewCellStyle63.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle63.BackColor = Color.White;
+            dataGridViewCellStyle63.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle63.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle63.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle63.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle63.WrapMode = DataGridViewTriState.True;
+            dtgAbogadosAsistentes.RowHeadersDefaultCellStyle = dataGridViewCellStyle63;
+            dtgAbogadosAsistentes.RowHeadersVisible = false;
+            dataGridViewCellStyle64.BackColor = Color.White;
+            dataGridViewCellStyle64.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle64.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle64.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle64.SelectionForeColor = Color.Black;
+            dtgAbogadosAsistentes.RowsDefaultCellStyle = dataGridViewCellStyle64;
+            dtgAbogadosAsistentes.RowTemplate.Height = 45;
+            dtgAbogadosAsistentes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgAbogadosAsistentes.Size = new Size(619, 100);
+            dtgAbogadosAsistentes.TabIndex = 6;
             // 
-            // roundedButton11
+            // roundedButton16
             // 
-            roundedButton11.BackColor = Color.White;
-            roundedButton11.BackgroundColor = Color.White;
-            roundedButton11.BorderColor = Color.Empty;
-            roundedButton11.BorderRadius = 30;
-            roundedButton11.BorderSize = 0;
-            roundedButton11.Dock = DockStyle.Fill;
-            roundedButton11.Enabled = false;
-            roundedButton11.FlatAppearance.BorderSize = 0;
-            roundedButton11.FlatStyle = FlatStyle.Flat;
-            roundedButton11.ForeColor = Color.White;
-            roundedButton11.Location = new Point(0, 0);
-            roundedButton11.Name = "roundedButton11";
-            roundedButton11.Size = new Size(670, 170);
-            roundedButton11.TabIndex = 2;
-            roundedButton11.TextColor = Color.White;
-            roundedButton11.UseVisualStyleBackColor = false;
+            roundedButton16.BackColor = Color.White;
+            roundedButton16.BackgroundColor = Color.White;
+            roundedButton16.BorderColor = Color.Empty;
+            roundedButton16.BorderRadius = 30;
+            roundedButton16.BorderSize = 0;
+            roundedButton16.Dock = DockStyle.Fill;
+            roundedButton16.Enabled = false;
+            roundedButton16.FlatAppearance.BorderSize = 0;
+            roundedButton16.FlatStyle = FlatStyle.Flat;
+            roundedButton16.ForeColor = Color.White;
+            roundedButton16.Location = new Point(0, 0);
+            roundedButton16.Name = "roundedButton16";
+            roundedButton16.Size = new Size(670, 170);
+            roundedButton16.TabIndex = 2;
+            roundedButton16.TextColor = Color.White;
+            roundedButton16.UseVisualStyleBackColor = false;
             // 
-            // panel5
+            // label14
             // 
-            panel5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel5.BackColor = Color.FromArgb(250, 249, 246);
-            panel5.Controls.Add(btnAgregarPartesInteresadas);
-            panel5.Controls.Add(label7);
-            panel5.Controls.Add(dtgPartesInteresadas);
-            panel5.Controls.Add(roundedButton5);
-            panel5.Location = new Point(55, 1039);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(670, 170);
-            panel5.TabIndex = 11;
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label14.ForeColor = Color.FromArgb(194, 160, 91);
+            label14.Location = new Point(179, 25);
+            label14.Name = "label14";
+            label14.Size = new Size(109, 13);
+            label14.TabIndex = 17;
+            label14.Text = "PRIMER INSTANCIA";
             // 
-            // btnAgregarPartesInteresadas
+            // label17
             // 
-            btnAgregarPartesInteresadas.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAgregarPartesInteresadas.BackColor = Color.FromArgb(194, 160, 91);
-            btnAgregarPartesInteresadas.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnAgregarPartesInteresadas.BorderColor = Color.Empty;
-            btnAgregarPartesInteresadas.BorderRadius = 10;
-            btnAgregarPartesInteresadas.BorderSize = 1;
-            btnAgregarPartesInteresadas.FlatAppearance.BorderSize = 0;
-            btnAgregarPartesInteresadas.FlatStyle = FlatStyle.Flat;
-            btnAgregarPartesInteresadas.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAgregarPartesInteresadas.ForeColor = Color.White;
-            btnAgregarPartesInteresadas.Image = Properties.Resources.boton_agregar;
-            btnAgregarPartesInteresadas.ImageAlign = ContentAlignment.MiddleRight;
-            btnAgregarPartesInteresadas.Location = new Point(534, 25);
-            btnAgregarPartesInteresadas.Name = "btnAgregarPartesInteresadas";
-            btnAgregarPartesInteresadas.Padding = new Padding(3, 0, 0, 0);
-            btnAgregarPartesInteresadas.Size = new Size(117, 32);
-            btnAgregarPartesInteresadas.TabIndex = 9;
-            btnAgregarPartesInteresadas.Text = "  Agregar";
-            btnAgregarPartesInteresadas.TextAlign = ContentAlignment.MiddleLeft;
-            btnAgregarPartesInteresadas.TextColor = Color.White;
-            btnAgregarPartesInteresadas.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnAgregarPartesInteresadas.UseVisualStyleBackColor = false;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.BackColor = Color.White;
-            label7.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label7.Location = new Point(32, 11);
-            label7.Name = "label7";
-            label7.Size = new Size(161, 19);
-            label7.TabIndex = 8;
-            label7.Text = "Parte(s) Interesada(s) *";
-            // 
-            // dtgPartesInteresadas
-            // 
-            dtgPartesInteresadas.AllowUserToAddRows = false;
-            dtgPartesInteresadas.AllowUserToDeleteRows = false;
-            dtgPartesInteresadas.AllowUserToResizeRows = false;
-            dataGridViewCellStyle17.BackColor = Color.FromArgb(249, 247, 242);
-            dtgPartesInteresadas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
-            dtgPartesInteresadas.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dtgPartesInteresadas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgPartesInteresadas.BackgroundColor = Color.White;
-            dtgPartesInteresadas.BorderStyle = BorderStyle.None;
-            dtgPartesInteresadas.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgPartesInteresadas.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle18.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle18.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle18.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle18.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle18.WrapMode = DataGridViewTriState.True;
-            dtgPartesInteresadas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
-            dtgPartesInteresadas.ColumnHeadersHeight = 40;
-            dtgPartesInteresadas.EnableHeadersVisualStyles = false;
-            dtgPartesInteresadas.Location = new Point(32, 53);
-            dtgPartesInteresadas.MinimumSize = new Size(619, 100);
-            dtgPartesInteresadas.MultiSelect = false;
-            dtgPartesInteresadas.Name = "dtgPartesInteresadas";
-            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle19.BackColor = Color.White;
-            dataGridViewCellStyle19.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle19.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle19.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle19.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle19.WrapMode = DataGridViewTriState.True;
-            dtgPartesInteresadas.RowHeadersDefaultCellStyle = dataGridViewCellStyle19;
-            dtgPartesInteresadas.RowHeadersVisible = false;
-            dataGridViewCellStyle20.BackColor = Color.White;
-            dataGridViewCellStyle20.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle20.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle20.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle20.SelectionForeColor = Color.Black;
-            dtgPartesInteresadas.RowsDefaultCellStyle = dataGridViewCellStyle20;
-            dtgPartesInteresadas.RowTemplate.Height = 45;
-            dtgPartesInteresadas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgPartesInteresadas.Size = new Size(619, 100);
-            dtgPartesInteresadas.TabIndex = 6;
-            // 
-            // roundedButton5
-            // 
-            roundedButton5.BackColor = Color.White;
-            roundedButton5.BackgroundColor = Color.White;
-            roundedButton5.BorderColor = Color.Empty;
-            roundedButton5.BorderRadius = 30;
-            roundedButton5.BorderSize = 0;
-            roundedButton5.Dock = DockStyle.Fill;
-            roundedButton5.Enabled = false;
-            roundedButton5.FlatAppearance.BorderSize = 0;
-            roundedButton5.FlatStyle = FlatStyle.Flat;
-            roundedButton5.ForeColor = Color.White;
-            roundedButton5.Location = new Point(0, 0);
-            roundedButton5.Name = "roundedButton5";
-            roundedButton5.Size = new Size(670, 170);
-            roundedButton5.TabIndex = 2;
-            roundedButton5.TextColor = Color.White;
-            roundedButton5.UseVisualStyleBackColor = false;
-            // 
-            // panel4
-            // 
-            panel4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel4.BackColor = Color.FromArgb(250, 249, 246);
-            panel4.Controls.Add(btnAgregarDemandados);
-            panel4.Controls.Add(label4);
-            panel4.Controls.Add(dtgDemandados);
-            panel4.Controls.Add(roundedButton10);
-            panel4.Location = new Point(55, 852);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(670, 170);
-            panel4.TabIndex = 10;
-            // 
-            // btnAgregarDemandados
-            // 
-            btnAgregarDemandados.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAgregarDemandados.BackColor = Color.FromArgb(194, 160, 91);
-            btnAgregarDemandados.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnAgregarDemandados.BorderColor = Color.Empty;
-            btnAgregarDemandados.BorderRadius = 10;
-            btnAgregarDemandados.BorderSize = 1;
-            btnAgregarDemandados.FlatAppearance.BorderSize = 0;
-            btnAgregarDemandados.FlatStyle = FlatStyle.Flat;
-            btnAgregarDemandados.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAgregarDemandados.ForeColor = Color.White;
-            btnAgregarDemandados.Image = Properties.Resources.boton_agregar;
-            btnAgregarDemandados.ImageAlign = ContentAlignment.MiddleRight;
-            btnAgregarDemandados.Location = new Point(534, 20);
-            btnAgregarDemandados.Name = "btnAgregarDemandados";
-            btnAgregarDemandados.Padding = new Padding(3, 0, 0, 0);
-            btnAgregarDemandados.Size = new Size(117, 32);
-            btnAgregarDemandados.TabIndex = 8;
-            btnAgregarDemandados.Text = "  Agregar";
-            btnAgregarDemandados.TextAlign = ContentAlignment.MiddleLeft;
-            btnAgregarDemandados.TextColor = Color.White;
-            btnAgregarDemandados.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnAgregarDemandados.UseVisualStyleBackColor = false;
-            btnAgregarDemandados.Click += btnAgregarDemandados_Click;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.White;
-            label4.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label4.Location = new Point(32, 16);
-            label4.Name = "label4";
-            label4.Size = new Size(117, 19);
-            label4.TabIndex = 8;
-            label4.Text = "Demandado(s) *";
-            // 
-            // dtgDemandados
-            // 
-            dtgDemandados.AllowUserToAddRows = false;
-            dtgDemandados.AllowUserToDeleteRows = false;
-            dtgDemandados.AllowUserToResizeRows = false;
-            dataGridViewCellStyle21.BackColor = Color.FromArgb(249, 247, 242);
-            dtgDemandados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle21;
-            dtgDemandados.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dtgDemandados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgDemandados.BackgroundColor = Color.White;
-            dtgDemandados.BorderStyle = BorderStyle.None;
-            dtgDemandados.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgDemandados.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle22.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle22.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle22.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle22.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle22.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle22.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle22.WrapMode = DataGridViewTriState.True;
-            dtgDemandados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
-            dtgDemandados.ColumnHeadersHeight = 40;
-            dtgDemandados.EnableHeadersVisualStyles = false;
-            dtgDemandados.Location = new Point(32, 58);
-            dtgDemandados.MinimumSize = new Size(619, 100);
-            dtgDemandados.MultiSelect = false;
-            dtgDemandados.Name = "dtgDemandados";
-            dataGridViewCellStyle23.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle23.BackColor = Color.White;
-            dataGridViewCellStyle23.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle23.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle23.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle23.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle23.WrapMode = DataGridViewTriState.True;
-            dtgDemandados.RowHeadersDefaultCellStyle = dataGridViewCellStyle23;
-            dtgDemandados.RowHeadersVisible = false;
-            dataGridViewCellStyle24.BackColor = Color.White;
-            dataGridViewCellStyle24.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle24.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle24.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle24.SelectionForeColor = Color.Black;
-            dtgDemandados.RowsDefaultCellStyle = dataGridViewCellStyle24;
-            dtgDemandados.RowTemplate.Height = 45;
-            dtgDemandados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgDemandados.Size = new Size(619, 100);
-            dtgDemandados.TabIndex = 6;
-            // 
-            // roundedButton10
-            // 
-            roundedButton10.BackColor = Color.White;
-            roundedButton10.BackgroundColor = Color.White;
-            roundedButton10.BorderColor = Color.Empty;
-            roundedButton10.BorderRadius = 30;
-            roundedButton10.BorderSize = 0;
-            roundedButton10.Dock = DockStyle.Fill;
-            roundedButton10.Enabled = false;
-            roundedButton10.FlatAppearance.BorderSize = 0;
-            roundedButton10.FlatStyle = FlatStyle.Flat;
-            roundedButton10.ForeColor = Color.White;
-            roundedButton10.Location = new Point(0, 0);
-            roundedButton10.Name = "roundedButton10";
-            roundedButton10.Size = new Size(670, 170);
-            roundedButton10.TabIndex = 2;
-            roundedButton10.TextColor = Color.White;
-            roundedButton10.UseVisualStyleBackColor = false;
+            label17.AutoSize = true;
+            label17.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label17.ForeColor = Color.FromArgb(168, 162, 158);
+            label17.Location = new Point(55, 25);
+            label17.Name = "label17";
+            label17.Size = new Size(129, 13);
+            label17.TabIndex = 16;
+            label17.Text = "CASOS > LABORALES >";
             // 
             // panel3
             // 
@@ -1230,283 +1535,6 @@
             roundedButton26.TextColor = Color.White;
             roundedButton26.UseVisualStyleBackColor = false;
             // 
-            // panel2
-            // 
-            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel2.BackColor = Color.FromArgb(250, 249, 246);
-            panel2.Controls.Add(btnAgregarAbogadosDirectores);
-            panel2.Controls.Add(label11);
-            panel2.Controls.Add(dtgAbogadosDirectores);
-            panel2.Controls.Add(roundedButton15);
-            panel2.Controls.Add(roundedButton18);
-            panel2.Location = new Point(52, 1416);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(670, 203);
-            panel2.TabIndex = 8;
-            // 
-            // btnAgregarAbogadosDirectores
-            // 
-            btnAgregarAbogadosDirectores.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAgregarAbogadosDirectores.BackColor = Color.FromArgb(194, 160, 91);
-            btnAgregarAbogadosDirectores.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnAgregarAbogadosDirectores.BorderColor = Color.Empty;
-            btnAgregarAbogadosDirectores.BorderRadius = 10;
-            btnAgregarAbogadosDirectores.BorderSize = 1;
-            btnAgregarAbogadosDirectores.FlatAppearance.BorderSize = 0;
-            btnAgregarAbogadosDirectores.FlatStyle = FlatStyle.Flat;
-            btnAgregarAbogadosDirectores.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAgregarAbogadosDirectores.ForeColor = Color.White;
-            btnAgregarAbogadosDirectores.Image = Properties.Resources.boton_agregar;
-            btnAgregarAbogadosDirectores.ImageAlign = ContentAlignment.MiddleRight;
-            btnAgregarAbogadosDirectores.Location = new Point(532, 50);
-            btnAgregarAbogadosDirectores.Name = "btnAgregarAbogadosDirectores";
-            btnAgregarAbogadosDirectores.Padding = new Padding(3, 0, 0, 0);
-            btnAgregarAbogadosDirectores.Size = new Size(117, 32);
-            btnAgregarAbogadosDirectores.TabIndex = 11;
-            btnAgregarAbogadosDirectores.Text = "  Agregar";
-            btnAgregarAbogadosDirectores.TextAlign = ContentAlignment.MiddleLeft;
-            btnAgregarAbogadosDirectores.TextColor = Color.White;
-            btnAgregarAbogadosDirectores.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnAgregarAbogadosDirectores.UseVisualStyleBackColor = false;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.BackColor = Color.White;
-            label11.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label11.Location = new Point(26, 57);
-            label11.Name = "label11";
-            label11.Size = new Size(180, 19);
-            label11.TabIndex = 9;
-            label11.Text = "Abogado(s) director(es) *";
-            // 
-            // dtgAbogadosDirectores
-            // 
-            dtgAbogadosDirectores.AllowUserToAddRows = false;
-            dtgAbogadosDirectores.AllowUserToDeleteRows = false;
-            dtgAbogadosDirectores.AllowUserToResizeRows = false;
-            dataGridViewCellStyle25.BackColor = Color.FromArgb(249, 247, 242);
-            dtgAbogadosDirectores.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle25;
-            dtgAbogadosDirectores.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dtgAbogadosDirectores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgAbogadosDirectores.BackgroundColor = Color.White;
-            dtgAbogadosDirectores.BorderStyle = BorderStyle.None;
-            dtgAbogadosDirectores.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgAbogadosDirectores.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle26.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle26.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle26.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle26.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle26.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle26.WrapMode = DataGridViewTriState.True;
-            dtgAbogadosDirectores.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle26;
-            dtgAbogadosDirectores.ColumnHeadersHeight = 40;
-            dtgAbogadosDirectores.EnableHeadersVisualStyles = false;
-            dtgAbogadosDirectores.Location = new Point(26, 88);
-            dtgAbogadosDirectores.MinimumSize = new Size(619, 100);
-            dtgAbogadosDirectores.MultiSelect = false;
-            dtgAbogadosDirectores.Name = "dtgAbogadosDirectores";
-            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle27.BackColor = Color.White;
-            dataGridViewCellStyle27.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle27.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle27.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle27.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.True;
-            dtgAbogadosDirectores.RowHeadersDefaultCellStyle = dataGridViewCellStyle27;
-            dtgAbogadosDirectores.RowHeadersVisible = false;
-            dataGridViewCellStyle28.BackColor = Color.White;
-            dataGridViewCellStyle28.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle28.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle28.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle28.SelectionForeColor = Color.Black;
-            dtgAbogadosDirectores.RowsDefaultCellStyle = dataGridViewCellStyle28;
-            dtgAbogadosDirectores.RowTemplate.Height = 45;
-            dtgAbogadosDirectores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgAbogadosDirectores.Size = new Size(619, 100);
-            dtgAbogadosDirectores.TabIndex = 8;
-            // 
-            // roundedButton15
-            // 
-            roundedButton15.BackColor = Color.FromArgb(249, 247, 242);
-            roundedButton15.BackgroundColor = Color.FromArgb(249, 247, 242);
-            roundedButton15.BorderColor = Color.Empty;
-            roundedButton15.BorderRadius = 22;
-            roundedButton15.BorderSize = 0;
-            roundedButton15.Dock = DockStyle.Top;
-            roundedButton15.Enabled = false;
-            roundedButton15.FlatAppearance.BorderSize = 0;
-            roundedButton15.FlatStyle = FlatStyle.Flat;
-            roundedButton15.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            roundedButton15.ForeColor = Color.Black;
-            roundedButton15.Location = new Point(0, 0);
-            roundedButton15.Name = "roundedButton15";
-            roundedButton15.Size = new Size(670, 43);
-            roundedButton15.TabIndex = 4;
-            roundedButton15.Text = "Equipo Legal";
-            roundedButton15.TextAlign = ContentAlignment.MiddleLeft;
-            roundedButton15.TextColor = Color.Black;
-            roundedButton15.UseVisualStyleBackColor = false;
-            // 
-            // roundedButton18
-            // 
-            roundedButton18.BackColor = Color.White;
-            roundedButton18.BackgroundColor = Color.White;
-            roundedButton18.BorderColor = Color.Empty;
-            roundedButton18.BorderRadius = 30;
-            roundedButton18.BorderSize = 0;
-            roundedButton18.Dock = DockStyle.Bottom;
-            roundedButton18.Enabled = false;
-            roundedButton18.FlatAppearance.BorderSize = 0;
-            roundedButton18.FlatStyle = FlatStyle.Flat;
-            roundedButton18.ForeColor = Color.White;
-            roundedButton18.Location = new Point(0, 46);
-            roundedButton18.Name = "roundedButton18";
-            roundedButton18.Size = new Size(670, 157);
-            roundedButton18.TabIndex = 2;
-            roundedButton18.TextColor = Color.White;
-            roundedButton18.UseVisualStyleBackColor = false;
-            // 
-            // panel1
-            // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel1.BackColor = Color.FromArgb(250, 249, 246);
-            panel1.Controls.Add(btnAgregarDemandantes);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(dtgDemandantes);
-            panel1.Controls.Add(roundedButton7);
-            panel1.Controls.Add(roundedButton13);
-            panel1.Location = new Point(55, 633);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(670, 203);
-            panel1.TabIndex = 7;
-            // 
-            // btnAgregarDemandantes
-            // 
-            btnAgregarDemandantes.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAgregarDemandantes.BackColor = Color.FromArgb(194, 160, 91);
-            btnAgregarDemandantes.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnAgregarDemandantes.BorderColor = Color.Empty;
-            btnAgregarDemandantes.BorderRadius = 10;
-            btnAgregarDemandantes.BorderSize = 1;
-            btnAgregarDemandantes.FlatAppearance.BorderSize = 0;
-            btnAgregarDemandantes.FlatStyle = FlatStyle.Flat;
-            btnAgregarDemandantes.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAgregarDemandantes.ForeColor = Color.White;
-            btnAgregarDemandantes.Image = Properties.Resources.boton_agregar;
-            btnAgregarDemandantes.ImageAlign = ContentAlignment.MiddleRight;
-            btnAgregarDemandantes.Location = new Point(534, 49);
-            btnAgregarDemandantes.Name = "btnAgregarDemandantes";
-            btnAgregarDemandantes.Padding = new Padding(3, 0, 0, 0);
-            btnAgregarDemandantes.Size = new Size(117, 32);
-            btnAgregarDemandantes.TabIndex = 7;
-            btnAgregarDemandantes.Text = "  Agregar";
-            btnAgregarDemandantes.TextAlign = ContentAlignment.MiddleLeft;
-            btnAgregarDemandantes.TextColor = Color.White;
-            btnAgregarDemandantes.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnAgregarDemandantes.UseVisualStyleBackColor = false;
-            btnAgregarDemandantes.Click += btnAgregarDemandantes_Click;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.White;
-            label3.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label3.Location = new Point(27, 56);
-            label3.Name = "label3";
-            label3.Size = new Size(120, 19);
-            label3.TabIndex = 7;
-            label3.Text = "Demandante(s) *";
-            // 
-            // dtgDemandantes
-            // 
-            dtgDemandantes.AllowUserToAddRows = false;
-            dtgDemandantes.AllowUserToDeleteRows = false;
-            dtgDemandantes.AllowUserToResizeRows = false;
-            dataGridViewCellStyle29.BackColor = Color.FromArgb(249, 247, 242);
-            dtgDemandantes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle29;
-            dtgDemandantes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dtgDemandantes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgDemandantes.BackgroundColor = Color.White;
-            dtgDemandantes.BorderStyle = BorderStyle.None;
-            dtgDemandantes.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgDemandantes.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle30.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle30.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle30.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle30.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle30.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle30.WrapMode = DataGridViewTriState.True;
-            dtgDemandantes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle30;
-            dtgDemandantes.ColumnHeadersHeight = 40;
-            dtgDemandantes.EnableHeadersVisualStyles = false;
-            dtgDemandantes.Location = new Point(27, 87);
-            dtgDemandantes.MinimumSize = new Size(619, 100);
-            dtgDemandantes.MultiSelect = false;
-            dtgDemandantes.Name = "dtgDemandantes";
-            dataGridViewCellStyle31.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle31.BackColor = Color.White;
-            dataGridViewCellStyle31.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle31.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle31.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle31.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle31.WrapMode = DataGridViewTriState.True;
-            dtgDemandantes.RowHeadersDefaultCellStyle = dataGridViewCellStyle31;
-            dtgDemandantes.RowHeadersVisible = false;
-            dataGridViewCellStyle32.BackColor = Color.White;
-            dataGridViewCellStyle32.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle32.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle32.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle32.SelectionForeColor = Color.Black;
-            dtgDemandantes.RowsDefaultCellStyle = dataGridViewCellStyle32;
-            dtgDemandantes.RowTemplate.Height = 45;
-            dtgDemandantes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgDemandantes.Size = new Size(619, 100);
-            dtgDemandantes.TabIndex = 6;
-            // 
-            // roundedButton7
-            // 
-            roundedButton7.BackColor = Color.FromArgb(249, 247, 242);
-            roundedButton7.BackgroundColor = Color.FromArgb(249, 247, 242);
-            roundedButton7.BorderColor = Color.Empty;
-            roundedButton7.BorderRadius = 22;
-            roundedButton7.BorderSize = 0;
-            roundedButton7.Dock = DockStyle.Top;
-            roundedButton7.Enabled = false;
-            roundedButton7.FlatAppearance.BorderSize = 0;
-            roundedButton7.FlatStyle = FlatStyle.Flat;
-            roundedButton7.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            roundedButton7.ForeColor = Color.Black;
-            roundedButton7.Location = new Point(0, 0);
-            roundedButton7.Name = "roundedButton7";
-            roundedButton7.Size = new Size(670, 43);
-            roundedButton7.TabIndex = 4;
-            roundedButton7.Text = "Partes Involucradas";
-            roundedButton7.TextAlign = ContentAlignment.MiddleLeft;
-            roundedButton7.TextColor = Color.Black;
-            roundedButton7.UseVisualStyleBackColor = false;
-            // 
-            // roundedButton13
-            // 
-            roundedButton13.BackColor = Color.White;
-            roundedButton13.BackgroundColor = Color.White;
-            roundedButton13.BorderColor = Color.Empty;
-            roundedButton13.BorderRadius = 30;
-            roundedButton13.BorderSize = 0;
-            roundedButton13.Dock = DockStyle.Bottom;
-            roundedButton13.Enabled = false;
-            roundedButton13.FlatAppearance.BorderSize = 0;
-            roundedButton13.FlatStyle = FlatStyle.Flat;
-            roundedButton13.ForeColor = Color.White;
-            roundedButton13.Location = new Point(0, 49);
-            roundedButton13.Name = "roundedButton13";
-            roundedButton13.Size = new Size(670, 154);
-            roundedButton13.TabIndex = 2;
-            roundedButton13.TextColor = Color.White;
-            roundedButton13.UseVisualStyleBackColor = false;
-            // 
             // roundedButton19
             // 
             roundedButton19.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -1530,31 +1558,31 @@
             roundedButton19.UseVisualStyleBackColor = false;
             roundedButton19.Click += roundedButton19_Click;
             // 
-            // btnGuardarUsuario
+            // btnGuardarCaso
             // 
-            btnGuardarUsuario.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnGuardarUsuario.BackColor = Color.FromArgb(52, 109, 235);
-            btnGuardarUsuario.BackgroundColor = Color.FromArgb(52, 109, 235);
-            btnGuardarUsuario.BorderColor = Color.Empty;
-            btnGuardarUsuario.BorderRadius = 10;
-            btnGuardarUsuario.BorderSize = 1;
-            btnGuardarUsuario.FlatAppearance.BorderSize = 0;
-            btnGuardarUsuario.FlatStyle = FlatStyle.Flat;
-            btnGuardarUsuario.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            btnGuardarUsuario.ForeColor = Color.White;
-            btnGuardarUsuario.Image = Properties.Resources.boton_guardar;
-            btnGuardarUsuario.ImageAlign = ContentAlignment.MiddleRight;
-            btnGuardarUsuario.Location = new Point(569, 2009);
-            btnGuardarUsuario.Name = "btnGuardarUsuario";
-            btnGuardarUsuario.Padding = new Padding(3, 0, 0, 0);
-            btnGuardarUsuario.Size = new Size(150, 40);
-            btnGuardarUsuario.TabIndex = 15;
-            btnGuardarUsuario.Text = "Guardar";
-            btnGuardarUsuario.TextAlign = ContentAlignment.MiddleLeft;
-            btnGuardarUsuario.TextColor = Color.White;
-            btnGuardarUsuario.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnGuardarUsuario.UseVisualStyleBackColor = false;
-            btnGuardarUsuario.Click += roundedButton18_Click;
+            btnGuardarCaso.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnGuardarCaso.BackColor = Color.FromArgb(52, 109, 235);
+            btnGuardarCaso.BackgroundColor = Color.FromArgb(52, 109, 235);
+            btnGuardarCaso.BorderColor = Color.Empty;
+            btnGuardarCaso.BorderRadius = 10;
+            btnGuardarCaso.BorderSize = 1;
+            btnGuardarCaso.FlatAppearance.BorderSize = 0;
+            btnGuardarCaso.FlatStyle = FlatStyle.Flat;
+            btnGuardarCaso.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnGuardarCaso.ForeColor = Color.White;
+            btnGuardarCaso.Image = Properties.Resources.boton_guardar;
+            btnGuardarCaso.ImageAlign = ContentAlignment.MiddleRight;
+            btnGuardarCaso.Location = new Point(569, 2009);
+            btnGuardarCaso.Name = "btnGuardarCaso";
+            btnGuardarCaso.Padding = new Padding(3, 0, 0, 0);
+            btnGuardarCaso.Size = new Size(150, 40);
+            btnGuardarCaso.TabIndex = 15;
+            btnGuardarCaso.Text = "Guardar";
+            btnGuardarCaso.TextAlign = ContentAlignment.MiddleLeft;
+            btnGuardarCaso.TextColor = Color.White;
+            btnGuardarCaso.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnGuardarCaso.UseVisualStyleBackColor = false;
+            btnGuardarCaso.Click += roundedButton18_Click;
             // 
             // panelInformacionPersonal
             // 
@@ -1826,32 +1854,34 @@
             panel7.ResumeLayout(false);
             panelBusquedaCaso.ResumeLayout(false);
             panelBusquedaCaso.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgTercerosInteresados).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dtgCasosLaborales).EndInit();
             Detalles.ResumeLayout(false);
             Detalles.PerformLayout();
-            panel9.ResumeLayout(false);
-            panel9.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgAbogadosAsistentes).EndInit();
-            panel8.ResumeLayout(false);
-            panel8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgSociosResponsables).EndInit();
-            panel6.ResumeLayout(false);
-            panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgContactoEmpresa).EndInit();
-            panel5.ResumeLayout(false);
-            panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgPartesInteresadas).EndInit();
-            panel4.ResumeLayout(false);
-            panel4.PerformLayout();
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
+            panelDemandantes.ResumeLayout(false);
+            panelDemandantes.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgDemandantes).EndInit();
+            panelDemandados.ResumeLayout(false);
+            panelDemandados.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDemandados).EndInit();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
+            panelTercerosInteresados.ResumeLayout(false);
+            panelTercerosInteresados.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgTercerosInteresados).EndInit();
+            panelContactosEmpresas.ResumeLayout(false);
+            panelContactosEmpresas.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgContactoEmpresa).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgAbogadosDirectores).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgDemandantes).EndInit();
+            panel8.ResumeLayout(false);
+            panel8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgSociosResponsables).EndInit();
+            panel9.ResumeLayout(false);
+            panel9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgAbogadosAsistentes).EndInit();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             panelInformacionPersonal.ResumeLayout(false);
             panelInformacionPersonal.PerformLayout();
             ResumeLayout(false);
@@ -1870,12 +1900,12 @@
         private TextBox txtJuzgado;
         private Clases.RoundedButton roundedButton4;
         private Clases.RoundedButton roundedButton9;
-        private Clases.RoundedButton btnGuardarUsuario;
+        private Clases.RoundedButton btnGuardarCaso;
         private Clases.RoundedButton roundedButton19;
         private Label label5;
         private TextBox txtNombreParticular;
         private Clases.RoundedButton roundedButton12;
-        private Panel panel1;
+        private Panel panelDemandantes;
         private Clases.RoundedButton roundedButton7;
         private Clases.RoundedButton roundedButton13;
         private Label label2;
@@ -1894,16 +1924,16 @@
         private Clases.RoundedButton roundedButton26;
         private Clases.RoundedButton btnAgregarEstado;
         private DataGridView dtgDemandantes;
-        private Panel panel4;
+        private Panel panelDemandados;
         private DataGridView dtgDemandados;
         private Clases.RoundedButton roundedButton10;
         private Label label3;
         private Label label4;
-        private Panel panel5;
+        private Panel panelTercerosInteresados;
         private Label label7;
-        private DataGridView dtgPartesInteresadas;
+        private DataGridView dtgTercerosInteresados;
         private Clases.RoundedButton roundedButton5;
-        private Panel panel6;
+        private Panel panelContactosEmpresas;
         private Label label10;
         private DataGridView dtgContactoEmpresa;
         private Clases.RoundedButton roundedButton11;
@@ -1919,7 +1949,7 @@
         private Clases.RoundedButton btnSiguiente;
         private Label lblPagina;
         private Clases.RoundedButton btnAnterior;
-        private DataGridView dtgTercerosInteresados;
+        private DataGridView dtgCasosLaborales;
         private Panel panel7;
         private Label label11;
         private DataGridView dtgAbogadosDirectores;
@@ -1942,5 +1972,6 @@
         private ComboBox comboboxNotificador;
         private Label label14;
         private Label label17;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }

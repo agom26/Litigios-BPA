@@ -66,3 +66,6 @@ C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Personas.ContactoEmpresa.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Estados.FrmAgregarEstadoLaboralPI.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Participantes.FrmAgregarDemandado.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Participantes.FrmAgregarDemandante.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Participantes.FrmAgregarTerceroInteresado.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Participantes.FrmAgregarContactoEmpresa.resources

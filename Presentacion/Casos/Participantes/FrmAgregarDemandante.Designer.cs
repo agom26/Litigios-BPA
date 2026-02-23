@@ -1,6 +1,6 @@
 ﻿namespace Presentacion.Casos.Participantes
 {
-    partial class FrmAgregarDemandado
+    partial class FrmAgregarDemandante
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAgregarDemandado));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAgregarDemandante));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
@@ -44,9 +44,9 @@
             btnAnterior = new Presentacion.Clases.RoundedButton();
             lblPagina = new Label();
             labelTotal = new Label();
-            dtgDemandados = new DataGridView();
+            dtgDemandantes = new DataGridView();
             lblNombre = new Label();
-            txtBuscarDemandado = new TextBox();
+            txtBuscarDemandante = new TextBox();
             roundedButton3 = new Presentacion.Clases.RoundedButton();
             roundedButton1 = new Presentacion.Clases.RoundedButton();
             tabPageAgregar = new TabPage();
@@ -62,8 +62,8 @@
             roundedButton10 = new Presentacion.Clases.RoundedButton();
             roundedButton11 = new Presentacion.Clases.RoundedButton();
             roundedButton13 = new Presentacion.Clases.RoundedButton();
-            btnCancelarAgregarDemandado = new Presentacion.Clases.RoundedButton();
-            btnGuardarDemandado = new Presentacion.Clases.RoundedButton();
+            btnCancelarAgregarDemandante = new Presentacion.Clases.RoundedButton();
+            btnGuardarDemandante = new Presentacion.Clases.RoundedButton();
             panelInformacionPersonal = new Panel();
             label5 = new Label();
             roundedButton9 = new Presentacion.Clases.RoundedButton();
@@ -81,13 +81,13 @@
             roundedButton5 = new Presentacion.Clases.RoundedButton();
             panel3 = new Panel();
             btnCancelar = new Presentacion.Clases.RoundedButton();
-            btnAgregarDemandado = new Presentacion.Clases.RoundedButton();
+            btnAgregarDemandante = new Presentacion.Clases.RoundedButton();
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
             panel2.SuspendLayout();
             tablessControl1.SuspendLayout();
             tabPageBuscar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgDemandados).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dtgDemandantes).BeginInit();
             tabPageAgregar.SuspendLayout();
             panel4.SuspendLayout();
             panelInformacionPersonal.SuspendLayout();
@@ -165,9 +165,9 @@
             tabPageBuscar.Controls.Add(btnAnterior);
             tabPageBuscar.Controls.Add(lblPagina);
             tabPageBuscar.Controls.Add(labelTotal);
-            tabPageBuscar.Controls.Add(dtgDemandados);
+            tabPageBuscar.Controls.Add(dtgDemandantes);
             tabPageBuscar.Controls.Add(lblNombre);
-            tabPageBuscar.Controls.Add(txtBuscarDemandado);
+            tabPageBuscar.Controls.Add(txtBuscarDemandante);
             tabPageBuscar.Controls.Add(roundedButton3);
             tabPageBuscar.Controls.Add(roundedButton1);
             tabPageBuscar.Location = new Point(4, 24);
@@ -245,19 +245,19 @@
             labelTotal.TabIndex = 12;
             labelTotal.Text = "label2";
             // 
-            // dtgDemandados
+            // dtgDemandantes
             // 
-            dtgDemandados.AllowUserToAddRows = false;
-            dtgDemandados.AllowUserToDeleteRows = false;
-            dtgDemandados.AllowUserToResizeRows = false;
+            dtgDemandantes.AllowUserToAddRows = false;
+            dtgDemandantes.AllowUserToDeleteRows = false;
+            dtgDemandantes.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = Color.FromArgb(249, 247, 242);
-            dtgDemandados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dtgDemandados.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dtgDemandados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgDemandados.BackgroundColor = Color.White;
-            dtgDemandados.BorderStyle = BorderStyle.None;
-            dtgDemandados.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgDemandados.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dtgDemandantes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dtgDemandantes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtgDemandantes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgDemandantes.BackgroundColor = Color.White;
+            dtgDemandantes.BorderStyle = BorderStyle.None;
+            dtgDemandantes.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgDemandantes.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(250, 248, 245);
             dataGridViewCellStyle2.Font = new Font("Microsoft Sans Serif", 8.25F);
@@ -265,14 +265,14 @@
             dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dtgDemandados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dtgDemandados.ColumnHeadersHeight = 40;
-            dtgDemandados.EnableHeadersVisualStyles = false;
-            dtgDemandados.Location = new Point(37, 100);
-            dtgDemandados.MinimumSize = new Size(400, 100);
-            dtgDemandados.MultiSelect = false;
-            dtgDemandados.Name = "dtgDemandados";
-            dtgDemandados.ReadOnly = true;
+            dtgDemandantes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dtgDemandantes.ColumnHeadersHeight = 40;
+            dtgDemandantes.EnableHeadersVisualStyles = false;
+            dtgDemandantes.Location = new Point(37, 100);
+            dtgDemandantes.MinimumSize = new Size(400, 100);
+            dtgDemandantes.MultiSelect = false;
+            dtgDemandantes.Name = "dtgDemandantes";
+            dtgDemandantes.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.White;
             dataGridViewCellStyle3.Font = new Font("Microsoft Sans Serif", 8.25F);
@@ -280,20 +280,20 @@
             dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle3.SelectionForeColor = Color.Black;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dtgDemandados.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dtgDemandados.RowHeadersVisible = false;
+            dtgDemandantes.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dtgDemandantes.RowHeadersVisible = false;
             dataGridViewCellStyle4.BackColor = Color.White;
             dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle4.ForeColor = Color.FromArgb(60, 60, 60);
             dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dtgDemandados.RowsDefaultCellStyle = dataGridViewCellStyle4;
-            dtgDemandados.RowTemplate.Height = 45;
-            dtgDemandados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgDemandados.Size = new Size(611, 215);
-            dtgDemandados.TabIndex = 11;
-            dtgDemandados.CellClick += dtgDemandados_CellClick;
-            dtgDemandados.DataBindingComplete += dtgDemandados_DataBindingComplete;
+            dtgDemandantes.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dtgDemandantes.RowTemplate.Height = 45;
+            dtgDemandantes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgDemandantes.Size = new Size(611, 215);
+            dtgDemandantes.TabIndex = 11;
+            dtgDemandantes.CellClick += dtgDemandantes_CellClick;
+            dtgDemandantes.DataBindingComplete += dtgDemandantes_DataBindingComplete;
             // 
             // lblNombre
             // 
@@ -306,16 +306,16 @@
             lblNombre.TabIndex = 7;
             lblNombre.Text = "Buscar por nombre o dirección";
             // 
-            // txtBuscarDemandado
+            // txtBuscarDemandante
             // 
-            txtBuscarDemandado.BorderStyle = BorderStyle.None;
-            txtBuscarDemandado.Font = new Font("Segoe UI", 9F);
-            txtBuscarDemandado.Location = new Point(61, 38);
-            txtBuscarDemandado.Name = "txtBuscarDemandado";
-            txtBuscarDemandado.PlaceholderText = "...";
-            txtBuscarDemandado.Size = new Size(346, 16);
-            txtBuscarDemandado.TabIndex = 3;
-            txtBuscarDemandado.KeyDown += txtBuscarDemandado_KeyDown;
+            txtBuscarDemandante.BorderStyle = BorderStyle.None;
+            txtBuscarDemandante.Font = new Font("Segoe UI", 9F);
+            txtBuscarDemandante.Location = new Point(61, 38);
+            txtBuscarDemandante.Name = "txtBuscarDemandante";
+            txtBuscarDemandante.PlaceholderText = "...";
+            txtBuscarDemandante.Size = new Size(346, 16);
+            txtBuscarDemandante.TabIndex = 3;
+            txtBuscarDemandante.KeyDown += txtBuscarDemandante_KeyDown;
             // 
             // roundedButton3
             // 
@@ -362,8 +362,8 @@
             tabPageAgregar.AutoScroll = true;
             tabPageAgregar.BackColor = Color.FromArgb(250, 249, 246);
             tabPageAgregar.Controls.Add(panel4);
-            tabPageAgregar.Controls.Add(btnCancelarAgregarDemandado);
-            tabPageAgregar.Controls.Add(btnGuardarDemandado);
+            tabPageAgregar.Controls.Add(btnCancelarAgregarDemandante);
+            tabPageAgregar.Controls.Add(btnGuardarDemandante);
             tabPageAgregar.Controls.Add(panelInformacionPersonal);
             tabPageAgregar.Location = new Point(4, 24);
             tabPageAgregar.Name = "tabPageAgregar";
@@ -557,49 +557,49 @@
             roundedButton13.TextColor = Color.White;
             roundedButton13.UseVisualStyleBackColor = false;
             // 
-            // btnCancelarAgregarDemandado
+            // btnCancelarAgregarDemandante
             // 
-            btnCancelarAgregarDemandado.BackColor = Color.FromArgb(250, 249, 246);
-            btnCancelarAgregarDemandado.BackgroundColor = Color.FromArgb(250, 249, 246);
-            btnCancelarAgregarDemandado.BorderColor = Color.Silver;
-            btnCancelarAgregarDemandado.BorderRadius = 10;
-            btnCancelarAgregarDemandado.BorderSize = 1;
-            btnCancelarAgregarDemandado.FlatAppearance.BorderSize = 0;
-            btnCancelarAgregarDemandado.FlatStyle = FlatStyle.Flat;
-            btnCancelarAgregarDemandado.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            btnCancelarAgregarDemandado.ForeColor = Color.Black;
-            btnCancelarAgregarDemandado.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCancelarAgregarDemandado.Location = new Point(308, 570);
-            btnCancelarAgregarDemandado.Name = "btnCancelarAgregarDemandado";
-            btnCancelarAgregarDemandado.Padding = new Padding(3, 0, 0, 0);
-            btnCancelarAgregarDemandado.Size = new Size(150, 40);
-            btnCancelarAgregarDemandado.TabIndex = 8;
-            btnCancelarAgregarDemandado.Text = "Cancelar";
-            btnCancelarAgregarDemandado.TextColor = Color.Black;
-            btnCancelarAgregarDemandado.UseVisualStyleBackColor = false;
-            btnCancelarAgregarDemandado.Click += roundedButton19_Click;
+            btnCancelarAgregarDemandante.BackColor = Color.FromArgb(250, 249, 246);
+            btnCancelarAgregarDemandante.BackgroundColor = Color.FromArgb(250, 249, 246);
+            btnCancelarAgregarDemandante.BorderColor = Color.Silver;
+            btnCancelarAgregarDemandante.BorderRadius = 10;
+            btnCancelarAgregarDemandante.BorderSize = 1;
+            btnCancelarAgregarDemandante.FlatAppearance.BorderSize = 0;
+            btnCancelarAgregarDemandante.FlatStyle = FlatStyle.Flat;
+            btnCancelarAgregarDemandante.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnCancelarAgregarDemandante.ForeColor = Color.Black;
+            btnCancelarAgregarDemandante.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCancelarAgregarDemandante.Location = new Point(308, 567);
+            btnCancelarAgregarDemandante.Name = "btnCancelarAgregarDemandante";
+            btnCancelarAgregarDemandante.Padding = new Padding(3, 0, 0, 0);
+            btnCancelarAgregarDemandante.Size = new Size(150, 40);
+            btnCancelarAgregarDemandante.TabIndex = 8;
+            btnCancelarAgregarDemandante.Text = "Cancelar";
+            btnCancelarAgregarDemandante.TextColor = Color.Black;
+            btnCancelarAgregarDemandante.UseVisualStyleBackColor = false;
+            btnCancelarAgregarDemandante.Click += roundedButton19_Click;
             // 
-            // btnGuardarDemandado
+            // btnGuardarDemandante
             // 
-            btnGuardarDemandado.BackColor = Color.FromArgb(194, 160, 91);
-            btnGuardarDemandado.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnGuardarDemandado.BorderColor = Color.Empty;
-            btnGuardarDemandado.BorderRadius = 10;
-            btnGuardarDemandado.BorderSize = 1;
-            btnGuardarDemandado.FlatAppearance.BorderSize = 0;
-            btnGuardarDemandado.FlatStyle = FlatStyle.Flat;
-            btnGuardarDemandado.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            btnGuardarDemandado.ForeColor = Color.White;
-            btnGuardarDemandado.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGuardarDemandado.Location = new Point(491, 570);
-            btnGuardarDemandado.Name = "btnGuardarDemandado";
-            btnGuardarDemandado.Padding = new Padding(3, 0, 0, 0);
-            btnGuardarDemandado.Size = new Size(150, 40);
-            btnGuardarDemandado.TabIndex = 7;
-            btnGuardarDemandado.Text = "Guardar";
-            btnGuardarDemandado.TextColor = Color.White;
-            btnGuardarDemandado.UseVisualStyleBackColor = false;
-            btnGuardarDemandado.Click += btnGuardarDemandado_Click;
+            btnGuardarDemandante.BackColor = Color.FromArgb(194, 160, 91);
+            btnGuardarDemandante.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnGuardarDemandante.BorderColor = Color.Empty;
+            btnGuardarDemandante.BorderRadius = 10;
+            btnGuardarDemandante.BorderSize = 1;
+            btnGuardarDemandante.FlatAppearance.BorderSize = 0;
+            btnGuardarDemandante.FlatStyle = FlatStyle.Flat;
+            btnGuardarDemandante.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnGuardarDemandante.ForeColor = Color.White;
+            btnGuardarDemandante.ImageAlign = ContentAlignment.MiddleLeft;
+            btnGuardarDemandante.Location = new Point(491, 567);
+            btnGuardarDemandante.Name = "btnGuardarDemandante";
+            btnGuardarDemandante.Padding = new Padding(3, 0, 0, 0);
+            btnGuardarDemandante.Size = new Size(150, 40);
+            btnGuardarDemandante.TabIndex = 7;
+            btnGuardarDemandante.Text = "Guardar";
+            btnGuardarDemandante.TextColor = Color.White;
+            btnGuardarDemandante.UseVisualStyleBackColor = false;
+            btnGuardarDemandante.Click += btnGuardarDemandante_Click;
             // 
             // panelInformacionPersonal
             // 
@@ -835,7 +835,7 @@
             // panel3
             // 
             panel3.Controls.Add(btnCancelar);
-            panel3.Controls.Add(btnAgregarDemandado);
+            panel3.Controls.Add(btnAgregarDemandante);
             panel3.Dock = DockStyle.Bottom;
             panel3.Location = new Point(0, 478);
             panel3.Name = "panel3";
@@ -865,33 +865,33 @@
             btnCancelar.UseVisualStyleBackColor = false;
             btnCancelar.Click += btnCancelar_Click;
             // 
-            // btnAgregarDemandado
+            // btnAgregarDemandante
             // 
-            btnAgregarDemandado.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAgregarDemandado.BackColor = Color.FromArgb(52, 109, 235);
-            btnAgregarDemandado.BackgroundColor = Color.FromArgb(52, 109, 235);
-            btnAgregarDemandado.BorderColor = Color.Empty;
-            btnAgregarDemandado.BorderRadius = 10;
-            btnAgregarDemandado.BorderSize = 1;
-            btnAgregarDemandado.FlatAppearance.BorderSize = 0;
-            btnAgregarDemandado.FlatStyle = FlatStyle.Flat;
-            btnAgregarDemandado.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            btnAgregarDemandado.ForeColor = Color.White;
-            btnAgregarDemandado.Image = Properties.Resources.boton_agregar;
-            btnAgregarDemandado.ImageAlign = ContentAlignment.MiddleRight;
-            btnAgregarDemandado.Location = new Point(511, 11);
-            btnAgregarDemandado.Name = "btnAgregarDemandado";
-            btnAgregarDemandado.Padding = new Padding(3, 0, 0, 0);
-            btnAgregarDemandado.Size = new Size(150, 40);
-            btnAgregarDemandado.TabIndex = 5;
-            btnAgregarDemandado.Text = "Agregar";
-            btnAgregarDemandado.TextAlign = ContentAlignment.MiddleLeft;
-            btnAgregarDemandado.TextColor = Color.White;
-            btnAgregarDemandado.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnAgregarDemandado.UseVisualStyleBackColor = false;
-            btnAgregarDemandado.Click += btnAgregarDemandado_Click;
+            btnAgregarDemandante.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarDemandante.BackColor = Color.FromArgb(52, 109, 235);
+            btnAgregarDemandante.BackgroundColor = Color.FromArgb(52, 109, 235);
+            btnAgregarDemandante.BorderColor = Color.Empty;
+            btnAgregarDemandante.BorderRadius = 10;
+            btnAgregarDemandante.BorderSize = 1;
+            btnAgregarDemandante.FlatAppearance.BorderSize = 0;
+            btnAgregarDemandante.FlatStyle = FlatStyle.Flat;
+            btnAgregarDemandante.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnAgregarDemandante.ForeColor = Color.White;
+            btnAgregarDemandante.Image = Properties.Resources.boton_agregar;
+            btnAgregarDemandante.ImageAlign = ContentAlignment.MiddleRight;
+            btnAgregarDemandante.Location = new Point(511, 11);
+            btnAgregarDemandante.Name = "btnAgregarDemandante";
+            btnAgregarDemandante.Padding = new Padding(3, 0, 0, 0);
+            btnAgregarDemandante.Size = new Size(150, 40);
+            btnAgregarDemandante.TabIndex = 5;
+            btnAgregarDemandante.Text = "Agregar";
+            btnAgregarDemandante.TextAlign = ContentAlignment.MiddleLeft;
+            btnAgregarDemandante.TextColor = Color.White;
+            btnAgregarDemandante.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnAgregarDemandante.UseVisualStyleBackColor = false;
+            btnAgregarDemandante.Click += btnAgregarDemante_Click;
             // 
-            // FrmAgregarDemandado
+            // FrmAgregarDemandante
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -901,9 +901,9 @@
             Controls.Add(panel1);
             Controls.Add(panel3);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "FrmAgregarDemandado";
-            Text = "Agregar Demandado";
-            Load += FrmAgregarDemandado_Load;
+            Name = "FrmAgregarDemandante";
+            Text = "Agregar Demandante";
+            Load += FrmAgregarDemandante_Load;
             panel1.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
@@ -911,7 +911,7 @@
             tablessControl1.ResumeLayout(false);
             tabPageBuscar.ResumeLayout(false);
             tabPageBuscar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgDemandados).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dtgDemandantes).EndInit();
             tabPageAgregar.ResumeLayout(false);
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
@@ -932,13 +932,13 @@
         private RadioButton radioButtonAgregar;
         private RadioButton radioButtonBuscar;
         private Label lblNombre;
-        private TextBox txtBuscarDemandado;
+        private TextBox txtBuscarDemandante;
         private Clases.RoundedButton roundedButton3;
         private Clases.RoundedButton roundedButton1;
-        private DataGridView dtgDemandados;
+        private DataGridView dtgDemandantes;
         private Panel panel3;
         private Clases.RoundedButton btnCancelar;
-        private Clases.RoundedButton btnAgregarDemandado;
+        private Clases.RoundedButton btnAgregarDemandante;
         private Panel panelInformacionPersonal;
         private Label label5;
         private Clases.RoundedButton roundedButton9;
@@ -954,8 +954,8 @@
         private Clases.RoundedButton roundedButton2;
         private Clases.RoundedButton roundedButton6;
         private Clases.RoundedButton roundedButton5;
-        private Clases.RoundedButton btnCancelarAgregarDemandado;
-        private Clases.RoundedButton btnGuardarDemandado;
+        private Clases.RoundedButton btnCancelarAgregarDemandante;
+        private Clases.RoundedButton btnGuardarDemandante;
         private Panel panel4;
         private Label label3;
         private TextBox txtTelefonoA;

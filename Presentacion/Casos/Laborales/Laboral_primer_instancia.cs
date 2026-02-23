@@ -5,7 +5,9 @@ using Comun.Models;
 using Dominio.Entidades;
 using Presentacion.Casos.Estados;
 using Presentacion.Casos.Participantes;
+using System.ComponentModel;
 using System.Data;
+using System.Windows.Forms;
 
 namespace Presentacion.Casos.Laborales
 {
@@ -19,7 +21,14 @@ namespace Presentacion.Casos.Laborales
         private int _idTerceroInteresadoEditar;
         CasosLaboralesModel casoLaboralMode = new CasosLaboralesModel();
         TerceroInteresadoModel terceroInteresadoModel = new TerceroInteresadoModel();
-
+        private BindingList<PersonaListDataResponse> listaDemandados
+        = new BindingList<PersonaListDataResponse>();
+        private BindingList<PersonaListDataResponse> listaDemandantes
+        = new BindingList<PersonaListDataResponse>();
+        private BindingList<PersonaListDataResponse> listaTercerosInteresados
+        = new BindingList<PersonaListDataResponse>();
+        private BindingList<PersonaListDataResponse> listaContactosEmpresa
+        = new BindingList<PersonaListDataResponse>();
         public Laboral_primer_instancia()
         {
             InitializeComponent();
@@ -34,6 +43,7 @@ namespace Presentacion.Casos.Laborales
             comboboxNotificador.Text = "";
             txtJuzgado.Text = "";
             txtNombreParticular.Text = "";
+            LimpiarDemandados();
         }
 
 
@@ -79,7 +89,7 @@ namespace Presentacion.Casos.Laborales
             if (tabControl1.TabPages.Contains(nombre))
             {
                 tabControl1.TabPages.Remove(nombre);
-                dtgTercerosInteresados.ClearSelection();
+                dtgCasosLaborales.ClearSelection();
             }
         }
         private void AnadirTabPage(TabPage nombre)
@@ -154,7 +164,7 @@ namespace Presentacion.Casos.Laborales
         private void btnAdd_Click(object sender, EventArgs e)
         {
             lblTitulo.Text = "Nuevo Tercero Interesado";
-            btnGuardarUsuario.Text = "Guardar";
+            btnGuardarCaso.Text = "Guardar";
             LimpiarFormulario();
             AnadirTabPage(Detalles);
             EliminarTabPage(Listar);
@@ -173,7 +183,7 @@ namespace Presentacion.Casos.Laborales
             {
                 // Asignar los datos al BindingSource
                 bsTercerosInteresados.DataSource = response.data;
-                dtgTercerosInteresados.Refresh();
+                dtgCasosLaborales.Refresh();
                 // Actualizar paginación
                 totalRegistros = response.total;
                 labelTotal.Text = $"Total de casos laborales: {totalRegistros}";
@@ -185,33 +195,211 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
+        private void alistarListaDemandados()
+        {
+            dtgDemandados.DataSource = listaDemandados;
 
+            dtgDemandados.AllowUserToAddRows = false;
+            dtgDemandados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgDemandados.DataSource = listaDemandados;
+
+            listaDemandados.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewDemandados();
+            };
+
+            CrearBotonQuitarDemandado();
+            dtgDemandados.CellClick -= dtgDemandados_CellClick;
+            dtgDemandados.CellClick += dtgDemandados_CellClick;
+        }
+        private void alistarListaDemandantes()
+        {
+            dtgDemandantes.DataSource = listaDemandantes;
+
+            dtgDemandantes.AllowUserToAddRows = false;
+            dtgDemandantes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgDemandantes.DataSource = listaDemandantes;
+
+            listaDemandantes.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewDemandantes();
+            };
+
+            CrearBotonQuitarDemandante();
+            dtgDemandantes.CellClick -= dtgDemandantes_CellClick;
+            dtgDemandantes.CellClick += dtgDemandantes_CellClick;
+        }
+
+        private void alistarListaTercerosInteresados()
+        {
+            dtgTercerosInteresados.DataSource = listaTercerosInteresados;
+
+            dtgTercerosInteresados.AllowUserToAddRows = false;
+            dtgTercerosInteresados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgTercerosInteresados.DataSource = listaTercerosInteresados;
+
+            listaTercerosInteresados.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewTercerosInteresados();
+            };
+
+            CrearBotonQuitarTerceroInteresado();
+            dtgTercerosInteresados.CellClick -= dtgPartesInteresadas_CellClick;
+            dtgTercerosInteresados.CellClick += dtgPartesInteresadas_CellClick;
+        }
+        private void alistarListaContactosEmpresa()
+        {
+            dtgContactoEmpresa.DataSource = listaContactosEmpresa;
+
+            dtgContactoEmpresa.AllowUserToAddRows = false;
+            dtgContactoEmpresa.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgContactoEmpresa.DataSource = listaContactosEmpresa;
+
+            listaContactosEmpresa.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewContactosEmpresa();
+            };
+
+            CrearBotonQuitarContactoEmpresa();
+            dtgContactoEmpresa.CellClick -= dtgContactoEmpresa_CellClick;
+            dtgContactoEmpresa.CellClick += dtgContactoEmpresa_CellClick;
+        }
+        private void CrearBotonQuitarDemandado()
+        {
+            if (!dtgDemandados.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgDemandados.Columns.Add(btnQuitar);
+                dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+            }
+        }
+
+        private void CrearBotonQuitarDemandante()
+        {
+            if (!dtgDemandantes.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgDemandantes.Columns.Add(btnQuitar);
+                dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+            }
+        }
+        private void CrearBotonQuitarTerceroInteresado()
+        {
+            if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgTercerosInteresados.Columns.Add(btnQuitar);
+                dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+            }
+        }
+
+        private void CrearBotonQuitarContactoEmpresa()
+        {
+            if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgContactoEmpresa.Columns.Add(btnQuitar);
+                dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+            }
+        }
         private async void Laboral_primer_instancia_Load(object sender, EventArgs e)
         {
 
             // Asignar BindingSource al DataGridView
-            dtgTercerosInteresados.DataSource = bsTercerosInteresados;
+            dtgCasosLaborales.DataSource = bsTercerosInteresados;
 
             // Cargar Demandados
             await CargarCasos();
 
-            dtgTercerosInteresados.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            dtgTercerosInteresados.Columns["Editar"].Width = 40;
-            dtgTercerosInteresados.Columns["Eliminar"].Width = 40;
+            dtgCasosLaborales.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            dtgCasosLaborales.Columns["Editar"].Width = 40;
+            dtgCasosLaborales.Columns["Eliminar"].Width = 40;
 
             EliminarTabPage(Detalles);
 
+            alistarListaDemandantes();
+            alistarListaDemandados();
+            alistarListaTercerosInteresados();
+            alistarListaContactosEmpresa();
+
+            //prueba
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.WrapContents = false;
+            flowLayoutPanel1.AutoScroll = true; // para que aparezca scroll si se pasa del alto visible
+
+            panelDemandados.AutoSize = true;
+            panelDemandados.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelDemandantes.AutoSize = true;
+            panelDemandantes.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelTercerosInteresados.AutoSize = true;
+            panelTercerosInteresados.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelContactosEmpresas.AutoSize = true;
+            panelContactosEmpresas.AutoSizeMode= AutoSizeMode.GrowAndShrink;
+
+            this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
         }
 
-        private void dtgTercerosInteresados_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+
+        private void dtgCasosLaborales_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dtgTercerosInteresados.Columns[e.ColumnIndex].Name == "Nombre" && e.Value != null)
+            if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Nombre" && e.Value != null)
             {
                 string nombres = e.Value.ToString();
                 string[] partes = nombres.Split(' ');
                 string iniciales = string.Join("", partes.Select(p => p[0])).ToUpper();
                 // Puedes agregarlo como tooltip o columna extra
-                dtgTercerosInteresados.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = iniciales;
+                dtgCasosLaborales.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = iniciales;
             }
         }
 
@@ -235,22 +423,22 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private void dtgTercerosInteresados_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void dtgCasosLaborales_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // Oculta la columna 'id'
-            if (dtgTercerosInteresados.Columns["id"] != null)
+            if (dtgCasosLaborales.Columns["id"] != null)
             {
-                dtgTercerosInteresados.Columns["id"].Visible = false;
+                dtgCasosLaborales.Columns["id"].Visible = false;
             }
 
             // Oculta la columna 'id'
-            if (dtgTercerosInteresados.Columns["id_rol"] != null)
+            if (dtgCasosLaborales.Columns["id_rol"] != null)
             {
-                dtgTercerosInteresados.Columns["id_rol"].Visible = false;
+                dtgCasosLaborales.Columns["id_rol"].Visible = false;
             }
 
-            CrearBotonesAccion(dtgTercerosInteresados);
-            dtgTercerosInteresados.ClearSelection();
+            CrearBotonesAccion(dtgCasosLaborales);
+            dtgCasosLaborales.ClearSelection();
         }
 
 
@@ -267,7 +455,7 @@ namespace Presentacion.Casos.Laborales
             if (resultado.success)
             {
                 bsTercerosInteresados.DataSource = resultado.data;
-                dtgTercerosInteresados.Refresh();
+                dtgCasosLaborales.Refresh();
                 labelTotal.Text = $"Total de Terceros Interesados: {resultado.totalRegistros}";
                 lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)totalRegistros / registrosPorPagina)}";
             }
@@ -376,15 +564,15 @@ namespace Presentacion.Casos.Laborales
         }
 
 
-        private async void dtgTercerosInteresados_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dtgCasosLaborales_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
             if (e.RowIndex < 0) return;
 
-            if (dtgTercerosInteresados.Columns[e.ColumnIndex].Name == "Eliminar")
+            if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Eliminar")
             {
-                int idTerceroInteresado = Convert.ToInt32(dtgTercerosInteresados.Rows[e.RowIndex].Cells["id"].Value);
-                string? terceroInteresado = Convert.ToString(dtgTercerosInteresados.Rows[e.RowIndex].Cells["nombre"].Value);
+                int idTerceroInteresado = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
+                string? terceroInteresado = Convert.ToString(dtgCasosLaborales.Rows[e.RowIndex].Cells["nombre"].Value);
                 var confirm = MessageBox.Show(
                     "¿Seguro que deseas eliminar a la persona " + terceroInteresado + "?",
                     "Confirmar",
@@ -409,11 +597,11 @@ namespace Presentacion.Casos.Laborales
                 }
             }
 
-            if (dtgTercerosInteresados.Columns[e.ColumnIndex].Name == "Editar")
+            if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Editar")
             {
-                btnGuardarUsuario.Text = "Actualizar";
+                btnGuardarCaso.Text = "Actualizar";
                 lblTitulo.Text = "Editar Tercero Interesado";
-                int idPersona = Convert.ToInt32(dtgTercerosInteresados.Rows[e.RowIndex].Cells["id"].Value);
+                int idPersona = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
                 _idTerceroInteresadoEditar = idPersona;
                 await CargarDatosPersona(idPersona);
             }
@@ -433,6 +621,7 @@ namespace Presentacion.Casos.Laborales
         private void Laboral_primer_instancia_Resize_1(object sender, EventArgs e)
         {
             CentrarPanel();
+            this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
         }
 
         private void btnAgregarEstado_Click(object sender, EventArgs e)
@@ -473,13 +662,322 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAgregarDemandantes_Click(object sender, EventArgs e)
         {
-            
+            var frm = new FrmAgregarDemandante(listaDemandantes);
+
+            frm.Show(); // ← NO modal
         }
 
+        private void AjustarLayoutPorResolucion()
+        {
+            int w = flowLayoutPanel1.ClientSize.Width;
+            if (w <= 50) return; // evita cálculos raros cuando aún no está dibujado
+
+            int padding = flowLayoutPanel1.Padding.Left + flowLayoutPanel1.Padding.Right;
+
+            bool pantallaGrande = w >= 1200;
+
+            if (pantallaGrande)
+            {
+                flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
+                flowLayoutPanel1.WrapContents = true;
+
+                int cols = 2;
+                int anchoPanel = ((w - padding) / cols) - 12;
+
+                foreach (Control c in flowLayoutPanel1.Controls)
+                {
+                    if (c is Panel p)
+                    {
+                        // NO tocamos AutoSize aquí
+                        p.MinimumSize = new Size(anchoPanel, p.MinimumSize.Height);
+                        p.MaximumSize = new Size(anchoPanel, 0); // 0 = sin límite de alto
+                        p.Width = anchoPanel;
+                    }
+                }
+            }
+            else
+            {
+                flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+                flowLayoutPanel1.WrapContents = false;
+
+                int anchoPanel = (w - padding) - 12;
+
+                foreach (Control c in flowLayoutPanel1.Controls)
+                {
+                    if (c is Panel p)
+                    {
+                        // NO tocamos AutoSize aquí
+                        p.MinimumSize = new Size(anchoPanel, p.MinimumSize.Height);
+                        p.MaximumSize = new Size(anchoPanel, 0);
+                        p.Width = anchoPanel;
+                    }
+                }
+            }
+
+            flowLayoutPanel1.PerformLayout();
+        }
+        private void AjustarAlturaDataGridViewDemandados()
+        {
+            dtgDemandados.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgDemandados.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgDemandados.ColumnHeadersHeight;
+
+            dtgDemandados.Height = alturaFilas + alturaHeaders + 22;
+
+            // Opcional: evitar scroll interno del grid si quieres que siempre se vea todo
+            dtgDemandados.ScrollBars = ScrollBars.None;
+
+            // Fuerza a recalcular layouts del panel y del flow
+            panelDemandados.PerformLayout();
+            flowLayoutPanel1.PerformLayout();
+        }
+        private void AjustarAlturaDataGridViewDemandantes()
+        {
+            dtgDemandantes.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgDemandantes.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgDemandantes.ColumnHeadersHeight;
+
+            dtgDemandantes.Height = alturaFilas + alturaHeaders + 22;
+
+            // Opcional: evitar scroll interno del grid si quieres que siempre se vea todo
+            dtgDemandantes.ScrollBars = ScrollBars.None;
+
+            // Fuerza a recalcular layouts del panel y del flow
+            dtgDemandantes.PerformLayout();
+            flowLayoutPanel1.PerformLayout();
+        }
+
+        private void AjustarAlturaDataGridViewTercerosInteresados()
+        {
+            dtgTercerosInteresados.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgTercerosInteresados.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgTercerosInteresados.ColumnHeadersHeight;
+
+            dtgTercerosInteresados.Height = alturaFilas + alturaHeaders + 22;
+
+            // Opcional: evitar scroll interno del grid si quieres que siempre se vea todo
+            dtgTercerosInteresados.ScrollBars = ScrollBars.None;
+
+            // Fuerza a recalcular layouts del panel y del flow
+            dtgTercerosInteresados.PerformLayout();
+            flowLayoutPanel1.PerformLayout();
+        }
+
+        private void AjustarAlturaDataGridViewContactosEmpresa()
+        {
+            dtgContactoEmpresa.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgContactoEmpresa.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgContactoEmpresa.ColumnHeadersHeight;
+
+            dtgContactoEmpresa.Height = alturaFilas + alturaHeaders + 22;
+
+            // Opcional: evitar scroll interno del grid si quieres que siempre se vea todo
+            dtgContactoEmpresa.ScrollBars = ScrollBars.None;
+
+            // Fuerza a recalcular layouts del panel y del flow
+            dtgContactoEmpresa.PerformLayout();
+            flowLayoutPanel1.PerformLayout();
+        }
         private void btnAgregarDemandados_Click(object sender, EventArgs e)
         {
-            FrmAgregarDemandado frmDemandado = new FrmAgregarDemandado();
-            frmDemandado.ShowDialog();
+            // Agregar demandado
+            var frm = new FrmAgregarDemandado(listaDemandados);
+
+            frm.Show(); // ← NO modal
+
+        }
+
+        private void dtgDemandados_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgDemandados.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgDemandados.Rows[e.RowIndex].DataBoundItem as PersonaListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombre ?? "este demandado";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de demandados?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaDemandados.Remove(item); // ✅ aquí se quita
+                                                  // tu ListChanged ya llama AjustarAlturaDataGridViewDemandados()
+                }
+            }
+        }
+        private void LimpiarDemandados()
+        {
+            if (listaDemandados.Count == 0) return;
+
+            listaDemandados.Clear(); // 🔥 limpia todo
+        }
+        private void dtgDemandados_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            // Oculta la columna 'id'
+            if (dtgDemandados.Columns["id"] != null)
+            {
+                dtgDemandados.Columns["id"].Visible = false;
+            }
+
+            // Oculta la columna 'id'
+            if (dtgDemandados.Columns["id_rol"] != null)
+            {
+                dtgDemandados.Columns["id_rol"].Visible = false;
+            }
+
+            dtgDemandados.ClearSelection();
+        }
+
+        private void dtgDemandantes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgDemandantes.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgDemandantes.Rows[e.RowIndex].DataBoundItem as PersonaListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombre ?? "este demandante";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de demandantes?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaDemandantes.Remove(item); // ✅ aquí se quita
+                                                   // tu ListChanged ya llama AjustarAlturaDataGridViewDemandados()
+                }
+            }
+        }
+
+        private void dtgDemandantes_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            // Oculta la columna 'id'
+            if (dtgDemandantes.Columns["id"] != null)
+            {
+                dtgDemandantes.Columns["id"].Visible = false;
+            }
+
+            // Oculta la columna 'id'
+            if (dtgDemandantes.Columns["id_rol"] != null)
+            {
+                dtgDemandantes.Columns["id_rol"].Visible = false;
+            }
+
+            dtgDemandantes.ClearSelection();
+        }
+
+        private void btnAgregarPartesInteresadas_Click(object sender, EventArgs e)
+        {
+            // Agregar demandado
+            var frm = new FrmAgregarTerceroInteresado(listaTercerosInteresados);
+
+            frm.Show(); // ← NO modal
+        }
+
+        private void dtgPartesInteresadas_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgTercerosInteresados.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgTercerosInteresados.Rows[e.RowIndex].DataBoundItem as PersonaListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombre ?? "este tercero interesado";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de terceros interesados?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaTercerosInteresados.Remove(item); // ✅ aquí se quita
+                                                           // tu ListChanged ya llama AjustarAlturaDataGridViewDemandados()
+                }
+            }
+        }
+
+        private void dtgPartesInteresadas_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            // Oculta la columna 'id'
+            if (dtgTercerosInteresados.Columns["id"] != null)
+            {
+                dtgTercerosInteresados.Columns["id"].Visible = false;
+            }
+
+            // Oculta la columna 'id'
+            if (dtgTercerosInteresados.Columns["id_rol"] != null)
+            {
+                dtgTercerosInteresados.Columns["id_rol"].Visible = false;
+            }
+
+            dtgTercerosInteresados.ClearSelection();
+        }
+
+        private void btnAgregarContactoEmpresa_Click(object sender, EventArgs e)
+        {
+            // Agregar demandado
+            var frm = new FrmAgregarContactoEmpresa(listaContactosEmpresa);
+
+            frm.Show(); // ← NO modal
+        }
+
+        private void dtgContactoEmpresa_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgContactoEmpresa.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgContactoEmpresa.Rows[e.RowIndex].DataBoundItem as PersonaListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombre ?? "este contacto de empresa";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de contactos de empresa?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaContactosEmpresa.Remove(item); // ✅ aquí se quita
+                                                        // tu ListChanged ya llama AjustarAlturaDataGridViewDemandados()
+                }
+            }
+        }
+
+        private void dtgContactoEmpresa_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            // Oculta la columna 'id'
+            if (dtgContactoEmpresa.Columns["id"] != null)
+            {
+                dtgContactoEmpresa.Columns["id"].Visible = false;
+            }
+
+            // Oculta la columna 'id'
+            if (dtgContactoEmpresa.Columns["id_rol"] != null)
+            {
+                dtgContactoEmpresa.Columns["id_rol"].Visible = false;
+            }
+
+            dtgContactoEmpresa.ClearSelection();
         }
     }
 }
