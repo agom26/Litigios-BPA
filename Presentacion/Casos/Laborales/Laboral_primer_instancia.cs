@@ -4,23 +4,28 @@ using Comun.DatosParaInterfaz;
 using Comun.Models;
 using Comun.Models.Casos.Laborales;
 using Dominio.Entidades;
+using Newtonsoft.Json;
 using Presentacion.Casos.Abogados_asignados;
 using Presentacion.Casos.Estados;
 using Presentacion.Casos.Participantes;
+using Presentacion.Personas;
 using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
+using static System.Net.WebRequestMethods;
 
 namespace Presentacion.Casos.Laborales
 {
     public partial class Laboral_primer_instancia : Form
     {
+        private bool _huboCambioEstado = false;
+        private bool _actualizandoCaso = false;
 
         private int paginaActual = 1;
         private int registrosPorPagina = 10;
         private int totalRegistros = 0;
         private BindingSource bsTercerosInteresados = new BindingSource();
-        private int _idTerceroInteresadoEditar;
+        private int _idCasoEditar;
         CasosLaboralesModel casoLaboralModel = new CasosLaboralesModel();
         TerceroInteresadoModel terceroInteresadoModel = new TerceroInteresadoModel();
         private BindingList<PersonaListDataResponse> listaDemandados
@@ -46,50 +51,121 @@ namespace Presentacion.Casos.Laborales
         private void LimpiarFormulario()
         {
             txtExpediente.Text = "";
-            txtJuzgado.Text = "";
+            comboBoxJuzgado.Text = "";
             comboboxOficial.Text = "";
             txtNombreParticular.Text = "";
             comboboxNotificador.Text = "";
-            txtJuzgado.Text = "";
             txtNombreParticular.Text = "";
             LimpiarListas();
         }
 
-        private async Task CargarDatosPersona(int idPersona)
+        private async Task CargarDatosCaso(int idCaso)
         {
-            var persona = await terceroInteresadoModel.ObtenerDetallesTerceroInteresadoPorId(idPersona);
 
-            if (persona.success && persona.data != null)
+
+            int idUsuario = UserSession.Id;
+            var resp = await casoLaboralModel.ObtenerCasoLaboralPorId(idUsuario, idCaso);
+
+            if (!resp.success || resp.data == null)
             {
-                txtExpediente.Text = persona.data.nombre.ToString();
-                txtJuzgado.Text = persona.data.direccion.ToString();
-                txtNombreParticular.Text = persona.data.telefono ?? "";
-                comboboxOficial.Text = persona.data.correo ?? "";
-
-
-                var datosAbogado = persona.data.abogado;
-
-                if (datosAbogado != null)
-                {
-                    comboboxNotificador.Text = datosAbogado.nombre ?? "";
-                    txtNombreParticular.Text = datosAbogado.correo ?? "";
-                    txtJuzgado.Text = datosAbogado.telefono ?? "";
-                }
-                else
-                {
-                    comboboxNotificador.Text = "";
-                    txtNombreParticular.Text = "";
-                    txtJuzgado.Text = "";
-                }
-
-                AnadirTabPage(Detalles);
-                EliminarTabPage(Listar);
-            }
-            else
-            {
-                MessageBox.Show(persona.message);
+                MessageBox.Show(resp.message ?? "No se pudo cargar el caso");
+                return;
             }
 
+            var data = resp.data;
+
+            // 1) Inputs principales del caso
+            var caso = data.caso;
+            if (caso != null)
+            {
+                txtExpediente.Text = caso.expediente ?? "";
+                comboBoxJuzgado.Text = caso.juzgado ?? "";
+                comboboxOficial.Text = caso.oficial ?? "";
+                comboboxNotificador.Text = caso.notificador ?? "";
+                txtNombreParticular.Text = caso.nombre_particular ?? "";
+                // si tienes estado/observaciones en textbox:
+                txtEstado.Text = caso.estado ?? "";
+                txtObservaciones.Text = caso.observaciones ?? "";
+            }
+
+            // 2) Ultimo historial (si quieres priorizarlo sobre caso.estado/observaciones)
+            if (data.ultimo_historial != null)
+            {
+                txtEstado.Text = data.ultimo_historial.estado ?? txtEstado.Text;
+                txtObservaciones.Text = data.ultimo_historial.anotaciones ?? txtObservaciones.Text;
+                // fecha vencimiento si tienes control:
+                // txtFechaVencimiento.Text = data.ultimo_historial.fecha_vencimiento ?? "";
+            }
+
+            // 3) Limpiar listas actuales
+            LimpiarListas();
+
+            // 4) Personas por rol -> tus BindingList<PersonaListDataResponse>
+            var p = data.personas_por_rol ?? new Dictionary<string, List<PersonaMiniDto>>();
+
+            MapPersonas(p, "Demandante", listaDemandantes);
+            MapPersonas(p, "Demandado", listaDemandados);
+            MapPersonas(p, "Tercero Interesado", listaTercerosInteresados);
+            MapPersonas(p, "Contacto de Empresa", listaContactosEmpresa);
+
+            // 5) Usuarios por rol -> tus BindingList<UserListDataResponse>
+            var u = data.usuarios_por_rol ?? new Dictionary<string, List<UsuarioMiniDto>>();
+
+            MapUsuarios(u, "Abogado Director", listaAbogadosDirectores);
+            MapUsuarios(u, "Socio Responsable", listaSociosResponsables);
+            MapUsuarios(u, "Abogado Asistente", listaAbogadosAsistentes);
+
+            // 6) refrescar grids
+            dtgDemandantes.Refresh();
+            dtgDemandados.Refresh();
+            dtgTercerosInteresados.Refresh();
+            dtgContactoEmpresa.Refresh();
+
+            dtgAbogadosDirectores.Refresh();
+            dtgSociosResponsables.Refresh();
+            dtgAbogadosAsistentes.Refresh();
+
+            // 7) Ir al tab Detalles
+            AnadirTabPage(Detalles);
+            EliminarTabPage(Listar);
+            btnGuardarCaso.Visible = false;
+            btnEditarCaso.Visible = true;
+        }
+
+        // Helpers de mapeo
+        private void MapPersonas(
+            Dictionary<string, List<PersonaMiniDto>> dict,
+            string rol,
+            BindingList<PersonaListDataResponse> target)
+        {
+            if (!dict.TryGetValue(rol, out var items) || items == null) return;
+
+            foreach (var it in items)
+            {
+                target.Add(new PersonaListDataResponse
+                {
+                    id = it.id,
+                    Nombre = it.nombre
+                });
+            }
+        }
+
+        private void MapUsuarios(
+            Dictionary<string, List<UsuarioMiniDto>> dict,
+            string rol,
+            BindingList<UserListDataResponse> target)
+        {
+            if (!dict.TryGetValue(rol, out var items) || items == null) return;
+
+            foreach (var it in items)
+            {
+                target.Add(new UserListDataResponse
+                {
+                    id = it.id,
+                    Nombres = it.nombres,
+                    Apellidos = it.apellidos
+                });
+            }
         }
 
         private void EliminarTabPage(TabPage nombre)
@@ -171,11 +247,13 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            lblTitulo.Text = "Nuevo Tercero Interesado";
+            lblTitulo.Text = "Nuevo Caso Laboral";
             btnGuardarCaso.Text = "Guardar";
             LimpiarFormulario();
             AnadirTabPage(Detalles);
             EliminarTabPage(Listar);
+            btnGuardarCaso.Visible = true;
+            btnEditarCaso.Visible = false;
         }
 
         private async Task CargarCasos()
@@ -611,41 +689,12 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private async Task ActualizarTerceroInteresado()
-        {
-            var resultado = await terceroInteresadoModel.EditarTerceroInteresado(
-                _idTerceroInteresadoEditar,
-                txtExpediente.Text,
-                txtJuzgado.Text,
-                comboboxOficial.Text,
-                txtNombreParticular.Text,
-                txtJuzgado.Text,
-                txtNombreParticular.Text,
-                txtEstado.Text
-            );
-
-            if (resultado.success)
-            {
-                MessageBox.Show("Datos del tercero interesado actualizados correctamente",
-                    "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await CargarCasos();
-                LimpiarFormulario();
-                AnadirTabPage(Listar);
-                EliminarTabPage(Detalles);
-            }
-            else
-            {
-                MessageBox.Show("Error: " + resultado.message
-                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private async Task GuardarCaso()
         {
             var req = new CrearCasoLaboralRequest
             {
                 Expediente = txtExpediente.Text,
-                Juzgado = txtJuzgado.Text,
+                Juzgado = comboBoxJuzgado.Text,
                 Oficial = comboboxOficial.Text,
                 Notificador = comboboxNotificador.Text,
                 NombreParticular = txtNombreParticular.Text,
@@ -733,10 +782,12 @@ namespace Presentacion.Casos.Laborales
             if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Editar")
             {
                 btnGuardarCaso.Text = "Actualizar";
-                lblTitulo.Text = "Editar Tercero Interesado";
-                int idPersona = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
-                _idTerceroInteresadoEditar = idPersona;
-                await CargarDatosPersona(idPersona);
+                lblTitulo.Text = "Editar Caso Laboral";
+                int idCaso = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
+                _idCasoEditar = idCaso;
+                _actualizandoCaso = true;
+                await CargarDatosCaso(idCaso);
+                _huboCambioEstado = false;
             }
 
         }
@@ -755,7 +806,7 @@ namespace Presentacion.Casos.Laborales
         {
             CentrarPanel();
             //this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
-           // MessageBox.Show("ancho flow  " + flowLayoutPanel1.ClientSize.Width);
+            // MessageBox.Show("ancho flow  " + flowLayoutPanel1.ClientSize.Width);
 
         }
 
@@ -766,6 +817,7 @@ namespace Presentacion.Casos.Laborales
 
             if (EstadoLaboral.estado != null)
             {
+                _huboCambioEstado = true;
                 txtEstado.Text = EstadoLaboral.estado.ToString();
                 txtObservaciones.Text = EstadoLaboral.observaciones + "\n";
                 MessageBox.Show("Estado agregado correctamente", "Éxito",
@@ -1356,6 +1408,92 @@ namespace Presentacion.Casos.Laborales
         {
             this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
             //MessageBox.Show("ancho flow  " + flowLayoutPanel1.ClientSize.Width);
+        }
+
+
+        private async void btnEditarCaso_Click(object sender, EventArgs e)
+        {
+            //aqui actualizo los datos del caso 
+            bool cambioEstado = false;
+
+            if (_idCasoEditar <= 0)
+            {
+                MessageBox.Show("No hay caso seleccionado para editar.");
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                "¿Desea guardar los cambios del caso?",
+                "Confirmar",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes) return;
+
+            if (_huboCambioEstado && _actualizandoCaso)
+            {
+                cambioEstado = true;
+            }
+            else
+            {
+                cambioEstado = false;
+            }
+
+            var req = new EditarCasoLaboralRequest
+            {
+                UsuarioId = UserSession.Id,
+                CasoId = _idCasoEditar,
+
+                Expediente = txtExpediente.Text,
+                Juzgado = comboBoxJuzgado.Text,
+                Oficial = comboboxOficial.Text,
+                Notificador = comboboxNotificador.Text,
+                NombreParticular = txtNombreParticular.Text,
+
+
+                // historial (tomas lo último elegido en tu modal de estado)
+                huboCambioEstado = cambioEstado,
+                Estado = EstadoLaboral.estado ?? txtEstado.Text,
+                Observaciones = EstadoLaboral.observaciones ?? txtObservaciones.Text,
+
+                Fecha = (EstadoLaboral.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
+                FechaVencimiento = EstadoLaboral.fechaVencimiento.HasValue
+                        ? EstadoLaboral.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                        : "",
+
+                Demandantes = listaDemandantes.Select(x => x.id).ToList(),
+                Demandados = listaDemandados.Select(x => x.id).ToList(),
+                TercerosInteresados = listaTercerosInteresados.Select(x => x.id).ToList(),
+                ContactosEmpresa = listaContactosEmpresa.Select(x => x.id).ToList(),
+
+                AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
+                SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
+                AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
+            };
+
+            var resultado = await casoLaboralModel.EditarCasoLaboral(req);
+
+            if (resultado.success)
+            {
+                MessageBox.Show("Caso laboral actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                await CargarCasos();
+                LimpiarFormulario();
+                _idCasoEditar = 0;
+
+                AnadirTabPage(Listar);
+                EliminarTabPage(Detalles);
+                _actualizandoCaso = false;
+            }
+            else
+            {
+                MessageBox.Show("Error: " + resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void roundedButton24_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -3,28 +3,56 @@
   "WorkspaceRootPath": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\laborales\\laboral_primer_instancia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\laborales\\laboral_primer_instancia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\estados\\frmagregarestadolaboralpi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\estados\\frmagregarestadolaboralpi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\casos\\laborales\\apiresponseeditarcasolaboral.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\casos\\laborales\\apiresponseeditarcasolaboral.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\laborales\\laboral_primer_instancia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\laborales\\laboral_primer_instancia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\laborales\\laboral_primer_instancia.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\laborales\\laboral_primer_instancia.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\laborales\\laboral_primer_instancia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\laborales\\laboral_primer_instancia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5C3D814D-CF05-4F2F-8758-E36F50B68539}|AccesoDatos\\AccesoDatos.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\accesodatos\\entidades\\casoslaboralesdataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5C3D814D-CF05-4F2F-8758-E36F50B68539}|AccesoDatos\\AccesoDatos.csproj|solutionrelative:accesodatos\\entidades\\casoslaboralesdataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\casos\\laborales\\editarcasolaboralrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\casos\\laborales\\editarcasolaboralrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FBC29124-6DD3-480B-99B2-62A0F443B303}|Dominio\\Dominio.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\dominio\\entidades\\casoslaboralesmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBC29124-6DD3-480B-99B2-62A0F443B303}|Dominio\\Dominio.csproj|solutionrelative:dominio\\entidades\\casoslaboralesmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\casos\\laborales\\apiresponsecrearcasolaboral.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\casos\\laborales\\apiresponsecrearcasolaboral.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\casos\\laborales\\casodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\casos\\laborales\\casodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\casos\\laborales\\casolaboraldetalledata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\casos\\laborales\\casolaboraldetalledata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\casos\\laborales\\historialdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\casos\\laborales\\historialdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\casos\\laborales\\usuariominidto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\casos\\laborales\\usuariominidto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\casos\\laborales\\personaminidto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\casos\\laborales\\personaminidto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\estados\\frmagregarestadolaboralpi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\estados\\frmagregarestadolaboralpi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C3D814D-CF05-4F2F-8758-E36F50B68539}|AccesoDatos\\AccesoDatos.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\accesodatos\\entidades\\userdataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -42,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,71 +78,162 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Laboral_primer_instancia.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.cs",
               "RelativeDocumentMoniker": "Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.cs",
               "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.cs [Dise\u00F1o]",
               "RelativeToolTip": "Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T18:52:08.472Z",
+              "WhenOpened": "2026-02-23T20:25:55.663Z",
               "EditorCaption": " [Dise\u00F1o]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CasosLaboralesModel.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Dominio\\Entidades\\CasosLaboralesModel.cs",
-              "RelativeDocumentMoniker": "Dominio\\Entidades\\CasosLaboralesModel.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Dominio\\Entidades\\CasosLaboralesModel.cs",
-              "RelativeToolTip": "Dominio\\Entidades\\CasosLaboralesModel.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAowCQAAAAIAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "Laboral_primer_instancia.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.Designer.cs",
+              "RelativeDocumentMoniker": "Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.Designer.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.Designer.cs",
+              "RelativeToolTip": "Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.Designer.cs",
+              "ViewState": "AgIAAFsFAAAAAAAAAAAawGYFAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T17:47:52.159Z",
+              "WhenOpened": "2026-02-23T20:25:48.482Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ApiResponseEditarCasoLaboral.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\ApiResponseEditarCasoLaboral.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\Casos\\Laborales\\ApiResponseEditarCasoLaboral.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\ApiResponseEditarCasoLaboral.cs",
+              "RelativeToolTip": "Comun\\Models\\Casos\\Laborales\\ApiResponseEditarCasoLaboral.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T19:56:36.988Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "ApiResponseCrearCasoLaboral.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\ApiResponseCrearCasoLaboral.cs",
-              "RelativeDocumentMoniker": "Comun\\Models\\Casos\\Laborales\\ApiResponseCrearCasoLaboral.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\ApiResponseCrearCasoLaboral.cs",
-              "RelativeToolTip": "Comun\\Models\\Casos\\Laborales\\ApiResponseCrearCasoLaboral.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Title": "EditarCasoLaboralRequest.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\EditarCasoLaboralRequest.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\Casos\\Laborales\\EditarCasoLaboralRequest.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\EditarCasoLaboralRequest.cs",
+              "RelativeToolTip": "Comun\\Models\\Casos\\Laborales\\EditarCasoLaboralRequest.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAA1wBQAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T17:46:00.265Z",
+              "WhenOpened": "2026-02-23T19:56:12.474Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
+              "Title": "CasosLaboralesModel.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Dominio\\Entidades\\CasosLaboralesModel.cs",
+              "RelativeDocumentMoniker": "Dominio\\Entidades\\CasosLaboralesModel.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Dominio\\Entidades\\CasosLaboralesModel.cs",
+              "RelativeToolTip": "Dominio\\Entidades\\CasosLaboralesModel.cs",
+              "ViewState": "AgIAAI8AAAAAAAAAAAAqwIcAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T19:25:11.039Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CasoDTO.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\CasoDTO.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\Casos\\Laborales\\CasoDTO.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\CasoDTO.cs",
+              "RelativeToolTip": "Comun\\Models\\Casos\\Laborales\\CasoDTO.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T19:24:02.706Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "CasosLaboralesDataAccess.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\AccesoDatos\\Entidades\\CasosLaboralesDataAccess.cs",
               "RelativeDocumentMoniker": "AccesoDatos\\Entidades\\CasosLaboralesDataAccess.cs",
               "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\AccesoDatos\\Entidades\\CasosLaboralesDataAccess.cs",
               "RelativeToolTip": "AccesoDatos\\Entidades\\CasosLaboralesDataAccess.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAowDUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACoBAAAAAAAAAAAqwDMBAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-23T17:43:28.567Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Laboral_primer_instancia.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.cs",
               "RelativeDocumentMoniker": "Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.cs",
               "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.cs",
               "RelativeToolTip": "Presentacion\\Casos\\Laborales\\Laboral_primer_instancia.cs",
-              "ViewState": "AgIAANwCAAAAAAAAAIAwwOQCAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMsCAAAAAAAAAAAawNACAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-23T16:25:41.677Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 8,
+              "Title": "CasoLaboralDetalleData.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\CasoLaboralDetalleData.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\Casos\\Laborales\\CasoLaboralDetalleData.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\CasoLaboralDetalleData.cs",
+              "RelativeToolTip": "Comun\\Models\\Casos\\Laborales\\CasoLaboralDetalleData.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T19:25:28.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "HistorialDTO.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\HistorialDTO.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\Casos\\Laborales\\HistorialDTO.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\HistorialDTO.cs",
+              "RelativeToolTip": "Comun\\Models\\Casos\\Laborales\\HistorialDTO.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAuwAoAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T19:13:24.764Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "PersonaMiniDto.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\PersonaMiniDto.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\Casos\\Laborales\\PersonaMiniDto.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\PersonaMiniDto.cs",
+              "RelativeToolTip": "Comun\\Models\\Casos\\Laborales\\PersonaMiniDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T19:13:47.968Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "UsuarioMiniDto.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\UsuarioMiniDto.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\Casos\\Laborales\\UsuarioMiniDto.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\UsuarioMiniDto.cs",
+              "RelativeToolTip": "Comun\\Models\\Casos\\Laborales\\UsuarioMiniDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T19:14:00.519Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "FrmAgregarEstadoLaboralPI.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Estados\\FrmAgregarEstadoLaboralPI.cs",
               "RelativeDocumentMoniker": "Presentacion\\Casos\\Estados\\FrmAgregarEstadoLaboralPI.cs",
@@ -122,12 +241,11 @@
               "RelativeToolTip": "Presentacion\\Casos\\Estados\\FrmAgregarEstadoLaboralPI.cs",
               "ViewState": "AgIAAL0AAAAAAAAAAAAcwJMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T17:58:20.144Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-23T17:58:20.144Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
               "Title": "UserDataAccess.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\AccesoDatos\\Entidades\\UserDataAccess.cs",
               "RelativeDocumentMoniker": "AccesoDatos\\Entidades\\UserDataAccess.cs",
@@ -135,12 +253,11 @@
               "RelativeToolTip": "AccesoDatos\\Entidades\\UserDataAccess.cs",
               "ViewState": "AgIAAIQAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T18:06:03.154Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-23T18:06:03.154Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 14,
               "Title": "CrearCasoLaboralRequest.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\CrearCasoLaboralRequest.cs",
               "RelativeDocumentMoniker": "Comun\\Models\\Casos\\Laborales\\CrearCasoLaboralRequest.cs",
@@ -148,8 +265,7 @@
               "RelativeToolTip": "Comun\\Models\\Casos\\Laborales\\CrearCasoLaboralRequest.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAA6wBAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T17:46:26.953Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-23T17:46:26.953Z"
             }
           ]
         }

@@ -1,4 +1,5 @@
 ﻿using AccesoDatos.Entidades;
+using Comun.Models;
 using Comun.Models.Casos.Laborales;
 using Newtonsoft.Json;
 using System;
@@ -108,6 +109,71 @@ namespace Dominio.Entidades
 
             return clean.Count == 0 ? new List<int>() : clean;
         }
+
+        public async Task<ApiResponse<CasoLaboralDetalleData>> ObtenerCasoLaboralPorId(int usuarioId, int casoId)
+        {
+            try
+            {
+                if (usuarioId <= 0)
+                    return new ApiResponse<CasoLaboralDetalleData> { success = false, message = "Usuario requerido" };
+
+                if (casoId <= 0)
+                    return new ApiResponse<CasoLaboralDetalleData> { success = false, message = "caso_id es requerido" };
+
+                // Llamar DataAccess
+                return await casoLaboralData.ObtenerCasoLaboralPorId(usuarioId, casoId);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<CasoLaboralDetalleData>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
+        }
+
+        public async Task<ApiResponseEditarCasoLaboral> EditarCasoLaboral(EditarCasoLaboralRequest req)
+        {
+            try
+            {
+                if (req == null)
+                    return new ApiResponseEditarCasoLaboral { success = false, message = "Solicitud inválida" };
+
+                if (req.UsuarioId <= 0)
+                    return new ApiResponseEditarCasoLaboral { success = false, message = "Usuario requerido" };
+
+                if (req.CasoId <= 0)
+                    return new ApiResponseEditarCasoLaboral { success = false, message = "Caso requerido" };
+
+                if (string.IsNullOrWhiteSpace(req.Expediente))
+                    return new ApiResponseEditarCasoLaboral { success = false, message = "Expediente es requerido" };
+
+                if (string.IsNullOrWhiteSpace(req.Juzgado))
+                    return new ApiResponseEditarCasoLaboral { success = false, message = "Juzgado es requerido" };
+
+                // fecha obligatoria según PHP (para historial)
+                if (string.IsNullOrWhiteSpace(req.Fecha))
+                    return new ApiResponseEditarCasoLaboral { success = false, message = "Fecha es requerida" };
+
+                // normalizar listas
+                req.Demandantes = NormalizarIds(req.Demandantes);
+                req.Demandados = NormalizarIds(req.Demandados);
+                req.TercerosInteresados = NormalizarIds(req.TercerosInteresados);
+                req.ContactosEmpresa = NormalizarIds(req.ContactosEmpresa);
+
+                req.AbogadosDirectores = NormalizarIds(req.AbogadosDirectores);
+                req.SociosResponsables = NormalizarIds(req.SociosResponsables);
+                req.AbogadosAsistentes = NormalizarIds(req.AbogadosAsistentes);
+
+                return await casoLaboralData.EditarCasoLaboral(req);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponseEditarCasoLaboral { success = false, message = "Error: " + ex.Message };
+            }
+        }
+
     }
 }
 
