@@ -142,7 +142,8 @@ namespace Presentacion.Casos.Estados
         private void btnGuardarUsuario_Click(object sender, EventArgs e)
         {
             string formatoCorrecto = GenerarFormatoBase();
-
+            DateTime fechaEstado;
+            DateTime? fechaVencimiento;
             string textoUsuario = txtObservaciones.Text.Trim();
 
             // Si el usuario borró todo o dañó el formato
@@ -170,10 +171,10 @@ namespace Presentacion.Casos.Estados
 
             if (checkBoxTieneVencimiento.Checked)
             {
-                DateTime fechaEstado = dateTimePickerFechaEstado.Value.Date;
+                fechaEstado = dateTimePickerFechaEstado.Value.Date;
                
 
-                DateTime fechaVencimiento =
+                fechaVencimiento =
                     dateTimePickerFechaVencimiento.Value.Date +
                     dateTimePickerHoraVencimiento.Value.TimeOfDay;
                 
@@ -186,14 +187,17 @@ namespace Presentacion.Casos.Estados
                     return;
                 }
 
-                EstadoLaboral.fechaEstado = fechaEstado;
-                EstadoLaboral.estado = comboboxEstado.Text;
-                EstadoLaboral.fechaVencimiento = fechaVencimiento;
-                EstadoLaboral.observaciones = formatoCorrecto;
-                
-
+            }
+            else
+            {
+                fechaEstado = dateTimePickerFechaEstado.Value.Date;
+                fechaVencimiento = null;
             }
 
+            EstadoLaboral.fechaEstado = fechaEstado;
+            EstadoLaboral.estado = comboboxEstado.Text;
+            EstadoLaboral.fechaVencimiento = fechaVencimiento;
+            EstadoLaboral.observaciones = formatoCorrecto;
             this.Close();
         }
     }

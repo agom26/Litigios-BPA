@@ -2,6 +2,7 @@
 using Comun;
 using Comun.DatosParaInterfaz;
 using Comun.Models;
+using Comun.Models.Casos.Laborales;
 using Dominio.Entidades;
 using Presentacion.Casos.Abogados_asignados;
 using Presentacion.Casos.Estados;
@@ -20,7 +21,7 @@ namespace Presentacion.Casos.Laborales
         private int totalRegistros = 0;
         private BindingSource bsTercerosInteresados = new BindingSource();
         private int _idTerceroInteresadoEditar;
-        CasosLaboralesModel casoLaboralMode = new CasosLaboralesModel();
+        CasosLaboralesModel casoLaboralModel = new CasosLaboralesModel();
         TerceroInteresadoModel terceroInteresadoModel = new TerceroInteresadoModel();
         private BindingList<PersonaListDataResponse> listaDemandados
         = new BindingList<PersonaListDataResponse>();
@@ -182,7 +183,7 @@ namespace Presentacion.Casos.Laborales
 
             int idUsuario = UserSession.Id;
             string filtro = txtBuscar.Text;
-            var response = await casoLaboralMode.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, filtro);
+            var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, filtro);
 
             if (response.success)
             {
@@ -523,7 +524,8 @@ namespace Presentacion.Casos.Laborales
             panelAbogadosAsistentes.AutoSize = true;
             panelAbogadosAsistentes.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
-            this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
+
+
         }
 
 
@@ -638,28 +640,39 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private async Task GuardarDemandante()
+        private async Task GuardarCaso()
         {
+            var req = new CrearCasoLaboralRequest
+            {
+                Expediente = txtExpediente.Text,
+                Juzgado = txtJuzgado.Text,
+                Oficial = comboboxOficial.Text,
+                Notificador = comboboxNotificador.Text,
+                NombreParticular = txtNombreParticular.Text,
 
-            //campos 
-            string expediente = txtExpediente.Text;
-            string juzgado = txtJuzgado.Text;
-            string oficial = comboboxOficial.Text;
-            string notificador = comboboxNotificador.Text;
-            string nombreParticular = txtNombreParticular.Text;
+                Estado = EstadoLaboral.estado,
+                Observaciones = EstadoLaboral.observaciones,
+                UsuarioCreador = UserSession.Id,
+                Fecha = EstadoLaboral.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
+                FechaVencimiento = EstadoLaboral.fechaVencimiento.HasValue
+                ? EstadoLaboral.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                : "",
 
-            //historial
-            string estado = txtEstado.Text;
-            DateTime fecha = DateTime.Now;
-            DateTime fechaVencimiento = DateTime.Now;
-            string observaciones = txtObservaciones.Text;
+                Demandantes = listaDemandantes.Select(x => x.id).ToList(),
+                Demandados = listaDemandados.Select(x => x.id).ToList(),
+                TercerosInteresados = listaTercerosInteresados.Select(x => x.id).ToList(),
+                ContactosEmpresa = listaContactosEmpresa.Select(x => x.id).ToList(),
 
+                AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
+                SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
+                AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
+            };
 
-            //var resultado = await terceroInteresadoModel.CrearTerceroInteresado(nombre, direccion, correo, telefono, nombreA, telefonoA, correoA);
-            /*
+            var resultado = await casoLaboralModel.CrearCasoLaboral(req);
+
             if (resultado.success)
             {
-                MessageBox.Show("Tercero interesado creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Caso laboral creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await CargarCasos();
                 LimpiarFormulario();
                 AnadirTabPage(Listar);
@@ -668,19 +681,12 @@ namespace Presentacion.Casos.Laborales
             else
             {
                 MessageBox.Show("Error: " + resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
+            }
         }
 
         private async void roundedButton18_Click(object sender, EventArgs e)
         {
-            if (lblTitulo.Text == "Nuevo Tercero Interesado")
-            {
-                await GuardarDemandante();
-            }
-            else
-            {
-                await ActualizarTerceroInteresado();
-            }
+            await GuardarCaso();
         }
 
         private void roundedButton19_Click(object sender, EventArgs e)
@@ -748,14 +754,15 @@ namespace Presentacion.Casos.Laborales
         private void Laboral_primer_instancia_Resize_1(object sender, EventArgs e)
         {
             CentrarPanel();
-            this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
+            //this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
+           // MessageBox.Show("ancho flow  " + flowLayoutPanel1.ClientSize.Width);
+
         }
 
         private void btnAgregarEstado_Click(object sender, EventArgs e)
         {
             FrmAgregarEstadoLaboralPI frmAgregarEstado = new FrmAgregarEstadoLaboralPI();
             frmAgregarEstado.ShowDialog();
-
 
             if (EstadoLaboral.estado != null)
             {
@@ -796,12 +803,78 @@ namespace Presentacion.Casos.Laborales
 
         private void AjustarLayoutPorResolucion()
         {
+            // Si no hay controles, no hacemos nada
+            if (flowLayoutPanel1.Controls.Count == 0) return;
+
+            int w = flowLayoutPanel1.ClientSize.Width;
+            if (w <= 50) return;
+
+            // Padding del contenedor
+            int padding = flowLayoutPanel1.Padding.Left + flowLayoutPanel1.Padding.Right;
+
+            // Márgenes que usas en cada panel dentro del flow (importante para calcular)
+            int marginX = 10; // 5 izquierda + 5 derecha (si usas Margin = new Padding(5))
+
+            // Espacio entre columnas (la separación “en medio”)
+            int gap = 20;
+
+            // Ancho objetivo para 2 columnas
+            int ancho2Cols = (w - padding - gap) / 2;
+
+            // Decidir si caben 2 columnas: (2 paneles) + gap + márgenes
+            bool caben2 = (ancho2Cols >= 620); // ajusta 380 según tu diseño mínimo cómodo
+
+            if (caben2)
+            {
+                flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
+                flowLayoutPanel1.WrapContents = true;
+
+                foreach (Panel p in flowLayoutPanel1.Controls.OfType<Panel>())
+                {
+                    // Tus paneles son AutoSize, se mantienen así
+                    p.AutoSize = true;
+                    p.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+                    // Le "encerramos" el ancho
+                    p.MinimumSize = new Size(ancho2Cols, p.MinimumSize.Height);
+                    p.MaximumSize = new Size(ancho2Cols, 0);
+
+                    // Margen para que se vea bien y el wrap calcule
+                    p.Margin = new Padding(5);
+                }
+            }
+            else
+            {
+                flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+                flowLayoutPanel1.WrapContents = false;
+
+                int ancho1Col = w - padding - 10;
+
+                foreach (Panel p in flowLayoutPanel1.Controls.OfType<Panel>())
+                {
+                    p.AutoSize = true;
+                    p.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+                    p.MinimumSize = new Size(ancho1Col, p.MinimumSize.Height);
+                    p.MaximumSize = new Size(ancho1Col, 0);
+
+                    p.Margin = new Padding(5);
+                }
+            }
+
+            flowLayoutPanel1.PerformLayout();
+        }
+
+        /*
+        private void AjustarLayoutPorResolucion()
+        {
             int w = flowLayoutPanel1.ClientSize.Width;
             if (w <= 50) return;
 
             int padding = flowLayoutPanel1.Padding.Left + flowLayoutPanel1.Padding.Right;
 
-            bool pantallaGrande = w >= 1200;
+            bool pantallaGrande = flowLayoutPanel1.ClientSize.Width >=
+                      (flowLayoutPanel1.Controls[0].MinimumSize.Width * 2 + 40);
 
             if (pantallaGrande)
             {
@@ -840,7 +913,7 @@ namespace Presentacion.Casos.Laborales
             }
 
             flowLayoutPanel1.PerformLayout();
-        }
+        }*/
         private void AjustarAlturaDataGridViewDemandados()
         {
             dtgDemandados.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
@@ -978,27 +1051,16 @@ namespace Presentacion.Casos.Laborales
         }
         private void LimpiarListas()
         {
-            if (listaDemandados.Count == 0) return;
-            listaDemandados.Clear(); // 🔥 limpia todo
+            listaDemandados.Clear();
+            listaDemandantes.Clear();
+            listaTercerosInteresados.Clear();
+            listaContactosEmpresa.Clear();
 
-            if (listaDemandantes.Count == 0) return;
-            listaDemandantes.Clear(); // 🔥 limpia todo
-
-            if (listaTercerosInteresados.Count == 0) return;
-            listaTercerosInteresados.Clear(); // 🔥 limpia todo
-
-            if (listaContactosEmpresa.Count == 0) return;
-            listaContactosEmpresa.Clear(); // 🔥 limpia todo
-
-            if (listaAbogadosDirectores.Count == 0) return;
-            listaAbogadosDirectores.Clear(); // 🔥 limpia todo
-
-            if (listaSociosResponsables.Count == 0) return;
-            listaSociosResponsables.Clear(); // 🔥 limpia todo
-
-            if (listaAbogadosAsistentes.Count == 0) return;
-            listaAbogadosAsistentes.Clear(); // 🔥 limpia todo
+            listaAbogadosDirectores.Clear();
+            listaSociosResponsables.Clear();
+            listaAbogadosAsistentes.Clear();
         }
+
         private void dtgDemandados_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             if (dtgDemandados.Columns["id"] != null)
@@ -1283,6 +1345,17 @@ namespace Presentacion.Casos.Laborales
             }
 
             dtgAbogadosAsistentes.ClearSelection();
+        }
+
+        private void Laboral_primer_instancia_ResizeEnd(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Detalles_Resize(object sender, EventArgs e)
+        {
+            this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
+            //MessageBox.Show("ancho flow  " + flowLayoutPanel1.ClientSize.Width);
         }
     }
 }

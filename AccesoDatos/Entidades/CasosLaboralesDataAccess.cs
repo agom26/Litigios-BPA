@@ -53,59 +53,47 @@ namespace AccesoDatos.Entidades
         }
 
         //crear
-        public async Task<ApiResponseCrearCasoLaboral> CrearCasoLaboral(
-           string expediente,
-           string juzgado,
-           string estado,
-           string? nombreParticular = null,
-           string? oficial = null,
-           string? notificador = null,
-           List<int>? personasId = null,
-           List<string>? tiposPersona = null,
-           List<int>? usuariosId = null,
-           List<string>? rolesUsuario = null
-       )
+        public async Task<ApiResponseCrearCasoLaboral> CrearCasoLaboral(CrearCasoLaboralRequest req)
         {
             using (var client = new HttpClient())
             {
-                var kv = new List<KeyValuePair<string, string>>
+                // Helpers: convertir listas a "1,2,3"
+                string ToCsv(IEnumerable<int>? ids) =>
+                    ids == null ? "" : string.Join(",", ids.Where(x => x > 0).Distinct());
+
+                var parameters = new Dictionary<string, string>
                 {
-                    new KeyValuePair<string, string>("action", "crear_caso_laboral"),
-                    new KeyValuePair<string, string>("expediente", expediente ?? ""),
-                    new KeyValuePair<string, string>("juzgado", juzgado ?? ""),
-                    new KeyValuePair<string, string>("estado", estado ?? ""),
-                    new KeyValuePair<string, string>("nombre_particular", nombreParticular ?? ""),
-                    new KeyValuePair<string, string>("oficial", oficial ?? ""),
-                    new KeyValuePair<string, string>("notificador", notificador ?? ""),
+                    { "action", "crear_caso_laboral" },
+
+                    // Caso
+                    { "expediente", req.Expediente ?? "" },
+                    { "nombre_particular", req.NombreParticular ?? "" },
+                    { "juzgado", req.Juzgado ?? "" },
+                    { "oficial", req.Oficial ?? "" },
+                    { "notificador", req.Notificador ?? "" },
+
+                    // Historial
+                    { "estado", req.Estado ?? "" },
+                    { "observaciones", req.Observaciones ?? "" },
+                    { "usuario_creador", req.UsuarioCreador.ToString() },
+
+                    // Opcional fechas
+                    { "fecha", req.Fecha ?? "" },                 // "YYYY-MM-DD" o ""
+                    { "fecha_vencimiento", req.FechaVencimiento ?? "" },
+
+                    // Listas PERSONAS
+                    { "demandantes", ToCsv(req.Demandantes) },
+                    { "demandados", ToCsv(req.Demandados) },
+                    { "terceros_interesados", ToCsv(req.TercerosInteresados) },
+                    { "contactos_empresa", ToCsv(req.ContactosEmpresa) },
+
+                    // Listas USUARIOS
+                    { "abogados_directores", ToCsv(req.AbogadosDirectores) },
+                    { "socios_responsables", ToCsv(req.SociosResponsables) },
+                    { "abogados_asistentes", ToCsv(req.AbogadosAsistentes) },
                 };
 
-                // PERSONAS (Demandante/Demandado/etc.)
-                if (personasId != null && personasId.Count > 0)
-                {
-                    if (tiposPersona == null) tiposPersona = new List<string>();
-                    while (tiposPersona.Count < personasId.Count) tiposPersona.Add("");
-
-                    for (int i = 0; i < personasId.Count; i++)
-                    {
-                        kv.Add(new KeyValuePair<string, string>("persona_id", personasId[i].ToString()));
-                        kv.Add(new KeyValuePair<string, string>("tipo_persona", tiposPersona[i] ?? ""));
-                    }
-                }
-
-                // USUARIOS (Abogados) + rol
-                if (usuariosId != null && usuariosId.Count > 0)
-                {
-                    if (rolesUsuario == null) rolesUsuario = new List<string>();
-                    while (rolesUsuario.Count < usuariosId.Count) rolesUsuario.Add("");
-
-                    for (int i = 0; i < usuariosId.Count; i++)
-                    {
-                        kv.Add(new KeyValuePair<string, string>("usuario_id", usuariosId[i].ToString()));
-                        kv.Add(new KeyValuePair<string, string>("rol_usuario", rolesUsuario[i] ?? ""));
-                    }
-                }
-
-                var content = new FormUrlEncodedContent(kv);
+                var content = new FormUrlEncodedContent(parameters);
 
                 try
                 {
@@ -126,6 +114,5 @@ namespace AccesoDatos.Entidades
             }
         }
     }
-
-      
 }
+

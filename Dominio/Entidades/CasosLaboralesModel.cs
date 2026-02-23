@@ -1,6 +1,5 @@
 ﻿using AccesoDatos.Entidades;
 using Comun.Models.Casos.Laborales;
-using Comun.Models.Casos.Laborales;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -38,73 +37,78 @@ namespace Dominio.Entidades
         }
 
         //crear caso
-        public async Task<ApiResponseCrearCasoLaboral> CrearCasoLaboral(
-            string expediente,
-            string juzgado,
-            string estado,
-            string? nombreParticular,
-            string? oficial,
-            string? notificador,
-            List<int> personasId,
-            List<string> tiposPersona,
-            List<int> usuariosId,
-            List<string> rolesUsuario
-        )
+        public async Task<ApiResponseCrearCasoLaboral> CrearCasoLaboral(CrearCasoLaboralRequest req)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(expediente) ||
-                    string.IsNullOrWhiteSpace(juzgado) ||
-                    string.IsNullOrWhiteSpace(estado))
-                {
-                    return new ApiResponseCrearCasoLaboral
-                    {
-                        success = false,
-                        message = "Campos obligatorios faltantes (expediente, juzgado, estado)."
-                    };
-                }
+                // ---- Validaciones mínimas (las mismas que PHP exige) ----
+                if (req == null)
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Solicitud inválida" };
 
-                // Validación básica de arrays
-                if (personasId != null && tiposPersona != null && personasId.Count != tiposPersona.Count)
-                {
-                    return new ApiResponseCrearCasoLaboral
-                    {
-                        success = false,
-                        message = "La cantidad de persona_id no coincide con tipo_persona."
-                    };
-                }
+                if (string.IsNullOrWhiteSpace(req.Expediente))
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Expediente es requerido" };
 
-                if (usuariosId != null && rolesUsuario != null && usuariosId.Count != rolesUsuario.Count)
-                {
-                    return new ApiResponseCrearCasoLaboral
-                    {
-                        success = false,
-                        message = "La cantidad de usuario_id no coincide con rol_usuario."
-                    };
-                }
+                if (string.IsNullOrWhiteSpace(req.Juzgado))
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Juzgado es requerido" };
 
-                return await casoLaboralData.CrearCasoLaboral(
-                    expediente,
-                    juzgado,
-                    estado,
-                    nombreParticular,
-                    oficial,
-                    notificador,
-                    personasId,
-                    tiposPersona,
-                    usuariosId,
-                    rolesUsuario
-                );
+                if (string.IsNullOrWhiteSpace(req.Notificador))
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Notificador es requerido" };
+
+                if (string.IsNullOrWhiteSpace(req.Oficial))
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Oficial es requerido" };
+
+                if (string.IsNullOrWhiteSpace(req.Estado))
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Estado es requerido" };
+
+                if (req.UsuarioCreador <= 0)
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Usuario creador es requerido" };
+
+                // ---- Normalizar strings ----
+                req.Expediente = req.Expediente.Trim();
+                req.Juzgado = req.Juzgado.Trim();
+                req.Estado = req.Estado.Trim();
+                req.Oficial = req.Oficial.Trim();
+                req.Notificador = req.Notificador.Trim();
+
+                req.NombreParticular = string.IsNullOrWhiteSpace(req.NombreParticular) ? null : req.NombreParticular.Trim();
+                req.Observaciones = string.IsNullOrWhiteSpace(req.Observaciones) ? null : req.Observaciones.Trim();
+
+                // Fechas opcionales
+                req.Fecha = string.IsNullOrWhiteSpace(req.Fecha) ? null : req.Fecha.Trim();
+                req.FechaVencimiento = string.IsNullOrWhiteSpace(req.FechaVencimiento) ? null : req.FechaVencimiento.Trim();
+
+                // ---- Normalizar listas (evitar ids 0, duplicados) ----
+                req.Demandantes = NormalizarIds(req.Demandantes);
+                req.Demandados = NormalizarIds(req.Demandados);
+                req.TercerosInteresados = NormalizarIds(req.TercerosInteresados);
+                req.ContactosEmpresa = NormalizarIds(req.ContactosEmpresa);
+
+                req.AbogadosDirectores = NormalizarIds(req.AbogadosDirectores);
+                req.SociosResponsables = NormalizarIds(req.SociosResponsables);
+                req.AbogadosAsistentes = NormalizarIds(req.AbogadosAsistentes);
+
+                // Llamar DataAccess
+                return await casoLaboralData.CrearCasoLaboral(req);
             }
             catch (Exception ex)
             {
-                return new ApiResponseCrearCasoLaboral
-                {
-                    success = false,
-                    message = "Error: " + ex.Message
-                };
+                return new ApiResponseCrearCasoLaboral { success = false, message = "Error: " + ex.Message };
             }
+        }
+
+        // Helper interno del Dominio
+        private static List<int>? NormalizarIds(List<int>? ids)
+        {
+            if (ids == null) return null;
+
+            var clean = ids
+                .Where(x => x > 0)
+                .Distinct()
+                .ToList();
+
+            return clean.Count == 0 ? new List<int>() : clean;
         }
     }
 }
+
 

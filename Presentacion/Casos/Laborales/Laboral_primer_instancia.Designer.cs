@@ -451,9 +451,11 @@
             Detalles.Size = new Size(799, 532);
             Detalles.TabIndex = 1;
             Detalles.Click += Detalles_Click;
+            Detalles.Resize += Detalles_Resize;
             // 
             // flowLayoutPanel1
             // 
+            flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             flowLayoutPanel1.AutoSize = true;
             flowLayoutPanel1.Controls.Add(panelDemandantes);
             flowLayoutPanel1.Controls.Add(panelDemandados);
@@ -1856,6 +1858,7 @@
             Name = "Laboral_primer_instancia";
             Text = "Laboral_primer_instancia";
             Load += Laboral_primer_instancia_Load;
+            ResizeEnd += Laboral_primer_instancia_ResizeEnd;
             Resize += Laboral_primer_instancia_Resize_1;
             tabControl1.ResumeLayout(false);
             Listar.ResumeLayout(false);

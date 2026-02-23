@@ -11,5 +11,6 @@ namespace Comun.Models.Casos.Laborales
         public bool success { get; set; }
         public string? message { get; set; }
         public int caso_id { get; set; }
+        public int historial_id { get; set; }
     }
 }
