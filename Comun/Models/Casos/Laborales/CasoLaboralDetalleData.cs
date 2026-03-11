@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Comun.Models.Casos.Laborales
 {
+
     public class CasoLaboralDetalleData
     {
         public CasoDto caso { get; set; }

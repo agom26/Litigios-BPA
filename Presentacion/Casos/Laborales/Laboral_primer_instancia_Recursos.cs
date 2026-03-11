@@ -1,0 +1,1872 @@
+﻿
+using Comun;
+using Comun.DatosParaInterfaz;
+using Comun.Models;
+using Comun.Models.Casos.Laborales;
+using Dominio.Entidades;
+using Newtonsoft.Json;
+using Presentacion.Casos.Abogados_asignados;
+using Presentacion.Casos.Estados;
+using Presentacion.Casos.Participantes;
+using Presentacion.Personas;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Net.WebRequestMethods;
+
+namespace Presentacion.Casos.Laborales
+{
+    public partial class Laboral_primer_instancia_Recursos : Form
+    {
+        private bool _huboCambioEstado = false;
+        private bool _actualizandoCaso = false;
+
+        private int paginaActual = 1;
+        private int registrosPorPagina = 10;
+        private int totalRegistros = 0;
+
+        private int paginaActual2 = 1;
+        private int registrosPorPagina2 = 10;
+        private int totalRegistros2 = 0;
+
+        private BindingSource bsCasosNoDefinintivos = new BindingSource();
+        private BindingSource bsCasosFinJuicio = new BindingSource();
+
+        private int _idCasoEditar;
+
+        CasosLaboralesRecursosModel casoLaboralModel = new CasosLaboralesRecursosModel();
+        TerceroInteresadoModel terceroInteresadoModel = new TerceroInteresadoModel();
+        private BindingList<PersonaListDataResponse> listaDemandados
+        = new BindingList<PersonaListDataResponse>();
+        private BindingList<PersonaListDataResponse> listaDemandantes
+        = new BindingList<PersonaListDataResponse>();
+        private BindingList<PersonaListDataResponse> listaTercerosInteresados
+        = new BindingList<PersonaListDataResponse>();
+        private BindingList<PersonaListDataResponse> listaContactosEmpresa
+        = new BindingList<PersonaListDataResponse>();
+        //abogados en el caso
+        private BindingList<UserListDataResponse> listaAbogadosDirectores
+        = new BindingList<UserListDataResponse>();
+        private BindingList<UserListDataResponse> listaSociosResponsables
+        = new BindingList<UserListDataResponse>();
+        private BindingList<UserListDataResponse> listaAbogadosAsistentes
+        = new BindingList<UserListDataResponse>();
+        public Laboral_primer_instancia_Recursos()
+        {
+            InitializeComponent();
+        }
+
+        private void LimpiarFormulario()
+        {
+            txtExpediente.Text = "";
+            comboBoxJuzgado.Text = "";
+            comboboxOficial.Text = "";
+            txtNombreParticular.Text = "";
+            comboboxNotificador.Text = "";
+            txtNombreParticular.Text = "";
+            LimpiarListas();
+        }
+
+        private async Task CargarDatosCaso(int idCaso)
+        {
+            int idUsuario = UserSession.Id;
+            var resp = await casoLaboralModel.ObtenerCasoLaboralPorId(idUsuario, idCaso);
+
+            if (!resp.success || resp.data == null)
+            {
+                MessageBox.Show(resp.message ?? "No se pudo cargar el caso");
+                return;
+            }
+
+            var data = resp.data;
+
+            // 1) Inputs principales del caso
+            var caso = data.caso;
+            if (caso != null)
+            {
+                txtExpediente.Text = caso.expediente ?? "";
+                comboBoxJuzgado.Text = caso.juzgado ?? "";
+                comboboxOficial.Text = caso.oficial ?? "";
+                comboboxNotificador.Text = caso.notificador ?? "";
+                txtNombreParticular.Text = caso.nombre_particular ?? "";
+                // si tienes estado/observaciones en textbox:
+                txtEstado.Text = caso.estado ?? "";
+                txtObservaciones.Text = (caso.observaciones ?? "")
+                    .Replace("\n", Environment.NewLine); ;
+            }
+
+            /* 2) Ultimo historial (si quieres priorizarlo sobre caso.estado/observaciones)
+            if (data.ultimo_historial != null)
+            {
+                txtEstado.Text = data.ultimo_historial.estado ?? txtEstado.Text;
+                //txtObservaciones.Text = data.ultimo_historial.anotaciones ?? txtObservaciones.Text;
+
+            }*/
+
+            LimpiarListas();
+
+            // 4) Personas por rol -> tus BindingList<PersonaListDataResponse>
+            var p = data.personas_por_rol ?? new Dictionary<string, List<PersonaMiniDto>>();
+
+            MapPersonas(p, "Demandante", listaDemandantes);
+            MapPersonas(p, "Demandado", listaDemandados);
+            MapPersonas(p, "Tercero Interesado", listaTercerosInteresados);
+            MapPersonas(p, "Contacto de Empresa", listaContactosEmpresa);
+
+            // 5) Usuarios por rol -> tus BindingList<UserListDataResponse>
+            var u = data.usuarios_por_rol ?? new Dictionary<string, List<UsuarioMiniDto>>();
+
+            MapUsuarios(u, "Abogado Director", listaAbogadosDirectores);
+            MapUsuarios(u, "Socio Responsable", listaSociosResponsables);
+            MapUsuarios(u, "Abogado Asistente", listaAbogadosAsistentes);
+
+            // 6) refrescar grids
+            dtgDemandantes.Refresh();
+            dtgDemandados.Refresh();
+            dtgTercerosInteresados.Refresh();
+            dtgContactoEmpresa.Refresh();
+
+            dtgAbogadosDirectores.Refresh();
+            dtgSociosResponsables.Refresh();
+            dtgAbogadosAsistentes.Refresh();
+
+            // 7) Ir al tab Detalles
+            AnadirTabPage(Detalles);
+            EliminarTabPage(Listar);
+            btnGuardarCaso.Visible = false;
+            btnEditarCaso.Visible = true;
+        }
+
+        // Helpers de mapeo
+        private void MapPersonas(
+            Dictionary<string, List<PersonaMiniDto>> dict,
+            string rol,
+            BindingList<PersonaListDataResponse> target)
+        {
+            if (!dict.TryGetValue(rol, out var items) || items == null) return;
+
+            foreach (var it in items)
+            {
+                target.Add(new PersonaListDataResponse
+                {
+                    id = it.id,
+                    Nombre = it.nombre,
+                    Direccion = it.direccion
+                });
+            }
+        }
+
+        private void MapUsuarios(
+            Dictionary<string, List<UsuarioMiniDto>> dict,
+            string rol,
+            BindingList<UserListDataResponse> target)
+        {
+            if (!dict.TryGetValue(rol, out var items) || items == null) return;
+
+            foreach (var it in items)
+            {
+                target.Add(new UserListDataResponse
+                {
+                    id = it.id,
+                    Nombres = it.nombres,
+                    Apellidos = it.apellidos,
+                    Usuario = it.usuario,
+                    Correo = it.correo
+                });
+            }
+        }
+
+        private void EliminarTabPage(TabPage nombre)
+        {
+            if (tabControl1.TabPages.Contains(nombre))
+            {
+                tabControl1.TabPages.Remove(nombre);
+                dtgCasosLaboralesNoDefinitivos.ClearSelection();
+            }
+        }
+        private void AnadirTabPage(TabPage nombre)
+        {
+            if (!tabControl1.TabPages.Contains(nombre))
+            {
+                tabControl1.TabPages.Add(nombre);
+            }
+            // Muestra el TabPage especificado (lo selecciona)
+            tabControl1.SelectedTab = nombre;
+        }
+
+        private void CrearBotonesAccion(DataGridView dtg)
+        {
+            // Editar
+            if (!dtg.Columns.Contains("Editar"))
+            {
+                DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
+                {
+                    Name = "Editar",
+                    HeaderText = "",
+                    Text = "✏️", // Icono de lápiz
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard, // estilo estándar, sin colores
+                    Width = 40,
+                    MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None // Mantiene el tamaño fijo
+                };
+                dtg.Columns.Add(btnEditar);
+            }
+
+            // Eliminar
+            if (!dtg.Columns.Contains("Eliminar"))
+            {
+                DataGridViewButtonColumn btnEliminar = new DataGridViewButtonColumn
+                {
+                    Name = "Eliminar",
+                    HeaderText = "",
+                    Text = "🗑️", // Icono de basura
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+                dtg.Columns.Add(btnEliminar);
+            }
+
+            // Mover los botones al final
+            dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 2;
+            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
+        }
+
+        private void CentrarPanel()
+        {
+            int anchoMinimo = panelBusquedaCaso.Width + 100;
+            int anchoMinimo2 = panelBusquedaCaso2.Width + 100;
+
+            if (tabControl1.ClientSize.Width >= anchoMinimo
+                && tabControl1.ClientSize.Width >= anchoMinimo2)
+            {
+                // Pantalla suficientemente ancha → centrar
+                panelBusquedaCaso.Anchor = AnchorStyles.None;
+                panelBusquedaCaso.Dock = DockStyle.Top;
+
+                panelBusquedaCaso2.Anchor = AnchorStyles.None;
+                panelBusquedaCaso2.Dock = DockStyle.Top;
+            }
+            else
+            {
+                // Pantalla pequeña → top-left
+                panelBusquedaCaso.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                panelBusquedaCaso.Location = new Point(0, 0); // o donde quieras
+
+                panelBusquedaCaso2.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                panelBusquedaCaso2.Location = new Point(3, 509);
+            }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            lblTitulo.Text = "Nuevo Caso Laboral";
+            btnGuardarCaso.Text = "Guardar";
+            LimpiarFormulario();
+            AnadirTabPage(Detalles);
+            EliminarTabPage(Listar);
+            btnGuardarCaso.Visible = true;
+            btnEditarCaso.Visible = false;
+        }
+
+        private async Task CargarCasosNoDefinitivos()
+        {
+
+            int idUsuario = UserSession.Id;
+            string filtro = txtBuscarNoDefinitivo.Text;
+            var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, "no_definitiva", filtro);
+
+            if (response.success)
+            {
+                // Asignar los datos al BindingSource
+                bsCasosNoDefinintivos.DataSource = response.data;
+                dtgCasosLaboralesNoDefinitivos.Refresh();
+                // Actualizar paginación
+                totalRegistros = response.total;
+                labelTotal.Text = $"Total de casos laborales: {totalRegistros}";
+                lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)totalRegistros / registrosPorPagina)}";
+            }
+            else
+            {
+                MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task CargarCasosFinJuicio()
+        {
+
+            int idUsuario = UserSession.Id;
+            string filtro = txtBuscarFinJuicio.Text;
+            var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, "fin_juicio", filtro);
+
+            if (response.success)
+            {
+                // Asignar los datos al BindingSource
+                bsCasosFinJuicio.DataSource = response.data;
+                dtgCasosLaboralesFinJuicio.Refresh();
+                // Actualizar paginación
+                totalRegistros = response.total;
+                labelTotal.Text = $"Total de casos laborales: {totalRegistros}";
+                lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)totalRegistros / registrosPorPagina)}";
+            }
+            else
+            {
+                MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void alistarListaDemandados()
+        {
+            dtgDemandados.DataSource = listaDemandados;
+
+            dtgDemandados.AllowUserToAddRows = false;
+            dtgDemandados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgDemandados.DataSource = listaDemandados;
+
+            listaDemandados.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewDemandados();
+            };
+
+            CrearBotonQuitarDemandado();
+            dtgDemandados.CellClick -= dtgDemandados_CellClick;
+            dtgDemandados.CellClick += dtgDemandados_CellClick;
+        }
+        private void alistarListaDemandantes()
+        {
+            dtgDemandantes.DataSource = listaDemandantes;
+
+            dtgDemandantes.AllowUserToAddRows = false;
+            dtgDemandantes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgDemandantes.DataSource = listaDemandantes;
+
+            listaDemandantes.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewDemandantes();
+            };
+
+            CrearBotonQuitarDemandante();
+            dtgDemandantes.CellClick -= dtgDemandantes_CellClick;
+            dtgDemandantes.CellClick += dtgDemandantes_CellClick;
+        }
+
+        private void alistarListaTercerosInteresados()
+        {
+            dtgTercerosInteresados.DataSource = listaTercerosInteresados;
+
+            dtgTercerosInteresados.AllowUserToAddRows = false;
+            dtgTercerosInteresados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgTercerosInteresados.DataSource = listaTercerosInteresados;
+
+            listaTercerosInteresados.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewTercerosInteresados();
+            };
+
+            CrearBotonQuitarTerceroInteresado();
+            dtgTercerosInteresados.CellClick -= dtgPartesInteresadas_CellClick;
+            dtgTercerosInteresados.CellClick += dtgPartesInteresadas_CellClick;
+        }
+        private void alistarListaContactosEmpresa()
+        {
+            dtgContactoEmpresa.DataSource = listaContactosEmpresa;
+
+            dtgContactoEmpresa.AllowUserToAddRows = false;
+            dtgContactoEmpresa.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgContactoEmpresa.DataSource = listaContactosEmpresa;
+
+            listaContactosEmpresa.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewContactosEmpresa();
+            };
+
+            CrearBotonQuitarContactoEmpresa();
+            dtgContactoEmpresa.CellClick -= dtgContactoEmpresa_CellClick;
+            dtgContactoEmpresa.CellClick += dtgContactoEmpresa_CellClick;
+        }
+
+        private void alistarListaAbogadosDirectores()
+        {
+            dtgAbogadosDirectores.DataSource = listaAbogadosDirectores;
+
+            dtgAbogadosDirectores.AllowUserToAddRows = false;
+            dtgAbogadosDirectores.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgAbogadosDirectores.DataSource = listaAbogadosDirectores;
+
+            listaAbogadosDirectores.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewAbogadosDirectores();
+            };
+
+            CrearBotonQuitarAbogadoDirector();
+            dtgAbogadosDirectores.CellClick -= dtgAbogadosDirectores_CellClick;
+            dtgAbogadosDirectores.CellClick += dtgAbogadosDirectores_CellClick;
+        }
+
+        private void alistarListaSociosResponsables()
+        {
+            dtgSociosResponsables.DataSource = listaSociosResponsables;
+
+            dtgSociosResponsables.AllowUserToAddRows = false;
+            dtgSociosResponsables.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgSociosResponsables.DataSource = listaSociosResponsables;
+
+            listaSociosResponsables.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewSociosResponsables();
+            };
+
+            CrearBotonQuitarSocioResponsable();
+            dtgSociosResponsables.CellClick -= dtgSociosResponsables_CellClick;
+            dtgSociosResponsables.CellClick += dtgSociosResponsables_CellClick;
+        }
+
+        private void alistarListaAbogadosAsistentes()
+        {
+            dtgAbogadosAsistentes.DataSource = listaAbogadosAsistentes;
+
+            dtgAbogadosAsistentes.AllowUserToAddRows = false;
+            dtgAbogadosAsistentes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgAbogadosAsistentes.DataSource = listaAbogadosAsistentes;
+
+            listaAbogadosAsistentes.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewAbogadosAsistentes();
+            };
+
+            CrearBotonQuitarAbogadoAsistente();
+            dtgAbogadosAsistentes.CellClick -= dtgAbogadosAsistentes_CellClick;
+            dtgAbogadosAsistentes.CellClick += dtgAbogadosAsistentes_CellClick;
+        }
+
+        private void CrearBotonQuitarDemandado()
+        {
+            if (!dtgDemandados.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgDemandados.Columns.Add(btnQuitar);
+                dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+            }
+        }
+
+        private void CrearBotonQuitarDemandante()
+        {
+            if (!dtgDemandantes.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgDemandantes.Columns.Add(btnQuitar);
+                dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+            }
+        }
+        private void CrearBotonQuitarTerceroInteresado()
+        {
+            if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgTercerosInteresados.Columns.Add(btnQuitar);
+                dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+            }
+        }
+
+        private void CrearBotonQuitarAbogadoDirector()
+        {
+            if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgAbogadosDirectores.Columns.Add(btnQuitar);
+                dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+            }
+        }
+
+        private void CrearBotonQuitarContactoEmpresa()
+        {
+            if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgContactoEmpresa.Columns.Add(btnQuitar);
+                dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+            }
+        }
+
+        private void CrearBotonQuitarSocioResponsable()
+        {
+            if (!dtgSociosResponsables.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgSociosResponsables.Columns.Add(btnQuitar);
+                dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+            }
+        }
+
+        private void CrearBotonQuitarAbogadoAsistente()
+        {
+            if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgAbogadosAsistentes.Columns.Add(btnQuitar);
+                dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+            }
+        }
+
+        private async void Laboral_primer_instancia_Recursos_Load(object sender, EventArgs e)
+        {
+            panelBotonesCaso.Visible = false;
+            dtgCasosLaboralesNoDefinitivos.DataSource = bsCasosNoDefinintivos;
+            await CargarCasosNoDefinitivos();
+
+            dtgCasosLaboralesNoDefinitivos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            if (dtgCasosLaboralesNoDefinitivos.Columns.Contains("Editar"))
+                dtgCasosLaboralesNoDefinitivos.Columns["Editar"].Width = 40;
+
+            if (dtgCasosLaboralesNoDefinitivos.Columns.Contains("Eliminar"))
+                dtgCasosLaboralesNoDefinitivos.Columns["Eliminar"].Width = 40;
+
+
+            dtgCasosLaboralesFinJuicio.DataSource = bsCasosFinJuicio;
+            await CargarCasosFinJuicio();
+
+            dtgCasosLaboralesFinJuicio.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            if (dtgCasosLaboralesFinJuicio.Columns.Contains("Editar"))
+                dtgCasosLaboralesFinJuicio.Columns["Editar"].Width = 40;
+
+            if (dtgCasosLaboralesFinJuicio.Columns.Contains("Eliminar"))
+                dtgCasosLaboralesFinJuicio.Columns["Eliminar"].Width = 40;
+
+            EliminarTabPage(Detalles);
+            EliminarTabPage(tabPageArchivos);
+            EliminarTabPage(tabPageHistorial);
+
+            alistarListaDemandantes();
+            alistarListaDemandados();
+            alistarListaTercerosInteresados();
+            alistarListaContactosEmpresa();
+            alistarListaAbogadosDirectores();
+            alistarListaSociosResponsables();
+            alistarListaAbogadosAsistentes();
+
+            //prueba
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.WrapContents = false;
+            flowLayoutPanel1.AutoScroll = true; // para que aparezca scroll si se pasa del alto visible
+
+            panelDemandados.AutoSize = true;
+            panelDemandados.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelDemandantes.AutoSize = true;
+            panelDemandantes.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelTercerosInteresados.AutoSize = true;
+            panelTercerosInteresados.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelContactosEmpresas.AutoSize = true;
+            panelContactosEmpresas.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelAbogadosDirectores.AutoSize = true;
+            panelAbogadosDirectores.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelSociosResponsables.AutoSize = true;
+            panelSociosResponsables.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelAbogadosAsistentes.AutoSize = true;
+            panelAbogadosAsistentes.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        }
+
+        private void dtgCasosLaborales_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dtgCasosLaboralesNoDefinitivos.Columns[e.ColumnIndex].Name == "Nombre" && e.Value != null)
+            {
+                string nombres = e.Value.ToString();
+                string[] partes = nombres.Split(' ');
+                string iniciales = string.Join("", partes.Select(p => p[0])).ToUpper();
+                // Puedes agregarlo como tooltip o columna extra
+                dtgCasosLaboralesNoDefinitivos.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = iniciales;
+            }
+        }
+
+        private async void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            if (paginaActual * registrosPorPagina < totalRegistros)
+            {
+                paginaActual++;
+                await CargarCasosNoDefinitivos();
+            }
+        }
+
+        private async void btnAnterior_Click(object sender, EventArgs e)
+        {
+            if (paginaActual > 1)
+            {
+                paginaActual--;
+                await CargarCasosNoDefinitivos();
+            }
+        }
+
+        private void dtgCasosLaborales_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            // Oculta la columna 'id'
+            if (dtgCasosLaboralesNoDefinitivos.Columns["id"] != null)
+            {
+                dtgCasosLaboralesNoDefinitivos.Columns["id"].Visible = false;
+            }
+
+            // Oculta la columna 'id'
+            if (dtgCasosLaboralesNoDefinitivos.Columns["id_rol"] != null)
+            {
+                dtgCasosLaboralesNoDefinitivos.Columns["id_rol"].Visible = false;
+            }
+
+            CrearBotonesAccion(dtgCasosLaboralesNoDefinitivos);
+            dtgCasosLaboralesNoDefinitivos.ClearSelection();
+        }
+
+        private async void txtBuscar_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                await CargarCasosNoDefinitivos();
+            }
+        }
+
+        private async Task GuardarCaso()
+        {
+            if (string.IsNullOrWhiteSpace(txtExpediente.Text))
+            {
+                MessageBox.Show("Expediente es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtExpediente.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(comboBoxJuzgado.Text))
+            {
+                MessageBox.Show("Juzgado es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                comboBoxJuzgado.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(comboboxOficial.Text))
+            {
+                MessageBox.Show("Oficial es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                comboboxOficial.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(comboboxNotificador.Text))
+            {
+                MessageBox.Show("Notificador es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                comboboxNotificador.Focus();
+                return;
+            }
+
+            // Estado/Fecha: tu app depende de EstadoLaboral
+            if (string.IsNullOrWhiteSpace(EstadoLaboral.estado) && string.IsNullOrWhiteSpace(txtEstado.Text))
+            {
+                MessageBox.Show("Debe agregar un estado antes de guardar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!EstadoLaboral.fechaEstado.HasValue)
+            {
+                MessageBox.Show("Debe agregar la fecha del estado antes de guardar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var req = new CrearCasoLaboralRequest
+            {
+                Expediente = txtExpediente.Text,
+                Juzgado = comboBoxJuzgado.Text,
+                Oficial = comboboxOficial.Text,
+                Notificador = comboboxNotificador.Text,
+                NombreParticular = txtNombreParticular.Text,
+
+                Estado = EstadoLaboral.estado ?? txtEstado.Text,
+                Observaciones = EstadoLaboral.observaciones ?? txtObservaciones.Text,
+                UsuarioCreador = UserSession.Id,
+                Fecha = EstadoLaboral.fechaEstado.HasValue
+                ? EstadoLaboral.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                : null,
+                FechaVencimiento = EstadoLaboral.fechaVencimiento.HasValue
+                ? EstadoLaboral.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                : "",
+
+                Demandantes = listaDemandantes.Select(x => x.id).ToList(),
+                Demandados = listaDemandados.Select(x => x.id).ToList(),
+                TercerosInteresados = listaTercerosInteresados.Select(x => x.id).ToList(),
+                ContactosEmpresa = listaContactosEmpresa.Select(x => x.id).ToList(),
+
+                AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
+                SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
+                AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
+            };
+
+            var resultado = await casoLaboralModel.CrearCasoLaboral(req);
+
+            if (resultado.success)
+            {
+                MessageBox.Show("Caso laboral creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await CargarCasosNoDefinitivos();
+                LimpiarFormulario();
+                AnadirTabPage(Listar);
+                EliminarTabPage(Detalles);
+            }
+            else
+            {
+                MessageBox.Show("Error: " + resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async void roundedButton18_Click(object sender, EventArgs e)
+        {
+            await GuardarCaso();
+        }
+
+        private void roundedButton19_Click(object sender, EventArgs e)
+        {
+            LimpiarFormulario();
+            AnadirTabPage(Listar);
+            EliminarTabPage(Detalles);
+        }
+
+
+        private async void dtgCasosLaborales_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.RowIndex < 0) return;
+
+            if (dtgCasosLaboralesNoDefinitivos.Columns[e.ColumnIndex].Name == "Eliminar")
+            {
+                int idTerceroInteresado = Convert.ToInt32(dtgCasosLaboralesNoDefinitivos.Rows[e.RowIndex].Cells["id"].Value);
+                string? terceroInteresado = Convert.ToString(dtgCasosLaboralesNoDefinitivos.Rows[e.RowIndex].Cells["expediente"].Value);
+                var confirm = MessageBox.Show(
+                    "¿Seguro que desea eliminar el caso " + terceroInteresado + "?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    /*var resultado = await terceroInteresadoModel.EliminarTerceroInteresado(idTerceroInteresado);
+
+                    if (resultado.success)
+                    {
+                        MessageBox.Show("Tercero interesado eliminado correctamente.", "Éxito",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        await CargarCasos();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error: " + resultado.message
+                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }*/
+                }
+            }
+
+            if (dtgCasosLaboralesNoDefinitivos.Columns[e.ColumnIndex].Name == "Editar")
+            {
+                btnGuardarCaso.Text = "Actualizar";
+                lblTitulo.Text = "Editar Caso Laboral";
+                int idCaso = Convert.ToInt32(dtgCasosLaboralesNoDefinitivos.Rows[e.RowIndex].Cells["id"].Value);
+                _idCasoEditar = idCaso;
+                _actualizandoCaso = true;
+                await CargarDatosCaso(idCaso);
+                _huboCambioEstado = false;
+            }
+        }
+
+        private void Detalles_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtgPermisos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void Laboral_primer_instancia_Recursos_Resize_1(object sender, EventArgs e)
+        {
+            CentrarPanel();
+        }
+
+        private void btnAgregarEstado_Click(object sender, EventArgs e)
+        {
+            FrmAgregarEstadoLaboralPI frmAgregarEstado = new FrmAgregarEstadoLaboralPI();
+            frmAgregarEstado.ShowDialog();
+
+            if (EstadoLaboral.estado != null)
+            {
+                _huboCambioEstado = true;
+                txtEstado.Text = EstadoLaboral.estado.ToString();
+                txtObservaciones.AppendText(Environment.NewLine + EstadoLaboral.observaciones);
+
+                MessageBox.Show("Estado agregado correctamente", "Éxito",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                string texto = txtEstado.Text.Trim();
+                if (!String.IsNullOrWhiteSpace(texto))
+                {
+                    txtEstado.Text = texto;
+                }
+                else
+                {
+                    txtEstado.Text = "";
+                }
+
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab == Detalles)
+            {
+                Detalles.AutoScrollPosition = new Point(0, 0);
+
+                if (_actualizandoCaso)
+                {
+                    btnVerArchivos.Visible = true;
+                    btnVerHistorial.Visible = true;
+                }
+                else
+                {
+                    btnVerArchivos.Visible = false;
+                    btnVerHistorial.Visible = false;
+                }
+
+                panelBotonesCaso.Visible = true;
+
+            }
+            else if (tabControl1.SelectedTab == Listar)
+            {
+                panelBotonesCaso.Visible = false;
+            }
+            else if (tabControl1.SelectedTab == tabPageHistorial)
+            {
+                panelBotonesCaso.Visible = false;
+            }
+            else if (tabControl1.SelectedTab == tabPageArchivos)
+            {
+                panelBotonesCaso.Visible = false;
+            }
+        }
+
+        private void btnAgregarDemandantes_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmAgregarDemandante(listaDemandantes);
+
+            frm.Show();
+        }
+
+        private void AjustarLayoutPorResolucion()
+        {
+            if (flowLayoutPanel1.Controls.Count == 0) return;
+
+            int w = flowLayoutPanel1.ClientSize.Width;
+            if (w <= 50) return;
+
+            int padding = flowLayoutPanel1.Padding.Left + flowLayoutPanel1.Padding.Right;
+
+            int marginX = 10;
+            int gap = 20;
+            int ancho2Cols = (w - padding - gap) / 2;
+            bool caben2 = (ancho2Cols >= 620);
+
+            if (caben2)
+            {
+                flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
+                flowLayoutPanel1.WrapContents = true;
+
+                foreach (Panel p in flowLayoutPanel1.Controls.OfType<Panel>())
+                {
+                    // Tus paneles son AutoSize, se mantienen así
+                    p.AutoSize = true;
+                    p.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+                    // Le "encerramos" el ancho
+                    p.MinimumSize = new Size(ancho2Cols, p.MinimumSize.Height);
+                    p.MaximumSize = new Size(ancho2Cols, 0);
+
+                    // Margen para que se vea bien y el wrap calcule
+                    p.Margin = new Padding(5);
+                }
+            }
+            else
+            {
+                flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+                flowLayoutPanel1.WrapContents = false;
+
+                int ancho1Col = w - padding - 10;
+
+                foreach (Panel p in flowLayoutPanel1.Controls.OfType<Panel>())
+                {
+                    p.AutoSize = true;
+                    p.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+                    p.MinimumSize = new Size(ancho1Col, p.MinimumSize.Height);
+                    p.MaximumSize = new Size(ancho1Col, 0);
+
+                    p.Margin = new Padding(5);
+                }
+            }
+
+            flowLayoutPanel1.PerformLayout();
+
+        }
+
+        private void AjustarAlturaDataGridViewDemandados()
+        {
+            dtgDemandados.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgDemandados.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgDemandados.ColumnHeadersHeight;
+
+            dtgDemandados.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgDemandados.ScrollBars = ScrollBars.None;
+
+            panelDemandados.PerformLayout();
+            flowLayoutPanel1.PerformLayout();
+
+        }
+        private void AjustarAlturaDataGridViewDemandantes()
+        {
+            dtgDemandantes.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgDemandantes.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgDemandantes.ColumnHeadersHeight;
+
+            dtgDemandantes.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgDemandantes.ScrollBars = ScrollBars.None;
+
+            dtgDemandantes.PerformLayout();
+            flowLayoutPanel1.PerformLayout();
+
+        }
+
+        private void AjustarAlturaDataGridViewTercerosInteresados()
+        {
+            dtgTercerosInteresados.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgTercerosInteresados.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgTercerosInteresados.ColumnHeadersHeight;
+
+            dtgTercerosInteresados.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgTercerosInteresados.ScrollBars = ScrollBars.None;
+
+            dtgTercerosInteresados.PerformLayout();
+            flowLayoutPanel1.PerformLayout();
+
+        }
+
+        private void AjustarAlturaDataGridViewContactosEmpresa()
+        {
+            dtgContactoEmpresa.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgContactoEmpresa.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgContactoEmpresa.ColumnHeadersHeight;
+
+            dtgContactoEmpresa.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgContactoEmpresa.ScrollBars = ScrollBars.None;
+
+            dtgContactoEmpresa.PerformLayout();
+            flowLayoutPanel1.PerformLayout();
+
+        }
+        private void AjustarAlturaDataGridViewAbogadosDirectores()
+        {
+            dtgAbogadosDirectores.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgAbogadosDirectores.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgAbogadosDirectores.ColumnHeadersHeight;
+
+            dtgAbogadosDirectores.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgAbogadosDirectores.ScrollBars = ScrollBars.None;
+
+            dtgAbogadosDirectores.PerformLayout();
+            flowLayoutPanel1.PerformLayout();
+
+        }
+
+        private void AjustarAlturaDataGridViewSociosResponsables()
+        {
+            dtgSociosResponsables.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgSociosResponsables.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgSociosResponsables.ColumnHeadersHeight;
+
+            dtgSociosResponsables.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgSociosResponsables.ScrollBars = ScrollBars.None;
+
+            dtgSociosResponsables.PerformLayout();
+            flowLayoutPanel1.PerformLayout();
+
+        }
+
+        private void AjustarAlturaDataGridViewAbogadosAsistentes()
+        {
+            dtgAbogadosAsistentes.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgAbogadosAsistentes.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgAbogadosAsistentes.ColumnHeadersHeight;
+
+            dtgAbogadosAsistentes.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgAbogadosAsistentes.ScrollBars = ScrollBars.None;
+
+            dtgAbogadosAsistentes.PerformLayout();
+            flowLayoutPanel1.PerformLayout();
+
+        }
+
+        private void btnAgregarDemandados_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmAgregarDemandado(listaDemandados);
+
+            frm.Show();
+
+        }
+
+        private void dtgDemandados_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgDemandados.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgDemandados.Rows[e.RowIndex].DataBoundItem as PersonaListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombre ?? "este demandado";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de demandados?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaDemandados.Remove(item); // ✅ aquí se quita
+
+                }
+            }
+        }
+        private void LimpiarListas()
+        {
+            listaDemandados.Clear();
+            listaDemandantes.Clear();
+            listaTercerosInteresados.Clear();
+            listaContactosEmpresa.Clear();
+
+            listaAbogadosDirectores.Clear();
+            listaSociosResponsables.Clear();
+            listaAbogadosAsistentes.Clear();
+        }
+
+        private void dtgDemandados_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgDemandados.Columns["id"] != null)
+            {
+                dtgDemandados.Columns["id"].Visible = false;
+            }
+
+            if (dtgDemandados.Columns["id_rol"] != null)
+            {
+                dtgDemandados.Columns["id_rol"].Visible = false;
+            }
+
+            dtgDemandados.ClearSelection();
+        }
+
+        private void dtgDemandantes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgDemandantes.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgDemandantes.Rows[e.RowIndex].DataBoundItem as PersonaListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombre ?? "este demandante";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de demandantes?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaDemandantes.Remove(item); // ✅ aquí se quita
+
+                }
+            }
+        }
+
+        private void dtgDemandantes_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgDemandantes.Columns["id"] != null)
+            {
+                dtgDemandantes.Columns["id"].Visible = false;
+            }
+
+            if (dtgDemandantes.Columns["id_rol"] != null)
+            {
+                dtgDemandantes.Columns["id_rol"].Visible = false;
+            }
+
+            dtgDemandantes.ClearSelection();
+        }
+
+        private void btnAgregarPartesInteresadas_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmAgregarTerceroInteresado(listaTercerosInteresados);
+
+            frm.Show();
+        }
+
+        private void dtgPartesInteresadas_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgTercerosInteresados.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgTercerosInteresados.Rows[e.RowIndex].DataBoundItem as PersonaListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombre ?? "este tercero interesado";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de terceros interesados?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaTercerosInteresados.Remove(item); // ✅ aquí se quita
+
+                }
+            }
+        }
+
+        private void dtgPartesInteresadas_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgTercerosInteresados.Columns["id"] != null)
+            {
+                dtgTercerosInteresados.Columns["id"].Visible = false;
+            }
+
+            if (dtgTercerosInteresados.Columns["id_rol"] != null)
+            {
+                dtgTercerosInteresados.Columns["id_rol"].Visible = false;
+            }
+
+            dtgTercerosInteresados.ClearSelection();
+        }
+
+        private void btnAgregarContactoEmpresa_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmAgregarContactoEmpresa(listaContactosEmpresa);
+
+            frm.Show();
+        }
+
+        private void dtgContactoEmpresa_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgContactoEmpresa.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgContactoEmpresa.Rows[e.RowIndex].DataBoundItem as PersonaListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombre ?? "este contacto de empresa";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de contactos de empresa?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaContactosEmpresa.Remove(item); // ✅ aquí se quita
+
+                }
+            }
+        }
+
+        private void dtgContactoEmpresa_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgContactoEmpresa.Columns["id"] != null)
+            {
+                dtgContactoEmpresa.Columns["id"].Visible = false;
+            }
+
+            if (dtgContactoEmpresa.Columns["id_rol"] != null)
+            {
+                dtgContactoEmpresa.Columns["id_rol"].Visible = false;
+            }
+
+            dtgContactoEmpresa.ClearSelection();
+        }
+
+        private void btnAgregarAbogadosDirectores_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmAgregarAbogadoDirector(listaAbogadosDirectores);
+            frm.Show();
+        }
+
+        private void dtgAbogadosDirectores_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgAbogadosDirectores.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgAbogadosDirectores.Rows[e.RowIndex].DataBoundItem as UserListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombres + " " + item.Apellidos ?? "este abogado ";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de abogados directores?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaAbogadosDirectores.Remove(item); // ✅ aquí se quita
+
+                }
+            }
+        }
+
+        private void dtgAbogadosDirectores_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+
+            if (dtgAbogadosDirectores.Columns["id"] != null)
+            {
+                dtgAbogadosDirectores.Columns["id"].Visible = false;
+            }
+
+            if (dtgAbogadosDirectores.Columns["id_rol"] != null)
+            {
+                dtgAbogadosDirectores.Columns["id_rol"].Visible = false;
+            }
+
+            dtgAbogadosDirectores.ClearSelection();
+        }
+
+        private void btnAgregarSociosResponsables_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmAgregarSocioResponsable(listaSociosResponsables);
+            frm.Show();
+        }
+
+        private void dtgSociosResponsables_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgSociosResponsables.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgSociosResponsables.Rows[e.RowIndex].DataBoundItem as UserListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombres + " " + item.Apellidos ?? "este abogado ";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de abogados directores?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaSociosResponsables.Remove(item); // ✅ aquí se quita
+                }
+            }
+        }
+
+        private void dtgSociosResponsables_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgSociosResponsables.Columns["id"] != null)
+            {
+                dtgSociosResponsables.Columns["id"].Visible = false;
+            }
+
+            if (dtgSociosResponsables.Columns["id_rol"] != null)
+            {
+                dtgSociosResponsables.Columns["id_rol"].Visible = false;
+            }
+
+            dtgSociosResponsables.ClearSelection();
+        }
+
+        private void btnAgregarAbogadosAsistentes_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmAgregarAbogadoAsistente(listaAbogadosAsistentes);
+            frm.Show();
+        }
+
+        private void dtgAbogadosAsistentes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgAbogadosAsistentes.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgAbogadosAsistentes.Rows[e.RowIndex].DataBoundItem as UserListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombres + " " + item.Apellidos ?? "este abogado ";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de abogados asistentes?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaAbogadosAsistentes.Remove(item); // ✅ aquí se quita
+                }
+            }
+        }
+
+        private void dtgAbogadosAsistentes_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgAbogadosAsistentes.Columns["id"] != null)
+            {
+                dtgAbogadosAsistentes.Columns["id"].Visible = false;
+            }
+
+            if (dtgAbogadosAsistentes.Columns["id_rol"] != null)
+            {
+                dtgAbogadosAsistentes.Columns["id_rol"].Visible = false;
+            }
+
+            dtgAbogadosAsistentes.ClearSelection();
+        }
+
+        private void Laboral_primer_instancia_Recursos_ResizeEnd(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Detalles_Resize(object sender, EventArgs e)
+        {
+            this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
+            //MessageBox.Show("ancho flow  " + flowLayoutPanel1.ClientSize.Width);
+        }
+
+
+        private async void btnEditarCaso_Click(object sender, EventArgs e)
+        {
+            //aqui actualizo los datos del caso 
+            bool cambioEstado = false;
+
+            if (_idCasoEditar <= 0)
+            {
+                MessageBox.Show("No hay caso seleccionado para editar.");
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                "¿Desea guardar los cambios del caso?",
+                "Confirmar",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes) return;
+
+            if (_huboCambioEstado && _actualizandoCaso)
+            {
+                cambioEstado = true;
+            }
+            else
+            {
+                cambioEstado = false;
+            }
+
+            var req = new EditarCasoLaboralRequest
+            {
+                UsuarioId = UserSession.Id,
+                CasoId = _idCasoEditar,
+
+                Expediente = txtExpediente.Text,
+                Juzgado = comboBoxJuzgado.Text,
+                Oficial = comboboxOficial.Text,
+                Notificador = comboboxNotificador.Text,
+                NombreParticular = txtNombreParticular.Text,
+
+
+                // historial (tomas lo último elegido en tu modal de estado)
+                huboCambioEstado = cambioEstado,
+                Estado = EstadoLaboral.estado ?? txtEstado.Text,
+                Observaciones = EstadoLaboral.observaciones ?? txtObservaciones.Text,
+
+                Fecha = (EstadoLaboral.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
+                FechaVencimiento = EstadoLaboral.fechaVencimiento.HasValue
+                        ? EstadoLaboral.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                        : "",
+
+                Demandantes = listaDemandantes.Select(x => x.id).ToList(),
+                Demandados = listaDemandados.Select(x => x.id).ToList(),
+                TercerosInteresados = listaTercerosInteresados.Select(x => x.id).ToList(),
+                ContactosEmpresa = listaContactosEmpresa.Select(x => x.id).ToList(),
+
+                AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
+                SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
+                AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
+            };
+
+            var resultado = await casoLaboralModel.EditarCasoLaboral(req);
+
+            if (resultado.success)
+            {
+                MessageBox.Show("Caso laboral actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                await CargarCasosNoDefinitivos();
+                LimpiarFormulario();
+                _idCasoEditar = 0;
+
+                AnadirTabPage(Listar);
+                EliminarTabPage(Detalles);
+                _actualizandoCaso = false;
+            }
+            else
+            {
+                MessageBox.Show("Error: " + resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void roundedButton24_Click(object sender, EventArgs e)
+        {
+
+        }
+        private async Task ListarHistorial()
+        {
+
+            var datosHistorial = await casoLaboralModel.ObtenerHistorialCasoLaboral(_idCasoEditar);
+
+            if (!datosHistorial.success || datosHistorial.data == null)
+                return;
+
+
+            dtgHistorial.DataSource = datosHistorial.data;
+
+            // Cambiar encabezados
+            dtgHistorial.Columns["fecha"].HeaderText = "Fecha";
+            dtgHistorial.Columns["fecha_vencimiento"].HeaderText = "Fecha Vencimiento";
+            dtgHistorial.Columns["fecha"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            dtgHistorial.Columns["fecha_vencimiento"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            dtgHistorial.Columns["estado"].HeaderText = "Estado";
+            dtgHistorial.Columns["origen"].HeaderText = "Origen";
+            dtgHistorial.Columns["anotaciones"].HeaderText = "Anotaciones";
+            dtgHistorial.Columns["usuario_creador"].HeaderText = "Usuario Creador";
+            dtgHistorial.Columns["usuario_editor"].HeaderText = "Usuario Editor";
+        }
+
+        private async void btnVerHistorial_Click(object sender, EventArgs e)
+        {
+            AnadirTabPage(tabPageHistorial);
+            EliminarTabPage(tabPageArchivos);
+            EliminarTabPage(Detalles);
+
+            await ListarHistorial();
+        }
+
+        private async Task ListarArchivosCaso()
+        {
+            var res = await casoLaboralModel.ListarArchivosCasoLaboral(_idCasoEditar);
+
+            if (!res.success)
+            {
+                MessageBox.Show(res.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dtgArchivos.DataSource = null;
+                return;
+            }
+            else
+            {
+                dtgArchivos.DataSource = res.data;
+
+                dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
+                dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
+                dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
+                dtgArchivos.Columns["archivo_id"].Visible = false;
+
+                CrearBotonesAccionArchivos(dtgArchivos);
+            }
+        }
+
+        private void CrearBotonesAccionArchivos(DataGridView dtg)
+        {
+            dtg.AutoGenerateColumns = true;
+
+            // Abrir
+            if (!dtg.Columns.Contains("Abrir"))
+            {
+                var btnAbrir = new DataGridViewButtonColumn
+                {
+                    Name = "Abrir",
+                    HeaderText = "",
+                    Text = "👁️", // ver/abrir
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 45,
+                    MinimumWidth = 45,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+                dtg.Columns.Add(btnAbrir);
+            }
+
+            // Descargar
+            if (!dtg.Columns.Contains("Descargar"))
+            {
+                var btnDescargar = new DataGridViewButtonColumn
+                {
+                    Name = "Descargar",
+                    HeaderText = "",
+                    Text = "⬇️",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 45,
+                    MinimumWidth = 45,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+                dtg.Columns.Add(btnDescargar);
+            }
+
+            // Eliminar
+            if (!dtg.Columns.Contains("Eliminar"))
+            {
+                var btnEliminar = new DataGridViewButtonColumn
+                {
+                    Name = "Eliminar",
+                    HeaderText = "",
+                    Text = "🗑️",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 45,
+                    MinimumWidth = 45,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+                dtg.Columns.Add(btnEliminar);
+            }
+
+            // mover al final (en orden)
+            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 3;
+            dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2;
+            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
+        }
+
+        private async void btnVerArchivos_Click(object sender, EventArgs e)
+        {
+            AnadirTabPage(tabPageArchivos);
+            EliminarTabPage(tabPageHistorial);
+            EliminarTabPage(Detalles);
+
+            await ListarArchivosCaso();
+        }
+
+        private void roundedButton19_Click_1(object sender, EventArgs e)
+        {
+            AnadirTabPage(Detalles);
+            EliminarTabPage(tabPageHistorial);
+        }
+
+        private void btnRegresarDetalleDeArchivos_Click(object sender, EventArgs e)
+        {
+            AnadirTabPage(Detalles);
+            EliminarTabPage(tabPageArchivos);
+        }
+
+        private void dtgHistorial_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+
+            if (dtgHistorial.Columns["id"] != null)
+            {
+                dtgHistorial.Columns["id"].Visible = false;
+            }
+
+            if (dtgHistorial.Columns["usuario_creador_id"] != null)
+            {
+                dtgHistorial.Columns["usuario_creador_id"].Visible = false;
+            }
+
+            if (dtgHistorial.Columns["usuario_editor_id"] != null)
+            {
+                dtgHistorial.Columns["usuario_editor_id"].Visible = false;
+            }
+
+            if (dtgHistorial.Columns["caso_id"] != null)
+            {
+                dtgHistorial.Columns["caso_id"].Visible = false;
+            }
+
+            //CrearBotonesAccion(dtgHistorial);
+            dtgHistorial.ClearSelection();
+        }
+        private async Task RefrescarListaArchivos()
+        {
+            var resp = await casoLaboralModel.ListarArchivosCasoLaboral(_idCasoEditar);
+
+            if (!resp.success)
+            {
+                MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dtgArchivos.DataSource = null;
+                return;
+            }
+
+            dtgArchivos.DataSource = resp.data;
+            dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
+            dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
+            dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
+            dtgArchivos.Columns["archivo_id"].Visible = false;
+            CrearBotonesAccionArchivos(dtgArchivos);
+        }
+
+        private async void dtgArchivos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var grid = (DataGridView)sender;
+            var colName = grid.Columns[e.ColumnIndex].Name;
+
+            var archivoId = Convert.ToString(grid.Rows[e.RowIndex].Cells["archivo_id"].Value);
+            var nombre = Convert.ToString(grid.Rows[e.RowIndex].Cells["nombre"].Value);
+
+            if (string.IsNullOrWhiteSpace(archivoId)) return;
+
+            try
+            {
+                // ABRIR (descarga a TEMP y abre)
+                if (colName == "Abrir")
+                {
+                    var tempFile = Path.Combine(Path.GetTempPath(), nombre ?? "archivo");
+
+                    var resp = await casoLaboralModel.DescargarArchivoCasoLaboral(_idCasoEditar, archivoId, tempFile);
+                    if (!resp.success)
+                    {
+                        MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    Process.Start(new ProcessStartInfo(resp.data) { UseShellExecute = true });
+                }
+
+                // DESCARGAR (elige destino y guarda)
+                else if (colName == "Descargar")
+                {
+                    using var sfd = new SaveFileDialog
+                    {
+                        FileName = nombre ?? "archivo",
+                        Filter = "Todos los archivos (*.*)|*.*"
+                    };
+
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        var resp = await casoLaboralModel.DescargarArchivoCasoLaboral(_idCasoEditar, archivoId, sfd.FileName);
+                        if (!resp.success)
+                        {
+                            MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        MessageBox.Show("Archivo descargado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
+                // ELIMINAR (confirmación)
+                else if (colName == "Eliminar")
+                {
+                    var r = MessageBox.Show($"¿Eliminar el archivo?\n\n{nombre}", "Confirmar",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (r == DialogResult.Yes)
+                    {
+                        var resp = await casoLaboralModel.EliminarArchivoCasoLaboral(_idCasoEditar, archivoId);
+                        if (!resp.success)
+                        {
+                            MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        MessageBox.Show("Archivo eliminado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        await RefrescarListaArchivos();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void btnSubirArchivo_Click(object sender, EventArgs e)
+        {
+            if (_idCasoEditar <= 0)
+            {
+                MessageBox.Show("Debe seleccionar un caso válido.",
+                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using var ofd = new OpenFileDialog
+            {
+                Title = "Seleccionar archivo",
+                Filter = "Archivos permitidos|*.pdf;*.doc;*.docx;*.xls;*.xlsx;*.png;*.jpg;*.jpeg;*.zip;*.rar;*.txt",
+                Multiselect = false
+            };
+
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+
+            try
+            {
+                btnSubirArchivo.Enabled = false;
+                btnSubirArchivo.Text = "Subiendo...";
+
+                var response = await casoLaboralModel.SubirArchivoCasoLaboral(_idCasoEditar, ofd.FileName);
+
+                if (!response.success)
+                {
+                    MessageBox.Show(response.message,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show("Archivo subido correctamente.",
+                    "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                await RefrescarListaArchivos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnSubirArchivo.Enabled = true;
+                btnSubirArchivo.Text = "Subir archivo";
+            }
+        }
+
+        private void dtgCasosLaboralesFinJuicio_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            // Oculta la columna 'id'
+            if (dtgCasosLaboralesFinJuicio.Columns["id"] != null)
+            {
+                dtgCasosLaboralesFinJuicio.Columns["id"].Visible = false;
+            }
+
+            // Oculta la columna 'id'
+            if (dtgCasosLaboralesFinJuicio.Columns["id_rol"] != null)
+            {
+                dtgCasosLaboralesFinJuicio.Columns["id_rol"].Visible = false;
+            }
+
+            CrearBotonesAccion(dtgCasosLaboralesFinJuicio);
+            dtgCasosLaboralesFinJuicio.ClearSelection();
+        }
+    }
+}

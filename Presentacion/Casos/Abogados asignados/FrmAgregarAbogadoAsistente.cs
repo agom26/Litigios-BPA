@@ -39,6 +39,7 @@ namespace Presentacion.Casos.Abogados_asignados
                 tablessControl1.TabPages.Remove(nombre);
             }
         }
+
         private void AnadirTabPage(TabPage nombre)
         {
             if (!tablessControl1.TabPages.Contains(nombre))

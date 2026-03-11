@@ -1,4 +1,5 @@
 ﻿using Comun;
+using Presentacion.Alertas;
 using Presentacion.Casos.Laborales;
 using Presentacion.Personas;
 using System;
@@ -26,8 +27,8 @@ namespace Presentacion
             treeView1.ShowRootLines = false;
             treeView1.FullRowSelect = true;
             treeView1.HideSelection = false;
-            treeView1.BackColor = Color.White;
-            treeView1.ForeColor = Color.FromArgb(45, 45, 45);
+            treeView1.BackColor = Color.FromArgb(243, 237, 228);
+            treeView1.ForeColor = Color.FromArgb(243, 237, 228);
             treeView1.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
 
             treeView1.DrawMode = TreeViewDrawMode.OwnerDrawText;
@@ -69,7 +70,36 @@ namespace Presentacion
 
         }
 
+        private async Task AbrirFormularioConLoaderAsync(Form frm)
+        {
+            try
+            {
+                if (frm is IAsyncLoadable asyncForm)
+                {
+                    using (var loading = new FrmLoading(async () => await asyncForm.LoadAsync()))
+                    {
+                        var result = loading.ShowDialog(this);
 
+                        if (result != DialogResult.OK)
+                        {
+                            frm.Dispose();
+                            return;
+                        }
+                    }
+                }
+
+                openChildForm(frm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir formulario: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                frm.Dispose();
+            }
+        }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -121,7 +151,7 @@ namespace Presentacion
                     case "laboral":
                         TreeNode laboral = CrearNodo("Laboral", "laboral");
                         laboral.Nodes.Add(CrearNodo("Primer Instancia", "laboral"));
-                        laboral.Nodes.Add(CrearNodo("Recursos contra soluciones", "laboral"));
+                        laboral.Nodes.Add(CrearNodo("Recursos contra resoluciones", "laboral"));
                         laboral.Nodes.Add(CrearNodo("Segunda Instancia", "laboral"));
                         treeView1.Nodes.Add(laboral);
                         break;
@@ -178,12 +208,12 @@ namespace Presentacion
             };
         }
 
-
         private void CargarDatosUsuario()
         {
             lblNombre.Text = UserSession.Nombres + " \n" + UserSession.Apellidos;
             lblUsuario.Text = UserSession.Usuario;
         }
+
         private void MenuPrincipal_Load(object sender, EventArgs e)
         {
             CargarMenuPorModulos();
@@ -191,7 +221,7 @@ namespace Presentacion
             AjustarAnchoTreeView();
         }
 
-        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private async void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode nodo = e.Node;
 
@@ -233,7 +263,13 @@ namespace Presentacion
                 else if (nodo.Text == "Primer Instancia" && nodo.Parent != null &&
                     nodo.Parent.Text == "Laboral")
                 {
-                    openChildForm(new Laboral_primer_instancia());
+                    await AbrirFormularioConLoaderAsync(new Laboral_primer_instancia());
+                    //openChildForm(new Laboral_primer_instancia());
+                }
+                else if (nodo.Text == "Recursos contra resoluciones" && nodo.Parent != null &&
+                    nodo.Parent.Text == "Laboral")
+                {
+                    openChildForm(new Laboral_primer_instancia_Recursos());
                 }
                 else if (nodo.Text == "Inicio")
                 {
@@ -353,11 +389,12 @@ namespace Presentacion
             // Colores para seleccionado y no seleccionado
             Color backColor = (e.State & TreeNodeStates.Selected) != 0
                 ? Color.FromArgb(0, 120, 215)  // Azul moderno
-                : Color.White;
+                : Color.FromArgb(243, 237, 228); 
             Color foreColor = (e.State & TreeNodeStates.Selected) != 0
-                ? Color.White
+                ? Color.FromArgb(243, 237, 228)
                 : Color.FromArgb(45, 45, 45);
-
+           
+            //Color.FromArgb(243, 237, 228);
             // Dibujar fondo
             using (SolidBrush brush = new SolidBrush(backColor))
             {
