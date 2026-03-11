@@ -80,7 +80,7 @@
             // 
             // treeView1
             // 
-            treeView1.BackColor = Color.FromArgb(243, 237, 228);
+            treeView1.BackColor = Color.White;
             treeView1.BorderStyle = BorderStyle.None;
             treeView1.Dock = DockStyle.Left;
             treeView1.ImageIndex = 0;
@@ -196,7 +196,7 @@
             // 
             // panelDatosUsuarioContraido
             // 
-            panelDatosUsuarioContraido.BackColor = Color.FromArgb(243, 237, 228);
+            panelDatosUsuarioContraido.BackColor = Color.White;
             panelDatosUsuarioContraido.Controls.Add(pictureBoxUserContraido);
             panelDatosUsuarioContraido.Controls.Add(btnLogOut2);
             panelDatosUsuarioContraido.Dock = DockStyle.Left;
@@ -242,7 +242,7 @@
             // panelDatosUsuarioExpandido
             // 
             panelDatosUsuarioExpandido.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panelDatosUsuarioExpandido.BackColor = Color.FromArgb(243, 237, 228);
+            panelDatosUsuarioExpandido.BackColor = Color.White;
             panelDatosUsuarioExpandido.Controls.Add(lblUsuario);
             panelDatosUsuarioExpandido.Controls.Add(pictureBoxUser);
             panelDatosUsuarioExpandido.Controls.Add(lblNombre);
@@ -320,7 +320,7 @@
             // 
             // panelMenu
             // 
-            panelMenu.BackColor = Color.FromArgb(243, 237, 228);
+            panelMenu.BackColor = Color.White;
             panelMenu.Controls.Add(panelTreeView);
             panelMenu.Controls.Add(panelColapsarMenu);
             panelMenu.Controls.Add(panelDatosUsuario);
@@ -341,7 +341,7 @@
             // 
             // panelColapsarMenu
             // 
-            panelColapsarMenu.BackColor = Color.FromArgb(243, 237, 228);
+            panelColapsarMenu.BackColor = Color.White;
             panelColapsarMenu.Controls.Add(btnMenu);
             panelColapsarMenu.Dock = DockStyle.Top;
             panelColapsarMenu.Location = new Point(0, 0);
@@ -351,8 +351,8 @@
             // 
             // btnMenu
             // 
-            btnMenu.BackColor = Color.FromArgb(243, 237, 228);
-            btnMenu.BackgroundColor = Color.FromArgb(243, 237, 228);
+            btnMenu.BackColor = Color.White;
+            btnMenu.BackgroundColor = Color.White;
             btnMenu.BorderColor = Color.Empty;
             btnMenu.BorderRadius = 37;
             btnMenu.BorderSize = 0;

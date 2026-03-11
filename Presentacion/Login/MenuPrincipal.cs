@@ -27,8 +27,9 @@ namespace Presentacion
             treeView1.ShowRootLines = false;
             treeView1.FullRowSelect = true;
             treeView1.HideSelection = false;
-            treeView1.BackColor = Color.FromArgb(243, 237, 228);
-            treeView1.ForeColor = Color.FromArgb(243, 237, 228);
+            treeView1.BackColor = Color.FromArgb(255, 255, 255);
+            //Color.FromArgb(243, 237, 228);
+            treeView1.ForeColor = Color.FromArgb(255, 255, 255); //Color.FromArgb(243, 237, 228);
             treeView1.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
 
             treeView1.DrawMode = TreeViewDrawMode.OwnerDrawText;
@@ -264,13 +265,19 @@ namespace Presentacion
                     nodo.Parent.Text == "Laboral")
                 {
                     await AbrirFormularioConLoaderAsync(new Laboral_primer_instancia());
-                    //openChildForm(new Laboral_primer_instancia());
+                    
                 }
                 else if (nodo.Text == "Recursos contra resoluciones" && nodo.Parent != null &&
                     nodo.Parent.Text == "Laboral")
                 {
-                    openChildForm(new Laboral_primer_instancia_Recursos());
+                    await AbrirFormularioConLoaderAsync(new Laboral_primer_instancia_recursos_resolucion());
                 }
+                else if (nodo.Text == "Segunda Instancia" && nodo.Parent != null &&
+                    nodo.Parent.Text == "Laboral")
+                {
+                    await AbrirFormularioConLoaderAsync(new Laboral_segunda_instancia());
+                }
+
                 else if (nodo.Text == "Inicio")
                 {
                 }
@@ -384,14 +391,16 @@ namespace Presentacion
             }
             return ancho;
         }
+
         private void treeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             // Colores para seleccionado y no seleccionado
             Color backColor = (e.State & TreeNodeStates.Selected) != 0
                 ? Color.FromArgb(0, 120, 215)  // Azul moderno
-                : Color.FromArgb(243, 237, 228); 
+                : Color.FromArgb(255, 255, 255);//Color.FromArgb(243, 237, 228); 
             Color foreColor = (e.State & TreeNodeStates.Selected) != 0
-                ? Color.FromArgb(243, 237, 228)
+                ? Color.FromArgb(255, 255, 255)
+                //Color.FromArgb(243, 237, 228)
                 : Color.FromArgb(45, 45, 45);
            
             //Color.FromArgb(243, 237, 228);

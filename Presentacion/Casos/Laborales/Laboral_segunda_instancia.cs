@@ -1,4 +1,5 @@
 ﻿
+using AccesoDatos.Entidades;
 using Comun;
 using Comun.DatosParaInterfaz;
 using Comun.Models;
@@ -19,25 +20,27 @@ using static System.Net.WebRequestMethods;
 
 namespace Presentacion.Casos.Laborales
 {
-    public partial class Laboral_primer_instancia_Recursos : Form
+    public partial class Laboral_segunda_instancia : Form, IAsyncLoadable
     {
+        private bool _yaCargo = false;
         private bool _huboCambioEstado = false;
+
         private bool _actualizandoCaso = false;
+        private bool _cargandoCaso = false;
+        private bool _cargando = false;
+        private bool _procesandoArchivo = false;
 
         private int paginaActual = 1;
         private int registrosPorPagina = 10;
         private int totalRegistros = 0;
 
-        private int paginaActual2 = 1;
-        private int registrosPorPagina2 = 10;
-        private int totalRegistros2 = 0;
+        private HistorialCasoLaboralDetalle _historialSeleccionado;
+        private int _idHistorialEditar = 0;
+        private int _casoIdHistorialEditar = 0;
 
-        private BindingSource bsCasosNoDefinintivos = new BindingSource();
-        private BindingSource bsCasosFinJuicio = new BindingSource();
-
+        private BindingSource bsTercerosInteresados = new BindingSource();
         private int _idCasoEditar;
-
-        CasosLaboralesRecursosModel casoLaboralModel = new CasosLaboralesRecursosModel();
+        CasosLaboralesSegundaInstanciaDataAccess casoLaboralModel = new CasosLaboralesSegundaInstanciaDataAccess();
         TerceroInteresadoModel terceroInteresadoModel = new TerceroInteresadoModel();
         private BindingList<PersonaListDataResponse> listaDemandados
         = new BindingList<PersonaListDataResponse>();
@@ -54,7 +57,99 @@ namespace Presentacion.Casos.Laborales
         = new BindingList<UserListDataResponse>();
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
-        public Laboral_primer_instancia_Recursos()
+
+
+        public async Task LoadAsync()
+        {
+            if (_yaCargo) return;
+            _yaCargo = true;
+
+            panelBotonesCaso.Visible = false;
+            dtgCasosLaborales.DataSource = bsTercerosInteresados;
+
+            await CargarCasos();
+
+            dtgCasosLaborales.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+            if (dtgCasosLaborales.Columns.Contains("Editar"))
+                dtgCasosLaborales.Columns["Editar"].Width = 40;
+
+            if (dtgCasosLaborales.Columns.Contains("Eliminar"))
+                dtgCasosLaborales.Columns["Eliminar"].Width = 40;
+
+            EliminarTabPage(Detalles);
+            EliminarTabPage(tabPageArchivos);
+            EliminarTabPage(tabPageHistorial);
+            EliminarTabPage(tabPageEditarHistorial);
+
+            alistarListaDemandantes();
+            alistarListaDemandados();
+            alistarListaTercerosInteresados();
+            alistarListaContactosEmpresa();
+            alistarListaAbogadosDirectores();
+            alistarListaSociosResponsables();
+            alistarListaAbogadosAsistentes();
+
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.WrapContents = false;
+            flowLayoutPanel1.AutoScroll = true;
+
+            panelDemandados.AutoSize = true;
+            panelDemandados.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelDemandantes.AutoSize = true;
+            panelDemandantes.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelTercerosInteresados.AutoSize = true;
+            panelTercerosInteresados.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelContactosEmpresas.AutoSize = true;
+            panelContactosEmpresas.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelAbogadosDirectores.AutoSize = true;
+            panelAbogadosDirectores.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelSociosResponsables.AutoSize = true;
+            panelSociosResponsables.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelAbogadosAsistentes.AutoSize = true;
+            panelAbogadosAsistentes.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        }
+
+
+        private async Task EjecutarConLoaderAsync(Func<Task> accion)
+        {
+            using (var loading = new Presentacion.Alertas.FrmLoading(accion))
+            {
+                if (_cargando) return;
+
+                _cargando = true;
+
+                this.Enabled = false;
+                loading.Show(this);
+
+                // Centrar respecto al formulario actual
+                var centro = this.PointToScreen(Point.Empty);
+
+                loading.Left = centro.X + (this.ClientSize.Width - loading.Width) / 2;
+                loading.Top = centro.Y + (this.ClientSize.Height - loading.Height) / 2;
+
+                try
+                {
+                    while (loading.Visible)
+                    {
+                        await Task.Delay(100);
+                    }
+                }
+                finally
+                {
+                    this.Enabled = true;
+                    _cargando = false;
+                }
+            }
+        }
+
+        public Laboral_segunda_instancia()
         {
             InitializeComponent();
         }
@@ -98,17 +193,9 @@ namespace Presentacion.Casos.Laborales
                     .Replace("\n", Environment.NewLine); ;
             }
 
-            /* 2) Ultimo historial (si quieres priorizarlo sobre caso.estado/observaciones)
-            if (data.ultimo_historial != null)
-            {
-                txtEstado.Text = data.ultimo_historial.estado ?? txtEstado.Text;
-                //txtObservaciones.Text = data.ultimo_historial.anotaciones ?? txtObservaciones.Text;
-
-            }*/
-
             LimpiarListas();
 
-            // 4) Personas por rol -> tus BindingList<PersonaListDataResponse>
+            // 3) Personas por rol -> tus BindingList<PersonaListDataResponse>
             var p = data.personas_por_rol ?? new Dictionary<string, List<PersonaMiniDto>>();
 
             MapPersonas(p, "Demandante", listaDemandantes);
@@ -116,14 +203,14 @@ namespace Presentacion.Casos.Laborales
             MapPersonas(p, "Tercero Interesado", listaTercerosInteresados);
             MapPersonas(p, "Contacto de Empresa", listaContactosEmpresa);
 
-            // 5) Usuarios por rol -> tus BindingList<UserListDataResponse>
+            // 4) Usuarios por rol -> tus BindingList<UserListDataResponse>
             var u = data.usuarios_por_rol ?? new Dictionary<string, List<UsuarioMiniDto>>();
 
             MapUsuarios(u, "Abogado Director", listaAbogadosDirectores);
             MapUsuarios(u, "Socio Responsable", listaSociosResponsables);
             MapUsuarios(u, "Abogado Asistente", listaAbogadosAsistentes);
 
-            // 6) refrescar grids
+            // 5) refrescar grids
             dtgDemandantes.Refresh();
             dtgDemandados.Refresh();
             dtgTercerosInteresados.Refresh();
@@ -133,7 +220,7 @@ namespace Presentacion.Casos.Laborales
             dtgSociosResponsables.Refresh();
             dtgAbogadosAsistentes.Refresh();
 
-            // 7) Ir al tab Detalles
+            // 6) Ir al tab Detalles
             AnadirTabPage(Detalles);
             EliminarTabPage(Listar);
             btnGuardarCaso.Visible = false;
@@ -184,7 +271,7 @@ namespace Presentacion.Casos.Laborales
             if (tabControl1.TabPages.Contains(nombre))
             {
                 tabControl1.TabPages.Remove(nombre);
-                dtgCasosLaboralesNoDefinitivos.ClearSelection();
+                dtgCasosLaborales.ClearSelection();
             }
         }
         private void AnadirTabPage(TabPage nombre)
@@ -241,26 +328,18 @@ namespace Presentacion.Casos.Laborales
         private void CentrarPanel()
         {
             int anchoMinimo = panelBusquedaCaso.Width + 100;
-            int anchoMinimo2 = panelBusquedaCaso2.Width + 100;
 
-            if (tabControl1.ClientSize.Width >= anchoMinimo
-                && tabControl1.ClientSize.Width >= anchoMinimo2)
+            if (tabControl1.ClientSize.Width >= anchoMinimo)
             {
                 // Pantalla suficientemente ancha → centrar
                 panelBusquedaCaso.Anchor = AnchorStyles.None;
                 panelBusquedaCaso.Dock = DockStyle.Top;
-
-                panelBusquedaCaso2.Anchor = AnchorStyles.None;
-                panelBusquedaCaso2.Dock = DockStyle.Top;
             }
             else
             {
                 // Pantalla pequeña → top-left
                 panelBusquedaCaso.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                 panelBusquedaCaso.Location = new Point(0, 0); // o donde quieras
-
-                panelBusquedaCaso2.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                panelBusquedaCaso2.Location = new Point(3, 509);
             }
         }
 
@@ -275,41 +354,18 @@ namespace Presentacion.Casos.Laborales
             btnEditarCaso.Visible = false;
         }
 
-        private async Task CargarCasosNoDefinitivos()
+        private async Task CargarCasos()
         {
 
             int idUsuario = UserSession.Id;
-            string filtro = txtBuscarNoDefinitivo.Text;
-            var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, "no_definitiva", filtro);
+            string filtro = txtBuscar.Text;
+            var response = await casoLaboralModel.ListarCasosLaborales(idUsuario, paginaActual, registrosPorPagina, filtro);
 
             if (response.success)
             {
                 // Asignar los datos al BindingSource
-                bsCasosNoDefinintivos.DataSource = response.data;
-                dtgCasosLaboralesNoDefinitivos.Refresh();
-                // Actualizar paginación
-                totalRegistros = response.total;
-                labelTotal.Text = $"Total de casos laborales: {totalRegistros}";
-                lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)totalRegistros / registrosPorPagina)}";
-            }
-            else
-            {
-                MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async Task CargarCasosFinJuicio()
-        {
-
-            int idUsuario = UserSession.Id;
-            string filtro = txtBuscarFinJuicio.Text;
-            var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, "fin_juicio", filtro);
-
-            if (response.success)
-            {
-                // Asignar los datos al BindingSource
-                bsCasosFinJuicio.DataSource = response.data;
-                dtgCasosLaboralesFinJuicio.Refresh();
+                bsTercerosInteresados.DataSource = response.data;
+                dtgCasosLaborales.Refresh();
                 // Actualizar paginación
                 totalRegistros = response.total;
                 labelTotal.Text = $"Total de casos laborales: {totalRegistros}";
@@ -598,78 +654,22 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private async void Laboral_primer_instancia_Recursos_Load(object sender, EventArgs e)
+        private async void Laboral_segunda_instancia_Load(object sender, EventArgs e)
         {
-            panelBotonesCaso.Visible = false;
-            dtgCasosLaboralesNoDefinitivos.DataSource = bsCasosNoDefinintivos;
-            await CargarCasosNoDefinitivos();
-
-            dtgCasosLaboralesNoDefinitivos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            if (dtgCasosLaboralesNoDefinitivos.Columns.Contains("Editar"))
-                dtgCasosLaboralesNoDefinitivos.Columns["Editar"].Width = 40;
-
-            if (dtgCasosLaboralesNoDefinitivos.Columns.Contains("Eliminar"))
-                dtgCasosLaboralesNoDefinitivos.Columns["Eliminar"].Width = 40;
-
-
-            dtgCasosLaboralesFinJuicio.DataSource = bsCasosFinJuicio;
-            await CargarCasosFinJuicio();
-
-            dtgCasosLaboralesFinJuicio.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            if (dtgCasosLaboralesFinJuicio.Columns.Contains("Editar"))
-                dtgCasosLaboralesFinJuicio.Columns["Editar"].Width = 40;
-
-            if (dtgCasosLaboralesFinJuicio.Columns.Contains("Eliminar"))
-                dtgCasosLaboralesFinJuicio.Columns["Eliminar"].Width = 40;
-
-            EliminarTabPage(Detalles);
-            EliminarTabPage(tabPageArchivos);
-            EliminarTabPage(tabPageHistorial);
-
-            alistarListaDemandantes();
-            alistarListaDemandados();
-            alistarListaTercerosInteresados();
-            alistarListaContactosEmpresa();
-            alistarListaAbogadosDirectores();
-            alistarListaSociosResponsables();
-            alistarListaAbogadosAsistentes();
-
-            //prueba
-            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.WrapContents = false;
-            flowLayoutPanel1.AutoScroll = true; // para que aparezca scroll si se pasa del alto visible
-
-            panelDemandados.AutoSize = true;
-            panelDemandados.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
-            panelDemandantes.AutoSize = true;
-            panelDemandantes.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
-            panelTercerosInteresados.AutoSize = true;
-            panelTercerosInteresados.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
-            panelContactosEmpresas.AutoSize = true;
-            panelContactosEmpresas.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
-            panelAbogadosDirectores.AutoSize = true;
-            panelAbogadosDirectores.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
-            panelSociosResponsables.AutoSize = true;
-            panelSociosResponsables.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
-            panelAbogadosAsistentes.AutoSize = true;
-            panelAbogadosAsistentes.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            if (!_yaCargo)
+                await LoadAsync();
         }
+
 
         private void dtgCasosLaborales_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dtgCasosLaboralesNoDefinitivos.Columns[e.ColumnIndex].Name == "Nombre" && e.Value != null)
+            if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Nombre" && e.Value != null)
             {
                 string nombres = e.Value.ToString();
                 string[] partes = nombres.Split(' ');
                 string iniciales = string.Join("", partes.Select(p => p[0])).ToUpper();
                 // Puedes agregarlo como tooltip o columna extra
-                dtgCasosLaboralesNoDefinitivos.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = iniciales;
+                dtgCasosLaborales.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = iniciales;
             }
         }
 
@@ -678,7 +678,10 @@ namespace Presentacion.Casos.Laborales
             if (paginaActual * registrosPorPagina < totalRegistros)
             {
                 paginaActual++;
-                await CargarCasosNoDefinitivos();
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    await CargarCasos();
+                });
             }
         }
 
@@ -687,26 +690,51 @@ namespace Presentacion.Casos.Laborales
             if (paginaActual > 1)
             {
                 paginaActual--;
-                await CargarCasosNoDefinitivos();
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    await CargarCasos();
+                });
             }
         }
 
         private void dtgCasosLaborales_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // Oculta la columna 'id'
-            if (dtgCasosLaboralesNoDefinitivos.Columns["id"] != null)
+            if (dtgCasosLaborales.Columns["id"] != null)
             {
-                dtgCasosLaboralesNoDefinitivos.Columns["id"].Visible = false;
+                dtgCasosLaborales.Columns["id"].Visible = false;
             }
 
             // Oculta la columna 'id'
-            if (dtgCasosLaboralesNoDefinitivos.Columns["id_rol"] != null)
+            if (dtgCasosLaborales.Columns["id_rol"] != null)
             {
-                dtgCasosLaboralesNoDefinitivos.Columns["id_rol"].Visible = false;
+                dtgCasosLaborales.Columns["id_rol"].Visible = false;
             }
 
-            CrearBotonesAccion(dtgCasosLaboralesNoDefinitivos);
-            dtgCasosLaboralesNoDefinitivos.ClearSelection();
+            CrearBotonesAccion(dtgCasosLaborales);
+            dtgCasosLaborales.ClearSelection();
+        }
+
+        private async Task Filtrar()
+        {
+
+            string filtro = txtBuscar.Text;
+            int pagina = 1;
+            int registrosPorPagina = 10;
+
+            var resultado = await terceroInteresadoModel.ObtenerTercerosInteresadosFiltrados(pagina, registrosPorPagina, filtro);
+
+            if (resultado.success)
+            {
+                bsTercerosInteresados.DataSource = resultado.data;
+                dtgCasosLaborales.Refresh();
+                labelTotal.Text = $"Total de Casos: {resultado.totalRegistros}";
+                lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)totalRegistros / registrosPorPagina)}";
+            }
+            else
+            {
+                MessageBox.Show(resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async void txtBuscar_KeyDown(object sender, KeyEventArgs e)
@@ -715,7 +743,11 @@ namespace Presentacion.Casos.Laborales
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
-                await CargarCasosNoDefinitivos();
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    await CargarCasos();
+                });
+
             }
         }
 
@@ -795,7 +827,10 @@ namespace Presentacion.Casos.Laborales
             if (resultado.success)
             {
                 MessageBox.Show("Caso laboral creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await CargarCasosNoDefinitivos();
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    await CargarCasos();
+                });
                 LimpiarFormulario();
                 AnadirTabPage(Listar);
                 EliminarTabPage(Detalles);
@@ -804,7 +839,6 @@ namespace Presentacion.Casos.Laborales
             {
                 MessageBox.Show("Error: " + resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private async void roundedButton18_Click(object sender, EventArgs e)
@@ -812,11 +846,15 @@ namespace Presentacion.Casos.Laborales
             await GuardarCaso();
         }
 
-        private void roundedButton19_Click(object sender, EventArgs e)
+        private async void roundedButton19_Click(object sender, EventArgs e)
         {
             LimpiarFormulario();
             AnadirTabPage(Listar);
             EliminarTabPage(Detalles);
+            await EjecutarConLoaderAsync(async () =>
+            {
+                await CargarCasos();
+            });
         }
 
 
@@ -824,11 +862,12 @@ namespace Presentacion.Casos.Laborales
         {
 
             if (e.RowIndex < 0) return;
+            if (_cargandoCaso) return;
 
-            if (dtgCasosLaboralesNoDefinitivos.Columns[e.ColumnIndex].Name == "Eliminar")
+            if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Eliminar")
             {
-                int idTerceroInteresado = Convert.ToInt32(dtgCasosLaboralesNoDefinitivos.Rows[e.RowIndex].Cells["id"].Value);
-                string? terceroInteresado = Convert.ToString(dtgCasosLaboralesNoDefinitivos.Rows[e.RowIndex].Cells["expediente"].Value);
+                int idTerceroInteresado = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
+                string? terceroInteresado = Convert.ToString(dtgCasosLaborales.Rows[e.RowIndex].Cells["expediente"].Value);
                 var confirm = MessageBox.Show(
                     "¿Seguro que desea eliminar el caso " + terceroInteresado + "?",
                     "Confirmar",
@@ -853,15 +892,31 @@ namespace Presentacion.Casos.Laborales
                 }
             }
 
-            if (dtgCasosLaboralesNoDefinitivos.Columns[e.ColumnIndex].Name == "Editar")
+            if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Editar")
             {
-                btnGuardarCaso.Text = "Actualizar";
-                lblTitulo.Text = "Editar Caso Laboral";
-                int idCaso = Convert.ToInt32(dtgCasosLaboralesNoDefinitivos.Rows[e.RowIndex].Cells["id"].Value);
-                _idCasoEditar = idCaso;
-                _actualizandoCaso = true;
-                await CargarDatosCaso(idCaso);
-                _huboCambioEstado = false;
+                try
+                {
+                    _cargandoCaso = true;
+                    dtgCasosLaborales.Enabled = false;
+
+                    btnGuardarCaso.Text = "Actualizar";
+                    lblTitulo.Text = "Editar Caso Laboral";
+
+                    int idCaso = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
+                    _idCasoEditar = idCaso;
+                    _actualizandoCaso = true;
+                    _huboCambioEstado = false;
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await CargarDatosCaso(idCaso);
+                    });
+                }
+                finally
+                {
+                    dtgCasosLaborales.Enabled = true;
+                    _cargandoCaso = false;
+                }
             }
         }
 
@@ -875,14 +930,14 @@ namespace Presentacion.Casos.Laborales
 
         }
 
-        private void Laboral_primer_instancia_Recursos_Resize_1(object sender, EventArgs e)
+        private void Laboral_segunda_instancia_Resize_1(object sender, EventArgs e)
         {
             CentrarPanel();
         }
 
         private void btnAgregarEstado_Click(object sender, EventArgs e)
         {
-            FrmAgregarEstadoLaboralPI frmAgregarEstado = new FrmAgregarEstadoLaboralPI();
+            FrmAgregarEstadoLaboralSI frmAgregarEstado = new FrmAgregarEstadoLaboralSI();
             frmAgregarEstado.ShowDialog();
 
             if (EstadoLaboral.estado != null)
@@ -1446,7 +1501,7 @@ namespace Presentacion.Casos.Laborales
             dtgAbogadosAsistentes.ClearSelection();
         }
 
-        private void Laboral_primer_instancia_Recursos_ResizeEnd(object sender, EventArgs e)
+        private void Laboral_segunda_instancia_ResizeEnd(object sender, EventArgs e)
         {
 
         }
@@ -1518,13 +1573,28 @@ namespace Presentacion.Casos.Laborales
                 AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
             };
 
-            var resultado = await casoLaboralModel.EditarCasoLaboral(req);
+            ApiResponseEditarCasoLaboral resultado = null;
+
+            await EjecutarConLoaderAsync(async () =>
+            {
+                resultado = await casoLaboralModel.EditarCasoLaboral(req);
+            });
+
+            if (resultado == null)
+            {
+                MessageBox.Show("No se obtuvo respuesta del servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (resultado.success)
             {
                 MessageBox.Show("Caso laboral actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                await CargarCasosNoDefinitivos();
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    await CargarCasos();
+                });
+
                 LimpiarFormulario();
                 _idCasoEditar = 0;
 
@@ -1545,7 +1615,7 @@ namespace Presentacion.Casos.Laborales
         private async Task ListarHistorial()
         {
 
-            var datosHistorial = await casoLaboralModel.ObtenerHistorialCasoLaboral(_idCasoEditar);
+            var datosHistorial = await casoLaboralModel.ListarHistorialCasoLaboral(_idCasoEditar);
 
             if (!datosHistorial.success || datosHistorial.data == null)
                 return;
@@ -1557,7 +1627,7 @@ namespace Presentacion.Casos.Laborales
             dtgHistorial.Columns["fecha"].HeaderText = "Fecha";
             dtgHistorial.Columns["fecha_vencimiento"].HeaderText = "Fecha Vencimiento";
             dtgHistorial.Columns["fecha"].DefaultCellStyle.Format = "dd/MM/yyyy";
-            dtgHistorial.Columns["fecha_vencimiento"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            dtgHistorial.Columns["fecha_vencimiento"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
             dtgHistorial.Columns["estado"].HeaderText = "Estado";
             dtgHistorial.Columns["origen"].HeaderText = "Origen";
             dtgHistorial.Columns["anotaciones"].HeaderText = "Anotaciones";
@@ -1571,12 +1641,15 @@ namespace Presentacion.Casos.Laborales
             EliminarTabPage(tabPageArchivos);
             EliminarTabPage(Detalles);
 
-            await ListarHistorial();
+            await EjecutarConLoaderAsync(async () =>
+            {
+                await ListarHistorial();
+            });
         }
 
         private async Task ListarArchivosCaso()
         {
-            var res = await casoLaboralModel.ListarArchivosCasoLaboral(_idCasoEditar);
+            var res = await casoLaboralModel.ListarArchivos(_idCasoEditar);
 
             if (!res.success)
             {
@@ -1664,7 +1737,10 @@ namespace Presentacion.Casos.Laborales
             EliminarTabPage(tabPageHistorial);
             EliminarTabPage(Detalles);
 
-            await ListarArchivosCaso();
+            await EjecutarConLoaderAsync(async () =>
+            {
+                await ListarArchivosCaso();
+            });
         }
 
         private void roundedButton19_Click_1(object sender, EventArgs e)
@@ -1702,12 +1778,12 @@ namespace Presentacion.Casos.Laborales
                 dtgHistorial.Columns["caso_id"].Visible = false;
             }
 
-            //CrearBotonesAccion(dtgHistorial);
+            CrearBotonesAccion(dtgHistorial);
             dtgHistorial.ClearSelection();
         }
         private async Task RefrescarListaArchivos()
         {
-            var resp = await casoLaboralModel.ListarArchivosCasoLaboral(_idCasoEditar);
+            var resp = await casoLaboralModel.ListarArchivos(_idCasoEditar);
 
             if (!resp.success)
             {
@@ -1727,6 +1803,7 @@ namespace Presentacion.Casos.Laborales
         private async void dtgArchivos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
+            if (_procesandoArchivo) return;
 
             var grid = (DataGridView)sender;
             var colName = grid.Columns[e.ColumnIndex].Name;
@@ -1738,12 +1815,29 @@ namespace Presentacion.Casos.Laborales
 
             try
             {
+                _procesandoArchivo = true;
+                dtgArchivos.Enabled = false;
+                btnSubirArchivo.Enabled = false;
+
                 // ABRIR (descarga a TEMP y abre)
                 if (colName == "Abrir")
                 {
                     var tempFile = Path.Combine(Path.GetTempPath(), nombre ?? "archivo");
 
-                    var resp = await casoLaboralModel.DescargarArchivoCasoLaboral(_idCasoEditar, archivoId, tempFile);
+                    ApiResponse<string> resp = null;
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        resp = await casoLaboralModel.DescargarArchivo(_idCasoEditar, archivoId, tempFile);
+                    });
+
+                    if (resp == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     if (!resp.success)
                     {
                         MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1762,9 +1856,24 @@ namespace Presentacion.Casos.Laborales
                         Filter = "Todos los archivos (*.*)|*.*"
                     };
 
+                    if (sfd.ShowDialog() != DialogResult.OK)
+                        return;
+
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
-                        var resp = await casoLaboralModel.DescargarArchivoCasoLaboral(_idCasoEditar, archivoId, sfd.FileName);
+                        ApiResponse<string> resp = null;
+
+                        await EjecutarConLoaderAsync(async () =>
+                        {
+                            resp = await casoLaboralModel.DescargarArchivo(_idCasoEditar, archivoId, sfd.FileName);
+                        });
+
+                        if (resp == null)
+                        {
+                            MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
                         if (!resp.success)
                         {
                             MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1781,9 +1890,25 @@ namespace Presentacion.Casos.Laborales
                     var r = MessageBox.Show($"¿Eliminar el archivo?\n\n{nombre}", "Confirmar",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
+                    if (r != DialogResult.Yes)
+                        return;
+
                     if (r == DialogResult.Yes)
                     {
-                        var resp = await casoLaboralModel.EliminarArchivoCasoLaboral(_idCasoEditar, archivoId);
+                        ApiResponse<object> resp = null;
+
+                        await EjecutarConLoaderAsync(async () =>
+                        {
+                            resp = await casoLaboralModel.EliminarArchivo(_idCasoEditar, archivoId);
+                        });
+
+                        if (resp == null)
+                        {
+                            MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
                         if (!resp.success)
                         {
                             MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1799,6 +1924,12 @@ namespace Presentacion.Casos.Laborales
             {
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                dtgArchivos.Enabled = true;
+                btnSubirArchivo.Enabled = true;
+                _procesandoArchivo = false;
+            }
         }
 
         private async void btnSubirArchivo_Click(object sender, EventArgs e)
@@ -1812,20 +1943,32 @@ namespace Presentacion.Casos.Laborales
 
             using var ofd = new OpenFileDialog
             {
-                Title = "Seleccionar archivo",
+                Title = "Seleccionar archivos",
                 Filter = "Archivos permitidos|*.pdf;*.doc;*.docx;*.xls;*.xlsx;*.png;*.jpg;*.jpeg;*.zip;*.rar;*.txt",
-                Multiselect = false
+                Multiselect = true
             };
 
-            if (ofd.ShowDialog() != DialogResult.OK)
+            if (ofd.ShowDialog() != DialogResult.OK || ofd.FileNames.Length == 0)
                 return;
+
+            ApiResponse<List<SubirArchivoCasoLaboralData>> response = null;
 
             try
             {
                 btnSubirArchivo.Enabled = false;
                 btnSubirArchivo.Text = "Subiendo...";
 
-                var response = await casoLaboralModel.SubirArchivoCasoLaboral(_idCasoEditar, ofd.FileName);
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    response = await casoLaboralModel.SubirArchivos(_idCasoEditar, ofd.FileNames.ToList());
+                });
+
+                if (response == null)
+                {
+                    MessageBox.Show("No se obtuvo respuesta del servidor.",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 if (!response.success)
                 {
@@ -1834,7 +1977,7 @@ namespace Presentacion.Casos.Laborales
                     return;
                 }
 
-                MessageBox.Show("Archivo subido correctamente.",
+                MessageBox.Show($"Se subieron {response.data?.Count ?? 0} archivo(s) correctamente.",
                     "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 await RefrescarListaArchivos();
@@ -1851,22 +1994,253 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private void dtgCasosLaboralesFinJuicio_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void btnCancelarEdicionHistorial_Click(object sender, EventArgs e)
         {
-            // Oculta la columna 'id'
-            if (dtgCasosLaboralesFinJuicio.Columns["id"] != null)
+            AnadirTabPage(tabPageHistorial);
+            EliminarTabPage(tabPageEditarHistorial);
+        }
+
+        private async void dtgHistorial_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var grid = (DataGridView)sender;
+            var colName = grid.Columns[e.ColumnIndex].Name;
+            var item = grid.Rows[e.RowIndex].DataBoundItem as HistorialCasoLaboralDetalle;
+            if (item == null) return;
+            
+            // EDITAR
+            if (colName == "Editar")
             {
-                dtgCasosLaboralesFinJuicio.Columns["id"].Visible = false;
+                _historialSeleccionado = item;
+                CargarDatosHistorialEnTab(item);
+
+                AnadirTabPage(tabPageEditarHistorial);
+                EliminarTabPage(tabPageHistorial);
+
+                return;
             }
 
-            // Oculta la columna 'id'
-            if (dtgCasosLaboralesFinJuicio.Columns["id_rol"] != null)
+            // ELIMINAR
+            if (colName == "Eliminar")
             {
-                dtgCasosLaboralesFinJuicio.Columns["id_rol"].Visible = false;
+                var confirm = MessageBox.Show(
+                    $"¿Desea eliminar este registro de historial?\n\nEstado: {item.estado}",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (confirm != DialogResult.Yes)
+                    return;
+
+                ApiResponse<object> resp = null;
+
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    resp = await casoLaboralModel.EliminarHistorialCasoLaboral(
+                        item.id,
+                        item.caso_id,
+                        UserSession.Id
+                    );
+                });
+
+                if (resp == null)
+                {
+                    MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (!resp.success)
+                {
+                    MessageBox.Show(resp.message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show("Historial eliminado correctamente.", "Éxito",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    await ListarHistorial();
+                    await CargarDatosCaso(_idCasoEditar);
+                });
             }
 
-            CrearBotonesAccion(dtgCasosLaboralesFinJuicio);
-            dtgCasosLaboralesFinJuicio.ClearSelection();
+            
+        }
+
+        private void CargarDatosHistorialEnTab(HistorialCasoLaboralDetalle item)
+        {
+            _idHistorialEditar = item.id;
+            _casoIdHistorialEditar = item.caso_id;
+
+            dateTimePickerFechaEstado.Value = item.fecha;
+
+            comboboxEstado.Text = item.estado ?? "";
+
+            bool requiereVencimiento = EstadoLaboralHelper.RequiereVencimientoSI(item.estado ?? "");
+            bool tieneVencimiento = item.fecha_vencimiento.HasValue || requiereVencimiento;
+
+            checkBoxTieneVencimiento.Checked = tieneVencimiento;
+
+            dateTimePickerFechaVencimiento.Enabled = tieneVencimiento;
+            dateTimePickerHoraVencimiento.Enabled = tieneVencimiento;
+
+            if (item.fecha_vencimiento.HasValue)
+            {
+                dateTimePickerFechaVencimiento.Value = item.fecha_vencimiento.Value.Date;
+                dateTimePickerHoraVencimiento.Value = DateTime.Today.Date + item.fecha_vencimiento.Value.TimeOfDay;
+            }
+            else
+            {
+                dateTimePickerFechaVencimiento.Value = DateTime.Today;
+                dateTimePickerHoraVencimiento.Value = DateTime.Today.Date.AddHours(8);
+            }
+
+            txtObservacionesHistorial.Text = item.anotaciones ?? "";
+            txtOrigenHistorial.Text = item.origen ?? "";
+            txtUsuarioCreadorHistorial.Text = item.usuario_creador ?? "";
+            txtUsuarioEditorHistorial.Text = item.usuario_editor ?? "";
+        }
+
+        private async void btnGuardarEdicionHistorial_Click(object sender, EventArgs e)
+        {
+            if (_idHistorialEditar <= 0)
+            {
+                MessageBox.Show("No hay historial seleccionado.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(comboboxEstado.Text))
+            {
+                MessageBox.Show("Estado es requerido.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                comboboxEstado.Focus();
+                return;
+            }
+
+            DateTime fechaEstado = dateTimePickerFechaEstado.Value.Date;
+
+            DateTime? fechaVencimiento = null;
+            if (checkBoxTieneVencimiento.Checked)
+            {
+                fechaVencimiento =
+                    dateTimePickerFechaVencimiento.Value.Date +
+                    dateTimePickerHoraVencimiento.Value.TimeOfDay;
+            }
+
+            var req = new EditarHistorialCasoRequest
+            {
+                HistorialId = _idHistorialEditar,
+                CasoId = _casoIdHistorialEditar,
+                UsuarioId = UserSession.Id,
+                Fecha = fechaEstado.ToString("yyyy-MM-dd HH:mm:ss"),
+                FechaVencimiento = fechaVencimiento.HasValue
+                    ? fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                    : "",
+                Estado = comboboxEstado.Text.Trim(),
+                Anotaciones = txtObservacionesHistorial.Text.Trim()
+            };
+
+            ApiResponse<object> resp = null;
+
+            await EjecutarConLoaderAsync(async () =>
+            {
+                resp = await casoLaboralModel.EditarHistorialCasoLaboral(req);
+            });
+
+            if (resp == null)
+            {
+                MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!resp.success)
+            {
+                MessageBox.Show(resp.message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show("Historial actualizado correctamente.", "Éxito",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            await EjecutarConLoaderAsync(async () =>
+            {
+                await ListarHistorial();
+                await CargarDatosCaso(_idCasoEditar);
+            });
+
+            AnadirTabPage(tabPageHistorial);
+            EliminarTabPage(tabPageEditarHistorial);
+        }
+
+        private void VerificarEstadoEditarHistorial()
+        {
+            string estado = comboboxEstado.Text;
+
+            bool requiere = EstadoLaboralHelper.RequiereVencimientoSI(estado);
+
+            checkBoxTieneVencimiento.Checked = requiere;
+
+            dateTimePickerFechaVencimiento.Enabled = requiere;
+            dateTimePickerHoraVencimiento.Enabled = requiere;
+        }
+
+        private void ActualizarObservacionEditarHistorial()
+        {
+            if (string.IsNullOrWhiteSpace(comboboxEstado.Text))
+                return;
+
+            DateTime fechaEstado = dateTimePickerFechaEstado.Value.Date;
+
+            DateTime? fechaVencimiento = null;
+            if (checkBoxTieneVencimiento.Checked)
+            {
+                fechaVencimiento =
+                    dateTimePickerFechaVencimiento.Value.Date +
+                    dateTimePickerHoraVencimiento.Value.TimeOfDay;
+            }
+
+            txtObservacionesHistorial.Text = EstadoLaboralHelper.GenerarObservacion(
+                fechaEstado,
+                comboboxEstado.Text,
+                checkBoxTieneVencimiento.Checked,
+                fechaVencimiento
+            );
+        }
+
+        private void comboboxEstado_SelectedValueChanged(object sender, EventArgs e)
+        {
+            VerificarEstadoEditarHistorial();
+            ActualizarObservacionEditarHistorial();
+        }
+
+        private void checkBoxTieneVencimiento_CheckedChanged(object sender, EventArgs e)
+        {
+            dateTimePickerFechaVencimiento.Enabled = checkBoxTieneVencimiento.Checked;
+            dateTimePickerHoraVencimiento.Enabled = checkBoxTieneVencimiento.Checked;
+            ActualizarObservacionEditarHistorial();
+        }
+
+        private void dateTimePickerFechaVencimiento_ValueChanged(object sender, EventArgs e)
+        {
+            ActualizarObservacionEditarHistorial();
+        }
+
+        private void dateTimePickerFechaEstado_ValueChanged(object sender, EventArgs e)
+        {
+            ActualizarObservacionEditarHistorial();
+        }
+
+        private void dateTimePickerHoraVencimiento_ValueChanged(object sender, EventArgs e)
+        {
+            ActualizarObservacionEditarHistorial();
         }
     }
 }

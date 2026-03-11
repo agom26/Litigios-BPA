@@ -210,6 +210,42 @@ namespace Dominio.Entidades
 
             return await casoLaboralData.SubirArchivo(casoId, filePath);
         }
+        public async Task<ApiResponse<List<SubirArchivoCasoLaboralData>>> SubirArchivosCasoLaboral(int casoId, List<string> filePaths)
+        {
+            try
+            {
+                if (casoId <= 0)
+                {
+                    return new ApiResponse<List<SubirArchivoCasoLaboralData>>
+                    {
+                        success = false,
+                        message = "caso_id es requerido",
+                        data = new List<SubirArchivoCasoLaboralData>()
+                    };
+                }
+
+                if (filePaths == null || filePaths.Count == 0)
+                {
+                    return new ApiResponse<List<SubirArchivoCasoLaboralData>>
+                    {
+                        success = false,
+                        message = "Debe seleccionar al menos un archivo.",
+                        data = new List<SubirArchivoCasoLaboralData>()
+                    };
+                }
+
+                return await casoLaboralData.SubirArchivos(casoId, filePaths);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<List<SubirArchivoCasoLaboralData>>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message,
+                    data = new List<SubirArchivoCasoLaboralData>()
+                };
+            }
+        }
 
         public async Task<ApiResponse<object>> EliminarArchivoCasoLaboral(int casoId, string archivoId)
         {
@@ -234,6 +270,69 @@ namespace Dominio.Entidades
                 return new ApiResponse<string> { success = false, message = "Ruta destino inválida" };
 
             return await casoLaboralData.DescargarArchivo(casoId, archivoId, saveToPath);
+        }
+
+        public async Task<ApiResponse<object>> EditarHistorialCaso(EditarHistorialCasoRequest req)
+        {
+            try
+            {
+                if (req == null)
+                    return new ApiResponse<object> { success = false, message = "Solicitud inválida" };
+
+                if (req.HistorialId <= 0)
+                    return new ApiResponse<object> { success = false, message = "Historial requerido" };
+
+                if (req.CasoId <= 0)
+                    return new ApiResponse<object> { success = false, message = "Caso requerido" };
+
+                if (req.UsuarioId <= 0)
+                    return new ApiResponse<object> { success = false, message = "Usuario requerido" };
+
+                if (string.IsNullOrWhiteSpace(req.Fecha))
+                    return new ApiResponse<object> { success = false, message = "Fecha requerida" };
+
+                if (string.IsNullOrWhiteSpace(req.Estado))
+                    return new ApiResponse<object> { success = false, message = "Estado requerido" };
+
+                req.Estado = req.Estado.Trim();
+                req.Anotaciones = string.IsNullOrWhiteSpace(req.Anotaciones) ? null : req.Anotaciones.Trim();
+                req.FechaVencimiento = string.IsNullOrWhiteSpace(req.FechaVencimiento) ? "" : req.FechaVencimiento.Trim();
+
+                return await casoLaboralData.EditarHistorialCasoLaboral(req);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
+        }
+
+        public async Task<ApiResponse<object>> EliminarHistorialCasoLaboral(int historialId, int casoId, int usuarioId)
+        {
+            try
+            {
+                if (historialId <= 0)
+                    return new ApiResponse<object> { success = false, message = "historial_id es requerido" };
+
+                if (casoId <= 0)
+                    return new ApiResponse<object> { success = false, message = "caso_id es requerido" };
+
+                if (usuarioId <= 0)
+                    return new ApiResponse<object> { success = false, message = "usuario_id es requerido" };
+
+                return await casoLaboralData.EliminarHistorialCasoLaboral(historialId, casoId, usuarioId);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
         }
     }
 }

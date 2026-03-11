@@ -72,5 +72,7 @@ C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Abogados_asignados.FrmAgregarAbogadoDirector.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Abogados_asignados.FrmAgregarSocioResponsable.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Abogados_asignados.FrmAgregarAbogadoAsistente.resources
-C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Laborales.Laboral_primer_instancia_Recursos.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Alertas.FrmLoading.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Laborales.Laboral_primer_instancia_recursos_resolucion.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Laborales.Laboral_segunda_instancia.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Estados.FrmAgregarEstadoLaboralSI.resources

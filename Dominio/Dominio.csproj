@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entidades\CasoLaboralSegundaInstanciaModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Entidades\CasoLaboralSegundaInstanciaModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 

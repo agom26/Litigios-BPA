@@ -26,6 +26,19 @@ namespace Comun.DatosParaInterfaz
                 estado == "Recursos contra resoluciones que ponen fin a juicio/Recurso de Apelación";
         }
 
+        public static bool RequiereVencimientoSI(string estado)
+        {
+            if (string.IsNullOrWhiteSpace(estado))
+                return false;
+
+            return
+                estado == "Audiencia" ||
+                estado == "Vista" ||
+                estado == "Tercera Audiencia para recepción de pruebas" ||
+                estado == "Audiencia para recepción de pruebas" ||
+                estado == "Recurso de aclaración y ampliación";
+        }
+
         public static string GenerarObservacion(
             DateTime fechaEstado,
             string estado,

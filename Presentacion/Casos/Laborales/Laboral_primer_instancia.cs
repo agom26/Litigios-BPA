@@ -79,6 +79,7 @@ namespace Presentacion.Casos.Laborales
             EliminarTabPage(Detalles);
             EliminarTabPage(tabPageArchivos);
             EliminarTabPage(tabPageHistorial);
+            EliminarTabPage(tabPageEditarHistorial);
 
             alistarListaDemandantes();
             alistarListaDemandados();
@@ -826,7 +827,7 @@ namespace Presentacion.Casos.Laborales
                 MessageBox.Show("Caso laboral creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await EjecutarConLoaderAsync(async () =>
                 {
-                    await ListarArchivosCaso();
+                    await CargarCasos();
                 });
                 LimpiarFormulario();
                 AnadirTabPage(Listar);
@@ -873,6 +874,7 @@ namespace Presentacion.Casos.Laborales
 
                 if (confirm == DialogResult.Yes)
                 {
+                    
                     /*var resultado = await terceroInteresadoModel.EliminarTerceroInteresado(idTerceroInteresado);
 
                     if (resultado.success)

@@ -282,6 +282,59 @@ namespace AccesoDatos.Entidades
             }
         }
 
+        public async Task<ApiResponse<List<SubirArchivoCasoLaboralData>>> SubirArchivos(int casoId, List<string> filePaths)
+        {
+            if (filePaths == null || filePaths.Count == 0)
+            {
+                return new ApiResponse<List<SubirArchivoCasoLaboralData>>
+                {
+                    success = false,
+                    message = "No se seleccionaron archivos.",
+                    data = new List<SubirArchivoCasoLaboralData>()
+                };
+            }
+
+            try
+            {
+                using var form = new MultipartFormDataContent();
+
+                form.Add(new StringContent("subir_archivos_caso_laboral"), "action");
+                form.Add(new StringContent(casoId.ToString()), "caso_id");
+
+                foreach (var filePath in filePaths)
+                {
+                    if (!File.Exists(filePath))
+                        continue;
+
+                    var fileBytes = await File.ReadAllBytesAsync(filePath);
+                    var fileContent = new ByteArrayContent(fileBytes);
+                    fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+                    form.Add(fileContent, "archivo[]", Path.GetFileName(filePath));
+                }
+
+                var response = await _http.PostAsync(_apiUrlArchivos, form);
+                var json = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<ApiResponse<List<SubirArchivoCasoLaboralData>>>(json)
+                       ?? new ApiResponse<List<SubirArchivoCasoLaboralData>>
+                       {
+                           success = false,
+                           message = "Respuesta vacía o inválida.",
+                           data = new List<SubirArchivoCasoLaboralData>()
+                       };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<List<SubirArchivoCasoLaboralData>>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message,
+                    data = new List<SubirArchivoCasoLaboralData>()
+                };
+            }
+        }
+
         // ELIMINAR
         public async Task<ApiResponse<object>> EliminarArchivo(int casoId, string archivoId)
         {
@@ -336,6 +389,75 @@ namespace AccesoDatos.Entidades
             catch (Exception ex)
             {
                 return new ApiResponse<string> { success = false, message = "Error: " + ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> EliminarHistorialCasoLaboral(int historialId, int casoId, int usuarioId)
+        {
+            var parameters = new Dictionary<string, string>
+    {
+        { "action", "eliminar_historial_caso_laboral" },
+        { "historial_id", historialId.ToString() },
+        { "caso_id", casoId.ToString() },
+        { "usuario_id", usuarioId.ToString() }
+    };
+
+            using var content = new FormUrlEncodedContent(parameters);
+
+            try
+            {
+                var response = await _http.PostAsync(_apiUrl, content);
+                var jsonResult = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
+                       ?? new ApiResponse<object> { success = false, message = "Respuesta vacía o inválida." };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
+        }
+
+
+        public async Task<ApiResponse<object>> EditarHistorialCasoLaboral(EditarHistorialCasoRequest req)
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                { "action", "editar_historial_caso_laboral" },
+                { "historial_id", req.HistorialId.ToString() },
+                { "caso_id", req.CasoId.ToString() },
+                { "usuario_id", req.UsuarioId.ToString() },
+                { "fecha", req.Fecha ?? "" },
+                { "fecha_vencimiento", req.FechaVencimiento ?? "" },
+                { "estado", req.Estado ?? "" },
+                { "anotaciones", req.Anotaciones ?? "" }
+            };
+
+            using var content = new FormUrlEncodedContent(parameters);
+
+            try
+            {
+                var response = await _http.PostAsync(_apiUrl, content);
+                var jsonResult = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
+                       ?? new ApiResponse<object>
+                       {
+                           success = false,
+                           message = "Respuesta vacía o inválida."
+                       };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
             }
         }
     }

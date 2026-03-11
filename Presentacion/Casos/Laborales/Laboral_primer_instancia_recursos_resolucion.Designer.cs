@@ -1,6 +1,6 @@
 ﻿namespace Presentacion.Casos.Laborales
 {
-    partial class Laboral_primer_instancia_Recursos
+    partial class Laboral_primer_instancia_recursos_resolucion
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Laboral_primer_instancia_Recursos));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Laboral_primer_instancia_recursos_resolucion));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
@@ -76,28 +76,29 @@
             tabControl1 = new TabControl();
             Listar = new TabPage();
             panelBusquedaCaso2 = new Panel();
-            label24 = new Label();
-            label25 = new Label();
-            panel4 = new Panel();
-            roundedButton19 = new Presentacion.Clases.RoundedButton();
-            roundedButton21 = new Presentacion.Clases.RoundedButton();
-            dtgCasosLaboralesFinJuicio = new DataGridView();
+            panelBotonesCaso2 = new Panel();
+            btnSiguienteFinJuicio = new Presentacion.Clases.RoundedButton();
+            btnAnteriorFinJuicio = new Presentacion.Clases.RoundedButton();
+            labelTotal2 = new Label();
+            lblPagina2 = new Label();
+            dtgResolucionesFinJuicio = new DataGridView();
+            roundedButton29 = new Presentacion.Clases.RoundedButton();
             txtBuscarFinJuicio = new TextBox();
-            roundedButton27 = new Presentacion.Clases.RoundedButton();
-            label28 = new Label();
+            roundedButton30 = new Presentacion.Clases.RoundedButton();
+            label35 = new Label();
             panelBusquedaCaso = new Panel();
+            panel7 = new Panel();
+            btnSiguienteNoDefinitivas = new Presentacion.Clases.RoundedButton();
+            btnAnteriorNoDefinitivas = new Presentacion.Clases.RoundedButton();
             labelTotal = new Label();
             lblPagina = new Label();
-            panel7 = new Panel();
-            btnSiguiente = new Presentacion.Clases.RoundedButton();
-            btnAnterior = new Presentacion.Clases.RoundedButton();
             label8 = new Label();
-            dtgCasosLaboralesNoDefinitivos = new DataGridView();
             label6 = new Label();
             btnAdd = new Presentacion.Clases.RoundedButton();
-            txtBuscarNoDefinitivo = new TextBox();
+            txtBuscarNoDefinitivas = new TextBox();
             roundedButton1 = new Presentacion.Clases.RoundedButton();
             label1 = new Label();
+            dtgResolucionesNoDefinitivas = new DataGridView();
             Detalles = new TabPage();
             flowLayoutPanel1 = new FlowLayoutPanel();
             panelDemandantes = new Panel();
@@ -188,6 +189,30 @@
             label21 = new Label();
             label22 = new Label();
             label23 = new Label();
+            tabPageEditarHistorial = new TabPage();
+            txtUsuarioEditorHistorial = new TextBox();
+            txtUsuarioCreadorHistorial = new TextBox();
+            txtOrigenHistorial = new TextBox();
+            btnCancelarEdicionHistorial = new Presentacion.Clases.RoundedButton();
+            btnGuardarEdicionHistorial = new Presentacion.Clases.RoundedButton();
+            panelVencimiento = new Panel();
+            dateTimePickerFechaVencimiento = new DateTimePicker();
+            dateTimePickerHoraVencimiento = new DateTimePicker();
+            label24 = new Label();
+            label25 = new Label();
+            checkBoxTieneVencimiento = new CheckBox();
+            roundedButton21 = new Presentacion.Clases.RoundedButton();
+            label26 = new Label();
+            label27 = new Label();
+            panelDetalles = new Panel();
+            dateTimePickerFechaEstado = new DateTimePicker();
+            label28 = new Label();
+            label29 = new Label();
+            txtObservacionesHistorial = new TextBox();
+            roundedButton27 = new Presentacion.Clases.RoundedButton();
+            comboboxEstado = new ComboBox();
+            label30 = new Label();
+            roundedButton25 = new Presentacion.Clases.RoundedButton();
             btnVerHistorial = new Presentacion.Clases.RoundedButton();
             btnVerArchivos = new Presentacion.Clases.RoundedButton();
             btnEditarCaso = new Presentacion.Clases.RoundedButton();
@@ -197,11 +222,11 @@
             tabControl1.SuspendLayout();
             Listar.SuspendLayout();
             panelBusquedaCaso2.SuspendLayout();
-            panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgCasosLaboralesFinJuicio).BeginInit();
+            panelBotonesCaso2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgResolucionesFinJuicio).BeginInit();
             panelBusquedaCaso.SuspendLayout();
             panel7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgCasosLaboralesNoDefinitivos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dtgResolucionesNoDefinitivas).BeginInit();
             Detalles.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             panelDemandantes.SuspendLayout();
@@ -228,6 +253,9 @@
             ((System.ComponentModel.ISupportInitialize)dtgHistorial).BeginInit();
             tabPageArchivos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgArchivos).BeginInit();
+            tabPageEditarHistorial.SuspendLayout();
+            panelVencimiento.SuspendLayout();
+            panelDetalles.SuspendLayout();
             panelBotonesCaso.SuspendLayout();
             SuspendLayout();
             // 
@@ -237,6 +265,7 @@
             tabControl1.Controls.Add(Detalles);
             tabControl1.Controls.Add(tabPageHistorial);
             tabControl1.Controls.Add(tabPageArchivos);
+            tabControl1.Controls.Add(tabPageEditarHistorial);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
@@ -248,7 +277,7 @@
             // Listar
             // 
             Listar.AutoScroll = true;
-            Listar.AutoScrollMinSize = new Size(800, 600);
+            Listar.AutoScrollMinSize = new Size(800, 406);
             Listar.BackColor = Color.FromArgb(250, 249, 246);
             Listar.Controls.Add(panelBusquedaCaso2);
             Listar.Controls.Add(panelBusquedaCaso);
@@ -261,109 +290,110 @@
             // panelBusquedaCaso2
             // 
             panelBusquedaCaso2.BackColor = Color.FromArgb(250, 249, 246);
-            panelBusquedaCaso2.Controls.Add(label24);
-            panelBusquedaCaso2.Controls.Add(label25);
-            panelBusquedaCaso2.Controls.Add(panel4);
-            panelBusquedaCaso2.Controls.Add(dtgCasosLaboralesFinJuicio);
+            panelBusquedaCaso2.Controls.Add(panelBotonesCaso2);
+            panelBusquedaCaso2.Controls.Add(labelTotal2);
+            panelBusquedaCaso2.Controls.Add(lblPagina2);
+            panelBusquedaCaso2.Controls.Add(dtgResolucionesFinJuicio);
+            panelBusquedaCaso2.Controls.Add(roundedButton29);
             panelBusquedaCaso2.Controls.Add(txtBuscarFinJuicio);
-            panelBusquedaCaso2.Controls.Add(roundedButton27);
-            panelBusquedaCaso2.Controls.Add(label28);
-            panelBusquedaCaso2.Location = new Point(3, 509);
+            panelBusquedaCaso2.Controls.Add(roundedButton30);
+            panelBusquedaCaso2.Controls.Add(label35);
+            panelBusquedaCaso2.Location = new Point(3, 477);
             panelBusquedaCaso2.MinimumSize = new Size(800, 100);
             panelBusquedaCaso2.Name = "panelBusquedaCaso2";
-            panelBusquedaCaso2.Size = new Size(800, 500);
+            panelBusquedaCaso2.Size = new Size(800, 455);
             panelBusquedaCaso2.TabIndex = 1;
             // 
-            // label24
+            // panelBotonesCaso2
             // 
-            label24.AutoSize = true;
-            label24.Location = new Point(33, 126);
-            label24.Name = "label24";
-            label24.Size = new Size(38, 15);
-            label24.TabIndex = 5;
-            label24.Text = "label2";
+            panelBotonesCaso2.Controls.Add(btnSiguienteFinJuicio);
+            panelBotonesCaso2.Controls.Add(btnAnteriorFinJuicio);
+            panelBotonesCaso2.Dock = DockStyle.Bottom;
+            panelBotonesCaso2.Location = new Point(0, 409);
+            panelBotonesCaso2.Name = "panelBotonesCaso2";
+            panelBotonesCaso2.Size = new Size(800, 46);
+            panelBotonesCaso2.TabIndex = 6;
             // 
-            // label25
+            // btnSiguienteFinJuicio
             // 
-            label25.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            label25.AutoSize = true;
-            label25.Location = new Point(690, 126);
-            label25.Name = "label25";
-            label25.Size = new Size(38, 15);
-            label25.TabIndex = 2;
-            label25.Text = "label2";
+            btnSiguienteFinJuicio.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSiguienteFinJuicio.BackColor = Color.FromArgb(194, 160, 91);
+            btnSiguienteFinJuicio.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnSiguienteFinJuicio.BorderColor = Color.Empty;
+            btnSiguienteFinJuicio.BorderRadius = 10;
+            btnSiguienteFinJuicio.BorderSize = 1;
+            btnSiguienteFinJuicio.FlatAppearance.BorderSize = 0;
+            btnSiguienteFinJuicio.FlatStyle = FlatStyle.Flat;
+            btnSiguienteFinJuicio.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnSiguienteFinJuicio.ForeColor = Color.White;
+            btnSiguienteFinJuicio.Image = (Image)resources.GetObject("btnSiguienteFinJuicio.Image");
+            btnSiguienteFinJuicio.ImageAlign = ContentAlignment.MiddleRight;
+            btnSiguienteFinJuicio.Location = new Point(690, 6);
+            btnSiguienteFinJuicio.Name = "btnSiguienteFinJuicio";
+            btnSiguienteFinJuicio.Padding = new Padding(3, 0, 0, 0);
+            btnSiguienteFinJuicio.Size = new Size(87, 40);
+            btnSiguienteFinJuicio.TabIndex = 4;
+            btnSiguienteFinJuicio.Text = "Siguiente";
+            btnSiguienteFinJuicio.TextAlign = ContentAlignment.MiddleLeft;
+            btnSiguienteFinJuicio.TextColor = Color.White;
+            btnSiguienteFinJuicio.UseVisualStyleBackColor = false;
             // 
-            // panel4
+            // btnAnteriorFinJuicio
             // 
-            panel4.Controls.Add(roundedButton19);
-            panel4.Controls.Add(roundedButton21);
-            panel4.Dock = DockStyle.Bottom;
-            panel4.Location = new Point(0, 397);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(800, 103);
-            panel4.TabIndex = 6;
+            btnAnteriorFinJuicio.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAnteriorFinJuicio.BackColor = Color.FromArgb(194, 160, 91);
+            btnAnteriorFinJuicio.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnAnteriorFinJuicio.BorderColor = Color.Empty;
+            btnAnteriorFinJuicio.BorderRadius = 10;
+            btnAnteriorFinJuicio.BorderSize = 1;
+            btnAnteriorFinJuicio.FlatAppearance.BorderSize = 0;
+            btnAnteriorFinJuicio.FlatStyle = FlatStyle.Flat;
+            btnAnteriorFinJuicio.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnAnteriorFinJuicio.ForeColor = Color.White;
+            btnAnteriorFinJuicio.Image = (Image)resources.GetObject("btnAnteriorFinJuicio.Image");
+            btnAnteriorFinJuicio.ImageAlign = ContentAlignment.MiddleLeft;
+            btnAnteriorFinJuicio.Location = new Point(588, 6);
+            btnAnteriorFinJuicio.Name = "btnAnteriorFinJuicio";
+            btnAnteriorFinJuicio.Padding = new Padding(3, 0, 0, 0);
+            btnAnteriorFinJuicio.Size = new Size(87, 40);
+            btnAnteriorFinJuicio.TabIndex = 3;
+            btnAnteriorFinJuicio.Text = "Anterior";
+            btnAnteriorFinJuicio.TextAlign = ContentAlignment.MiddleRight;
+            btnAnteriorFinJuicio.TextColor = Color.White;
+            btnAnteriorFinJuicio.UseVisualStyleBackColor = false;
             // 
-            // roundedButton19
+            // labelTotal2
             // 
-            roundedButton19.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            roundedButton19.BackColor = Color.FromArgb(194, 160, 91);
-            roundedButton19.BackgroundColor = Color.FromArgb(194, 160, 91);
-            roundedButton19.BorderColor = Color.Empty;
-            roundedButton19.BorderRadius = 10;
-            roundedButton19.BorderSize = 1;
-            roundedButton19.FlatAppearance.BorderSize = 0;
-            roundedButton19.FlatStyle = FlatStyle.Flat;
-            roundedButton19.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            roundedButton19.ForeColor = Color.White;
-            roundedButton19.Image = (Image)resources.GetObject("roundedButton19.Image");
-            roundedButton19.ImageAlign = ContentAlignment.MiddleRight;
-            roundedButton19.Location = new Point(690, 15);
-            roundedButton19.Name = "roundedButton19";
-            roundedButton19.Padding = new Padding(3, 0, 0, 0);
-            roundedButton19.Size = new Size(87, 40);
-            roundedButton19.TabIndex = 4;
-            roundedButton19.Text = "Siguiente";
-            roundedButton19.TextAlign = ContentAlignment.MiddleLeft;
-            roundedButton19.TextColor = Color.White;
-            roundedButton19.UseVisualStyleBackColor = false;
+            labelTotal2.AutoSize = true;
+            labelTotal2.Location = new Point(33, 117);
+            labelTotal2.Name = "labelTotal2";
+            labelTotal2.Size = new Size(38, 15);
+            labelTotal2.TabIndex = 5;
+            labelTotal2.Text = "label2";
             // 
-            // roundedButton21
+            // lblPagina2
             // 
-            roundedButton21.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            roundedButton21.BackColor = Color.FromArgb(194, 160, 91);
-            roundedButton21.BackgroundColor = Color.FromArgb(194, 160, 91);
-            roundedButton21.BorderColor = Color.Empty;
-            roundedButton21.BorderRadius = 10;
-            roundedButton21.BorderSize = 1;
-            roundedButton21.FlatAppearance.BorderSize = 0;
-            roundedButton21.FlatStyle = FlatStyle.Flat;
-            roundedButton21.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            roundedButton21.ForeColor = Color.White;
-            roundedButton21.Image = (Image)resources.GetObject("roundedButton21.Image");
-            roundedButton21.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton21.Location = new Point(588, 15);
-            roundedButton21.Name = "roundedButton21";
-            roundedButton21.Padding = new Padding(3, 0, 0, 0);
-            roundedButton21.Size = new Size(87, 40);
-            roundedButton21.TabIndex = 3;
-            roundedButton21.Text = "Anterior";
-            roundedButton21.TextAlign = ContentAlignment.MiddleRight;
-            roundedButton21.TextColor = Color.White;
-            roundedButton21.UseVisualStyleBackColor = false;
+            lblPagina2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblPagina2.AutoSize = true;
+            lblPagina2.Location = new Point(690, 117);
+            lblPagina2.Name = "lblPagina2";
+            lblPagina2.Size = new Size(38, 15);
+            lblPagina2.TabIndex = 2;
+            lblPagina2.Text = "label2";
             // 
-            // dtgCasosLaboralesFinJuicio
+            // dtgResolucionesFinJuicio
             // 
-            dtgCasosLaboralesFinJuicio.AllowUserToAddRows = false;
-            dtgCasosLaboralesFinJuicio.AllowUserToDeleteRows = false;
-            dtgCasosLaboralesFinJuicio.AllowUserToResizeRows = false;
+            dtgResolucionesFinJuicio.AllowUserToAddRows = false;
+            dtgResolucionesFinJuicio.AllowUserToDeleteRows = false;
+            dtgResolucionesFinJuicio.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = Color.FromArgb(249, 247, 242);
-            dtgCasosLaboralesFinJuicio.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dtgCasosLaboralesFinJuicio.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dtgCasosLaboralesFinJuicio.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgCasosLaboralesFinJuicio.BackgroundColor = Color.White;
-            dtgCasosLaboralesFinJuicio.BorderStyle = BorderStyle.None;
-            dtgCasosLaboralesFinJuicio.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgCasosLaboralesFinJuicio.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dtgResolucionesFinJuicio.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dtgResolucionesFinJuicio.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dtgResolucionesFinJuicio.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgResolucionesFinJuicio.BackgroundColor = Color.White;
+            dtgResolucionesFinJuicio.BorderStyle = BorderStyle.None;
+            dtgResolucionesFinJuicio.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgResolucionesFinJuicio.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(250, 248, 245);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
@@ -371,13 +401,14 @@
             dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dtgCasosLaboralesFinJuicio.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dtgCasosLaboralesFinJuicio.ColumnHeadersHeight = 40;
-            dtgCasosLaboralesFinJuicio.EnableHeadersVisualStyles = false;
-            dtgCasosLaboralesFinJuicio.Location = new Point(33, 155);
-            dtgCasosLaboralesFinJuicio.MinimumSize = new Size(719, 226);
-            dtgCasosLaboralesFinJuicio.MultiSelect = false;
-            dtgCasosLaboralesFinJuicio.Name = "dtgCasosLaboralesFinJuicio";
+            dtgResolucionesFinJuicio.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dtgResolucionesFinJuicio.ColumnHeadersHeight = 40;
+            dtgResolucionesFinJuicio.EnableHeadersVisualStyles = false;
+            dtgResolucionesFinJuicio.Location = new Point(33, 146);
+            dtgResolucionesFinJuicio.MinimumSize = new Size(719, 226);
+            dtgResolucionesFinJuicio.MultiSelect = false;
+            dtgResolucionesFinJuicio.Name = "dtgResolucionesFinJuicio";
+            dtgResolucionesFinJuicio.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.White;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
@@ -385,19 +416,46 @@
             dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle3.SelectionForeColor = Color.Black;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dtgCasosLaboralesFinJuicio.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dtgCasosLaboralesFinJuicio.RowHeadersVisible = false;
+            dtgResolucionesFinJuicio.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dtgResolucionesFinJuicio.RowHeadersVisible = false;
             dataGridViewCellStyle4.BackColor = Color.White;
             dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle4.ForeColor = Color.FromArgb(60, 60, 60);
             dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dtgCasosLaboralesFinJuicio.RowsDefaultCellStyle = dataGridViewCellStyle4;
-            dtgCasosLaboralesFinJuicio.RowTemplate.Height = 45;
-            dtgCasosLaboralesFinJuicio.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgCasosLaboralesFinJuicio.Size = new Size(744, 226);
-            dtgCasosLaboralesFinJuicio.TabIndex = 1;
-            dtgCasosLaboralesFinJuicio.DataBindingComplete += dtgCasosLaboralesFinJuicio_DataBindingComplete;
+            dtgResolucionesFinJuicio.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dtgResolucionesFinJuicio.RowTemplate.Height = 45;
+            dtgResolucionesFinJuicio.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgResolucionesFinJuicio.Size = new Size(744, 257);
+            dtgResolucionesFinJuicio.TabIndex = 1;
+            dtgResolucionesFinJuicio.CellClick += dtgResolucionesFinJuicio_CellClick;
+            dtgResolucionesFinJuicio.DataBindingComplete += dtgResolucionesFinJuicio_DataBindingComplete;
+            // 
+            // roundedButton29
+            // 
+            roundedButton29.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            roundedButton29.BackColor = Color.FromArgb(194, 160, 91);
+            roundedButton29.BackgroundColor = Color.FromArgb(194, 160, 91);
+            roundedButton29.BorderColor = Color.Empty;
+            roundedButton29.BorderRadius = 10;
+            roundedButton29.BorderSize = 1;
+            roundedButton29.FlatAppearance.BorderSize = 0;
+            roundedButton29.FlatStyle = FlatStyle.Flat;
+            roundedButton29.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            roundedButton29.ForeColor = Color.White;
+            roundedButton29.Image = Properties.Resources.boton_agregar;
+            roundedButton29.ImageAlign = ContentAlignment.MiddleRight;
+            roundedButton29.Location = new Point(609, 60);
+            roundedButton29.Name = "roundedButton29";
+            roundedButton29.Padding = new Padding(3, 0, 0, 0);
+            roundedButton29.Size = new Size(150, 40);
+            roundedButton29.TabIndex = 2;
+            roundedButton29.Text = "  Agregar Caso";
+            roundedButton29.TextAlign = ContentAlignment.MiddleLeft;
+            roundedButton29.TextColor = Color.White;
+            roundedButton29.TextImageRelation = TextImageRelation.ImageBeforeText;
+            roundedButton29.UseVisualStyleBackColor = false;
+            roundedButton29.Visible = false;
             // 
             // txtBuscarFinJuicio
             // 
@@ -408,59 +466,119 @@
             txtBuscarFinJuicio.Size = new Size(297, 16);
             txtBuscarFinJuicio.TabIndex = 1;
             // 
-            // roundedButton27
+            // roundedButton30
             // 
-            roundedButton27.BackColor = Color.White;
-            roundedButton27.BackgroundColor = Color.White;
-            roundedButton27.BorderColor = Color.LightGray;
-            roundedButton27.BorderRadius = 10;
-            roundedButton27.BorderSize = 1;
-            roundedButton27.Enabled = false;
-            roundedButton27.FlatAppearance.BorderSize = 0;
-            roundedButton27.FlatStyle = FlatStyle.Flat;
-            roundedButton27.ForeColor = Color.White;
-            roundedButton27.Image = (Image)resources.GetObject("roundedButton27.Image");
-            roundedButton27.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton27.Location = new Point(47, 60);
-            roundedButton27.Name = "roundedButton27";
-            roundedButton27.Size = new Size(346, 40);
-            roundedButton27.TabIndex = 1;
-            roundedButton27.TextColor = Color.White;
-            roundedButton27.UseVisualStyleBackColor = false;
+            roundedButton30.BackColor = Color.White;
+            roundedButton30.BackgroundColor = Color.White;
+            roundedButton30.BorderColor = Color.LightGray;
+            roundedButton30.BorderRadius = 10;
+            roundedButton30.BorderSize = 1;
+            roundedButton30.Enabled = false;
+            roundedButton30.FlatAppearance.BorderSize = 0;
+            roundedButton30.FlatStyle = FlatStyle.Flat;
+            roundedButton30.ForeColor = Color.White;
+            roundedButton30.Image = (Image)resources.GetObject("roundedButton30.Image");
+            roundedButton30.ImageAlign = ContentAlignment.MiddleLeft;
+            roundedButton30.Location = new Point(47, 60);
+            roundedButton30.Name = "roundedButton30";
+            roundedButton30.Size = new Size(346, 40);
+            roundedButton30.TabIndex = 1;
+            roundedButton30.TextColor = Color.White;
+            roundedButton30.UseVisualStyleBackColor = false;
             // 
-            // label28
+            // label35
             // 
-            label28.AutoSize = true;
-            label28.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label28.Location = new Point(47, 25);
-            label28.Name = "label28";
-            label28.Size = new Size(518, 30);
-            label28.TabIndex = 0;
-            label28.Text = "Recursos contra resoluciones que ponen fin a juicio";
+            label35.AutoSize = true;
+            label35.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label35.Location = new Point(47, 25);
+            label35.Name = "label35";
+            label35.Size = new Size(524, 30);
+            label35.TabIndex = 0;
+            label35.Text = "Recursos contra resoluciones que ponen fin a  juicio";
             // 
             // panelBusquedaCaso
             // 
             panelBusquedaCaso.BackColor = Color.FromArgb(250, 249, 246);
+            panelBusquedaCaso.Controls.Add(panel7);
             panelBusquedaCaso.Controls.Add(labelTotal);
             panelBusquedaCaso.Controls.Add(lblPagina);
-            panelBusquedaCaso.Controls.Add(panel7);
             panelBusquedaCaso.Controls.Add(label8);
-            panelBusquedaCaso.Controls.Add(dtgCasosLaboralesNoDefinitivos);
             panelBusquedaCaso.Controls.Add(label6);
             panelBusquedaCaso.Controls.Add(btnAdd);
-            panelBusquedaCaso.Controls.Add(txtBuscarNoDefinitivo);
+            panelBusquedaCaso.Controls.Add(txtBuscarNoDefinitivas);
             panelBusquedaCaso.Controls.Add(roundedButton1);
             panelBusquedaCaso.Controls.Add(label1);
+            panelBusquedaCaso.Controls.Add(dtgResolucionesNoDefinitivas);
             panelBusquedaCaso.Location = new Point(3, 3);
             panelBusquedaCaso.MinimumSize = new Size(800, 100);
             panelBusquedaCaso.Name = "panelBusquedaCaso";
-            panelBusquedaCaso.Size = new Size(800, 500);
+            panelBusquedaCaso.Size = new Size(800, 455);
             panelBusquedaCaso.TabIndex = 0;
+            // 
+            // panel7
+            // 
+            panel7.Controls.Add(btnSiguienteNoDefinitivas);
+            panel7.Controls.Add(btnAnteriorNoDefinitivas);
+            panel7.Dock = DockStyle.Bottom;
+            panel7.Location = new Point(0, 409);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(800, 46);
+            panel7.TabIndex = 6;
+            // 
+            // btnSiguienteNoDefinitivas
+            // 
+            btnSiguienteNoDefinitivas.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSiguienteNoDefinitivas.BackColor = Color.FromArgb(194, 160, 91);
+            btnSiguienteNoDefinitivas.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnSiguienteNoDefinitivas.BorderColor = Color.Empty;
+            btnSiguienteNoDefinitivas.BorderRadius = 10;
+            btnSiguienteNoDefinitivas.BorderSize = 1;
+            btnSiguienteNoDefinitivas.FlatAppearance.BorderSize = 0;
+            btnSiguienteNoDefinitivas.FlatStyle = FlatStyle.Flat;
+            btnSiguienteNoDefinitivas.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnSiguienteNoDefinitivas.ForeColor = Color.White;
+            btnSiguienteNoDefinitivas.Image = (Image)resources.GetObject("btnSiguienteNoDefinitivas.Image");
+            btnSiguienteNoDefinitivas.ImageAlign = ContentAlignment.MiddleRight;
+            btnSiguienteNoDefinitivas.Location = new Point(690, 3);
+            btnSiguienteNoDefinitivas.Name = "btnSiguienteNoDefinitivas";
+            btnSiguienteNoDefinitivas.Padding = new Padding(3, 0, 0, 0);
+            btnSiguienteNoDefinitivas.Size = new Size(87, 40);
+            btnSiguienteNoDefinitivas.TabIndex = 4;
+            btnSiguienteNoDefinitivas.Text = "Siguiente";
+            btnSiguienteNoDefinitivas.TextAlign = ContentAlignment.MiddleLeft;
+            btnSiguienteNoDefinitivas.TextColor = Color.White;
+            btnSiguienteNoDefinitivas.UseVisualStyleBackColor = false;
+            btnSiguienteNoDefinitivas.Click += btnSiguiente_Click;
+            // 
+            // btnAnteriorNoDefinitivas
+            // 
+            btnAnteriorNoDefinitivas.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAnteriorNoDefinitivas.BackColor = Color.FromArgb(194, 160, 91);
+            btnAnteriorNoDefinitivas.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnAnteriorNoDefinitivas.BorderColor = Color.Empty;
+            btnAnteriorNoDefinitivas.BorderRadius = 10;
+            btnAnteriorNoDefinitivas.BorderSize = 1;
+            btnAnteriorNoDefinitivas.FlatAppearance.BorderSize = 0;
+            btnAnteriorNoDefinitivas.FlatStyle = FlatStyle.Flat;
+            btnAnteriorNoDefinitivas.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnAnteriorNoDefinitivas.ForeColor = Color.White;
+            btnAnteriorNoDefinitivas.Image = (Image)resources.GetObject("btnAnteriorNoDefinitivas.Image");
+            btnAnteriorNoDefinitivas.ImageAlign = ContentAlignment.MiddleLeft;
+            btnAnteriorNoDefinitivas.Location = new Point(588, 3);
+            btnAnteriorNoDefinitivas.Name = "btnAnteriorNoDefinitivas";
+            btnAnteriorNoDefinitivas.Padding = new Padding(3, 0, 0, 0);
+            btnAnteriorNoDefinitivas.Size = new Size(87, 40);
+            btnAnteriorNoDefinitivas.TabIndex = 3;
+            btnAnteriorNoDefinitivas.Text = "Anterior";
+            btnAnteriorNoDefinitivas.TextAlign = ContentAlignment.MiddleRight;
+            btnAnteriorNoDefinitivas.TextColor = Color.White;
+            btnAnteriorNoDefinitivas.UseVisualStyleBackColor = false;
+            btnAnteriorNoDefinitivas.Click += btnAnterior_Click;
             // 
             // labelTotal
             // 
             labelTotal.AutoSize = true;
-            labelTotal.Location = new Point(33, 126);
+            labelTotal.Location = new Point(33, 117);
             labelTotal.Name = "labelTotal";
             labelTotal.Size = new Size(38, 15);
             labelTotal.TabIndex = 5;
@@ -470,132 +588,22 @@
             // 
             lblPagina.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblPagina.AutoSize = true;
-            lblPagina.Location = new Point(690, 126);
+            lblPagina.Location = new Point(690, 117);
             lblPagina.Name = "lblPagina";
             lblPagina.Size = new Size(38, 15);
             lblPagina.TabIndex = 2;
             lblPagina.Text = "label2";
-            // 
-            // panel7
-            // 
-            panel7.Controls.Add(btnSiguiente);
-            panel7.Controls.Add(btnAnterior);
-            panel7.Dock = DockStyle.Bottom;
-            panel7.Location = new Point(0, 397);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(800, 103);
-            panel7.TabIndex = 6;
-            // 
-            // btnSiguiente
-            // 
-            btnSiguiente.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnSiguiente.BackColor = Color.FromArgb(194, 160, 91);
-            btnSiguiente.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnSiguiente.BorderColor = Color.Empty;
-            btnSiguiente.BorderRadius = 10;
-            btnSiguiente.BorderSize = 1;
-            btnSiguiente.FlatAppearance.BorderSize = 0;
-            btnSiguiente.FlatStyle = FlatStyle.Flat;
-            btnSiguiente.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnSiguiente.ForeColor = Color.White;
-            btnSiguiente.Image = (Image)resources.GetObject("btnSiguiente.Image");
-            btnSiguiente.ImageAlign = ContentAlignment.MiddleRight;
-            btnSiguiente.Location = new Point(690, 15);
-            btnSiguiente.Name = "btnSiguiente";
-            btnSiguiente.Padding = new Padding(3, 0, 0, 0);
-            btnSiguiente.Size = new Size(87, 40);
-            btnSiguiente.TabIndex = 4;
-            btnSiguiente.Text = "Siguiente";
-            btnSiguiente.TextAlign = ContentAlignment.MiddleLeft;
-            btnSiguiente.TextColor = Color.White;
-            btnSiguiente.UseVisualStyleBackColor = false;
-            btnSiguiente.Click += btnSiguiente_Click;
-            // 
-            // btnAnterior
-            // 
-            btnAnterior.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAnterior.BackColor = Color.FromArgb(194, 160, 91);
-            btnAnterior.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnAnterior.BorderColor = Color.Empty;
-            btnAnterior.BorderRadius = 10;
-            btnAnterior.BorderSize = 1;
-            btnAnterior.FlatAppearance.BorderSize = 0;
-            btnAnterior.FlatStyle = FlatStyle.Flat;
-            btnAnterior.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnAnterior.ForeColor = Color.White;
-            btnAnterior.Image = (Image)resources.GetObject("btnAnterior.Image");
-            btnAnterior.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAnterior.Location = new Point(588, 15);
-            btnAnterior.Name = "btnAnterior";
-            btnAnterior.Padding = new Padding(3, 0, 0, 0);
-            btnAnterior.Size = new Size(87, 40);
-            btnAnterior.TabIndex = 3;
-            btnAnterior.Text = "Anterior";
-            btnAnterior.TextAlign = ContentAlignment.MiddleRight;
-            btnAnterior.TextColor = Color.White;
-            btnAnterior.UseVisualStyleBackColor = false;
-            btnAnterior.Click += btnAnterior_Click;
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.FromArgb(194, 160, 91);
-            label8.Location = new Point(290, 12);
+            label8.Location = new Point(292, 12);
             label8.Name = "label8";
             label8.Size = new Size(193, 13);
             label8.TabIndex = 4;
             label8.Text = "RECURSOS CONTRA RESOLUCIONES";
-            // 
-            // dtgCasosLaboralesNoDefinitivos
-            // 
-            dtgCasosLaboralesNoDefinitivos.AllowUserToAddRows = false;
-            dtgCasosLaboralesNoDefinitivos.AllowUserToDeleteRows = false;
-            dtgCasosLaboralesNoDefinitivos.AllowUserToResizeRows = false;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(249, 247, 242);
-            dtgCasosLaboralesNoDefinitivos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            dtgCasosLaboralesNoDefinitivos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dtgCasosLaboralesNoDefinitivos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgCasosLaboralesNoDefinitivos.BackgroundColor = Color.White;
-            dtgCasosLaboralesNoDefinitivos.BorderStyle = BorderStyle.None;
-            dtgCasosLaboralesNoDefinitivos.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgCasosLaboralesNoDefinitivos.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dtgCasosLaboralesNoDefinitivos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            dtgCasosLaboralesNoDefinitivos.ColumnHeadersHeight = 40;
-            dtgCasosLaboralesNoDefinitivos.EnableHeadersVisualStyles = false;
-            dtgCasosLaboralesNoDefinitivos.Location = new Point(33, 155);
-            dtgCasosLaboralesNoDefinitivos.MinimumSize = new Size(719, 226);
-            dtgCasosLaboralesNoDefinitivos.MultiSelect = false;
-            dtgCasosLaboralesNoDefinitivos.Name = "dtgCasosLaboralesNoDefinitivos";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = Color.White;
-            dataGridViewCellStyle7.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle7.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle7.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dtgCasosLaboralesNoDefinitivos.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            dtgCasosLaboralesNoDefinitivos.RowHeadersVisible = false;
-            dataGridViewCellStyle8.BackColor = Color.White;
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle8.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle8.SelectionForeColor = Color.Black;
-            dtgCasosLaboralesNoDefinitivos.RowsDefaultCellStyle = dataGridViewCellStyle8;
-            dtgCasosLaboralesNoDefinitivos.RowTemplate.Height = 45;
-            dtgCasosLaboralesNoDefinitivos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgCasosLaboralesNoDefinitivos.Size = new Size(744, 226);
-            dtgCasosLaboralesNoDefinitivos.TabIndex = 1;
-            dtgCasosLaboralesNoDefinitivos.CellClick += dtgCasosLaborales_CellClick;
-            dtgCasosLaboralesNoDefinitivos.CellFormatting += dtgCasosLaborales_CellFormatting;
-            dtgCasosLaboralesNoDefinitivos.DataBindingComplete += dtgCasosLaborales_DataBindingComplete;
             // 
             // label6
             // 
@@ -604,9 +612,9 @@
             label6.ForeColor = Color.FromArgb(168, 162, 158);
             label6.Location = new Point(47, 12);
             label6.Name = "label6";
-            label6.Size = new Size(245, 13);
+            label6.Size = new Size(248, 13);
             label6.TabIndex = 3;
-            label6.Text = "CASOS > LABORALES > PRIMER INSTANCIA >";
+            label6.Text = "CASOS > LABORALES > PRIMER INSTANCIA > ";
             // 
             // btnAdd
             // 
@@ -632,17 +640,18 @@
             btnAdd.TextColor = Color.White;
             btnAdd.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Visible = false;
             btnAdd.Click += btnAdd_Click;
             // 
-            // txtBuscarNoDefinitivo
+            // txtBuscarNoDefinitivas
             // 
-            txtBuscarNoDefinitivo.BorderStyle = BorderStyle.None;
-            txtBuscarNoDefinitivo.Location = new Point(79, 73);
-            txtBuscarNoDefinitivo.Name = "txtBuscarNoDefinitivo";
-            txtBuscarNoDefinitivo.PlaceholderText = "Buscar  ...";
-            txtBuscarNoDefinitivo.Size = new Size(297, 16);
-            txtBuscarNoDefinitivo.TabIndex = 1;
-            txtBuscarNoDefinitivo.KeyDown += txtBuscar_KeyDown;
+            txtBuscarNoDefinitivas.BorderStyle = BorderStyle.None;
+            txtBuscarNoDefinitivas.Location = new Point(79, 73);
+            txtBuscarNoDefinitivas.Name = "txtBuscarNoDefinitivas";
+            txtBuscarNoDefinitivas.PlaceholderText = "Buscar  ...";
+            txtBuscarNoDefinitivas.Size = new Size(297, 16);
+            txtBuscarNoDefinitivas.TabIndex = 1;
+            txtBuscarNoDefinitivas.KeyDown += txtBuscar_KeyDown;
             // 
             // roundedButton1
             // 
@@ -673,6 +682,57 @@
             label1.Size = new Size(436, 30);
             label1.TabIndex = 0;
             label1.Text = "Recursos contra resoluciones no definitivas";
+            // 
+            // dtgResolucionesNoDefinitivas
+            // 
+            dtgResolucionesNoDefinitivas.AllowUserToAddRows = false;
+            dtgResolucionesNoDefinitivas.AllowUserToDeleteRows = false;
+            dtgResolucionesNoDefinitivas.AllowUserToResizeRows = false;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(249, 247, 242);
+            dtgResolucionesNoDefinitivas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dtgResolucionesNoDefinitivas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dtgResolucionesNoDefinitivas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgResolucionesNoDefinitivas.BackgroundColor = Color.White;
+            dtgResolucionesNoDefinitivas.BorderStyle = BorderStyle.None;
+            dtgResolucionesNoDefinitivas.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgResolucionesNoDefinitivas.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle6.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dtgResolucionesNoDefinitivas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dtgResolucionesNoDefinitivas.ColumnHeadersHeight = 40;
+            dtgResolucionesNoDefinitivas.EnableHeadersVisualStyles = false;
+            dtgResolucionesNoDefinitivas.Location = new Point(33, 146);
+            dtgResolucionesNoDefinitivas.MinimumSize = new Size(719, 226);
+            dtgResolucionesNoDefinitivas.MultiSelect = false;
+            dtgResolucionesNoDefinitivas.Name = "dtgResolucionesNoDefinitivas";
+            dtgResolucionesNoDefinitivas.ReadOnly = true;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.White;
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle7.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle7.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dtgResolucionesNoDefinitivas.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dtgResolucionesNoDefinitivas.RowHeadersVisible = false;
+            dataGridViewCellStyle8.BackColor = Color.White;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle8.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle8.SelectionForeColor = Color.Black;
+            dtgResolucionesNoDefinitivas.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dtgResolucionesNoDefinitivas.RowTemplate.Height = 45;
+            dtgResolucionesNoDefinitivas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgResolucionesNoDefinitivas.Size = new Size(744, 257);
+            dtgResolucionesNoDefinitivas.TabIndex = 1;
+            dtgResolucionesNoDefinitivas.CellClick += dtgCasosLaborales_CellClick;
+            dtgResolucionesNoDefinitivas.CellFormatting += dtgCasosLaborales_CellFormatting;
+            dtgResolucionesNoDefinitivas.DataBindingComplete += dtgCasosLaborales_DataBindingComplete;
             // 
             // Detalles
             // 
@@ -1777,7 +1837,7 @@
             panel3.Controls.Add(roundedButton26);
             panel3.Location = new Point(55, 340);
             panel3.Name = "panel3";
-            panel3.Size = new Size(641, 287);
+            panel3.Size = new Size(593, 287);
             panel3.TabIndex = 9;
             // 
             // btnAgregarEstado
@@ -1850,7 +1910,7 @@
             txtObservaciones.PlaceholderText = "...";
             txtObservaciones.ReadOnly = true;
             txtObservaciones.ScrollBars = ScrollBars.Vertical;
-            txtObservaciones.Size = new Size(572, 118);
+            txtObservaciones.Size = new Size(524, 118);
             txtObservaciones.TabIndex = 10;
             // 
             // roundedButton23
@@ -1868,7 +1928,7 @@
             roundedButton23.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton23.Location = new Point(23, 135);
             roundedButton23.Name = "roundedButton23";
-            roundedButton23.Size = new Size(596, 139);
+            roundedButton23.Size = new Size(548, 139);
             roundedButton23.TabIndex = 11;
             roundedButton23.TextColor = Color.White;
             roundedButton23.UseVisualStyleBackColor = false;
@@ -1909,7 +1969,7 @@
             roundedButton22.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton22.Location = new Point(0, 0);
             roundedButton22.Name = "roundedButton22";
-            roundedButton22.Size = new Size(641, 43);
+            roundedButton22.Size = new Size(593, 43);
             roundedButton22.TabIndex = 4;
             roundedButton22.Text = "Estado y Observaciones";
             roundedButton22.TextAlign = ContentAlignment.MiddleLeft;
@@ -1931,7 +1991,7 @@
             roundedButton26.ForeColor = Color.White;
             roundedButton26.Location = new Point(0, 45);
             roundedButton26.Name = "roundedButton26";
-            roundedButton26.Size = new Size(641, 242);
+            roundedButton26.Size = new Size(593, 242);
             roundedButton26.TabIndex = 2;
             roundedButton26.TextColor = Color.White;
             roundedButton26.UseVisualStyleBackColor = false;
@@ -1956,7 +2016,7 @@
             panelInformacionPersonal.Controls.Add(roundedButton9);
             panelInformacionPersonal.Location = new Point(55, 71);
             panelInformacionPersonal.Name = "panelInformacionPersonal";
-            panelInformacionPersonal.Size = new Size(641, 250);
+            panelInformacionPersonal.Size = new Size(593, 250);
             panelInformacionPersonal.TabIndex = 3;
             // 
             // comboBoxJuzgado
@@ -2119,7 +2179,7 @@
             roundedButton2.ForeColor = Color.White;
             roundedButton2.Location = new Point(0, 43);
             roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(641, 207);
+            roundedButton2.Size = new Size(593, 207);
             roundedButton2.TabIndex = 2;
             roundedButton2.TextColor = Color.White;
             roundedButton2.UseVisualStyleBackColor = false;
@@ -2140,7 +2200,7 @@
             roundedButton9.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton9.Location = new Point(0, 0);
             roundedButton9.Name = "roundedButton9";
-            roundedButton9.Size = new Size(641, 43);
+            roundedButton9.Size = new Size(593, 43);
             roundedButton9.TabIndex = 4;
             roundedButton9.Text = "Datos Generales";
             roundedButton9.TextAlign = ContentAlignment.MiddleLeft;
@@ -2163,7 +2223,7 @@
             panelBotones.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelBotones.Location = new Point(0, 2125);
             panelBotones.Name = "panelBotones";
-            panelBotones.Size = new Size(693, 48);
+            panelBotones.Size = new Size(645, 48);
             panelBotones.TabIndex = 20;
             // 
             // tabPageHistorial
@@ -2245,6 +2305,7 @@
             dtgHistorial.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgHistorial.Size = new Size(719, 332);
             dtgHistorial.TabIndex = 21;
+            dtgHistorial.CellContentClick += dtgHistorial_CellContentClick;
             dtgHistorial.DataBindingComplete += dtgHistorial_DataBindingComplete;
             // 
             // label18
@@ -2419,6 +2480,341 @@
             label23.TabIndex = 22;
             label23.Text = "Archivos";
             // 
+            // tabPageEditarHistorial
+            // 
+            tabPageEditarHistorial.BackColor = Color.FromArgb(250, 249, 246);
+            tabPageEditarHistorial.Controls.Add(txtUsuarioEditorHistorial);
+            tabPageEditarHistorial.Controls.Add(txtUsuarioCreadorHistorial);
+            tabPageEditarHistorial.Controls.Add(txtOrigenHistorial);
+            tabPageEditarHistorial.Controls.Add(btnCancelarEdicionHistorial);
+            tabPageEditarHistorial.Controls.Add(btnGuardarEdicionHistorial);
+            tabPageEditarHistorial.Controls.Add(panelVencimiento);
+            tabPageEditarHistorial.Controls.Add(label26);
+            tabPageEditarHistorial.Controls.Add(label27);
+            tabPageEditarHistorial.Controls.Add(panelDetalles);
+            tabPageEditarHistorial.Location = new Point(4, 24);
+            tabPageEditarHistorial.Name = "tabPageEditarHistorial";
+            tabPageEditarHistorial.Padding = new Padding(3);
+            tabPageEditarHistorial.Size = new Size(799, 472);
+            tabPageEditarHistorial.TabIndex = 4;
+            // 
+            // txtUsuarioEditorHistorial
+            // 
+            txtUsuarioEditorHistorial.Location = new Point(736, 276);
+            txtUsuarioEditorHistorial.Name = "txtUsuarioEditorHistorial";
+            txtUsuarioEditorHistorial.Size = new Size(50, 23);
+            txtUsuarioEditorHistorial.TabIndex = 27;
+            txtUsuarioEditorHistorial.Visible = false;
+            // 
+            // txtUsuarioCreadorHistorial
+            // 
+            txtUsuarioCreadorHistorial.Location = new Point(736, 185);
+            txtUsuarioCreadorHistorial.Name = "txtUsuarioCreadorHistorial";
+            txtUsuarioCreadorHistorial.Size = new Size(50, 23);
+            txtUsuarioCreadorHistorial.TabIndex = 26;
+            txtUsuarioCreadorHistorial.Visible = false;
+            // 
+            // txtOrigenHistorial
+            // 
+            txtOrigenHistorial.Location = new Point(736, 105);
+            txtOrigenHistorial.Name = "txtOrigenHistorial";
+            txtOrigenHistorial.Size = new Size(50, 23);
+            txtOrigenHistorial.TabIndex = 25;
+            txtOrigenHistorial.Visible = false;
+            // 
+            // btnCancelarEdicionHistorial
+            // 
+            btnCancelarEdicionHistorial.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnCancelarEdicionHistorial.BackColor = Color.FromArgb(250, 249, 246);
+            btnCancelarEdicionHistorial.BackgroundColor = Color.FromArgb(250, 249, 246);
+            btnCancelarEdicionHistorial.BorderColor = Color.Silver;
+            btnCancelarEdicionHistorial.BorderRadius = 10;
+            btnCancelarEdicionHistorial.BorderSize = 1;
+            btnCancelarEdicionHistorial.FlatAppearance.BorderSize = 0;
+            btnCancelarEdicionHistorial.FlatStyle = FlatStyle.Flat;
+            btnCancelarEdicionHistorial.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            btnCancelarEdicionHistorial.ForeColor = Color.Black;
+            btnCancelarEdicionHistorial.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCancelarEdicionHistorial.Location = new Point(445, 416);
+            btnCancelarEdicionHistorial.Name = "btnCancelarEdicionHistorial";
+            btnCancelarEdicionHistorial.Padding = new Padding(3, 0, 0, 0);
+            btnCancelarEdicionHistorial.Size = new Size(120, 40);
+            btnCancelarEdicionHistorial.TabIndex = 20;
+            btnCancelarEdicionHistorial.Text = "Cancelar";
+            btnCancelarEdicionHistorial.TextColor = Color.Black;
+            btnCancelarEdicionHistorial.UseVisualStyleBackColor = false;
+            btnCancelarEdicionHistorial.Click += btnCancelarEdicionHistorial_Click;
+            // 
+            // btnGuardarEdicionHistorial
+            // 
+            btnGuardarEdicionHistorial.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnGuardarEdicionHistorial.BackColor = Color.FromArgb(52, 109, 235);
+            btnGuardarEdicionHistorial.BackgroundColor = Color.FromArgb(52, 109, 235);
+            btnGuardarEdicionHistorial.BorderColor = Color.Empty;
+            btnGuardarEdicionHistorial.BorderRadius = 10;
+            btnGuardarEdicionHistorial.BorderSize = 1;
+            btnGuardarEdicionHistorial.FlatAppearance.BorderSize = 0;
+            btnGuardarEdicionHistorial.FlatStyle = FlatStyle.Flat;
+            btnGuardarEdicionHistorial.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            btnGuardarEdicionHistorial.ForeColor = Color.White;
+            btnGuardarEdicionHistorial.Image = Properties.Resources.boton_guardar;
+            btnGuardarEdicionHistorial.ImageAlign = ContentAlignment.MiddleRight;
+            btnGuardarEdicionHistorial.Location = new Point(578, 416);
+            btnGuardarEdicionHistorial.Name = "btnGuardarEdicionHistorial";
+            btnGuardarEdicionHistorial.Padding = new Padding(3, 0, 0, 0);
+            btnGuardarEdicionHistorial.Size = new Size(120, 40);
+            btnGuardarEdicionHistorial.TabIndex = 21;
+            btnGuardarEdicionHistorial.Text = "Editar";
+            btnGuardarEdicionHistorial.TextAlign = ContentAlignment.MiddleLeft;
+            btnGuardarEdicionHistorial.TextColor = Color.White;
+            btnGuardarEdicionHistorial.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnGuardarEdicionHistorial.UseVisualStyleBackColor = false;
+            btnGuardarEdicionHistorial.Click += btnGuardarEdicionHistorial_Click;
+            // 
+            // panelVencimiento
+            // 
+            panelVencimiento.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panelVencimiento.Controls.Add(dateTimePickerFechaVencimiento);
+            panelVencimiento.Controls.Add(dateTimePickerHoraVencimiento);
+            panelVencimiento.Controls.Add(label24);
+            panelVencimiento.Controls.Add(label25);
+            panelVencimiento.Controls.Add(checkBoxTieneVencimiento);
+            panelVencimiento.Controls.Add(roundedButton21);
+            panelVencimiento.Location = new Point(100, 302);
+            panelVencimiento.Name = "panelVencimiento";
+            panelVencimiento.Size = new Size(598, 97);
+            panelVencimiento.TabIndex = 24;
+            // 
+            // dateTimePickerFechaVencimiento
+            // 
+            dateTimePickerFechaVencimiento.Format = DateTimePickerFormat.Short;
+            dateTimePickerFechaVencimiento.Location = new Point(165, 61);
+            dateTimePickerFechaVencimiento.Name = "dateTimePickerFechaVencimiento";
+            dateTimePickerFechaVencimiento.Size = new Size(100, 23);
+            dateTimePickerFechaVencimiento.TabIndex = 5;
+            dateTimePickerFechaVencimiento.ValueChanged += dateTimePickerFechaVencimiento_ValueChanged;
+            // 
+            // dateTimePickerHoraVencimiento
+            // 
+            dateTimePickerHoraVencimiento.CalendarForeColor = Color.Black;
+            dateTimePickerHoraVencimiento.CalendarMonthBackground = Color.White;
+            dateTimePickerHoraVencimiento.CustomFormat = "hh:mm tt";
+            dateTimePickerHoraVencimiento.Format = DateTimePickerFormat.Custom;
+            dateTimePickerHoraVencimiento.Location = new Point(292, 61);
+            dateTimePickerHoraVencimiento.Name = "dateTimePickerHoraVencimiento";
+            dateTimePickerHoraVencimiento.ShowUpDown = true;
+            dateTimePickerHoraVencimiento.Size = new Size(109, 23);
+            dateTimePickerHoraVencimiento.TabIndex = 6;
+            dateTimePickerHoraVencimiento.Tag = "";
+            dateTimePickerHoraVencimiento.ValueChanged += dateTimePickerHoraVencimiento_ValueChanged;
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.BackColor = Color.White;
+            label24.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label24.Location = new Point(292, 39);
+            label24.Name = "label24";
+            label24.Size = new Size(43, 19);
+            label24.TabIndex = 19;
+            label24.Text = "Hora";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.BackColor = Color.White;
+            label25.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label25.Location = new Point(165, 39);
+            label25.Name = "label25";
+            label25.Size = new Size(47, 19);
+            label25.TabIndex = 17;
+            label25.Text = "Fecha";
+            // 
+            // checkBoxTieneVencimiento
+            // 
+            checkBoxTieneVencimiento.AutoSize = true;
+            checkBoxTieneVencimiento.BackColor = Color.White;
+            checkBoxTieneVencimiento.Enabled = false;
+            checkBoxTieneVencimiento.Location = new Point(33, 12);
+            checkBoxTieneVencimiento.Name = "checkBoxTieneVencimiento";
+            checkBoxTieneVencimiento.Size = new Size(134, 19);
+            checkBoxTieneVencimiento.TabIndex = 4;
+            checkBoxTieneVencimiento.Text = "¿Tiene Vencimiento?";
+            checkBoxTieneVencimiento.UseVisualStyleBackColor = false;
+            checkBoxTieneVencimiento.CheckedChanged += checkBoxTieneVencimiento_CheckedChanged;
+            // 
+            // roundedButton21
+            // 
+            roundedButton21.BackColor = Color.White;
+            roundedButton21.BackgroundColor = Color.White;
+            roundedButton21.BorderColor = Color.Empty;
+            roundedButton21.BorderRadius = 40;
+            roundedButton21.BorderSize = 0;
+            roundedButton21.Dock = DockStyle.Fill;
+            roundedButton21.Enabled = false;
+            roundedButton21.FlatAppearance.BorderSize = 0;
+            roundedButton21.FlatStyle = FlatStyle.Flat;
+            roundedButton21.ForeColor = Color.White;
+            roundedButton21.Location = new Point(0, 0);
+            roundedButton21.Name = "roundedButton21";
+            roundedButton21.Size = new Size(598, 97);
+            roundedButton21.TabIndex = 21;
+            roundedButton21.TextColor = Color.White;
+            roundedButton21.UseVisualStyleBackColor = false;
+            // 
+            // label26
+            // 
+            label26.Anchor = AnchorStyles.Top;
+            label26.AutoSize = true;
+            label26.BackColor = Color.FromArgb(250, 249, 246);
+            label26.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label26.Location = new Point(100, 280);
+            label26.Name = "label26";
+            label26.Size = new Size(91, 19);
+            label26.TabIndex = 23;
+            label26.Text = "Vencimiento";
+            // 
+            // label27
+            // 
+            label27.Anchor = AnchorStyles.Top;
+            label27.AutoSize = true;
+            label27.BackColor = Color.FromArgb(250, 249, 246);
+            label27.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label27.Location = new Point(98, 17);
+            label27.Name = "label27";
+            label27.Size = new Size(135, 19);
+            label27.TabIndex = 22;
+            label27.Text = "Detalles del Estado";
+            // 
+            // panelDetalles
+            // 
+            panelDetalles.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panelDetalles.Controls.Add(dateTimePickerFechaEstado);
+            panelDetalles.Controls.Add(label28);
+            panelDetalles.Controls.Add(label29);
+            panelDetalles.Controls.Add(txtObservacionesHistorial);
+            panelDetalles.Controls.Add(roundedButton27);
+            panelDetalles.Controls.Add(comboboxEstado);
+            panelDetalles.Controls.Add(label30);
+            panelDetalles.Controls.Add(roundedButton25);
+            panelDetalles.Location = new Point(100, 39);
+            panelDetalles.Name = "panelDetalles";
+            panelDetalles.Size = new Size(598, 227);
+            panelDetalles.TabIndex = 19;
+            // 
+            // dateTimePickerFechaEstado
+            // 
+            dateTimePickerFechaEstado.Format = DateTimePickerFormat.Short;
+            dateTimePickerFechaEstado.Location = new Point(33, 51);
+            dateTimePickerFechaEstado.Name = "dateTimePickerFechaEstado";
+            dateTimePickerFechaEstado.Size = new Size(100, 23);
+            dateTimePickerFechaEstado.TabIndex = 1;
+            dateTimePickerFechaEstado.ValueChanged += dateTimePickerFechaEstado_ValueChanged;
+            // 
+            // label28
+            // 
+            label28.Anchor = AnchorStyles.Top;
+            label28.AutoSize = true;
+            label28.BackColor = Color.White;
+            label28.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label28.Location = new Point(33, 29);
+            label28.Name = "label28";
+            label28.Size = new Size(47, 19);
+            label28.TabIndex = 15;
+            label28.Text = "Fecha";
+            // 
+            // label29
+            // 
+            label29.Anchor = AnchorStyles.Top;
+            label29.AutoSize = true;
+            label29.BackColor = Color.White;
+            label29.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label29.Location = new Point(33, 93);
+            label29.Name = "label29";
+            label29.Size = new Size(108, 19);
+            label29.TabIndex = 12;
+            label29.Text = "Observaciones";
+            // 
+            // txtObservacionesHistorial
+            // 
+            txtObservacionesHistorial.Anchor = AnchorStyles.Top;
+            txtObservacionesHistorial.BorderStyle = BorderStyle.None;
+            txtObservacionesHistorial.Location = new Point(43, 136);
+            txtObservacionesHistorial.Multiline = true;
+            txtObservacionesHistorial.Name = "txtObservacionesHistorial";
+            txtObservacionesHistorial.PlaceholderText = "...";
+            txtObservacionesHistorial.ScrollBars = ScrollBars.Vertical;
+            txtObservacionesHistorial.Size = new Size(460, 63);
+            txtObservacionesHistorial.TabIndex = 3;
+            // 
+            // roundedButton27
+            // 
+            roundedButton27.Anchor = AnchorStyles.Top;
+            roundedButton27.BackColor = Color.White;
+            roundedButton27.BackgroundColor = Color.White;
+            roundedButton27.BorderColor = Color.LightGray;
+            roundedButton27.BorderRadius = 10;
+            roundedButton27.BorderSize = 1;
+            roundedButton27.Enabled = false;
+            roundedButton27.FlatAppearance.BorderSize = 0;
+            roundedButton27.FlatStyle = FlatStyle.Flat;
+            roundedButton27.ForeColor = Color.White;
+            roundedButton27.ImageAlign = ContentAlignment.MiddleLeft;
+            roundedButton27.Location = new Point(33, 125);
+            roundedButton27.Name = "roundedButton27";
+            roundedButton27.Size = new Size(477, 84);
+            roundedButton27.TabIndex = 14;
+            roundedButton27.TextColor = Color.White;
+            roundedButton27.UseVisualStyleBackColor = false;
+            // 
+            // comboboxEstado
+            // 
+            comboboxEstado.Anchor = AnchorStyles.Top;
+            comboboxEstado.DropDownHeight = 200;
+            comboboxEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboboxEstado.DropDownWidth = 500;
+            comboboxEstado.Font = new Font("Segoe UI", 9F);
+            comboboxEstado.FormattingEnabled = true;
+            comboboxEstado.IntegralHeight = false;
+            comboboxEstado.ItemHeight = 15;
+            comboboxEstado.Items.AddRange(new object[] { "Demanda presentada", "Juicio Verbal y Período Conciliatorio", "Ampliación o Modificación de demanda", "Excepción dilatoria", "Excepción perentoria", "Reconvención", "Segunda Audiencia", "Tercera Audiencia para recepción de pruebas", "Audiencia de Incidentes", "Auto para mejor fallar", "Sentencia", "Recursos contra resoluciones no definitivas/Recurso de revocatoria", "Recursos contra resoluciones no definitivas/Recurso de Nulidad", "Recursos contra resoluciones no definitivas/Contestación de Recurso de Nulidad", "Recursos contra resoluciones no definitivas/Recurso de Apelación", "Recursos contra resoluciones que ponen fin a juicio/Recurso de Aclaración y Ampliación", "Recursos contra resoluciones que ponen fin a juicio/Recurso de Apelación" });
+            comboboxEstado.Location = new Point(253, 53);
+            comboboxEstado.Name = "comboboxEstado";
+            comboboxEstado.Size = new Size(250, 23);
+            comboboxEstado.TabIndex = 2;
+            comboboxEstado.SelectedValueChanged += comboboxEstado_SelectedValueChanged;
+            // 
+            // label30
+            // 
+            label30.Anchor = AnchorStyles.Top;
+            label30.AutoSize = true;
+            label30.BackColor = Color.White;
+            label30.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label30.Location = new Point(253, 29);
+            label30.Name = "label30";
+            label30.Size = new Size(53, 19);
+            label30.TabIndex = 9;
+            label30.Text = "Estado";
+            // 
+            // roundedButton25
+            // 
+            roundedButton25.BackColor = Color.White;
+            roundedButton25.BackgroundColor = Color.White;
+            roundedButton25.BorderColor = Color.Black;
+            roundedButton25.BorderRadius = 35;
+            roundedButton25.BorderSize = 0;
+            roundedButton25.Dock = DockStyle.Fill;
+            roundedButton25.Enabled = false;
+            roundedButton25.FlatAppearance.BorderSize = 0;
+            roundedButton25.FlatStyle = FlatStyle.Flat;
+            roundedButton25.ForeColor = Color.White;
+            roundedButton25.Location = new Point(0, 0);
+            roundedButton25.Name = "roundedButton25";
+            roundedButton25.Size = new Size(598, 227);
+            roundedButton25.TabIndex = 17;
+            roundedButton25.TextColor = Color.White;
+            roundedButton25.UseVisualStyleBackColor = false;
+            // 
             // btnVerHistorial
             // 
             btnVerHistorial.BackColor = Color.FromArgb(250, 249, 246);
@@ -2557,7 +2953,7 @@
             panelBotonesCaso.Size = new Size(807, 60);
             panelBotonesCaso.TabIndex = 6;
             // 
-            // Laboral_primer_instancia_Recursos
+            // Laboral_primer_instancia_recursos_resolucion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -2566,21 +2962,21 @@
             Controls.Add(tabControl1);
             Controls.Add(panelBotonesCaso);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "Laboral_primer_instancia_Recursos";
-            Text = "Laboral_primer_instancia_Recursos";
-            Load += Laboral_primer_instancia_Recursos_Load;
-            ResizeEnd += Laboral_primer_instancia_Recursos_ResizeEnd;
-            Resize += Laboral_primer_instancia_Recursos_Resize_1;
+            Name = "Laboral_primer_instancia_recursos_resolucion";
+            Text = "Laboral_primer_instancia_recursos_resolucion";
+            Load += Laboral_primer_instancia_recursos_resolucion_Load;
+            ResizeEnd += Laboral_primer_instancia_recursos_resolucion_ResizeEnd;
+            Resize += Laboral_primer_instancia_recursos_resolucion_Resize_1;
             tabControl1.ResumeLayout(false);
             Listar.ResumeLayout(false);
             panelBusquedaCaso2.ResumeLayout(false);
             panelBusquedaCaso2.PerformLayout();
-            panel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dtgCasosLaboralesFinJuicio).EndInit();
+            panelBotonesCaso2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dtgResolucionesFinJuicio).EndInit();
             panelBusquedaCaso.ResumeLayout(false);
             panelBusquedaCaso.PerformLayout();
             panel7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dtgCasosLaboralesNoDefinitivos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dtgResolucionesNoDefinitivas).EndInit();
             Detalles.ResumeLayout(false);
             Detalles.PerformLayout();
             flowLayoutPanel1.ResumeLayout(false);
@@ -2620,6 +3016,12 @@
             tabPageArchivos.ResumeLayout(false);
             tabPageArchivos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgArchivos).EndInit();
+            tabPageEditarHistorial.ResumeLayout(false);
+            tabPageEditarHistorial.PerformLayout();
+            panelVencimiento.ResumeLayout(false);
+            panelVencimiento.PerformLayout();
+            panelDetalles.ResumeLayout(false);
+            panelDetalles.PerformLayout();
             panelBotonesCaso.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -2678,13 +3080,13 @@
         private Label label8;
         private Label label6;
         private Clases.RoundedButton btnAdd;
-        private TextBox txtBuscarNoDefinitivo;
+        private TextBox txtBuscarNoDefinitivas;
         private Clases.RoundedButton roundedButton1;
         private Label label1;
-        private Clases.RoundedButton btnSiguiente;
+        private Clases.RoundedButton btnSiguienteNoDefinitivas;
         private Label lblPagina;
-        private Clases.RoundedButton btnAnterior;
-        private DataGridView dtgCasosLaboralesNoDefinitivos;
+        private Clases.RoundedButton btnAnteriorNoDefinitivas;
+        private DataGridView dtgResolucionesNoDefinitivas;
         private Panel panel7;
         private Label label11;
         private DataGridView dtgAbogadosDirectores;
@@ -2736,15 +3138,42 @@
         private Clases.RoundedButton btnRegresarDetalleDeArchivos;
         private Clases.RoundedButton btnRegresarDetalleDeHistorial;
         private Clases.RoundedButton btnSubirArchivo;
-        private Panel panelBusquedaCaso2;
+        private TabPage tabPageEditarHistorial;
+        private Clases.RoundedButton btnCancelarEdicionHistorial;
+        private Clases.RoundedButton btnGuardarEdicionHistorial;
+        private Panel panelVencimiento;
+        private DateTimePicker dateTimePickerFechaVencimiento;
+        private DateTimePicker dateTimePickerHoraVencimiento;
         private Label label24;
         private Label label25;
-        private Panel panel4;
-        private Clases.RoundedButton roundedButton19;
+        private CheckBox checkBoxTieneVencimiento;
         private Clases.RoundedButton roundedButton21;
-        private DataGridView dtgCasosLaboralesFinJuicio;
-        private TextBox txtBuscarFinJuicio;
-        private Clases.RoundedButton roundedButton27;
+        private Label label26;
+        private Label label27;
+        private Panel panelDetalles;
+        private DateTimePicker dateTimePickerFechaEstado;
         private Label label28;
+        private Label label29;
+        private TextBox txtObservacionesHistorial;
+        private Clases.RoundedButton roundedButton27;
+        private ComboBox comboboxEstado;
+        private Label label30;
+        private Clases.RoundedButton roundedButton25;
+        private TextBox txtOrigenHistorial;
+        private TextBox txtUsuarioEditorHistorial;
+        private TextBox txtUsuarioCreadorHistorial;
+        private Panel panelBusquedaCaso2;
+        private Panel panelBotonesCaso2;
+        private Clases.RoundedButton btnSiguienteFinJuicio;
+        private Clases.RoundedButton btnAnteriorFinJuicio;
+        private Label labelTotal2;
+        private Label lblPagina2;
+        private Label label33;
+        private Label label34;
+        private DataGridView dtgResolucionesFinJuicio;
+        private Clases.RoundedButton roundedButton29;
+        private TextBox txtBuscarFinJuicio;
+        private Clases.RoundedButton roundedButton30;
+        private Label label35;
     }
 }
