@@ -192,33 +192,7 @@ namespace AccesoDatos.Entidades
             }
         }
 
-        public async Task<ApiResponseHistorialCasoLaboral> ListarHistorialCasoLaboral(int casoId)
-        {
-            var parameters = new Dictionary<string, string>
-            {
-                { "action", "listar_historial_caso_laboral" },
-                { "caso_id", casoId.ToString() }
-            };
-
-            using var content = new FormUrlEncodedContent(parameters);
-
-            try
-            {
-                var response = await _http.PostAsync(_apiUrl, content);
-                var jsonResult = await response.Content.ReadAsStringAsync();
-
-                return JsonConvert.DeserializeObject<ApiResponseHistorialCasoLaboral>(jsonResult)
-                       ?? new ApiResponseHistorialCasoLaboral { success = false, message = "Respuesta vacía o inválida." };
-            }
-            catch (Exception ex)
-            {
-                return new ApiResponseHistorialCasoLaboral
-                {
-                    success = false,
-                    message = "Error: " + ex.Message
-                };
-            }
-        }
+        
         // LISTAR
         public async Task<ListarArchivosCasoLaboralResponse> ListarArchivos(int casoId)
         {
@@ -390,74 +364,6 @@ namespace AccesoDatos.Entidades
             }
         }
 
-        public async Task<ApiResponse<object>> EliminarHistorialCasoLaboral(int historialId, int casoId, int usuarioId)
-        {
-            var parameters = new Dictionary<string, string>
-    {
-        { "action", "eliminar_historial_caso_laboral" },
-        { "historial_id", historialId.ToString() },
-        { "caso_id", casoId.ToString() },
-        { "usuario_id", usuarioId.ToString() }
-    };
-
-            using var content = new FormUrlEncodedContent(parameters);
-
-            try
-            {
-                var response = await _http.PostAsync(_apiUrl, content);
-                var jsonResult = await response.Content.ReadAsStringAsync();
-
-                return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
-                       ?? new ApiResponse<object> { success = false, message = "Respuesta vacía o inválida." };
-            }
-            catch (Exception ex)
-            {
-                return new ApiResponse<object>
-                {
-                    success = false,
-                    message = "Error: " + ex.Message
-                };
-            }
-        }
-
-
-        public async Task<ApiResponse<object>> EditarHistorialCasoLaboral(EditarHistorialCasoRequest req)
-        {
-            var parameters = new Dictionary<string, string>
-            {
-                { "action", "editar_historial_caso_laboral" },
-                { "historial_id", req.HistorialId.ToString() },
-                { "caso_id", req.CasoId.ToString() },
-                { "usuario_id", req.UsuarioId.ToString() },
-                { "fecha", req.Fecha ?? "" },
-                { "fecha_vencimiento", req.FechaVencimiento ?? "" },
-                { "estado", req.Estado ?? "" },
-                { "anotaciones", req.Anotaciones ?? "" }
-            };
-
-            using var content = new FormUrlEncodedContent(parameters);
-
-            try
-            {
-                var response = await _http.PostAsync(_apiUrl, content);
-                var jsonResult = await response.Content.ReadAsStringAsync();
-
-                return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
-                       ?? new ApiResponse<object>
-                       {
-                           success = false,
-                           message = "Respuesta vacía o inválida."
-                       };
-            }
-            catch (Exception ex)
-            {
-                return new ApiResponse<object>
-                {
-                    success = false,
-                    message = "Error: " + ex.Message
-                };
-            }
-        }
-
+        
     }
 }

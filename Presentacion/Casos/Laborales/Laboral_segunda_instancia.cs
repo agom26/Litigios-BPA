@@ -41,6 +41,7 @@ namespace Presentacion.Casos.Laborales
         private BindingSource bsTercerosInteresados = new BindingSource();
         private int _idCasoEditar;
         CasosLaboralesSegundaInstanciaDataAccess casoLaboralModel = new CasosLaboralesSegundaInstanciaDataAccess();
+        HistorialCasoLaboralModel historialModel = new HistorialCasoLaboralModel();
         TerceroInteresadoModel terceroInteresadoModel = new TerceroInteresadoModel();
         private BindingList<PersonaListDataResponse> listaDemandados
         = new BindingList<PersonaListDataResponse>();
@@ -1615,7 +1616,7 @@ namespace Presentacion.Casos.Laborales
         private async Task ListarHistorial()
         {
 
-            var datosHistorial = await casoLaboralModel.ListarHistorialCasoLaboral(_idCasoEditar);
+            var datosHistorial = await historialModel.ObtenerHistorialCasoLaboral(_idCasoEditar);
 
             if (!datosHistorial.success || datosHistorial.data == null)
                 return;
@@ -1780,6 +1781,7 @@ namespace Presentacion.Casos.Laborales
 
             CrearBotonesAccion(dtgHistorial);
             dtgHistorial.ClearSelection();
+            dtgHistorial.CurrentCell = null;
         }
         private async Task RefrescarListaArchivos()
         {
@@ -1999,25 +2001,58 @@ namespace Presentacion.Casos.Laborales
             AnadirTabPage(tabPageHistorial);
             EliminarTabPage(tabPageEditarHistorial);
         }
+        private void LimpiarFormularioHistorial()
+        {
+            _idHistorialEditar = 0;
+            _casoIdHistorialEditar = 0;
+
+            dateTimePickerFechaEstado.Value = DateTime.Today;
+
+            comboboxEstado.DataSource = null;
+            comboboxEstado.Items.Clear();
+            comboboxEstado.Text = "";
+
+            checkBoxTieneVencimiento.Checked = false;
+
+            dateTimePickerFechaVencimiento.Value = DateTime.Today;
+            dateTimePickerHoraVencimiento.Value = DateTime.Today.Date.AddHours(8);
+
+            dateTimePickerFechaVencimiento.Enabled = false;
+            dateTimePickerHoraVencimiento.Enabled = false;
+
+            txtObservacionesHistorial.Text = "";
+            txtOrigenHistorial.Text = "";
+            txtUsuarioCreadorHistorial.Text = "";
+            txtUsuarioEditorHistorial.Text = "";
+        }
 
         private async void dtgHistorial_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0 && dtgHistorial.SelectedRows.Count == 0)
+            {
+                LimpiarFormularioHistorial();
+                return;
+            }
 
             var grid = (DataGridView)sender;
             var colName = grid.Columns[e.ColumnIndex].Name;
-            var item = grid.Rows[e.RowIndex].DataBoundItem as HistorialCasoLaboralDetalle;
-            if (item == null) return;
-            
+
+            var row = grid.Rows[e.RowIndex];
+            var item = row.DataBoundItem as HistorialCasoLaboralDetalle;
+
+            if (item == null)
+            {
+                LimpiarFormularioHistorial();
+                return;
+            }
+
             // EDITAR
             if (colName == "Editar")
             {
                 _historialSeleccionado = item;
                 CargarDatosHistorialEnTab(item);
 
-                AnadirTabPage(tabPageEditarHistorial);
-                EliminarTabPage(tabPageHistorial);
-
+                
                 return;
             }
 
@@ -2038,7 +2073,7 @@ namespace Presentacion.Casos.Laborales
 
                 await EjecutarConLoaderAsync(async () =>
                 {
-                    resp = await casoLaboralModel.EliminarHistorialCasoLaboral(
+                    resp = await historialModel.EliminarHistorialCasoLaboral(
                         item.id,
                         item.caso_id,
                         UserSession.Id
@@ -2065,11 +2100,24 @@ namespace Presentacion.Casos.Laborales
                 await EjecutarConLoaderAsync(async () =>
                 {
                     await ListarHistorial();
-                    await CargarDatosCaso(_idCasoEditar);
                 });
             }
+        }
 
+        private void CargarEstadosSegunOrigen(string origen)
+        {
+
+            comboboxEstado.Items.Clear();
+
+            List<string> estados = EstadoLaboralHelper.EsSegundaInstancia(origen?.Trim())
+                ? EstadoLaboralHelper.ObtenerEstadosSegundaInstancia()
+                : EstadoLaboralHelper.ObtenerEstadosPrimeraInstancia();
+            foreach (string estado in estados)
+            {
+                comboboxEstado.Items.AddRange(new string[] { estado });
+            }
             
+            comboboxEstado.SelectedIndex = -1;
         }
 
         private void CargarDatosHistorialEnTab(HistorialCasoLaboralDetalle item)
@@ -2079,9 +2127,24 @@ namespace Presentacion.Casos.Laborales
 
             dateTimePickerFechaEstado.Value = item.fecha;
 
-            comboboxEstado.Text = item.estado ?? "";
+            txtOrigenHistorial.Text = item.origen ?? "";
+            txtUsuarioCreadorHistorial.Text = item.usuario_creador ?? "";
+            txtUsuarioEditorHistorial.Text = item.usuario_editor ?? "";
 
-            bool requiereVencimiento = EstadoLaboralHelper.RequiereVencimientoSI(item.estado ?? "");
+            // Cargar combo según origen
+            CargarEstadosSegunOrigen(item.origen ?? "");
+            comboboxEstado.SelectedIndex = -1;
+
+            string estadoActual = (item.estado ?? "").Trim();
+
+            
+
+            bool requiereVencimiento = EstadoLaboralHelper.RequiereVencimiento(
+                    item.estado ?? "",
+                    item.origen ?? ""
+                );
+
+
             bool tieneVencimiento = item.fecha_vencimiento.HasValue || requiereVencimiento;
 
             checkBoxTieneVencimiento.Checked = tieneVencimiento;
@@ -2092,7 +2155,8 @@ namespace Presentacion.Casos.Laborales
             if (item.fecha_vencimiento.HasValue)
             {
                 dateTimePickerFechaVencimiento.Value = item.fecha_vencimiento.Value.Date;
-                dateTimePickerHoraVencimiento.Value = DateTime.Today.Date + item.fecha_vencimiento.Value.TimeOfDay;
+                dateTimePickerHoraVencimiento.Value =
+                    DateTime.Today.Date + item.fecha_vencimiento.Value.TimeOfDay;
             }
             else
             {
@@ -2101,9 +2165,11 @@ namespace Presentacion.Casos.Laborales
             }
 
             txtObservacionesHistorial.Text = item.anotaciones ?? "";
-            txtOrigenHistorial.Text = item.origen ?? "";
-            txtUsuarioCreadorHistorial.Text = item.usuario_creador ?? "";
-            txtUsuarioEditorHistorial.Text = item.usuario_editor ?? "";
+            comboboxEstado.SelectedItem= estadoActual;
+
+
+            AnadirTabPage(tabPageEditarHistorial);
+            EliminarTabPage(tabPageHistorial);
         }
 
         private async void btnGuardarEdicionHistorial_Click(object sender, EventArgs e)
@@ -2150,7 +2216,7 @@ namespace Presentacion.Casos.Laborales
 
             await EjecutarConLoaderAsync(async () =>
             {
-                resp = await casoLaboralModel.EditarHistorialCasoLaboral(req);
+                resp = await historialModel.EditarHistorialCaso(req);
             });
 
             if (resp == null)
@@ -2180,11 +2246,11 @@ namespace Presentacion.Casos.Laborales
             EliminarTabPage(tabPageEditarHistorial);
         }
 
-        private void VerificarEstadoEditarHistorial()
+        private void VerificarEstadoEditarHistorial(string origen)
         {
             string estado = comboboxEstado.Text;
 
-            bool requiere = EstadoLaboralHelper.RequiereVencimientoSI(estado);
+            bool requiere = EstadoLaboralHelper.RequiereVencimiento(estado, origen);
 
             checkBoxTieneVencimiento.Checked = requiere;
 
@@ -2217,7 +2283,7 @@ namespace Presentacion.Casos.Laborales
 
         private void comboboxEstado_SelectedValueChanged(object sender, EventArgs e)
         {
-            VerificarEstadoEditarHistorial();
+            VerificarEstadoEditarHistorial(_historialSeleccionado.origen);
             ActualizarObservacionEditarHistorial();
         }
 
@@ -2241,6 +2307,11 @@ namespace Presentacion.Casos.Laborales
         private void dateTimePickerHoraVencimiento_ValueChanged(object sender, EventArgs e)
         {
             ActualizarObservacionEditarHistorial();
+        }
+
+        private void label28_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

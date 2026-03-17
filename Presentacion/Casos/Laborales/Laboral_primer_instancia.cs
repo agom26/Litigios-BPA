@@ -39,6 +39,7 @@ namespace Presentacion.Casos.Laborales
 
         private BindingSource bsTercerosInteresados = new BindingSource();
         private int _idCasoEditar;
+        HistorialCasoLaboralModel historialModel = new HistorialCasoLaboralModel();
         CasosLaboralesModel casoLaboralModel = new CasosLaboralesModel();
         TerceroInteresadoModel terceroInteresadoModel = new TerceroInteresadoModel();
         private BindingList<PersonaListDataResponse> listaDemandados
@@ -1613,7 +1614,7 @@ namespace Presentacion.Casos.Laborales
         private async Task ListarHistorial()
         {
 
-            var datosHistorial = await casoLaboralModel.ObtenerHistorialCasoLaboral(_idCasoEditar);
+            var datosHistorial = await historialModel.ObtenerHistorialCasoLaboral(_idCasoEditar);
 
             if (!datosHistorial.success || datosHistorial.data == null)
                 return;
@@ -2036,7 +2037,7 @@ namespace Presentacion.Casos.Laborales
 
                 await EjecutarConLoaderAsync(async () =>
                 {
-                    resp = await casoLaboralModel.EliminarHistorialCasoLaboral(
+                    resp = await historialModel.EliminarHistorialCasoLaboral(
                         item.id,
                         item.caso_id,
                         UserSession.Id
@@ -2078,8 +2079,8 @@ namespace Presentacion.Casos.Laborales
             dateTimePickerFechaEstado.Value = item.fecha;
 
             comboboxEstado.Text = item.estado ?? "";
-
-            bool requiereVencimiento = EstadoLaboralHelper.RequiereVencimiento(item.estado ?? "");
+            string origen = item.origen;
+            bool requiereVencimiento = EstadoLaboralHelper.RequiereVencimiento(item.estado ?? "", origen);
             bool tieneVencimiento = item.fecha_vencimiento.HasValue || requiereVencimiento;
 
             checkBoxTieneVencimiento.Checked = tieneVencimiento;
@@ -2148,7 +2149,7 @@ namespace Presentacion.Casos.Laborales
 
             await EjecutarConLoaderAsync(async () =>
             {
-                resp = await casoLaboralModel.EditarHistorialCaso(req);
+                resp = await historialModel.EditarHistorialCaso(req);
             });
 
             if (resp == null)
@@ -2180,14 +2181,21 @@ namespace Presentacion.Casos.Laborales
 
         private void VerificarEstadoEditarHistorial()
         {
-            string estado = comboboxEstado.Text;
 
-            bool requiere = EstadoLaboralHelper.RequiereVencimiento(estado);
+            string origenActual = txtOrigenHistorial.Text?.Trim() ?? "";
 
-            checkBoxTieneVencimiento.Checked = requiere;
+            bool requiereVencimiento = EstadoLaboralHelper.RequiereVencimiento(
+                comboboxEstado.Text,
+                origenActual
+            );
 
-            dateTimePickerFechaVencimiento.Enabled = requiere;
-            dateTimePickerHoraVencimiento.Enabled = requiere;
+            if (requiereVencimiento)
+            {
+                checkBoxTieneVencimiento.Checked = true;
+            }
+
+            dateTimePickerFechaVencimiento.Enabled = checkBoxTieneVencimiento.Checked;
+            dateTimePickerHoraVencimiento.Enabled = checkBoxTieneVencimiento.Checked;
         }
 
         private void ActualizarObservacionEditarHistorial()

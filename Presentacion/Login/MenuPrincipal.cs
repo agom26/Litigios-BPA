@@ -158,7 +158,27 @@ namespace Presentacion
                         break;
 
                     case "civil":
-                        treeView1.Nodes.Add(CrearNodo("Civil", "civil"));
+                        TreeNode civil = CrearNodo("Civil", "civil");
+
+                        TreeNode ejecucion = CrearNodo("Proceso de ejecución", "civil");
+                        ejecucion.Nodes.Add(CrearNodo("Vía de Apremio", "civil"));
+                        ejecucion.Nodes.Add(CrearNodo("Para Embargo", "civil"));
+                        ejecucion.Nodes.Add(CrearNodo("Segunda Instancia", "civil"));
+
+                        TreeNode sumario = CrearNodo("Juicio Sumario", "civil");
+                        sumario.Nodes.Add(CrearNodo("Primer Instancia", "civil"));
+                        sumario.Nodes.Add(CrearNodo("Segunda Instancia", "civil"));
+
+                        TreeNode oral = CrearNodo("Juicio oral", "civil");
+                        oral.Nodes.Add(CrearNodo("Primer Instancia", "civil"));
+                        oral.Nodes.Add(CrearNodo("Recursos contra resoluciones", "civil"));
+                        oral.Nodes.Add(CrearNodo("Segunda Instancia", "civil"));
+
+                        civil.Nodes.Add(ejecucion);
+                        civil.Nodes.Add(sumario);
+                        civil.Nodes.Add(oral);
+
+                        treeView1.Nodes.Add(civil);
                         break;
 
                     case "constitucional":

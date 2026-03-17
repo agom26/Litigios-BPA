@@ -42,6 +42,7 @@ namespace Presentacion.Casos.Laborales
         private int _idCasoEditar;
         //CasosLaboralesModel casoLaboralModel = new CasosLaboralesModel();
         CasosLaboralesRecursosModel casoLaboralModel = new CasosLaboralesRecursosModel();
+        HistorialCasoLaboralModel historialModel = new HistorialCasoLaboralModel();
         TerceroInteresadoModel terceroInteresadoModel = new TerceroInteresadoModel();
         private BindingList<PersonaListDataResponse> listaDemandados
         = new BindingList<PersonaListDataResponse>();
@@ -1657,7 +1658,7 @@ namespace Presentacion.Casos.Laborales
         private async Task ListarHistorial()
         {
 
-            var datosHistorial = await casoLaboralModel.ObtenerHistorialCasoLaboral(_idCasoEditar);
+            var datosHistorial = await historialModel.ObtenerHistorialCasoLaboral(_idCasoEditar);
 
             if (!datosHistorial.success || datosHistorial.data == null)
                 return;
@@ -2080,7 +2081,7 @@ namespace Presentacion.Casos.Laborales
 
                 await EjecutarConLoaderAsync(async () =>
                 {
-                    resp = await casoLaboralModel.EliminarHistorialCasoLaboral(
+                    resp = await historialModel.EliminarHistorialCasoLaboral(
                         item.id,
                         item.caso_id,
                         UserSession.Id
@@ -2123,7 +2124,7 @@ namespace Presentacion.Casos.Laborales
 
             comboboxEstado.Text = item.estado ?? "";
 
-            bool requiereVencimiento = EstadoLaboralHelper.RequiereVencimiento(item.estado ?? "");
+            bool requiereVencimiento = EstadoLaboralHelper.RequiereVencimientoPrimeraInstancia(item.estado ?? "");
             bool tieneVencimiento = item.fecha_vencimiento.HasValue || requiereVencimiento;
 
             checkBoxTieneVencimiento.Checked = tieneVencimiento;
@@ -2192,7 +2193,7 @@ namespace Presentacion.Casos.Laborales
 
             await EjecutarConLoaderAsync(async () =>
             {
-                resp = await casoLaboralModel.EditarHistorialCaso(req);
+                resp = await historialModel.EditarHistorialCaso(req);
             });
 
             if (resp == null)
@@ -2216,17 +2217,19 @@ namespace Presentacion.Casos.Laborales
             {
                 await ListarHistorial();
                 await CargarDatosCaso(_idCasoEditar);
+                await CargarCasosFinJuicio();
+                await CargarCasosNoDefinitivas();
             });
 
             AnadirTabPage(tabPageHistorial);
             EliminarTabPage(tabPageEditarHistorial);
         }
 
-        private void VerificarEstadoEditarHistorial()
+        private void VerificarEstadoEditarHistorial(string origen)
         {
             string estado = comboboxEstado.Text;
 
-            bool requiere = EstadoLaboralHelper.RequiereVencimiento(estado);
+            bool requiere = EstadoLaboralHelper.RequiereVencimiento(estado, origen);
 
             checkBoxTieneVencimiento.Checked = requiere;
 
@@ -2259,7 +2262,7 @@ namespace Presentacion.Casos.Laborales
 
         private void comboboxEstado_SelectedValueChanged(object sender, EventArgs e)
         {
-            VerificarEstadoEditarHistorial();
+            VerificarEstadoEditarHistorial(_historialSeleccionado.origen);
             ActualizarObservacionEditarHistorial();
         }
 
