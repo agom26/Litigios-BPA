@@ -13,8 +13,8 @@ namespace Comun.Models
             public string usuario { get; set; }
             public string nombres { get; set; }
             public string apellidos { get; set; }
-            public List<string> modulos { get; set; }
-        
+            public List<ModuloRol> modulos { get; set; }
+
     }
 
 }

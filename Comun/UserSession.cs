@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Comun.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,13 +13,13 @@ namespace Comun
         public static string Usuario { get; set; }
         public static string Nombres { get; set; }
         public static string Apellidos { get; set; }
-        public static List<string> Modulos { get; set; } = new List<string>();
+        public static List<ModuloRol> Modulos { get; set; } = new List<ModuloRol>();
 
         public static void Logout()
         {
             Id = 0;
             Nombres = string.Empty;
-            Modulos = new List<string>();
+            Modulos = new List<ModuloRol>();
         }
     }
 }

@@ -23,7 +23,16 @@
     <Compile Update="Casos\Abogados asignados\FrmAgregarAbogadoDirector.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Casos\Estados\FrmAgregarEstadoLaboralTerminado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Estados\FrmAgregarEstadoLaboralPIR.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Casos\Estados\FrmAgregarEstadoLaboralSI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Laborales\Laboral_terminados.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Laborales\Laboral_segunda_instancia.cs">

@@ -12,6 +12,7 @@ using Presentacion.Personas;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -40,6 +41,7 @@ namespace Presentacion.Casos.Laborales
         private BindingSource bsTercerosInteresados = new BindingSource();
         private int _idCasoEditar;
         HistorialCasoLaboralModel historialModel = new HistorialCasoLaboralModel();
+        
         CasosLaboralesModel casoLaboralModel = new CasosLaboralesModel();
         TerceroInteresadoModel terceroInteresadoModel = new TerceroInteresadoModel();
         private BindingList<PersonaListDataResponse> listaDemandados
@@ -57,7 +59,14 @@ namespace Presentacion.Casos.Laborales
         = new BindingList<UserListDataResponse>();
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
+        private bool isAdminLaboral = false;
+        private void VerificarTipoUsuario()
 
+        {
+            isAdminLaboral = UserSession.Modulos.Any(m =>
+                (m.clave_slug ?? "").Trim().Equals("laboral", StringComparison.OrdinalIgnoreCase) &&
+                (m.nombre_rol ?? "").Trim().Equals("Administrador", StringComparison.OrdinalIgnoreCase));
+        }
 
         public async Task LoadAsync()
         {
@@ -76,6 +85,9 @@ namespace Presentacion.Casos.Laborales
 
             if (dtgCasosLaborales.Columns.Contains("Eliminar"))
                 dtgCasosLaborales.Columns["Eliminar"].Width = 40;
+
+            if (dtgCasosLaborales.Columns.Contains("Terminar"))
+                dtgCasosLaborales.Columns["Terminar"].Width = 40;
 
             EliminarTabPage(Detalles);
             EliminarTabPage(tabPageArchivos);
@@ -283,45 +295,70 @@ namespace Presentacion.Casos.Laborales
             tabControl1.SelectedTab = nombre;
         }
 
+
+
         private void CrearBotonesAccion(DataGridView dtg)
         {
-            // Editar
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️", // Icono de lápiz
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard, // estilo estándar, sin colores
-                    Width = 40,
-                    MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None // Mantiene el tamaño fijo
-                };
-                dtg.Columns.Add(btnEditar);
-            }
-
-            // Eliminar
-            if (!dtg.Columns.Contains("Eliminar"))
-            {
-                DataGridViewButtonColumn btnEliminar = new DataGridViewButtonColumn
-                {
-                    Name = "Eliminar",
-                    HeaderText = "",
-                    Text = "🗑️", // Icono de basura
+                    Text = "✏️",
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard,
                     Width = 40,
-                    MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
+                    MinimumWidth = 40,
                     AutoSizeMode = DataGridViewAutoSizeColumnMode.None
                 };
-                dtg.Columns.Add(btnEliminar);
+                dtg.Columns.Add(btnEditar);
+            }
+            VerificarTipoUsuario();
+
+            if (isAdminLaboral == true)
+            {
+                if (!dtg.Columns.Contains("Eliminar"))
+                {
+                    DataGridViewButtonColumn btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
+
+                if (!dtg.Columns.Contains("Terminar"))
+                {
+                    DataGridViewButtonColumn btnTerminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Terminar",
+                        HeaderText = "",
+                        Text = "🔒",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnTerminar);
+                }
             }
 
-            // Mover los botones al final
-            dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 2;
-            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
+            if (dtg.Columns.Contains("Editar"))
+                dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
+
+            if (isAdminLaboral == true && dtg.Columns.Contains("Eliminar"))
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
+
+            if (isAdminLaboral == true && dtg.Columns.Contains("Terminar"))
+                dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
         }
 
         private void CentrarPanel()
@@ -655,6 +692,7 @@ namespace Presentacion.Casos.Laborales
 
         private async void Laboral_primer_instancia_Load(object sender, EventArgs e)
         {
+            VerificarTipoUsuario();
             if (!_yaCargo)
                 await LoadAsync();
         }
@@ -865,30 +903,91 @@ namespace Presentacion.Casos.Laborales
 
             if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Eliminar")
             {
-                int idTerceroInteresado = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
-                string? terceroInteresado = Convert.ToString(dtgCasosLaborales.Rows[e.RowIndex].Cells["expediente"].Value);
+                int idCaso = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
+                string? expediente = Convert.ToString(dtgCasosLaborales.Rows[e.RowIndex].Cells["expediente"].Value);
                 var confirm = MessageBox.Show(
-                    "¿Seguro que desea eliminar el caso " + terceroInteresado + "?",
+                    "¿Seguro que desea eliminar el caso " + expediente + "?",
                     "Confirmar",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
                 if (confirm == DialogResult.Yes)
                 {
+                    ApiResponse<object> resultado = null;
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        resultado = await casoLaboralModel.EliminarCasoLaboral(idCaso, UserSession.Id);
+                    });
                     
-                    /*var resultado = await terceroInteresadoModel.EliminarTerceroInteresado(idTerceroInteresado);
+                    if(resultado == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 
                     if (resultado.success)
                     {
-                        MessageBox.Show("Tercero interesado eliminado correctamente.", "Éxito",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        await CargarCasos();
+                        MessageBox.Show("Caso laboral eliminado correctamente", "Éxito", MessageBoxButtons.OK,MessageBoxIcon.Information);
+
+                        await EjecutarConLoaderAsync(async () =>
+                        {
+                            await CargarCasos();
+                        });
                     }
                     else
                     {
-                        MessageBox.Show("Error: " + resultado.message
-                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }*/
+                        MessageBox.Show(resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                }
+            }
+
+            if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Terminar")
+            {
+                int idCaso = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
+                string? expediente = Convert.ToString(dtgCasosLaborales.Rows[e.RowIndex].Cells["expediente"].Value);
+                var confirm = MessageBox.Show(
+                    "¿Seguro que desea terminar el caso " + expediente + "?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    FrmAgregarEstadoLaboralTerminado frmAgregarEstado = new FrmAgregarEstadoLaboralTerminado();
+                    frmAgregarEstado.ShowDialog();
+
+                    if (EstadoLaboral.estado != null)
+                    {
+                        var response = await historialModel.TerminarCasoLaboral(
+                            casoId: idCaso, 
+                            usuarioId: UserSession.Id,
+                            fecha: EstadoLaboral.fechaEstado.ToString(),
+                            anotaciones: EstadoLaboral.observaciones,
+                            origen: "LABORAL PRIMER INSTANCIA"
+                        );
+
+                        if (response.success)
+                        {
+                            MessageBox.Show("Caso terminado correctamente", "Éxito",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        }
+                        else
+                        {
+                            MessageBox.Show(response.message, "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("El caso no se mandó a terminado.", "Aviso",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    }
+
+                    
                 }
             }
 

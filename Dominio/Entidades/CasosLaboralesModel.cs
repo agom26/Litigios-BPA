@@ -172,8 +172,27 @@ namespace Dominio.Entidades
                 return new ApiResponseEditarCasoLaboral { success = false, message = "Error: " + ex.Message };
             }
         }
+        public async Task<ApiResponse<object>> EliminarCasoLaboral(int casoId, int usuarioId)
+        {
+            try
+            {
+                if (casoId <= 0)
+                    return new ApiResponse<object> { success = false, message = "caso_id es requerido" };
 
-        
+                if (usuarioId <= 0)
+                    return new ApiResponse<object> { success = false, message = "usuario_id es requerido" };
+
+                return await casoLaboralData.EliminarCasoLaboral(casoId, usuarioId);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
+        }
 
         public async Task<ListarArchivosCasoLaboralResponse> ListarArchivosCasoLaboral(int casoId)
         {
@@ -255,11 +274,6 @@ namespace Dominio.Entidades
 
             return await casoLaboralData.DescargarArchivo(casoId, archivoId, saveToPath);
         }
-
-        
-
-        
-
     }
 }
 

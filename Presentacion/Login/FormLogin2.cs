@@ -66,7 +66,7 @@ namespace Presentacion
                     UserSession.Usuario = response.data.usuario;
                     UserSession.Nombres = response.data.nombres;
                     UserSession.Apellidos= response.data.apellidos;
-                    UserSession.Modulos=response.data.modulos;
+                    UserSession.Modulos =response.data.modulos;
 
                     MenuPrincipal menuPrincipal = new MenuPrincipal();
                     this.Hide();

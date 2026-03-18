@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Comun.Models;
+
 namespace Presentacion
 {
     public partial class MenuPrincipal : Form
@@ -145,15 +147,16 @@ namespace Presentacion
         {
             treeView1.Nodes.Clear();
 
-            foreach (string modulo in UserSession.Modulos)
+            foreach (ModuloRol modulo in UserSession.Modulos)
             {
-                switch (modulo.ToLower())
+                switch (modulo.clave_slug.ToLower())
                 {
                     case "laboral":
                         TreeNode laboral = CrearNodo("Laboral", "laboral");
                         laboral.Nodes.Add(CrearNodo("Primer Instancia", "laboral"));
                         laboral.Nodes.Add(CrearNodo("Recursos contra resoluciones", "laboral"));
                         laboral.Nodes.Add(CrearNodo("Segunda Instancia", "laboral"));
+                        laboral.Nodes.Add(CrearNodo("Terminados", "laboral"));
                         treeView1.Nodes.Add(laboral);
                         break;
 
@@ -297,7 +300,11 @@ namespace Presentacion
                 {
                     await AbrirFormularioConLoaderAsync(new Laboral_segunda_instancia());
                 }
-
+                else if (nodo.Text == "Terminados" && nodo.Parent != null &&
+                    nodo.Parent.Text == "Laboral")
+                {
+                    await AbrirFormularioConLoaderAsync(new Laboral_terminados());
+                }
                 else if (nodo.Text == "Inicio")
                 {
                 }

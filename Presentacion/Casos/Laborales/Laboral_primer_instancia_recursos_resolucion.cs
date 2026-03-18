@@ -59,7 +59,14 @@ namespace Presentacion.Casos.Laborales
         = new BindingList<UserListDataResponse>();
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
+        private bool isAdminLaboral = false;
+        private void VerificarTipoUsuario()
 
+        {
+            isAdminLaboral = UserSession.Modulos.Any(m =>
+                (m.clave_slug ?? "").Trim().Equals("laboral", StringComparison.OrdinalIgnoreCase) &&
+                (m.nombre_rol ?? "").Trim().Equals("Administrador", StringComparison.OrdinalIgnoreCase));
+        }
 
         public async Task LoadAsync()
         {
@@ -82,6 +89,8 @@ namespace Presentacion.Casos.Laborales
 
             if (dtgResolucionesNoDefinitivas.Columns.Contains("Eliminar"))
                 dtgResolucionesNoDefinitivas.Columns["Eliminar"].Width = 40;
+            if (dtgResolucionesNoDefinitivas.Columns.Contains("Terminar"))
+                dtgResolucionesNoDefinitivas.Columns["Terminar"].Width = 40;
 
             // fin a juicio
             dtgResolucionesFinJuicio.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
@@ -91,6 +100,9 @@ namespace Presentacion.Casos.Laborales
 
             if (dtgResolucionesFinJuicio.Columns.Contains("Eliminar"))
                 dtgResolucionesFinJuicio.Columns["Eliminar"].Width = 40;
+
+            if (dtgResolucionesFinJuicio.Columns.Contains("Terminar"))
+                dtgResolucionesFinJuicio.Columns["Terminar"].Width = 40;
 
             EliminarTabPage(Detalles);
             EliminarTabPage(tabPageArchivos);
@@ -317,26 +329,52 @@ namespace Presentacion.Casos.Laborales
                 dtg.Columns.Add(btnEditar);
             }
 
-            // Eliminar
-            if (!dtg.Columns.Contains("Eliminar"))
+            if (isAdminLaboral)
             {
-                DataGridViewButtonColumn btnEliminar = new DataGridViewButtonColumn
+                // Eliminar
+                if (!dtg.Columns.Contains("Eliminar"))
                 {
-                    Name = "Eliminar",
-                    HeaderText = "",
-                    Text = "🗑️", // Icono de basura
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
-                dtg.Columns.Add(btnEliminar);
+                    DataGridViewButtonColumn btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️", // Icono de basura
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
+
+                // Terminar
+                if (!dtg.Columns.Contains("Terminar"))
+                {
+                    DataGridViewButtonColumn btnTerminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Terminar",
+                        HeaderText = "",
+                        Text = "🔒", // Icono de candado
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnTerminar);
+                }
             }
 
+
             // Mover los botones al final
-            dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 2;
-            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
+            dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
+
+            if (isAdminLaboral)
+            {
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
+                dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
+            }
         }
 
         private void CentrarPanel()
@@ -698,6 +736,7 @@ namespace Presentacion.Casos.Laborales
 
         private async void Laboral_primer_instancia_recursos_resolucion_Load(object sender, EventArgs e)
         {
+            VerificarTipoUsuario();
             if (!_yaCargo)
                 await LoadAsync();
         }
@@ -909,29 +948,91 @@ namespace Presentacion.Casos.Laborales
 
             if (dtgResolucionesNoDefinitivas.Columns[e.ColumnIndex].Name == "Eliminar")
             {
-                int idTerceroInteresado = Convert.ToInt32(dtgResolucionesNoDefinitivas.Rows[e.RowIndex].Cells["id"].Value);
-                string? terceroInteresado = Convert.ToString(dtgResolucionesNoDefinitivas.Rows[e.RowIndex].Cells["expediente"].Value);
+                int idCaso = Convert.ToInt32(dtgResolucionesNoDefinitivas.Rows[e.RowIndex].Cells["id"].Value);
+                string? expediente = Convert.ToString(dtgResolucionesNoDefinitivas.Rows[e.RowIndex].Cells["expediente"].Value);
                 var confirm = MessageBox.Show(
-                    "¿Seguro que desea eliminar el caso " + terceroInteresado + "?",
+                    "¿Seguro que desea eliminar el caso " + expediente + "?",
                     "Confirmar",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
                 if (confirm == DialogResult.Yes)
                 {
-                    /*var resultado = await terceroInteresadoModel.EliminarTerceroInteresado(idTerceroInteresado);
+                    ApiResponse<object> resultado = null;
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        resultado = await casoLaboralModel.EliminarCasoLaboral(idCaso, UserSession.Id);
+                    });
+
+                    if (resultado == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 
                     if (resultado.success)
                     {
-                        MessageBox.Show("Tercero interesado eliminado correctamente.", "Éxito",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        await CargarCasos();
+                        MessageBox.Show("Caso laboral eliminado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        await EjecutarConLoaderAsync(async () =>
+                        {
+                            await CargarCasosNoDefinitivas();
+                        });
                     }
                     else
                     {
-                        MessageBox.Show("Error: " + resultado.message
-                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }*/
+                        MessageBox.Show(resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                }
+            }
+
+            if (dtgResolucionesNoDefinitivas.Columns[e.ColumnIndex].Name == "Terminar")
+            {
+                int idCaso = Convert.ToInt32(dtgResolucionesNoDefinitivas.Rows[e.RowIndex].Cells["id"].Value);
+                string? expediente = Convert.ToString(dtgResolucionesNoDefinitivas.Rows[e.RowIndex].Cells["expediente"].Value);
+                var confirm = MessageBox.Show(
+                    "¿Seguro que desea terminar el caso " + expediente + "?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    FrmAgregarEstadoLaboralTerminado frmAgregarEstado = new FrmAgregarEstadoLaboralTerminado();
+                    frmAgregarEstado.ShowDialog();
+
+                    if (EstadoLaboral.estado != null)
+                    {
+                        var response = await historialModel.TerminarCasoLaboral(
+                            casoId: idCaso,
+                            usuarioId: UserSession.Id,
+                            fecha: EstadoLaboral.fechaEstado.ToString(),
+                            anotaciones: EstadoLaboral.observaciones,
+                            origen: "LABORAL PRIMER INSTANCIA"
+                        );
+
+                        if (response.success)
+                        {
+                            MessageBox.Show("Caso terminado correctamente", "Éxito",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        }
+                        else
+                        {
+                            MessageBox.Show(response.message, "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("El caso no se mandó a terminado.", "Aviso",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    }
+
+
                 }
             }
 
@@ -980,7 +1081,7 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAgregarEstado_Click(object sender, EventArgs e)
         {
-            FrmAgregarEstadoLaboralPI frmAgregarEstado = new FrmAgregarEstadoLaboralPI();
+            FrmAgregarEstadoLaboralPIR frmAgregarEstado = new FrmAgregarEstadoLaboralPIR();
             frmAgregarEstado.ShowDialog();
 
             if (EstadoLaboral.estado != null)
@@ -2313,31 +2414,93 @@ namespace Presentacion.Casos.Laborales
 
             if (dtgResolucionesFinJuicio.Columns[e.ColumnIndex].Name == "Eliminar")
             {
-                int idTerceroInteresado = Convert.ToInt32(dtgResolucionesFinJuicio.Rows[e.RowIndex].Cells["id"].Value);
-                string? terceroInteresado = Convert.ToString(dtgResolucionesFinJuicio.Rows[e.RowIndex].Cells["expediente"].Value);
+                int idCaso = Convert.ToInt32(dtgResolucionesFinJuicio.Rows[e.RowIndex].Cells["id"].Value);
+                string? expediente = Convert.ToString(dtgResolucionesFinJuicio.Rows[e.RowIndex].Cells["expediente"].Value);
                 var confirm = MessageBox.Show(
-                    "¿Seguro que desea eliminar el caso " + terceroInteresado + "?",
+                    "¿Seguro que desea eliminar el caso " + expediente + "?",
                     "Confirmar",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
                 if (confirm == DialogResult.Yes)
                 {
-                    /*var resultado = await terceroInteresadoModel.EliminarTerceroInteresado(idTerceroInteresado);
+                    ApiResponse<object> resultado = null;
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        resultado = await casoLaboralModel.EliminarCasoLaboral(idCaso, UserSession.Id);
+                    });
+
+                    if (resultado == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 
                     if (resultado.success)
                     {
-                        MessageBox.Show("Tercero interesado eliminado correctamente.", "Éxito",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        await CargarCasos();
+                        MessageBox.Show("Caso laboral eliminado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        await EjecutarConLoaderAsync(async () =>
+                        {
+                            await CargarCasosFinJuicio();
+                        });
                     }
                     else
                     {
-                        MessageBox.Show("Error: " + resultado.message
-                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }*/
+                        MessageBox.Show(resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
                 }
             }
+
+            if (dtgResolucionesFinJuicio.Columns[e.ColumnIndex].Name == "Terminar")
+            {
+                int idCaso = Convert.ToInt32(dtgResolucionesFinJuicio.Rows[e.RowIndex].Cells["id"].Value);
+                string? expediente = Convert.ToString(dtgResolucionesFinJuicio.Rows[e.RowIndex].Cells["expediente"].Value);
+                var confirm = MessageBox.Show(
+                    "¿Seguro que desea terminar el caso " + expediente + "?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    FrmAgregarEstadoLaboralTerminado frmAgregarEstado = new FrmAgregarEstadoLaboralTerminado();
+                    frmAgregarEstado.ShowDialog();
+
+                    if (EstadoLaboral.estado != null)
+                    {
+                        var response = await historialModel.TerminarCasoLaboral(
+                            casoId: idCaso,
+                            usuarioId: UserSession.Id,
+                            fecha: EstadoLaboral.fechaEstado.ToString(),
+                            anotaciones: EstadoLaboral.observaciones,
+                            origen: "LABORAL PRIMER INSTANCIA"
+                        );
+
+                        if (response.success)
+                        {
+                            MessageBox.Show("Caso terminado correctamente", "Éxito",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        }
+                        else
+                        {
+                            MessageBox.Show(response.message, "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("El caso no se mandó a terminado.", "Aviso",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    }
+                }
+            }
+
 
             if (dtgResolucionesFinJuicio.Columns[e.ColumnIndex].Name == "Editar")
             {

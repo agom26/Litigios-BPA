@@ -4,8 +4,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AccesoDatos.Entidades
@@ -192,7 +192,39 @@ namespace AccesoDatos.Entidades
             }
         }
 
-       
+        public async Task<ApiResponse<object>> EliminarCasoLaboral(int casoId, int usuarioId)
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                { "action", "eliminar_caso_laboral" },
+                { "caso_id", casoId.ToString() },
+                { "usuario_id", usuarioId.ToString() }
+            };
+
+            using var content = new FormUrlEncodedContent(parameters);
+
+            try
+            {
+                var response = await _http.PostAsync(_apiUrl, content);
+                var jsonResult = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
+                       ?? new ApiResponse<object>
+                       {
+                           success = false,
+                           message = "Respuesta vacía o inválida."
+                       };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
+        }
+
         // LISTAR
         public async Task<ListarArchivosCasoLaboralResponse> ListarArchivos(int casoId)
         {

@@ -110,5 +110,46 @@ namespace AccesoDatos.Entidades
             }
         }
 
+        public async Task<ApiResponse<object>> TerminarCasoLaboral(
+        int casoId,
+        int usuarioId,
+        string fecha,
+        string anotaciones,
+        string origen)
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                { "action", "terminar_caso_laboral" },
+                { "caso_id", casoId.ToString() },
+                { "usuario_id", usuarioId.ToString() },
+                { "fecha", fecha }, // formato: yyyy-MM-dd HH:mm:ss
+                { "anotaciones", anotaciones ?? "" },
+                { "origen", origen }
+            };
+
+            using var content = new FormUrlEncodedContent(parameters);
+
+            try
+            {
+                var response = await _http.PostAsync(_apiUrl, content);
+                var jsonResult = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
+                       ?? new ApiResponse<object>
+                       {
+                           success = false,
+                           message = "Respuesta vacía o inválida."
+                       };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
+        }
+
     }
 }

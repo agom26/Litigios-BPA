@@ -14,5 +14,6 @@ namespace Comun.Models.Casos.Laborales
         public string estado { get; set; }
         public string anotaciones { get; set; }
         public int usuario_creador { get; set; }
+        public string origen {  get; set; }
     }
 }

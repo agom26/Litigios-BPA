@@ -1,6 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AccesoDatos.Entidades;
+using Comun.Models;
+using Comun.Models.Casos.Laborales;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,7 +15,9 @@ namespace Dominio.Entidades
 {
     public class CasoLaboralSegundaInstanciaModel
     {
-        private CasoLaboralSegundaInstanciaModel casoLaboralData = new CasoLaboralSegundaInstanciaModel();
+        
+        private CasosLaboralesSegundaInstanciaDataAccess casoLaboralData = new CasosLaboralesSegundaInstanciaDataAccess();
+
         public async Task<ApiResponseCasosLaboralesList> ObtenerCasosLaborales(
             int usuarioId,
             int pagina,

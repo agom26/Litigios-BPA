@@ -23,6 +23,7 @@ namespace Comun.Models.Casos.Laborales
         public string? Observaciones { get; set; }
         public string? Fecha { get; set; } // "yyyy-MM-dd HH:mm:ss"
         public string? FechaVencimiento { get; set; }
+        public string? Origen {  get; set; }
 
         public List<int>? Demandantes { get; set; }
         public List<int>? Demandados { get; set; }

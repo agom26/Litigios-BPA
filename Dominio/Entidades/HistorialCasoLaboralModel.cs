@@ -94,5 +94,46 @@ namespace Dominio.Entidades
                 };
             }
         }
+
+        public async Task<ApiResponse<object>> TerminarCasoLaboral(
+        int casoId,
+        int usuarioId,
+        string fecha,
+        string anotaciones,
+        string origen)
+        {
+            try
+            {
+                if (casoId <= 0)
+                    return new ApiResponse<object> { success = false, message = "caso_id es requerido" };
+
+                if (usuarioId <= 0)
+                    return new ApiResponse<object> { success = false, message = "usuario_id es requerido" };
+
+                if (string.IsNullOrWhiteSpace(fecha))
+                    return new ApiResponse<object> { success = false, message = "fecha es requerida" };
+
+                if (string.IsNullOrWhiteSpace(origen))
+                    return new ApiResponse<object> { success = false, message = "origen es requerido" };
+
+                anotaciones = string.IsNullOrWhiteSpace(anotaciones) ? null : anotaciones.Trim();
+
+                return await historialLaboralData.TerminarCasoLaboral(
+                    casoId,
+                    usuarioId,
+                    fecha,
+                    anotaciones,
+                    origen
+                );
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
+        }
     }
 }
