@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Comun.Models;
+using Presentacion.Casos.Civiles.Juicio_Sumario;
+using Presentacion.Casos.Civiles;
 
 namespace Presentacion
 {
@@ -177,9 +179,11 @@ namespace Presentacion
                         oral.Nodes.Add(CrearNodo("Recursos contra resoluciones", "civil"));
                         oral.Nodes.Add(CrearNodo("Segunda Instancia", "civil"));
 
+                        TreeNode terminados = CrearNodo("Terminados", "civil");
                         civil.Nodes.Add(ejecucion);
                         civil.Nodes.Add(sumario);
                         civil.Nodes.Add(oral);
+                        civil.Nodes.Add(terminados);
 
                         treeView1.Nodes.Add(civil);
                         break;
@@ -305,8 +309,26 @@ namespace Presentacion
                 {
                     await AbrirFormularioConLoaderAsync(new Laboral_terminados());
                 }
-                else if (nodo.Text == "Inicio")
+                else if (nodo.Text == "Primer Instancia"
+                    && nodo.Parent != null
+                    && nodo.Parent.Parent != null
+                    && nodo.Parent.Text == "Juicio Sumario"
+                    && nodo.Parent.Parent.Text == "Civil")
                 {
+                    await AbrirFormularioConLoaderAsync(new Civil_primer_instancia());
+                }
+                else if (nodo.Text == "Segunda Instancia"
+                    && nodo.Parent != null
+                    && nodo.Parent.Parent != null
+                    && nodo.Parent.Text == "Juicio Sumario"
+                    && nodo.Parent.Parent.Text == "Civil")
+                {
+                    await AbrirFormularioConLoaderAsync(new Civil_segunda_instancia());
+                }
+                else if (nodo.Text == "Terminados" && nodo.Parent != null &&
+                    nodo.Parent.Text == "Civil")
+                {
+                    await AbrirFormularioConLoaderAsync(new Civil_terminados());
                 }
             }
         }

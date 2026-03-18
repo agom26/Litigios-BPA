@@ -46,6 +46,11 @@ C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Abogados_asignados.FrmAgregarAbogadoAsistente.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Abogados_asignados.FrmAgregarAbogadoDirector.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Abogados_asignados.FrmAgregarSocioResponsable.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Civiles.Civil_terminados.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Civiles.Estados_civil.FrmAgregarEstadoCivilJSPI.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Civiles.Estados_civil.FrmAgregarEstadoCivilJSSI.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Civiles.Estados_civil.FrmAgregarEstadoCivilTerminado.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Civiles.Juicio_Sumario.Civil_primer_instancia.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Estados.FrmAgregarEstadoLaboralPI.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Estados.FrmAgregarEstadoLaboralPIR.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Estados.FrmAgregarEstadoLaboralSI.resources
@@ -79,3 +84,4 @@ C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.pdb
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.genruntimeconfig.cache
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\ref\Presentacion.dll
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Civiles.Juicio_Sumario.Civil_segunda_instancia.resources

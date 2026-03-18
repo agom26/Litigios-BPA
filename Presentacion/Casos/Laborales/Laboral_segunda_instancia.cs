@@ -359,6 +359,52 @@ namespace Presentacion.Casos.Laborales
                 dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
         }
 
+        private void CrearBotonesAccionHistorial(DataGridView dtg)
+        {
+            if (!dtg.Columns.Contains("Editar"))
+            {
+                DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
+                {
+                    Name = "Editar",
+                    HeaderText = "",
+                    Text = "✏️",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+                dtg.Columns.Add(btnEditar);
+            }
+            VerificarTipoUsuario();
+
+            if (isAdminLaboral == true)
+            {
+                if (!dtg.Columns.Contains("Eliminar"))
+                {
+                    DataGridViewButtonColumn btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
+
+            }
+
+            if (dtg.Columns.Contains("Editar"))
+                dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
+
+            if (isAdminLaboral == true && dtg.Columns.Contains("Eliminar"))
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
+        }
+
         private void CentrarPanel()
         {
             int anchoMinimo = panelBusquedaCaso.Width + 100;
@@ -960,7 +1006,7 @@ namespace Presentacion.Casos.Laborales
                         var response = await historialModel.TerminarCasoLaboral(
                             casoId: idCaso,
                             usuarioId: UserSession.Id,
-                            fecha: EstadoLaboral.fechaEstado.ToString(),
+                            fecha: EstadoLaboral.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                             anotaciones: EstadoLaboral.observaciones,
                             origen: "LABORAL SEGUNDA INSTANCIA"
                         );
@@ -1875,7 +1921,7 @@ namespace Presentacion.Casos.Laborales
                 dtgHistorial.Columns["caso_id"].Visible = false;
             }
 
-            CrearBotonesAccion(dtgHistorial);
+            CrearBotonesAccionHistorial(dtgHistorial);
             dtgHistorial.ClearSelection();
             dtgHistorial.CurrentCell = null;
         }

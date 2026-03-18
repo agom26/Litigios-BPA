@@ -23,13 +23,31 @@
     <Compile Update="Casos\Abogados asignados\FrmAgregarAbogadoDirector.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Casos\Estados\FrmAgregarEstadoLaboralTerminado.cs">
+    <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilJSSI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Casos\Estados\FrmAgregarEstadoLaboralPIR.cs">
+    <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilTerminado.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Casos\Estados\FrmAgregarEstadoLaboralSI.cs">
+    <Compile Update="Casos\Civiles\Juicio Sumario\Civil_segunda_instancia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Juicio Sumario\Civil_primer_instancia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilJSPI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Civil_terminados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Estados Laboral\FrmAgregarEstadoLaboralTerminado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Estados Laboral\FrmAgregarEstadoLaboralPIR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Estados Laboral\FrmAgregarEstadoLaboralSI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Laborales\Laboral_terminados.cs">
@@ -92,7 +110,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Casos\Civiles\" />
+    <Folder Include="Casos\Civiles\Juicio Oral\" />
+    <Folder Include="Casos\Civiles\Proceso ejecucion\" />
   </ItemGroup>
 
 </Project>

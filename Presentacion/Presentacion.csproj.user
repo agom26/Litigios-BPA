@@ -4,7 +4,7 @@
     <Compile Update="Alertas\FrmLoading.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Casos\Estados\FrmAgregarEstadoLaboralPI.cs">
+    <Compile Update="Casos\Estados Laboral\FrmAgregarEstadoLaboralPI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Participantes\FrmAgregarDemandado.cs">

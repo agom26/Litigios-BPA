@@ -377,6 +377,57 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
+        private void CrearBotonesAccionHistorial(DataGridView dtg)
+        {
+            // Editar
+            if (!dtg.Columns.Contains("Editar"))
+            {
+                DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
+                {
+                    Name = "Editar",
+                    HeaderText = "",
+                    Text = "✏️", // Icono de lápiz
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard, // estilo estándar, sin colores
+                    Width = 40,
+                    MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None // Mantiene el tamaño fijo
+                };
+                dtg.Columns.Add(btnEditar);
+            }
+
+            if (isAdminLaboral)
+            {
+                // Eliminar
+                if (!dtg.Columns.Contains("Eliminar"))
+                {
+                    DataGridViewButtonColumn btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️", // Icono de basura
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
+
+               
+            }
+
+
+            // Mover los botones al final
+            dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
+
+            if (isAdminLaboral)
+            {
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
+            }
+        }
+
         private void CentrarPanel()
         {
             int anchoMinimo = panelBusquedaCaso.Width + 100;
@@ -1007,7 +1058,7 @@ namespace Presentacion.Casos.Laborales
                         var response = await historialModel.TerminarCasoLaboral(
                             casoId: idCaso,
                             usuarioId: UserSession.Id,
-                            fecha: EstadoLaboral.fechaEstado.ToString(),
+                            fecha: EstadoLaboral.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                             anotaciones: EstadoLaboral.observaciones,
                             origen: "LABORAL PRIMER INSTANCIA"
                         );
@@ -1922,7 +1973,7 @@ namespace Presentacion.Casos.Laborales
                 dtgHistorial.Columns["caso_id"].Visible = false;
             }
 
-            CrearBotonesAccion(dtgHistorial);
+            CrearBotonesAccionHistorial(dtgHistorial);
             dtgHistorial.ClearSelection();
         }
         private async Task RefrescarListaArchivos()

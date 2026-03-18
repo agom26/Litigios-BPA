@@ -397,6 +397,5 @@ namespace AccesoDatos.Entidades
             }
         }
 
-
     }
 }

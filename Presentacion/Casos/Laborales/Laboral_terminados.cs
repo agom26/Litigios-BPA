@@ -58,7 +58,14 @@ namespace Presentacion.Casos.Laborales
         = new BindingList<UserListDataResponse>();
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
+        private bool isAdminLaboral = false;
+        private void VerificarTipoUsuario()
 
+        {
+            isAdminLaboral= UserSession.Modulos.Any(m =>
+                (m.clave_slug ?? "").Trim().Equals("laboral", StringComparison.OrdinalIgnoreCase) &&
+                (m.nombre_rol ?? "").Trim().Equals("Administrador", StringComparison.OrdinalIgnoreCase));
+        }
         public async Task LoadAsync()
         {
             if (_yaCargo) return;
@@ -164,7 +171,76 @@ namespace Presentacion.Casos.Laborales
             txtNombreParticular.Text = "";
             LimpiarListas();
         }
+        private void BotonesAdmin()
+        {
+            VerificarTipoUsuario();
+            if (isAdminLaboral)
+            {
+                //editar caso
+                btnEditarCaso.Visible = true;
+                btnEditarCaso.Enabled = true;
 
+                //agregar estado
+                btnAgregarEstado.Visible = true;
+                btnAgregarEstado.Enabled = true;
+
+                //agregar participantes
+                btnAgregarDemandantes.Visible = true;
+                btnAgregarDemandantes.Enabled = true;
+
+                btnAgregarDemandados.Visible = true;
+                btnAgregarDemandados.Enabled = true;
+
+                btnAgregarPartesInteresadas.Visible = true;
+                btnAgregarPartesInteresadas.Enabled = true;
+
+                btnAgregarContactoEmpresa.Visible = true;
+                btnAgregarContactoEmpresa.Enabled = true;
+
+                //agregar equipo legal
+                btnAgregarAbogadosAsistentes.Visible = true;
+                btnAgregarAbogadosAsistentes.Enabled = true;
+
+                btnAgregarAbogadosDirectores.Visible = true;
+                btnAgregarAbogadosDirectores.Enabled = true;
+
+                btnAgregarSociosResponsables.Visible = true;
+                btnAgregarSociosResponsables.Enabled = true;
+            }
+            else
+            {
+                //editar caso
+                btnEditarCaso.Visible = false;
+                btnEditarCaso.Enabled = false;
+
+                //agregar estado
+                btnAgregarEstado.Visible = false;
+                btnAgregarEstado.Enabled = false;
+
+                //agregar participantes
+                btnAgregarDemandantes.Visible = false;
+                btnAgregarDemandantes.Enabled = false;
+
+                btnAgregarDemandados.Visible = false;
+                btnAgregarDemandados.Enabled = false;
+
+                btnAgregarPartesInteresadas.Visible = false;
+                btnAgregarPartesInteresadas.Enabled = false;
+
+                btnAgregarContactoEmpresa.Visible = false;
+                btnAgregarContactoEmpresa.Enabled = false;
+
+                //agregar equipo legal
+                btnAgregarAbogadosAsistentes.Visible = false;
+                btnAgregarAbogadosAsistentes.Enabled = false;
+
+                btnAgregarAbogadosDirectores.Visible = false;
+                btnAgregarAbogadosDirectores.Enabled = false;
+
+                btnAgregarSociosResponsables.Visible = false;
+                btnAgregarSociosResponsables.Enabled = false;
+            }
+        }
         private async Task CargarDatosCaso(int idCaso)
         {
             int idUsuario = UserSession.Id;
@@ -227,6 +303,8 @@ namespace Presentacion.Casos.Laborales
             EliminarTabPage(Listar);
             btnGuardarCaso.Visible = false;
             btnEditarCaso.Visible = true;
+
+            BotonesAdmin();
         }
 
         // Helpers de mapeo
@@ -295,7 +373,10 @@ namespace Presentacion.Casos.Laborales
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️", // Icono de lápiz
+                    Text = isAdminLaboral 
+                    ? "✏️"
+                    : "👁️"
+                    ,
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard, // estilo estándar, sin colores
                     Width = 40,
@@ -326,6 +407,54 @@ namespace Presentacion.Casos.Laborales
             dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 2;
             dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
         }
+
+        private void CrearBotonesAccionHistorial(DataGridView dtg)
+        {
+            VerificarTipoUsuario();
+            if (isAdminLaboral)
+            {
+                // Editar
+                if (!dtg.Columns.Contains("Editar"))
+                {
+                    DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
+                    {
+                        Name = "Editar",
+                        HeaderText = "",
+                        Text = "✏️", // Icono de lápiz
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard, // estilo estándar, sin colores
+                        Width = 40,
+                        MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None // Mantiene el tamaño fijo
+                    };
+                    dtg.Columns.Add(btnEditar);
+                }
+
+                // Eliminar
+                if (!dtg.Columns.Contains("Eliminar"))
+                {
+                    DataGridViewButtonColumn btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️", // Icono de basura
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
+
+                // Mover los botones al final
+                dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 2;
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
+            }
+            
+        }
+
+
 
         private void CentrarPanel()
         {
@@ -512,148 +641,181 @@ namespace Presentacion.Casos.Laborales
 
         private void CrearBotonQuitarDemandado()
         {
-            if (!dtgDemandados.Columns.Contains("Quitar"))
+            VerificarTipoUsuario();
+            if (isAdminLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgDemandados.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandados.Columns.Add(btnQuitar);
-                dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                    dtgDemandados.Columns.Add(btnQuitar);
+                    dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                }
             }
+            
         }
 
         private void CrearBotonQuitarDemandante()
         {
-            if (!dtgDemandantes.Columns.Contains("Quitar"))
+            VerificarTipoUsuario();
+            if (isAdminLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgDemandantes.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandantes.Columns.Add(btnQuitar);
-                dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+                    dtgDemandantes.Columns.Add(btnQuitar);
+                    dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+                }
             }
+            
         }
         private void CrearBotonQuitarTerceroInteresado()
         {
-            if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
+            VerificarTipoUsuario();
+            if (isAdminLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgTercerosInteresados.Columns.Add(btnQuitar);
-                dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                    dtgTercerosInteresados.Columns.Add(btnQuitar);
+                    dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                }
             }
         }
 
         private void CrearBotonQuitarAbogadoDirector()
         {
-            if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
+            VerificarTipoUsuario();
+            if (isAdminLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosDirectores.Columns.Add(btnQuitar);
-                dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+                    dtgAbogadosDirectores.Columns.Add(btnQuitar);
+                    dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+                }
             }
+            
         }
 
         private void CrearBotonQuitarContactoEmpresa()
         {
-            if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
+            VerificarTipoUsuario();
+            if (isAdminLaboral) 
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgContactoEmpresa.Columns.Add(btnQuitar);
-                dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+                    dtgContactoEmpresa.Columns.Add(btnQuitar);
+                    dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+                }
             }
+            
         }
 
         private void CrearBotonQuitarSocioResponsable()
         {
-            if (!dtgSociosResponsables.Columns.Contains("Quitar"))
+            VerificarTipoUsuario();
+            if (isAdminLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgSociosResponsables.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgSociosResponsables.Columns.Add(btnQuitar);
-                dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                    dtgSociosResponsables.Columns.Add(btnQuitar);
+                    dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                }
             }
         }
 
         private void CrearBotonQuitarAbogadoAsistente()
         {
-            if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
+            VerificarTipoUsuario();
+            if(isAdminLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosAsistentes.Columns.Add(btnQuitar);
-                dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                    dtgAbogadosAsistentes.Columns.Add(btnQuitar);
+                    dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                }
             }
+            
         }
 
         private async void Laboral_terminados_Load(object sender, EventArgs e)
@@ -1736,27 +1898,37 @@ namespace Presentacion.Casos.Laborales
                 dtg.Columns.Add(btnDescargar);
             }
 
-            // Eliminar
-            if (!dtg.Columns.Contains("Eliminar"))
+            VerificarTipoUsuario();
+            if (isAdminLaboral)
             {
-                var btnEliminar = new DataGridViewButtonColumn
+                // Eliminar
+                if (!dtg.Columns.Contains("Eliminar"))
                 {
-                    Name = "Eliminar",
-                    HeaderText = "",
-                    Text = "🗑️",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 45,
-                    MinimumWidth = 45,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
-                dtg.Columns.Add(btnEliminar);
+                    var btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 45,
+                        MinimumWidth = 45,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
             }
+            
 
             // mover al final (en orden)
-            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 3;
+            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
             dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2;
-            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
+
+            if (isAdminLaboral)
+            {
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
+            }
+            
         }
 
         private async void btnVerArchivos_Click(object sender, EventArgs e)
@@ -1806,7 +1978,7 @@ namespace Presentacion.Casos.Laborales
                 dtgHistorial.Columns["caso_id"].Visible = false;
             }
 
-            CrearBotonesAccion(dtgHistorial);
+            CrearBotonesAccionHistorial(dtgHistorial);
             dtgHistorial.ClearSelection();
             dtgHistorial.CurrentCell = null;
         }
