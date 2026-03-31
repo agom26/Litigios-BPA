@@ -8,6 +8,26 @@ namespace Comun.DatosParaInterfaz
 {
     public class EstadoCivilHelper
     {
+        public static List<string> ObtenerEstadosOralPrimerInstancia()
+        {
+            return new List<string>
+            {
+                "Demanda presentada",
+                "Juicio Verbal y Período Conciliatorio",
+                "Excepción dilatoria",
+                "Excepción perentoria",
+                "Reconvención",
+                "Audiencia para recepción de pruebas",
+                "Audiencia de Incidentes",
+                "Auto para mejor fallar",
+                "Sentencia",
+                "Recursos contra resoluciones no definitivas/Recurso de Nulidad",
+                "Recursos contra resoluciones no definitivas/Contestación de Recurso de Nulidad",
+                "Recursos contra resoluciones que ponen fin a juicio/Recurso de Aclaración y Ampliación",
+                "Recursos contra resoluciones que ponen fin a juicio/Recurso de Apelación"
+            };
+        }
+
         public static List<string> ObtenerEstadosPrimeraInstancia()
         {
             return new List<string>
@@ -40,6 +60,34 @@ namespace Comun.DatosParaInterfaz
                    origen.Trim().Equals("JUICIO SUMARIO SEGUNDA INSTANCIA", StringComparison.OrdinalIgnoreCase);
         }
 
+        public static bool RequiereVencimientoJOPI(string estado)
+        {
+            if (string.IsNullOrWhiteSpace(estado))
+                return false;
+
+            return
+               estado == "Juicio Verbal y Período Conciliatorio" ||
+                estado == "Audiencia para recepción de pruebas" ||
+                estado == "Audiencia de Incidentes" ||
+                estado == "Recursos contra resoluciones no definitivas/Recurso de Nulidad" ||
+                estado == "Recursos contra resoluciones no definitivas/Contestación de Recurso de Nulidad" ||
+                estado == "Recursos contra resoluciones que ponen fin a juicio/Recurso de Aclaración y Ampliación" ||
+                estado == "Recursos contra resoluciones no definitivas/Recurso de Apelación";
+        }
+        
+        public static bool RequiereVencimientoJOSI(string estado)
+        {
+            if (string.IsNullOrWhiteSpace(estado))
+                return false;
+
+            return
+               estado == "Vista" ||
+                estado == "Recurso de aclaración y ampliación" ||
+                estado == "Recurso de Aclaración y ampliación" ||
+                estado == "Recursos contra resoluciones no definitivas/Contestación de Recurso de Nulidad" ||
+                estado == "Recursos contra resoluciones que ponen fin a juicio/Recurso de Aclaración y Ampliación" ||
+                estado == "Recursos contra resoluciones no definitivas/Recurso de Apelación";
+        }
         public static bool RequiereVencimientoPrimeraInstancia(string estado)
         {
             if (string.IsNullOrWhiteSpace(estado))

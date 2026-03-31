@@ -15,7 +15,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Comun.Models;
 using Presentacion.Casos.Civiles.Juicio_Sumario;
 using Presentacion.Casos.Civiles;
-
+using Presentacion.Casos.Civiles.Proceso_ejecucion;
+using Presentacion.Casos.Civiles.Juicio_Oral;
+using Presentacion.Casos.Contenciosos;
 namespace Presentacion
 {
     public partial class MenuPrincipal : Form
@@ -167,7 +169,7 @@ namespace Presentacion
 
                         TreeNode ejecucion = CrearNodo("Proceso de ejecución", "civil");
                         ejecucion.Nodes.Add(CrearNodo("Vía de Apremio", "civil"));
-                        ejecucion.Nodes.Add(CrearNodo("Para Embargo", "civil"));
+                        ejecucion.Nodes.Add(CrearNodo("Común", "civil"));
                         ejecucion.Nodes.Add(CrearNodo("Segunda Instancia", "civil"));
 
                         TreeNode sumario = CrearNodo("Juicio Sumario", "civil");
@@ -196,6 +198,8 @@ namespace Presentacion
                         TreeNode contencioso = CrearNodo("Contencioso Administrativo", "contencioso");
                         contencioso.Nodes.Add(CrearNodo("General", "contencioso"));
                         contencioso.Nodes.Add(CrearNodo("Tributario", "contencioso"));
+                        contencioso.Nodes.Add(CrearNodo("Recurso de Casación", "contencioso"));
+                        contencioso.Nodes.Add(CrearNodo("Terminados", "contencioso"));
                         treeView1.Nodes.Add(contencioso);
                         break;
 
@@ -323,12 +327,70 @@ namespace Presentacion
                     && nodo.Parent.Text == "Juicio Sumario"
                     && nodo.Parent.Parent.Text == "Civil")
                 {
-                    await AbrirFormularioConLoaderAsync(new Civil_segunda_instancia());
+                    await AbrirFormularioConLoaderAsync(new Presentacion.Casos.Civiles.Juicio_Sumario.Civil_segunda_instancia());
+                }
+                else if (nodo.Text == "Vía de Apremio"
+                    && nodo.Parent != null
+                    && nodo.Parent.Parent != null
+                    && nodo.Parent.Text == "Proceso de ejecución"
+                    && nodo.Parent.Parent.Text == "Civil")
+                {
+                    await AbrirFormularioConLoaderAsync(new Civil_via_apremio());
+                }
+                else if (nodo.Text == "Común"
+                    && nodo.Parent != null
+                    && nodo.Parent.Parent != null
+                    && nodo.Parent.Text == "Proceso de ejecución"
+                    && nodo.Parent.Parent.Text == "Civil")
+                {
+                    await AbrirFormularioConLoaderAsync(new Civil_comun());
+                }
+                else if (nodo.Text == "Segunda Instancia"
+                    && nodo.Parent != null
+                    && nodo.Parent.Parent != null
+                    && nodo.Parent.Text == "Proceso de ejecución"
+                    && nodo.Parent.Parent.Text == "Civil")
+                {
+                    await AbrirFormularioConLoaderAsync(new Presentacion.Casos.Civiles.Proceso_ejecucion.Civil_segunda_instancia());
+                }
+                else if (nodo.Text == "Primer Instancia"
+                    && nodo.Parent != null
+                    && nodo.Parent.Parent != null
+                    && nodo.Parent.Text == "Juicio oral"
+                    && nodo.Parent.Parent.Text == "Civil")
+                {
+                    await AbrirFormularioConLoaderAsync(new Civil_oral_primer_instancia());
+                }
+                else if (nodo.Text == "Recursos contra resoluciones"
+                    && nodo.Parent != null
+                    && nodo.Parent.Parent != null
+                    && nodo.Parent.Text == "Juicio oral"
+                    && nodo.Parent.Parent.Text == "Civil")
+                {
+                    await AbrirFormularioConLoaderAsync(new Civil_primer_instancia_recursos_resolucion());
+                }
+                else if (nodo.Text == "Segunda Instancia"
+                    && nodo.Parent != null
+                    && nodo.Parent.Parent != null
+                    && nodo.Parent.Text == "Juicio oral"
+                    && nodo.Parent.Parent.Text == "Civil")
+                {
+                    await AbrirFormularioConLoaderAsync(new Civil_oral_segunda_instancia());
                 }
                 else if (nodo.Text == "Terminados" && nodo.Parent != null &&
                     nodo.Parent.Text == "Civil")
                 {
                     await AbrirFormularioConLoaderAsync(new Civil_terminados());
+                }
+                else if (nodo.Text == "General" && nodo.Parent != null &&
+                  nodo.Parent.Text == "Contencioso Administrativo")
+                {
+                    await AbrirFormularioConLoaderAsync(new Contencioso_General_PI());
+                }
+                else if (nodo.Text == "Recurso de Casación" && nodo.Parent != null &&
+                  nodo.Parent.Text == "Contencioso Administrativo")
+                {
+                    await AbrirFormularioConLoaderAsync(new Contencioso_RecursoCasacion());
                 }
             }
         }

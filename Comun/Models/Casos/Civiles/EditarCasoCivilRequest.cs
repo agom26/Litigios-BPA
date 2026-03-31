@@ -16,6 +16,7 @@ namespace Comun.Models.Casos.Civiles
         public string? Juzgado { get; set; }
         public string? Oficial { get; set; }
         public string? Notificador { get; set; }
+        public string? Titulo { get; set; }
 
         // historial
         public bool huboCambioEstado { get; set; }

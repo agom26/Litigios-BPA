@@ -261,17 +261,17 @@ namespace Presentacion.Casos.Civiles
             var data = resp.data;
 
             // 1) Inputs principales del caso
-            var caso = data.caso;
-            if (caso != null)
+            
+            if (data != null)
             {
-                txtExpediente.Text = caso.expediente ?? "";
-                comboBoxJuzgado.Text = caso.juzgado ?? "";
-                comboboxOficial.Text = caso.oficial ?? "";
-                comboboxNotificador.Text = caso.notificador ?? "";
-                txtNombreParticular.Text = caso.nombre_particular ?? "";
+                txtExpediente.Text = data.caso.expediente ?? "";
+                comboBoxJuzgado.Text = data.caso.juzgado ?? "";
+                comboboxOficial.Text = data.caso.oficial ?? "";
+                comboboxNotificador.Text = data.caso.notificador ?? "";
+                txtNombreParticular.Text = data.caso.nombre_particular ?? "";
                 // si tienes estado/observaciones en textbox:
-                txtEstado.Text = caso.estado ?? "";
-                txtObservaciones.Text = (caso.observaciones ?? "")
+                txtEstado.Text = data.caso.estado ?? "";
+                txtObservaciones.Text = (data.caso.observaciones ?? "")
                     .Replace("\n", Environment.NewLine); ;
                 
             }
@@ -1690,6 +1690,8 @@ namespace Presentacion.Casos.Civiles
 
         private void Detalles_Resize(object sender, EventArgs e)
         {
+            if (!this.IsHandleCreated || this.IsDisposed) return;
+
             this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
             //MessageBox.Show("ancho flow  " + flowLayoutPanel1.ClientSize.Width);
         }

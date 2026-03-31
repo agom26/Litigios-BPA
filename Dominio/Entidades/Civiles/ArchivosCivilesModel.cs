@@ -13,7 +13,6 @@ namespace Dominio.Entidades.Civiles
     {
         ArchivosCivilesDataAccess archivosCivilesData = new ArchivosCivilesDataAccess();
 
-
         public async Task<ListarArchivosCasoCivilResponse> ListarArchivosCasoCivil(int casoId)
         {
             if (casoId <= 0)

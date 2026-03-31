@@ -1703,6 +1703,8 @@ namespace Presentacion.Casos.Laborales
 
         private void Detalles_Resize(object sender, EventArgs e)
         {
+            if (!this.IsHandleCreated || this.IsDisposed) return;
+
             this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
             //MessageBox.Show("ancho flow  " + flowLayoutPanel1.ClientSize.Width);
         }

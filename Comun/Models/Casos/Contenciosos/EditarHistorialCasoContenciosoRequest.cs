@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Comun.Models.Casos.Contenciosos
+{
+    public class EditarHistorialCasoContenciosoRequest
+    {
+        public int HistorialId { get; set; }
+        public int CasoId { get; set; }
+        public int UsuarioId { get; set; }
+        public string Fecha { get; set; }
+        public string FechaVencimiento { get; set; }
+        public string Estado { get; set; }
+        public string Anotaciones { get; set; }
+    }
+}

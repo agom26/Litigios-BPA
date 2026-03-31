@@ -1,19 +1,155 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\contenciosos\\contencioso_general_pi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\contenciosos\\contencioso_general_pi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\casos\\laborales\\casodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\casos\\laborales\\casodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\casos\\contenciosos\\casocontenciosodetalledata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\casos\\contenciosos\\casocontenciosodetalledata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\contenciosos\\estados contenciosos\\frmagregarestadocontenciosogpi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\contenciosos\\estados contenciosos\\frmagregarestadocontenciosogpi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C3D814D-CF05-4F2F-8758-E36F50B68539}|AccesoDatos\\AccesoDatos.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\accesodatos\\entidades\\contenciosos\\carecursocasaciondataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C3D814D-CF05-4F2F-8758-E36F50B68539}|AccesoDatos\\AccesoDatos.csproj|solutionrelative:accesodatos\\entidades\\contenciosos\\carecursocasaciondataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\contenciosos\\contencioso_recursocasacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\contenciosos\\contencioso_recursocasacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\datosparainterfaz\\estadocontenciosohelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\datosparainterfaz\\estadocontenciosohelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\contenciosos\\contencioso_recursocasacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\contenciosos\\contencioso_recursocasacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 246,
-          "SelectedChildIndex": -1,
+          "DockedWidth": 264,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CasoContenciosoDetalleData.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Contenciosos\\CasoContenciosoDetalleData.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\Casos\\Contenciosos\\CasoContenciosoDetalleData.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Contenciosos\\CasoContenciosoDetalleData.cs",
+              "RelativeToolTip": "Comun\\Models\\Casos\\Contenciosos\\CasoContenciosoDetalleData.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABIAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T10:30:00.038Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CasoDTO.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\CasoDTO.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\Casos\\Laborales\\CasoDTO.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Casos\\Laborales\\CasoDTO.cs",
+              "RelativeToolTip": "Comun\\Models\\Casos\\Laborales\\CasoDTO.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAA1wBcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T10:27:03.826Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EstadoContenciosoHelper.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\DatosParaInterfaz\\EstadoContenciosoHelper.cs",
+              "RelativeDocumentMoniker": "Comun\\DatosParaInterfaz\\EstadoContenciosoHelper.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\DatosParaInterfaz\\EstadoContenciosoHelper.cs",
+              "RelativeToolTip": "Comun\\DatosParaInterfaz\\EstadoContenciosoHelper.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAIwD4AAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T10:15:01.199Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CARecursoCasacionDataAccess.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\AccesoDatos\\Entidades\\Contenciosos\\CARecursoCasacionDataAccess.cs",
+              "RelativeDocumentMoniker": "AccesoDatos\\Entidades\\Contenciosos\\CARecursoCasacionDataAccess.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\AccesoDatos\\Entidades\\Contenciosos\\CARecursoCasacionDataAccess.cs",
+              "RelativeToolTip": "AccesoDatos\\Entidades\\Contenciosos\\CARecursoCasacionDataAccess.cs",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAUwHgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T10:08:21.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Contencioso_RecursoCasacion.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Contenciosos\\Contencioso_RecursoCasacion.cs",
+              "RelativeDocumentMoniker": "Presentacion\\Casos\\Contenciosos\\Contencioso_RecursoCasacion.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Contenciosos\\Contencioso_RecursoCasacion.cs",
+              "RelativeToolTip": "Presentacion\\Casos\\Contenciosos\\Contencioso_RecursoCasacion.cs",
+              "ViewState": "AgIAAAkBAAAAAAAAAAAUwOQAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T09:58:48.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Contencioso_RecursoCasacion.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Contenciosos\\Contencioso_RecursoCasacion.cs",
+              "RelativeDocumentMoniker": "Presentacion\\Casos\\Contenciosos\\Contencioso_RecursoCasacion.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Contenciosos\\Contencioso_RecursoCasacion.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Presentacion\\Casos\\Contenciosos\\Contencioso_RecursoCasacion.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T09:58:02.212Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FrmAgregarEstadoContenciosoGPI.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Contenciosos\\Estados contenciosos\\FrmAgregarEstadoContenciosoGPI.cs",
+              "RelativeDocumentMoniker": "Presentacion\\Casos\\Contenciosos\\Estados contenciosos\\FrmAgregarEstadoContenciosoGPI.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Contenciosos\\Estados contenciosos\\FrmAgregarEstadoContenciosoGPI.cs",
+              "RelativeToolTip": "Presentacion\\Casos\\Contenciosos\\Estados contenciosos\\FrmAgregarEstadoContenciosoGPI.cs",
+              "ViewState": "AgIAAHMAAAAAAAAAAAAswIEAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T09:01:22.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Contencioso_General_PI.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Contenciosos\\Contencioso_General_PI.cs",
+              "RelativeDocumentMoniker": "Presentacion\\Casos\\Contenciosos\\Contencioso_General_PI.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Contenciosos\\Contencioso_General_PI.cs",
+              "RelativeToolTip": "Presentacion\\Casos\\Contenciosos\\Contencioso_General_PI.cs",
+              "ViewState": "AgIAAOMAAAAAAAAAAAAMwOoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T09:00:17.172Z",
+              "EditorCaption": ""
             }
           ]
         }

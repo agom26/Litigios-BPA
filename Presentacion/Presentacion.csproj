@@ -23,10 +23,34 @@
     <Compile Update="Casos\Abogados asignados\FrmAgregarAbogadoDirector.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilJOSI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilJORecursos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilJOPI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilPEVA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilPEC.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilJSSI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilTerminado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Juicio Oral\Civil_oral_segunda_instancia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Juicio Oral\Civil_oral_primer_instancia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Juicio Oral\Civil_primer_instancia_recursos_resolucion.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Civiles\Juicio Sumario\Civil_segunda_instancia.cs">
@@ -39,6 +63,33 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Civiles\Civil_terminados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Mostrar Casos\FrmAgregarCasoComun.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Proceso ejecucion\Civil_comun.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Proceso ejecucion\Civil_segunda_instancia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Proceso ejecucion\Civil_via_apremio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Contenciosos\Contencioso_RecursoCasacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Contenciosos\Contencioso_General_PI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Contenciosos\Estados contenciosos\FrmAgregarEstadoContenciosoRC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Contenciosos\Estados contenciosos\FrmAgregarEstadoContenciosoGPI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Contenciosos\Mostrar marcas\FrmAgregarMarcaReferencia.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Estados Laboral\FrmAgregarEstadoLaboralTerminado.cs">
@@ -107,11 +158,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Casos\Civiles\Juicio Oral\" />
-    <Folder Include="Casos\Civiles\Proceso ejecucion\" />
   </ItemGroup>
 
 </Project>
