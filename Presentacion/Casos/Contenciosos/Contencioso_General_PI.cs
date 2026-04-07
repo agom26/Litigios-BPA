@@ -1073,7 +1073,7 @@ namespace Presentacion.Casos.Contenciosos
 
                 if (confirm == DialogResult.Yes)
                 {
-                    FrmAgregarEstadoCivilTerminado frmAgregarEstado = new FrmAgregarEstadoCivilTerminado();
+                    FrmAgregarEstadoContenciosoTerminado frmAgregarEstado = new FrmAgregarEstadoContenciosoTerminado();
                     frmAgregarEstado.ShowDialog();
 
                     if (EstadoContencioso.estado != null && EstadoContencioso.fechaEstado != null)

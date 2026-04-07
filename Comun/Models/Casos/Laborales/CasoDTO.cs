@@ -21,5 +21,6 @@ namespace Comun.Models.Casos.Laborales
         public string observaciones { get; set; }
         public string fecha_creacion { get; set; }
         public string? motivo { get; set; }
+        public string? causa { get; set; }
     }
 }

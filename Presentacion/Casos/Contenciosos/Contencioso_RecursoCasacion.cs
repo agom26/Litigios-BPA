@@ -1064,7 +1064,7 @@ namespace Presentacion.Casos.Contenciosos
 
                 if (confirm == DialogResult.Yes)
                 {
-                    FrmAgregarEstadoCivilTerminado frmAgregarEstado = new FrmAgregarEstadoCivilTerminado();
+                    FrmAgregarEstadoContenciosoTerminado frmAgregarEstado = new FrmAgregarEstadoContenciosoTerminado();
                     frmAgregarEstado.ShowDialog();
 
                     if (EstadoContencioso.estado != null && EstadoContencioso.fechaEstado != null)
@@ -1074,7 +1074,7 @@ namespace Presentacion.Casos.Contenciosos
                             usuarioId: UserSession.Id,
                             fecha: EstadoContencioso.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                             anotaciones: EstadoContencioso.observaciones,
-                            origen: "ADMINISTRATIVO GENERAL PRIMER INSTANCIA"
+                            origen: "RECURSO CASACIÓN"
                         );
 
                         if (response.success)

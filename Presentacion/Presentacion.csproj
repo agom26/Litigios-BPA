@@ -77,10 +77,34 @@
     <Compile Update="Casos\Civiles\Proceso ejecucion\Civil_via_apremio.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Casos\Constitucionales\Agregar caso\FrmAgregarCaso.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Constitucionales\Constitucional_Terminado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Constitucionales\Constitucional_amparo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Constitucionales\Estados constitucionales\FrmAgregarEstadoConstitucional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Constitucionales\Estados constitucionales\FrmAgregarEstadoConstitucionalTerminado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Contenciosos\Contencioso_Terminado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Contenciosos\Contencioso_Tributario_PI.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Casos\Contenciosos\Contencioso_RecursoCasacion.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Contenciosos\Contencioso_General_PI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Contenciosos\Estados contenciosos\FrmAgregarEstadoContenciosoTerminado.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Contenciosos\Estados contenciosos\FrmAgregarEstadoContenciosoRC.cs">

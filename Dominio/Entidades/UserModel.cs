@@ -72,8 +72,6 @@ namespace Dominio.Entidades
 
         public async Task<ApiGetModulosRoles> ObtenerModulosRoles()
         {
-
-            
             try
             {
                 return await userData.GetModulosRoles();

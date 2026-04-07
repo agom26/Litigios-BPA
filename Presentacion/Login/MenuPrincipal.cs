@@ -18,6 +18,8 @@ using Presentacion.Casos.Civiles;
 using Presentacion.Casos.Civiles.Proceso_ejecucion;
 using Presentacion.Casos.Civiles.Juicio_Oral;
 using Presentacion.Casos.Contenciosos;
+using Presentacion.Casos.Constitucionales.Constitucional_amparo;
+using Presentacion.Casos.Constitucionales.Constitucional_Terminado;
 namespace Presentacion
 {
     public partial class MenuPrincipal : Form
@@ -191,7 +193,11 @@ namespace Presentacion
                         break;
 
                     case "constitucional":
-                        treeView1.Nodes.Add(CrearNodo("Constitucional", "constitucional"));
+                        TreeNode constitucional = CrearNodo("Constitucional", "constitucional");
+                        constitucional.Nodes.Add(CrearNodo("Amparo", "constitucional"));
+                        constitucional.Nodes.Add(CrearNodo("Terminados", "constitucional"));
+
+                        treeView1.Nodes.Add(constitucional);
                         break;
 
                     case "contencioso administrativo":
@@ -387,10 +393,25 @@ namespace Presentacion
                 {
                     await AbrirFormularioConLoaderAsync(new Contencioso_General_PI());
                 }
+                else if (nodo.Text == "Tributario" && nodo.Parent != null &&
+                  nodo.Parent.Text == "Contencioso Administrativo")
+                {
+                    await AbrirFormularioConLoaderAsync(new Contencioso_Tributario_PI());
+                }
                 else if (nodo.Text == "Recurso de Casación" && nodo.Parent != null &&
                   nodo.Parent.Text == "Contencioso Administrativo")
                 {
                     await AbrirFormularioConLoaderAsync(new Contencioso_RecursoCasacion());
+                }
+                else if (nodo.Text == "Amparo" && nodo.Parent != null &&
+                  nodo.Parent.Text == "Constitucional")
+                {
+                    await AbrirFormularioConLoaderAsync(new Constitucional_amparo());
+                }
+                else if (nodo.Text == "Terminados" && nodo.Parent != null &&
+                  nodo.Parent.Text == "Constitucional")
+                {
+                    await AbrirFormularioConLoaderAsync(new Constitucional_Terminado());
                 }
             }
         }

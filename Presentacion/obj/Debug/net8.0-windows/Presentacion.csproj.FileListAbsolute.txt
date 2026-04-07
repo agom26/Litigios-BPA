@@ -102,3 +102,11 @@ C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Contenciosos.Mostrar_marcas.FrmAgregarMarcaReferencia.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Contenciosos.Contencioso_RecursoCasacion.resources
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Contenciosos.Estados_contenciosos.FrmAgregarEstadoContenciosoRC.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Contenciosos.Contencioso_Tributario_PI.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Contenciosos.Estados_contenciosos.FrmAgregarEstadoContenciosoTerminado.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Contenciosos.Contencioso_Terminado.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Constitucionales.Constitucional_amparo.Constitucional_amparo.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Constitucionales.Agregar_caso.FrmAgregarCaso.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Constitucionales.Estados_constitucionales.FrmAgregarEstadoConstitucional.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Constitucionales.Constitucional_Terminado.Constitucional_Terminado.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Contenciosos.Estados_contenciosos.FrmAgregarEstadoConstitucionalTerminado.resources
