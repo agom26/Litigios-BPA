@@ -287,6 +287,16 @@
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.105.0, )"
+            },
+            "PuppeteerSharp": {
+              "target": "Package",
+              "version": "[24.40.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

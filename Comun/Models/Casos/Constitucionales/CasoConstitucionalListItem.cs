@@ -10,6 +10,7 @@ namespace Comun.Models.Casos.Constitucionales
     {
         public int id { get; set; }
         public string? expediente { get; set; }
+        public string? nombre_amparo { get; set; }
         public string? oficial { get; set; }
         public string? estado { get; set; }
     }

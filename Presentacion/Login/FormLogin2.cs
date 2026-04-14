@@ -164,7 +164,6 @@ namespace Presentacion
                 btnVerPass.Image = Properties.Resources.ojo_abierto;
                 txtPassword.UseSystemPasswordChar = false;
             }
-
         }
 
         private void txtUsuario_KeyDown(object sender, KeyEventArgs e)

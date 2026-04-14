@@ -2283,7 +2283,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
             comboboxEstado.Text = item.estado ?? "";
 
-            bool requiereVencimiento = EstadoCivilHelper.RequiereVencimientoPrimeraInstancia(item.estado ?? "");
+            bool requiereVencimiento = EstadoCivilHelper.RequiereVencimientoJOPI(item.estado ?? "");
             bool tieneVencimiento = item.fecha_vencimiento.HasValue || requiereVencimiento;
 
             checkBoxTieneVencimiento.Checked = tieneVencimiento;

@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\constitucionales\\constitucional_terminado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\constitucionales\\constitucional_terminado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\plazos\\frmplazos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\plazos\\frmplazos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\laborales\\laboral_terminados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\laborales\\laboral_terminados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\plazos\\frmplazos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\plazos\\frmplazos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C3D814D-CF05-4F2F-8758-E36F50B68539}|AccesoDatos\\AccesoDatos.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\accesodatos\\entidades\\userdataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C3D814D-CF05-4F2F-8758-E36F50B68539}|AccesoDatos\\AccesoDatos.csproj|solutionrelative:accesodatos\\entidades\\userdataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\presentacion\\casos\\constitucionales\\constitucional_amparo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D1558D-9D81-43A1-8A65-2E30238FE0F4}|Presentacion\\Presentacion.csproj|solutionrelative:presentacion\\casos\\constitucionales\\constitucional_amparo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|c:\\users\\lenovo\\source\\repos\\programa-bpa-litigios\\comun\\models\\plazos\\apiresponseplazosreportelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9D193F3-142A-40B9-82BB-43447C7F06A4}|Comun\\Comun.csproj|solutionrelative:comun\\models\\plazos\\apiresponseplazosreportelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 264,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,41 +34,53 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Laboral_terminados.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Laborales\\Laboral_terminados.cs",
-              "RelativeDocumentMoniker": "Presentacion\\Casos\\Laborales\\Laboral_terminados.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Laborales\\Laboral_terminados.cs",
-              "RelativeToolTip": "Presentacion\\Casos\\Laborales\\Laboral_terminados.cs",
-              "ViewState": "AgIAAN0AAAAAAAAAAAArwDIBAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T07:39:02.301Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Constitucional_Terminado.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Constitucionales\\Constitucional_Terminado.cs",
-              "RelativeDocumentMoniker": "Presentacion\\Casos\\Constitucionales\\Constitucional_Terminado.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Constitucionales\\Constitucional_Terminado.cs",
-              "RelativeToolTip": "Presentacion\\Casos\\Constitucionales\\Constitucional_Terminado.cs",
-              "ViewState": "AgIAAPsAAAAAAAAAAAAUwAYBAAANAAAAAAAAAA==",
+              "Title": "FrmPlazos.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Plazos\\FrmPlazos.cs",
+              "RelativeDocumentMoniker": "Presentacion\\Plazos\\FrmPlazos.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Plazos\\FrmPlazos.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Presentacion\\Plazos\\FrmPlazos.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T07:38:46.532Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-14T10:43:09.587Z",
+              "EditorCaption": " [Dise\u00F1o]"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "UserDataAccess.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\AccesoDatos\\Entidades\\UserDataAccess.cs",
-              "RelativeDocumentMoniker": "AccesoDatos\\Entidades\\UserDataAccess.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\AccesoDatos\\Entidades\\UserDataAccess.cs",
-              "RelativeToolTip": "AccesoDatos\\Entidades\\UserDataAccess.cs",
-              "ViewState": "AgIAAAUBAAAAAAAAAADgvwoBAAAJAAAAAAAAAA==",
+              "Title": "Constitucional_amparo.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Constitucionales\\Constitucional_amparo.cs",
+              "RelativeDocumentMoniker": "Presentacion\\Casos\\Constitucionales\\Constitucional_amparo.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Casos\\Constitucionales\\Constitucional_amparo.cs",
+              "RelativeToolTip": "Presentacion\\Casos\\Constitucionales\\Constitucional_amparo.cs",
+              "ViewState": "AgIAAAgFAAAAAAAAAAApwBgFAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T07:29:43.776Z",
+              "WhenOpened": "2026-04-14T10:28:43.817Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApiResponsePlazosReporteList.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Plazos\\ApiResponsePlazosReporteList.cs",
+              "RelativeDocumentMoniker": "Comun\\Models\\Plazos\\ApiResponsePlazosReporteList.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Comun\\Models\\Plazos\\ApiResponsePlazosReporteList.cs",
+              "RelativeToolTip": "Comun\\Models\\Plazos\\ApiResponsePlazosReporteList.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T08:59:13.836Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FrmPlazos.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Plazos\\FrmPlazos.cs",
+              "RelativeDocumentMoniker": "Presentacion\\Plazos\\FrmPlazos.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Programa-BPA-Litigios\\Presentacion\\Plazos\\FrmPlazos.cs",
+              "RelativeToolTip": "Presentacion\\Plazos\\FrmPlazos.cs",
+              "ViewState": "AgIAACMGAAAAAAAAAAAhwCUGAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T18:45:58.392Z",
               "EditorCaption": ""
             }
           ]

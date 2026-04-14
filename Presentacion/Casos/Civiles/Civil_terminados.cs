@@ -2305,8 +2305,8 @@ namespace Presentacion.Casos.Civiles
             comboboxEstado.Items.Clear();
 
             List<string> estados = EstadoCivilHelper.EsSegundaInstancia(origen?.Trim())
-                ? EstadoCivilHelper.ObtenerEstadosSegundaInstancia()
-                : EstadoCivilHelper.ObtenerEstadosPrimeraInstancia();
+                ? EstadoCivilHelper.ObtenerEstadosJSSegundaInstancia()
+                : EstadoCivilHelper.ObtenerEstadosJSPrimeraInstancia();
             foreach (string estado in estados)
             {
                 comboboxEstado.Items.AddRange(new string[] { estado });

@@ -38,7 +38,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
         HistorialCasoCivilModel historialModel = new HistorialCasoCivilModel();
         ArchivosCivilesModel archivoModel = new ArchivosCivilesModel();
         CasoCivilJuicioSumarioSIModel casoCivilModel = new CasoCivilJuicioSumarioSIModel();
-
+        
         private BindingList<PersonaListDataResponse> listaDemandados
         = new BindingList<PersonaListDataResponse>();
         private BindingList<PersonaListDataResponse> listaDemandantes

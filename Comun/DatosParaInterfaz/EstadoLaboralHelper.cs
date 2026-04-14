@@ -95,6 +95,8 @@ namespace Comun.DatosParaInterfaz
         {
             string observacion = $"{fechaEstado:dd/MM/yyyy} {estado}";
 
+
+
             if (tieneVencimiento && fechaVencimiento.HasValue)
             {
                 observacion += $" | Fecha de vencimiento: {fechaVencimiento.Value:dd/MM/yyyy HH:mm}";

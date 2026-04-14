@@ -10,6 +10,7 @@ namespace Comun.Models.Casos.Contenciosos
     {
         public int recurso_id { get; set; }
         public string? expediente { get; set; }
+        public string? nombre_particular { get; set; }
         public string? signo { get; set; }
         public string? clase { get; set; }
         public string? signo_distintivo { get; set; }

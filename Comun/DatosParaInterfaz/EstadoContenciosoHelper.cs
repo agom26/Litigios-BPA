@@ -30,9 +30,7 @@ namespace Comun.DatosParaInterfaz
         {
             return new List<string>
             {
-                "Recurso de Casación de fondo",
-                "Recurso de Casación de forma",
-                "Recurso de Casación de fondo y forma",
+                "Recurso de Casación",
                 "Admisión",
                 "Vista",
                 "Desistimiento",
@@ -42,6 +40,7 @@ namespace Comun.DatosParaInterfaz
             };
         }
 
+     
         public static bool EsSegundaInstancia(string origen)
         {
             return !string.IsNullOrWhiteSpace(origen) &&
@@ -86,6 +85,8 @@ namespace Comun.DatosParaInterfaz
             string textoExtra = null)
         {
             string observacion = $"{fechaEstado:dd/MM/yyyy} {estado}";
+
+
 
             if (tieneVencimiento && fechaVencimiento.HasValue)
             {

@@ -20,6 +20,8 @@ using Presentacion.Casos.Civiles.Juicio_Oral;
 using Presentacion.Casos.Contenciosos;
 using Presentacion.Casos.Constitucionales.Constitucional_amparo;
 using Presentacion.Casos.Constitucionales.Constitucional_Terminado;
+using Presentacion.Reportes;
+using Presentacion.Plazos;
 namespace Presentacion
 {
     public partial class MenuPrincipal : Form
@@ -269,7 +271,6 @@ namespace Presentacion
                 if (nodo.Text == "Usuarios")
                 {
                     openChildForm(new Usuarios());
-
                 }
                 else if (nodo.Text == "Personas involucradas")
                 {
@@ -412,6 +413,14 @@ namespace Presentacion
                   nodo.Parent.Text == "Constitucional")
                 {
                     await AbrirFormularioConLoaderAsync(new Constitucional_Terminado());
+                }
+                else if (nodo.Text == "Reportes")
+                {
+                    await AbrirFormularioConLoaderAsync(new FrmReportes());
+                }
+                else if (nodo.Text == "Plazos")
+                {
+                    await AbrirFormularioConLoaderAsync(new FrmPlazos());
                 }
             }
         }
