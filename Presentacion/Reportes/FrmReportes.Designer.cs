@@ -73,13 +73,17 @@ namespace Presentacion.Reportes
             panelTitulo = new Panel();
             roundedButton6 = new Presentacion.Clases.RoundedButton();
             btnEditarCaso = new Presentacion.Clases.RoundedButton();
-            btnVerHistorial = new Presentacion.Clases.RoundedButton();
-            btnVerArchivos = new Presentacion.Clases.RoundedButton();
+            btnExportarExcel = new Presentacion.Clases.RoundedButton();
+            btnExportarPdf = new Presentacion.Clases.RoundedButton();
             label1 = new Label();
             panelContenido = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
             dtgResultadosReporte = new DataGridView();
             panel1 = new Panel();
+            comboBoxTitulo = new ComboBox();
+            checkBoxTitulo = new CheckBox();
+            comboBoxMotivoCasacion = new ComboBox();
+            checkBoxMotivoCasacion = new CheckBox();
             comboBoxCorte = new ComboBox();
             checkBoxCorte = new CheckBox();
             comboBoxCamara = new ComboBox();
@@ -123,25 +127,29 @@ namespace Presentacion.Reportes
             panelHeaderTerceros = new Panel();
             roundedButton17 = new Presentacion.Clases.RoundedButton();
             panelContactosEmpresas = new Panel();
-            dtgContactoEmpresa = new DataGridView();
-            label10 = new Label();
+            checkBoxContactosEmpresa = new CheckBox();
+            btnAgregarContactosEmpresa = new Presentacion.Clases.RoundedButton();
+            dtgContactosEmpresa = new DataGridView();
             roundedButton12 = new Presentacion.Clases.RoundedButton();
             panel2 = new Panel();
             roundedButton20 = new Presentacion.Clases.RoundedButton();
             panelAbogadosDirectores = new Panel();
-            label11 = new Label();
+            checkBoxAbogadosDirectores = new CheckBox();
+            btnAgregarAbogadosDirectores = new Presentacion.Clases.RoundedButton();
             dtgAbogadosDirectores = new DataGridView();
             roundedButton15 = new Presentacion.Clases.RoundedButton();
             roundedButton18 = new Presentacion.Clases.RoundedButton();
             panelAbogadosAsistentes = new Panel();
-            dataGridView4 = new DataGridView();
-            label13 = new Label();
+            checkBoxAbogadoAsistente = new CheckBox();
+            btnAgregarAbogadoAsistente = new Presentacion.Clases.RoundedButton();
+            dtgAbogadosAsistentes = new DataGridView();
             roundedButton16 = new Presentacion.Clases.RoundedButton();
             panelHeader = new Panel();
             roundedButton14 = new Presentacion.Clases.RoundedButton();
             panelSociosResponsables = new Panel();
-            label12 = new Label();
-            dataGridView5 = new DataGridView();
+            checkBoxSociosResponsables = new CheckBox();
+            btnAgregarSocioResponsable = new Presentacion.Clases.RoundedButton();
+            dtgSociosResponsables = new DataGridView();
             roundedButton19 = new Presentacion.Clases.RoundedButton();
             panelHeaderSocios = new Panel();
             roundedButton21 = new Presentacion.Clases.RoundedButton();
@@ -168,7 +176,6 @@ namespace Presentacion.Reportes
             roundedButton3 = new Presentacion.Clases.RoundedButton();
             comboBoxRama = new ComboBox();
             checkBoxRama = new CheckBox();
-            panel3 = new Panel();
             panelTitulo.SuspendLayout();
             panelContenido.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
@@ -189,15 +196,15 @@ namespace Presentacion.Reportes
             ((System.ComponentModel.ISupportInitialize)dtgTercerosInteresados).BeginInit();
             panelHeaderTerceros.SuspendLayout();
             panelContactosEmpresas.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgContactoEmpresa).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dtgContactosEmpresa).BeginInit();
             panel2.SuspendLayout();
             panelAbogadosDirectores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgAbogadosDirectores).BeginInit();
             panelAbogadosAsistentes.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dtgAbogadosAsistentes).BeginInit();
             panelHeader.SuspendLayout();
             panelSociosResponsables.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dtgSociosResponsables).BeginInit();
             panelHeaderSocios.SuspendLayout();
             SuspendLayout();
             // 
@@ -205,8 +212,8 @@ namespace Presentacion.Reportes
             // 
             panelTitulo.Controls.Add(roundedButton6);
             panelTitulo.Controls.Add(btnEditarCaso);
-            panelTitulo.Controls.Add(btnVerHistorial);
-            panelTitulo.Controls.Add(btnVerArchivos);
+            panelTitulo.Controls.Add(btnExportarExcel);
+            panelTitulo.Controls.Add(btnExportarPdf);
             panelTitulo.Controls.Add(label1);
             panelTitulo.Dock = DockStyle.Top;
             panelTitulo.Location = new Point(0, 0);
@@ -263,55 +270,57 @@ namespace Presentacion.Reportes
             btnEditarCaso.UseVisualStyleBackColor = false;
             btnEditarCaso.Click += btnEditarCaso_Click;
             // 
-            // btnVerHistorial
+            // btnExportarExcel
             // 
-            btnVerHistorial.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnVerHistorial.BackColor = Color.FromArgb(250, 249, 246);
-            btnVerHistorial.BackgroundColor = Color.FromArgb(250, 249, 246);
-            btnVerHistorial.BorderColor = Color.Silver;
-            btnVerHistorial.BorderRadius = 10;
-            btnVerHistorial.BorderSize = 1;
-            btnVerHistorial.FlatAppearance.BorderSize = 0;
-            btnVerHistorial.FlatStyle = FlatStyle.Flat;
-            btnVerHistorial.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnVerHistorial.ForeColor = Color.Black;
-            btnVerHistorial.Image = Properties.Resources.xls__1_;
-            btnVerHistorial.ImageAlign = ContentAlignment.MiddleRight;
-            btnVerHistorial.Location = new Point(381, 13);
-            btnVerHistorial.Name = "btnVerHistorial";
-            btnVerHistorial.Padding = new Padding(3, 0, 0, 0);
-            btnVerHistorial.Size = new Size(90, 40);
-            btnVerHistorial.TabIndex = 27;
-            btnVerHistorial.Text = "Excel";
-            btnVerHistorial.TextAlign = ContentAlignment.MiddleLeft;
-            btnVerHistorial.TextColor = Color.Black;
-            btnVerHistorial.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnVerHistorial.UseVisualStyleBackColor = false;
+            btnExportarExcel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnExportarExcel.BackColor = Color.FromArgb(250, 249, 246);
+            btnExportarExcel.BackgroundColor = Color.FromArgb(250, 249, 246);
+            btnExportarExcel.BorderColor = Color.Silver;
+            btnExportarExcel.BorderRadius = 10;
+            btnExportarExcel.BorderSize = 1;
+            btnExportarExcel.FlatAppearance.BorderSize = 0;
+            btnExportarExcel.FlatStyle = FlatStyle.Flat;
+            btnExportarExcel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnExportarExcel.ForeColor = Color.Black;
+            btnExportarExcel.Image = Properties.Resources.xls__1_;
+            btnExportarExcel.ImageAlign = ContentAlignment.MiddleRight;
+            btnExportarExcel.Location = new Point(381, 13);
+            btnExportarExcel.Name = "btnExportarExcel";
+            btnExportarExcel.Padding = new Padding(3, 0, 0, 0);
+            btnExportarExcel.Size = new Size(90, 40);
+            btnExportarExcel.TabIndex = 27;
+            btnExportarExcel.Text = "Excel";
+            btnExportarExcel.TextAlign = ContentAlignment.MiddleLeft;
+            btnExportarExcel.TextColor = Color.Black;
+            btnExportarExcel.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnExportarExcel.UseVisualStyleBackColor = false;
+            btnExportarExcel.Click += btnExportarExcel_Click;
             // 
-            // btnVerArchivos
+            // btnExportarPdf
             // 
-            btnVerArchivos.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnVerArchivos.BackColor = Color.FromArgb(250, 249, 246);
-            btnVerArchivos.BackgroundColor = Color.FromArgb(250, 249, 246);
-            btnVerArchivos.BorderColor = Color.Silver;
-            btnVerArchivos.BorderRadius = 10;
-            btnVerArchivos.BorderSize = 1;
-            btnVerArchivos.FlatAppearance.BorderSize = 0;
-            btnVerArchivos.FlatStyle = FlatStyle.Flat;
-            btnVerArchivos.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnVerArchivos.ForeColor = Color.Black;
-            btnVerArchivos.Image = Properties.Resources.pdf__2_;
-            btnVerArchivos.ImageAlign = ContentAlignment.MiddleRight;
-            btnVerArchivos.Location = new Point(274, 13);
-            btnVerArchivos.Name = "btnVerArchivos";
-            btnVerArchivos.Padding = new Padding(3, 0, 0, 0);
-            btnVerArchivos.Size = new Size(90, 40);
-            btnVerArchivos.TabIndex = 26;
-            btnVerArchivos.Text = "PDF";
-            btnVerArchivos.TextAlign = ContentAlignment.MiddleLeft;
-            btnVerArchivos.TextColor = Color.Black;
-            btnVerArchivos.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnVerArchivos.UseVisualStyleBackColor = false;
+            btnExportarPdf.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnExportarPdf.BackColor = Color.FromArgb(250, 249, 246);
+            btnExportarPdf.BackgroundColor = Color.FromArgb(250, 249, 246);
+            btnExportarPdf.BorderColor = Color.Silver;
+            btnExportarPdf.BorderRadius = 10;
+            btnExportarPdf.BorderSize = 1;
+            btnExportarPdf.FlatAppearance.BorderSize = 0;
+            btnExportarPdf.FlatStyle = FlatStyle.Flat;
+            btnExportarPdf.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnExportarPdf.ForeColor = Color.Black;
+            btnExportarPdf.Image = Properties.Resources.pdf__2_;
+            btnExportarPdf.ImageAlign = ContentAlignment.MiddleRight;
+            btnExportarPdf.Location = new Point(274, 13);
+            btnExportarPdf.Name = "btnExportarPdf";
+            btnExportarPdf.Padding = new Padding(3, 0, 0, 0);
+            btnExportarPdf.Size = new Size(90, 40);
+            btnExportarPdf.TabIndex = 26;
+            btnExportarPdf.Text = "PDF";
+            btnExportarPdf.TextAlign = ContentAlignment.MiddleLeft;
+            btnExportarPdf.TextColor = Color.Black;
+            btnExportarPdf.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnExportarPdf.UseVisualStyleBackColor = false;
+            btnExportarPdf.Click += btnExportarPdf_Click;
             // 
             // label1
             // 
@@ -397,6 +406,10 @@ namespace Presentacion.Reportes
             // panel1
             // 
             panel1.AutoScroll = true;
+            panel1.Controls.Add(comboBoxTitulo);
+            panel1.Controls.Add(checkBoxTitulo);
+            panel1.Controls.Add(comboBoxMotivoCasacion);
+            panel1.Controls.Add(checkBoxMotivoCasacion);
             panel1.Controls.Add(comboBoxCorte);
             panel1.Controls.Add(checkBoxCorte);
             panel1.Controls.Add(comboBoxCamara);
@@ -428,12 +441,58 @@ namespace Presentacion.Reportes
             panel1.Controls.Add(roundedButton3);
             panel1.Controls.Add(comboBoxRama);
             panel1.Controls.Add(checkBoxRama);
-            panel1.Controls.Add(panel3);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
             panel1.Size = new Size(795, 231);
             panel1.TabIndex = 0;
+            // 
+            // comboBoxTitulo
+            // 
+            comboBoxTitulo.Anchor = AnchorStyles.Top;
+            comboBoxTitulo.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxTitulo.DropDownWidth = 448;
+            comboBoxTitulo.FormattingEnabled = true;
+            comboBoxTitulo.Items.AddRange(new object[] { "Sentencia pasada en autoridad de cosa juzgada", "Laudo arbitral no pendiente de recurso de casación", "Créditos hipotecarios", "Bonos o cédulas hipotecarias y sus cupones", "Créditos prendarios", "Transacción celebrada en escritura pública", "Convenio celebrado en el juicio", "Convenio o acuerdo aprobado u homologado por juez competente" });
+            comboBoxTitulo.Location = new Point(210, 130);
+            comboBoxTitulo.Name = "comboBoxTitulo";
+            comboBoxTitulo.Size = new Size(363, 23);
+            comboBoxTitulo.TabIndex = 82;
+            // 
+            // checkBoxTitulo
+            // 
+            checkBoxTitulo.Anchor = AnchorStyles.Top;
+            checkBoxTitulo.AutoSize = true;
+            checkBoxTitulo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            checkBoxTitulo.Location = new Point(210, 96);
+            checkBoxTitulo.Name = "checkBoxTitulo";
+            checkBoxTitulo.Size = new Size(64, 21);
+            checkBoxTitulo.TabIndex = 83;
+            checkBoxTitulo.Text = "Título";
+            checkBoxTitulo.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxMotivoCasacion
+            // 
+            comboBoxMotivoCasacion.Anchor = AnchorStyles.Top;
+            comboBoxMotivoCasacion.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxMotivoCasacion.FormattingEnabled = true;
+            comboBoxMotivoCasacion.Items.AddRange(new object[] { "De forma", "De fondo", "De forma y fondo" });
+            comboBoxMotivoCasacion.Location = new Point(9, 130);
+            comboBoxMotivoCasacion.Name = "comboBoxMotivoCasacion";
+            comboBoxMotivoCasacion.Size = new Size(170, 23);
+            comboBoxMotivoCasacion.TabIndex = 80;
+            // 
+            // checkBoxMotivoCasacion
+            // 
+            checkBoxMotivoCasacion.Anchor = AnchorStyles.Top;
+            checkBoxMotivoCasacion.AutoSize = true;
+            checkBoxMotivoCasacion.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            checkBoxMotivoCasacion.Location = new Point(9, 96);
+            checkBoxMotivoCasacion.Name = "checkBoxMotivoCasacion";
+            checkBoxMotivoCasacion.Size = new Size(200, 21);
+            checkBoxMotivoCasacion.TabIndex = 81;
+            checkBoxMotivoCasacion.Text = "Motivo Recurso de Casación";
+            checkBoxMotivoCasacion.UseVisualStyleBackColor = true;
             // 
             // comboBoxCorte
             // 
@@ -441,7 +500,7 @@ namespace Presentacion.Reportes
             comboBoxCorte.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxCorte.FormattingEnabled = true;
             comboBoxCorte.Items.AddRange(new object[] { "Corte de Constitucionalidad" });
-            comboBoxCorte.Location = new Point(588, 202);
+            comboBoxCorte.Location = new Point(590, 270);
             comboBoxCorte.Name = "comboBoxCorte";
             comboBoxCorte.Size = new Size(170, 23);
             comboBoxCorte.TabIndex = 79;
@@ -451,7 +510,7 @@ namespace Presentacion.Reportes
             checkBoxCorte.Anchor = AnchorStyles.Top;
             checkBoxCorte.AutoSize = true;
             checkBoxCorte.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            checkBoxCorte.Location = new Point(588, 175);
+            checkBoxCorte.Location = new Point(590, 243);
             checkBoxCorte.Name = "checkBoxCorte";
             checkBoxCorte.Size = new Size(60, 21);
             checkBoxCorte.TabIndex = 78;
@@ -462,9 +521,10 @@ namespace Presentacion.Reportes
             // 
             comboBoxCamara.Anchor = AnchorStyles.Top;
             comboBoxCamara.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxCamara.DropDownWidth = 300;
             comboBoxCamara.FormattingEnabled = true;
-            comboBoxCamara.Items.AddRange(new object[] { "Todos", "Solo casos vinculados", "Solo casos sin vinculación" });
-            comboBoxCamara.Location = new Point(403, 202);
+            comboBoxCamara.Items.AddRange(new object[] { "Cámara Civil de la Corte Suprema de Justicia" });
+            comboBoxCamara.Location = new Point(405, 270);
             comboBoxCamara.Name = "comboBoxCamara";
             comboBoxCamara.Size = new Size(170, 23);
             comboBoxCamara.TabIndex = 77;
@@ -474,7 +534,7 @@ namespace Presentacion.Reportes
             checkBoxCamara.Anchor = AnchorStyles.Top;
             checkBoxCamara.AutoSize = true;
             checkBoxCamara.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            checkBoxCamara.Location = new Point(403, 175);
+            checkBoxCamara.Location = new Point(405, 243);
             checkBoxCamara.Name = "checkBoxCamara";
             checkBoxCamara.Size = new Size(73, 21);
             checkBoxCamara.TabIndex = 76;
@@ -485,9 +545,10 @@ namespace Presentacion.Reportes
             // 
             comboBoxSala.Anchor = AnchorStyles.Top;
             comboBoxSala.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxSala.DropDownWidth = 300;
             comboBoxSala.FormattingEnabled = true;
             comboBoxSala.Items.AddRange(new object[] { "Sala 1ª. De Trabajo y Previsión Social", "Sala 2ª. De Trabajo y Previsión Social", "Sala 3ª. De Trabajo y Previsión Social", "Sala 5ª. De Trabajo y Previsión Social", "Sala 1ª. Del Tribunal de lo Contencioso Administrativo", "Sala 2ª. Del Tribunal de lo Contencioso Administrativo", "Sala 3ª. Del Tribunal de lo Contencioso Administrativo", "Sala 4ª. Del Tribunal de lo Contencioso Administrativo", "Sala 5ª. Del Tribunal de lo Contencioso Administrativo", "Sala 6ª. Del Tribunal de lo Contencioso Administrativo" });
-            comboBoxSala.Location = new Point(208, 202);
+            comboBoxSala.Location = new Point(210, 270);
             comboBoxSala.Name = "comboBoxSala";
             comboBoxSala.Size = new Size(170, 23);
             comboBoxSala.TabIndex = 75;
@@ -497,7 +558,7 @@ namespace Presentacion.Reportes
             checkBoxSala.Anchor = AnchorStyles.Top;
             checkBoxSala.AutoSize = true;
             checkBoxSala.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            checkBoxSala.Location = new Point(208, 175);
+            checkBoxSala.Location = new Point(210, 243);
             checkBoxSala.Name = "checkBoxSala";
             checkBoxSala.Size = new Size(52, 21);
             checkBoxSala.TabIndex = 74;
@@ -508,9 +569,10 @@ namespace Presentacion.Reportes
             // 
             comboBoxJuzgado.Anchor = AnchorStyles.Top;
             comboBoxJuzgado.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxJuzgado.DropDownWidth = 350;
             comboBoxJuzgado.FormattingEnabled = true;
             comboBoxJuzgado.Items.AddRange(new object[] { "Juzgado 1º. De Trabajo y Previsión Social ", "Juzgado 2º. De Trabajo y Previsión Social", "Juzgado 3º. De Trabajo y Previsión Social", "Juzgado 4º. De Trabajo y Previsión Social", "Juzgado 5º. De Trabajo y Previsión Social", "Juzgado 6º. De Trabajo y Previsión Social", "Juzgado 7º. De Trabajo y Previsión Social", "Juzgado 8º. De Trabajo y Previsión Social", "Juzgado 9º. De Trabajo y Previsión Social", "Juzgado 10º. De Trabajo y Previsión Social", "Juzgado 11º. De Trabajo y Previsión Social", "Juzgado 12º. De Trabajo y Previsión Social", "Juzgado 13º. De Trabajo y Previsión Social", "Juzgado 14º. De Trabajo y Previsión Social", "Juzgado pluripersonal de primera instancia de faltas laborales" });
-            comboBoxJuzgado.Location = new Point(4, 202);
+            comboBoxJuzgado.Location = new Point(6, 270);
             comboBoxJuzgado.Name = "comboBoxJuzgado";
             comboBoxJuzgado.Size = new Size(170, 23);
             comboBoxJuzgado.TabIndex = 73;
@@ -530,7 +592,7 @@ namespace Presentacion.Reportes
             flowLayoutPanel1.Controls.Add(panelSociosResponsables);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            flowLayoutPanel1.Location = new Point(6, 347);
+            flowLayoutPanel1.Location = new Point(6, 400);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(671, 1895);
             flowLayoutPanel1.TabIndex = 72;
@@ -1305,8 +1367,9 @@ namespace Presentacion.Reportes
             // 
             panelContactosEmpresas.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelContactosEmpresas.BackColor = Color.FromArgb(250, 249, 246);
-            panelContactosEmpresas.Controls.Add(dtgContactoEmpresa);
-            panelContactosEmpresas.Controls.Add(label10);
+            panelContactosEmpresas.Controls.Add(checkBoxContactosEmpresa);
+            panelContactosEmpresas.Controls.Add(btnAgregarContactosEmpresa);
+            panelContactosEmpresas.Controls.Add(dtgContactosEmpresa);
             panelContactosEmpresas.Controls.Add(roundedButton12);
             panelContactosEmpresas.Controls.Add(panel2);
             panelContactosEmpresas.Location = new Point(3, 1035);
@@ -1314,19 +1377,57 @@ namespace Presentacion.Reportes
             panelContactosEmpresas.Size = new Size(665, 230);
             panelContactosEmpresas.TabIndex = 12;
             // 
-            // dtgContactoEmpresa
+            // checkBoxContactosEmpresa
             // 
-            dtgContactoEmpresa.AllowUserToAddRows = false;
-            dtgContactoEmpresa.AllowUserToDeleteRows = false;
-            dtgContactoEmpresa.AllowUserToResizeRows = false;
+            checkBoxContactosEmpresa.AutoSize = true;
+            checkBoxContactosEmpresa.BackColor = Color.White;
+            checkBoxContactosEmpresa.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            checkBoxContactosEmpresa.Location = new Point(28, 78);
+            checkBoxContactosEmpresa.Name = "checkBoxContactosEmpresa";
+            checkBoxContactosEmpresa.Size = new Size(173, 21);
+            checkBoxContactosEmpresa.TabIndex = 83;
+            checkBoxContactosEmpresa.Text = "Contacto(s) de Empresa";
+            checkBoxContactosEmpresa.UseVisualStyleBackColor = false;
+            // 
+            // btnAgregarContactosEmpresa
+            // 
+            btnAgregarContactosEmpresa.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarContactosEmpresa.BackColor = Color.FromArgb(234, 240, 253);
+            btnAgregarContactosEmpresa.BackgroundColor = Color.FromArgb(234, 240, 253);
+            btnAgregarContactosEmpresa.BorderColor = Color.Empty;
+            btnAgregarContactosEmpresa.BorderRadius = 32;
+            btnAgregarContactosEmpresa.BorderSize = 1;
+            btnAgregarContactosEmpresa.FlatAppearance.BorderSize = 0;
+            btnAgregarContactosEmpresa.FlatStyle = FlatStyle.Flat;
+            btnAgregarContactosEmpresa.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarContactosEmpresa.ForeColor = Color.FromArgb(52, 109, 235);
+            btnAgregarContactosEmpresa.Image = Properties.Resources.plus_pequeno;
+            btnAgregarContactosEmpresa.ImageAlign = ContentAlignment.MiddleRight;
+            btnAgregarContactosEmpresa.Location = new Point(549, 67);
+            btnAgregarContactosEmpresa.Name = "btnAgregarContactosEmpresa";
+            btnAgregarContactosEmpresa.Padding = new Padding(3, 0, 0, 0);
+            btnAgregarContactosEmpresa.Size = new Size(96, 32);
+            btnAgregarContactosEmpresa.TabIndex = 82;
+            btnAgregarContactosEmpresa.Text = "  Agregar";
+            btnAgregarContactosEmpresa.TextAlign = ContentAlignment.MiddleLeft;
+            btnAgregarContactosEmpresa.TextColor = Color.FromArgb(52, 109, 235);
+            btnAgregarContactosEmpresa.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnAgregarContactosEmpresa.UseVisualStyleBackColor = false;
+            btnAgregarContactosEmpresa.Click += btnAgregarContactosEmpresa_Click;
+            // 
+            // dtgContactosEmpresa
+            // 
+            dtgContactosEmpresa.AllowUserToAddRows = false;
+            dtgContactosEmpresa.AllowUserToDeleteRows = false;
+            dtgContactosEmpresa.AllowUserToResizeRows = false;
             dataGridViewCellStyle25.BackColor = Color.FromArgb(249, 247, 242);
-            dtgContactoEmpresa.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle25;
-            dtgContactoEmpresa.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dtgContactoEmpresa.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgContactoEmpresa.BackgroundColor = Color.White;
-            dtgContactoEmpresa.BorderStyle = BorderStyle.None;
-            dtgContactoEmpresa.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgContactoEmpresa.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dtgContactosEmpresa.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle25;
+            dtgContactosEmpresa.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtgContactosEmpresa.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgContactosEmpresa.BackgroundColor = Color.White;
+            dtgContactosEmpresa.BorderStyle = BorderStyle.None;
+            dtgContactosEmpresa.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgContactosEmpresa.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle26.BackColor = Color.FromArgb(250, 248, 245);
             dataGridViewCellStyle26.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -1334,13 +1435,13 @@ namespace Presentacion.Reportes
             dataGridViewCellStyle26.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle26.SelectionForeColor = Color.Black;
             dataGridViewCellStyle26.WrapMode = DataGridViewTriState.True;
-            dtgContactoEmpresa.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle26;
-            dtgContactoEmpresa.ColumnHeadersHeight = 40;
-            dtgContactoEmpresa.EnableHeadersVisualStyles = false;
-            dtgContactoEmpresa.Location = new Point(26, 105);
-            dtgContactoEmpresa.MinimumSize = new Size(619, 100);
-            dtgContactoEmpresa.MultiSelect = false;
-            dtgContactoEmpresa.Name = "dtgContactoEmpresa";
+            dtgContactosEmpresa.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle26;
+            dtgContactosEmpresa.ColumnHeadersHeight = 40;
+            dtgContactosEmpresa.EnableHeadersVisualStyles = false;
+            dtgContactosEmpresa.Location = new Point(26, 105);
+            dtgContactosEmpresa.MinimumSize = new Size(619, 100);
+            dtgContactosEmpresa.MultiSelect = false;
+            dtgContactosEmpresa.Name = "dtgContactosEmpresa";
             dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle27.BackColor = Color.White;
             dataGridViewCellStyle27.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -1348,29 +1449,20 @@ namespace Presentacion.Reportes
             dataGridViewCellStyle27.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle27.SelectionForeColor = Color.Black;
             dataGridViewCellStyle27.WrapMode = DataGridViewTriState.True;
-            dtgContactoEmpresa.RowHeadersDefaultCellStyle = dataGridViewCellStyle27;
-            dtgContactoEmpresa.RowHeadersVisible = false;
+            dtgContactosEmpresa.RowHeadersDefaultCellStyle = dataGridViewCellStyle27;
+            dtgContactosEmpresa.RowHeadersVisible = false;
             dataGridViewCellStyle28.BackColor = Color.White;
             dataGridViewCellStyle28.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle28.ForeColor = Color.FromArgb(60, 60, 60);
             dataGridViewCellStyle28.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle28.SelectionForeColor = Color.Black;
-            dtgContactoEmpresa.RowsDefaultCellStyle = dataGridViewCellStyle28;
-            dtgContactoEmpresa.RowTemplate.Height = 45;
-            dtgContactoEmpresa.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgContactoEmpresa.Size = new Size(619, 100);
-            dtgContactoEmpresa.TabIndex = 6;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.BackColor = Color.White;
-            label10.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label10.Location = new Point(31, 63);
-            label10.Name = "label10";
-            label10.Size = new Size(193, 19);
-            label10.TabIndex = 8;
-            label10.Text = "Contacto(s) de Empresa(s) *";
+            dtgContactosEmpresa.RowsDefaultCellStyle = dataGridViewCellStyle28;
+            dtgContactosEmpresa.RowTemplate.Height = 45;
+            dtgContactosEmpresa.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgContactosEmpresa.Size = new Size(619, 100);
+            dtgContactosEmpresa.TabIndex = 6;
+            dtgContactosEmpresa.CellClick += dtgContactosEmpresa_CellClick;
+            dtgContactosEmpresa.DataBindingComplete += dtgContactosEmpresa_DataBindingComplete;
             // 
             // roundedButton12
             // 
@@ -1425,7 +1517,8 @@ namespace Presentacion.Reportes
             // 
             panelAbogadosDirectores.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelAbogadosDirectores.BackColor = Color.FromArgb(250, 249, 246);
-            panelAbogadosDirectores.Controls.Add(label11);
+            panelAbogadosDirectores.Controls.Add(checkBoxAbogadosDirectores);
+            panelAbogadosDirectores.Controls.Add(btnAgregarAbogadosDirectores);
             panelAbogadosDirectores.Controls.Add(dtgAbogadosDirectores);
             panelAbogadosDirectores.Controls.Add(roundedButton15);
             panelAbogadosDirectores.Controls.Add(roundedButton18);
@@ -1434,16 +1527,43 @@ namespace Presentacion.Reportes
             panelAbogadosDirectores.Size = new Size(665, 203);
             panelAbogadosDirectores.TabIndex = 8;
             // 
-            // label11
+            // checkBoxAbogadosDirectores
             // 
-            label11.AutoSize = true;
-            label11.BackColor = Color.White;
-            label11.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label11.Location = new Point(26, 57);
-            label11.Name = "label11";
-            label11.Size = new Size(180, 19);
-            label11.TabIndex = 9;
-            label11.Text = "Abogado(s) director(es) *";
+            checkBoxAbogadosDirectores.AutoSize = true;
+            checkBoxAbogadosDirectores.BackColor = Color.White;
+            checkBoxAbogadosDirectores.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            checkBoxAbogadosDirectores.Location = new Point(23, 61);
+            checkBoxAbogadosDirectores.Name = "checkBoxAbogadosDirectores";
+            checkBoxAbogadosDirectores.Size = new Size(176, 21);
+            checkBoxAbogadosDirectores.TabIndex = 85;
+            checkBoxAbogadosDirectores.Text = "Abogado(s) Director(es)";
+            checkBoxAbogadosDirectores.UseVisualStyleBackColor = false;
+            // 
+            // btnAgregarAbogadosDirectores
+            // 
+            btnAgregarAbogadosDirectores.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarAbogadosDirectores.BackColor = Color.FromArgb(234, 240, 253);
+            btnAgregarAbogadosDirectores.BackgroundColor = Color.FromArgb(234, 240, 253);
+            btnAgregarAbogadosDirectores.BorderColor = Color.Empty;
+            btnAgregarAbogadosDirectores.BorderRadius = 32;
+            btnAgregarAbogadosDirectores.BorderSize = 1;
+            btnAgregarAbogadosDirectores.FlatAppearance.BorderSize = 0;
+            btnAgregarAbogadosDirectores.FlatStyle = FlatStyle.Flat;
+            btnAgregarAbogadosDirectores.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarAbogadosDirectores.ForeColor = Color.FromArgb(52, 109, 235);
+            btnAgregarAbogadosDirectores.Image = Properties.Resources.plus_pequeno;
+            btnAgregarAbogadosDirectores.ImageAlign = ContentAlignment.MiddleRight;
+            btnAgregarAbogadosDirectores.Location = new Point(544, 50);
+            btnAgregarAbogadosDirectores.Name = "btnAgregarAbogadosDirectores";
+            btnAgregarAbogadosDirectores.Padding = new Padding(3, 0, 0, 0);
+            btnAgregarAbogadosDirectores.Size = new Size(96, 32);
+            btnAgregarAbogadosDirectores.TabIndex = 84;
+            btnAgregarAbogadosDirectores.Text = "  Agregar";
+            btnAgregarAbogadosDirectores.TextAlign = ContentAlignment.MiddleLeft;
+            btnAgregarAbogadosDirectores.TextColor = Color.FromArgb(52, 109, 235);
+            btnAgregarAbogadosDirectores.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnAgregarAbogadosDirectores.UseVisualStyleBackColor = false;
+            btnAgregarAbogadosDirectores.Click += btnAgregarAbogadosDirectores_Click;
             // 
             // dtgAbogadosDirectores
             // 
@@ -1491,6 +1611,8 @@ namespace Presentacion.Reportes
             dtgAbogadosDirectores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgAbogadosDirectores.Size = new Size(619, 100);
             dtgAbogadosDirectores.TabIndex = 8;
+            dtgAbogadosDirectores.CellClick += dtgAbogadosDirectores_CellClick;
+            dtgAbogadosDirectores.DataBindingComplete += dtgAbogadosDirectores_DataBindingComplete;
             // 
             // roundedButton15
             // 
@@ -1539,8 +1661,9 @@ namespace Presentacion.Reportes
             // 
             panelAbogadosAsistentes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelAbogadosAsistentes.BackColor = Color.FromArgb(250, 249, 246);
-            panelAbogadosAsistentes.Controls.Add(dataGridView4);
-            panelAbogadosAsistentes.Controls.Add(label13);
+            panelAbogadosAsistentes.Controls.Add(checkBoxAbogadoAsistente);
+            panelAbogadosAsistentes.Controls.Add(btnAgregarAbogadoAsistente);
+            panelAbogadosAsistentes.Controls.Add(dtgAbogadosAsistentes);
             panelAbogadosAsistentes.Controls.Add(roundedButton16);
             panelAbogadosAsistentes.Controls.Add(panelHeader);
             panelAbogadosAsistentes.Location = new Point(3, 1480);
@@ -1548,19 +1671,57 @@ namespace Presentacion.Reportes
             panelAbogadosAsistentes.Size = new Size(665, 203);
             panelAbogadosAsistentes.TabIndex = 14;
             // 
-            // dataGridView4
+            // checkBoxAbogadoAsistente
             // 
-            dataGridView4.AllowUserToAddRows = false;
-            dataGridView4.AllowUserToDeleteRows = false;
-            dataGridView4.AllowUserToResizeRows = false;
+            checkBoxAbogadoAsistente.AutoSize = true;
+            checkBoxAbogadoAsistente.BackColor = Color.White;
+            checkBoxAbogadoAsistente.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            checkBoxAbogadoAsistente.Location = new Point(23, 61);
+            checkBoxAbogadoAsistente.Name = "checkBoxAbogadoAsistente";
+            checkBoxAbogadoAsistente.Size = new Size(176, 21);
+            checkBoxAbogadoAsistente.TabIndex = 87;
+            checkBoxAbogadoAsistente.Text = "Abogado(s) Asistente(s)";
+            checkBoxAbogadoAsistente.UseVisualStyleBackColor = false;
+            // 
+            // btnAgregarAbogadoAsistente
+            // 
+            btnAgregarAbogadoAsistente.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarAbogadoAsistente.BackColor = Color.FromArgb(234, 240, 253);
+            btnAgregarAbogadoAsistente.BackgroundColor = Color.FromArgb(234, 240, 253);
+            btnAgregarAbogadoAsistente.BorderColor = Color.Empty;
+            btnAgregarAbogadoAsistente.BorderRadius = 32;
+            btnAgregarAbogadoAsistente.BorderSize = 1;
+            btnAgregarAbogadoAsistente.FlatAppearance.BorderSize = 0;
+            btnAgregarAbogadoAsistente.FlatStyle = FlatStyle.Flat;
+            btnAgregarAbogadoAsistente.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarAbogadoAsistente.ForeColor = Color.FromArgb(52, 109, 235);
+            btnAgregarAbogadoAsistente.Image = Properties.Resources.plus_pequeno;
+            btnAgregarAbogadoAsistente.ImageAlign = ContentAlignment.MiddleRight;
+            btnAgregarAbogadoAsistente.Location = new Point(544, 50);
+            btnAgregarAbogadoAsistente.Name = "btnAgregarAbogadoAsistente";
+            btnAgregarAbogadoAsistente.Padding = new Padding(3, 0, 0, 0);
+            btnAgregarAbogadoAsistente.Size = new Size(96, 32);
+            btnAgregarAbogadoAsistente.TabIndex = 86;
+            btnAgregarAbogadoAsistente.Text = "  Agregar";
+            btnAgregarAbogadoAsistente.TextAlign = ContentAlignment.MiddleLeft;
+            btnAgregarAbogadoAsistente.TextColor = Color.FromArgb(52, 109, 235);
+            btnAgregarAbogadoAsistente.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnAgregarAbogadoAsistente.UseVisualStyleBackColor = false;
+            btnAgregarAbogadoAsistente.Click += btnAgregarAbogadoAsistente_Click;
+            // 
+            // dtgAbogadosAsistentes
+            // 
+            dtgAbogadosAsistentes.AllowUserToAddRows = false;
+            dtgAbogadosAsistentes.AllowUserToDeleteRows = false;
+            dtgAbogadosAsistentes.AllowUserToResizeRows = false;
             dataGridViewCellStyle33.BackColor = Color.FromArgb(249, 247, 242);
-            dataGridView4.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle33;
-            dataGridView4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView4.BackgroundColor = Color.White;
-            dataGridView4.BorderStyle = BorderStyle.None;
-            dataGridView4.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dataGridView4.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dtgAbogadosAsistentes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle33;
+            dtgAbogadosAsistentes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtgAbogadosAsistentes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgAbogadosAsistentes.BackgroundColor = Color.White;
+            dtgAbogadosAsistentes.BorderStyle = BorderStyle.None;
+            dtgAbogadosAsistentes.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgAbogadosAsistentes.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle34.BackColor = Color.FromArgb(250, 248, 245);
             dataGridViewCellStyle34.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -1568,13 +1729,13 @@ namespace Presentacion.Reportes
             dataGridViewCellStyle34.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle34.SelectionForeColor = Color.Black;
             dataGridViewCellStyle34.WrapMode = DataGridViewTriState.True;
-            dataGridView4.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle34;
-            dataGridView4.ColumnHeadersHeight = 40;
-            dataGridView4.EnableHeadersVisualStyles = false;
-            dataGridView4.Location = new Point(30, 88);
-            dataGridView4.MinimumSize = new Size(619, 100);
-            dataGridView4.MultiSelect = false;
-            dataGridView4.Name = "dataGridView4";
+            dtgAbogadosAsistentes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle34;
+            dtgAbogadosAsistentes.ColumnHeadersHeight = 40;
+            dtgAbogadosAsistentes.EnableHeadersVisualStyles = false;
+            dtgAbogadosAsistentes.Location = new Point(30, 88);
+            dtgAbogadosAsistentes.MinimumSize = new Size(619, 100);
+            dtgAbogadosAsistentes.MultiSelect = false;
+            dtgAbogadosAsistentes.Name = "dtgAbogadosAsistentes";
             dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle35.BackColor = Color.White;
             dataGridViewCellStyle35.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -1582,29 +1743,20 @@ namespace Presentacion.Reportes
             dataGridViewCellStyle35.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle35.SelectionForeColor = Color.Black;
             dataGridViewCellStyle35.WrapMode = DataGridViewTriState.True;
-            dataGridView4.RowHeadersDefaultCellStyle = dataGridViewCellStyle35;
-            dataGridView4.RowHeadersVisible = false;
+            dtgAbogadosAsistentes.RowHeadersDefaultCellStyle = dataGridViewCellStyle35;
+            dtgAbogadosAsistentes.RowHeadersVisible = false;
             dataGridViewCellStyle36.BackColor = Color.White;
             dataGridViewCellStyle36.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle36.ForeColor = Color.FromArgb(60, 60, 60);
             dataGridViewCellStyle36.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle36.SelectionForeColor = Color.Black;
-            dataGridView4.RowsDefaultCellStyle = dataGridViewCellStyle36;
-            dataGridView4.RowTemplate.Height = 45;
-            dataGridView4.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView4.Size = new Size(619, 100);
-            dataGridView4.TabIndex = 6;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.BackColor = Color.White;
-            label13.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label13.Location = new Point(38, 57);
-            label13.Name = "label13";
-            label13.Size = new Size(178, 19);
-            label13.TabIndex = 8;
-            label13.Text = "Abogado(s) Asistente(s) *";
+            dtgAbogadosAsistentes.RowsDefaultCellStyle = dataGridViewCellStyle36;
+            dtgAbogadosAsistentes.RowTemplate.Height = 45;
+            dtgAbogadosAsistentes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgAbogadosAsistentes.Size = new Size(619, 100);
+            dtgAbogadosAsistentes.TabIndex = 6;
+            dtgAbogadosAsistentes.CellClick += dtgAbogadosAsistentes_CellClick;
+            dtgAbogadosAsistentes.DataBindingComplete += dtgAbogadosAsistentes_DataBindingComplete;
             // 
             // roundedButton16
             // 
@@ -1659,8 +1811,9 @@ namespace Presentacion.Reportes
             // 
             panelSociosResponsables.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelSociosResponsables.BackColor = Color.FromArgb(250, 249, 246);
-            panelSociosResponsables.Controls.Add(label12);
-            panelSociosResponsables.Controls.Add(dataGridView5);
+            panelSociosResponsables.Controls.Add(checkBoxSociosResponsables);
+            panelSociosResponsables.Controls.Add(btnAgregarSocioResponsable);
+            panelSociosResponsables.Controls.Add(dtgSociosResponsables);
             panelSociosResponsables.Controls.Add(roundedButton19);
             panelSociosResponsables.Controls.Add(panelHeaderSocios);
             panelSociosResponsables.Location = new Point(3, 1689);
@@ -1668,30 +1821,57 @@ namespace Presentacion.Reportes
             panelSociosResponsables.Size = new Size(665, 203);
             panelSociosResponsables.TabIndex = 13;
             // 
-            // label12
+            // checkBoxSociosResponsables
             // 
-            label12.AutoSize = true;
-            label12.BackColor = Color.White;
-            label12.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label12.Location = new Point(35, 67);
-            label12.Name = "label12";
-            label12.Size = new Size(176, 19);
-            label12.TabIndex = 8;
-            label12.Text = "Socio(s) Responsable(s) *";
+            checkBoxSociosResponsables.AutoSize = true;
+            checkBoxSociosResponsables.BackColor = Color.White;
+            checkBoxSociosResponsables.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            checkBoxSociosResponsables.Location = new Point(23, 70);
+            checkBoxSociosResponsables.Name = "checkBoxSociosResponsables";
+            checkBoxSociosResponsables.Size = new Size(173, 21);
+            checkBoxSociosResponsables.TabIndex = 89;
+            checkBoxSociosResponsables.Text = "Socio(s) Responsable(s)";
+            checkBoxSociosResponsables.UseVisualStyleBackColor = false;
             // 
-            // dataGridView5
+            // btnAgregarSocioResponsable
             // 
-            dataGridView5.AllowUserToAddRows = false;
-            dataGridView5.AllowUserToDeleteRows = false;
-            dataGridView5.AllowUserToResizeRows = false;
+            btnAgregarSocioResponsable.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAgregarSocioResponsable.BackColor = Color.FromArgb(234, 240, 253);
+            btnAgregarSocioResponsable.BackgroundColor = Color.FromArgb(234, 240, 253);
+            btnAgregarSocioResponsable.BorderColor = Color.Empty;
+            btnAgregarSocioResponsable.BorderRadius = 32;
+            btnAgregarSocioResponsable.BorderSize = 1;
+            btnAgregarSocioResponsable.FlatAppearance.BorderSize = 0;
+            btnAgregarSocioResponsable.FlatStyle = FlatStyle.Flat;
+            btnAgregarSocioResponsable.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarSocioResponsable.ForeColor = Color.FromArgb(52, 109, 235);
+            btnAgregarSocioResponsable.Image = Properties.Resources.plus_pequeno;
+            btnAgregarSocioResponsable.ImageAlign = ContentAlignment.MiddleRight;
+            btnAgregarSocioResponsable.Location = new Point(544, 59);
+            btnAgregarSocioResponsable.Name = "btnAgregarSocioResponsable";
+            btnAgregarSocioResponsable.Padding = new Padding(3, 0, 0, 0);
+            btnAgregarSocioResponsable.Size = new Size(96, 32);
+            btnAgregarSocioResponsable.TabIndex = 88;
+            btnAgregarSocioResponsable.Text = "  Agregar";
+            btnAgregarSocioResponsable.TextAlign = ContentAlignment.MiddleLeft;
+            btnAgregarSocioResponsable.TextColor = Color.FromArgb(52, 109, 235);
+            btnAgregarSocioResponsable.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnAgregarSocioResponsable.UseVisualStyleBackColor = false;
+            btnAgregarSocioResponsable.Click += btnAgregarSocioResponsable_Click;
+            // 
+            // dtgSociosResponsables
+            // 
+            dtgSociosResponsables.AllowUserToAddRows = false;
+            dtgSociosResponsables.AllowUserToDeleteRows = false;
+            dtgSociosResponsables.AllowUserToResizeRows = false;
             dataGridViewCellStyle37.BackColor = Color.FromArgb(249, 247, 242);
-            dataGridView5.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle37;
-            dataGridView5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView5.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView5.BackgroundColor = Color.White;
-            dataGridView5.BorderStyle = BorderStyle.None;
-            dataGridView5.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dataGridView5.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dtgSociosResponsables.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle37;
+            dtgSociosResponsables.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtgSociosResponsables.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgSociosResponsables.BackgroundColor = Color.White;
+            dtgSociosResponsables.BorderStyle = BorderStyle.None;
+            dtgSociosResponsables.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgSociosResponsables.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle38.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle38.BackColor = Color.FromArgb(250, 248, 245);
             dataGridViewCellStyle38.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -1699,13 +1879,13 @@ namespace Presentacion.Reportes
             dataGridViewCellStyle38.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle38.SelectionForeColor = Color.Black;
             dataGridViewCellStyle38.WrapMode = DataGridViewTriState.True;
-            dataGridView5.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle38;
-            dataGridView5.ColumnHeadersHeight = 40;
-            dataGridView5.EnableHeadersVisualStyles = false;
-            dataGridView5.Location = new Point(30, 97);
-            dataGridView5.MinimumSize = new Size(619, 100);
-            dataGridView5.MultiSelect = false;
-            dataGridView5.Name = "dataGridView5";
+            dtgSociosResponsables.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle38;
+            dtgSociosResponsables.ColumnHeadersHeight = 40;
+            dtgSociosResponsables.EnableHeadersVisualStyles = false;
+            dtgSociosResponsables.Location = new Point(30, 97);
+            dtgSociosResponsables.MinimumSize = new Size(619, 100);
+            dtgSociosResponsables.MultiSelect = false;
+            dtgSociosResponsables.Name = "dtgSociosResponsables";
             dataGridViewCellStyle39.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle39.BackColor = Color.White;
             dataGridViewCellStyle39.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -1713,18 +1893,20 @@ namespace Presentacion.Reportes
             dataGridViewCellStyle39.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle39.SelectionForeColor = Color.Black;
             dataGridViewCellStyle39.WrapMode = DataGridViewTriState.True;
-            dataGridView5.RowHeadersDefaultCellStyle = dataGridViewCellStyle39;
-            dataGridView5.RowHeadersVisible = false;
+            dtgSociosResponsables.RowHeadersDefaultCellStyle = dataGridViewCellStyle39;
+            dtgSociosResponsables.RowHeadersVisible = false;
             dataGridViewCellStyle40.BackColor = Color.White;
             dataGridViewCellStyle40.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle40.ForeColor = Color.FromArgb(60, 60, 60);
             dataGridViewCellStyle40.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle40.SelectionForeColor = Color.Black;
-            dataGridView5.RowsDefaultCellStyle = dataGridViewCellStyle40;
-            dataGridView5.RowTemplate.Height = 45;
-            dataGridView5.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView5.Size = new Size(619, 100);
-            dataGridView5.TabIndex = 6;
+            dtgSociosResponsables.RowsDefaultCellStyle = dataGridViewCellStyle40;
+            dtgSociosResponsables.RowTemplate.Height = 45;
+            dtgSociosResponsables.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgSociosResponsables.Size = new Size(619, 100);
+            dtgSociosResponsables.TabIndex = 6;
+            dtgSociosResponsables.CellClick += dtgSociosResponsables_CellClick;
+            dtgSociosResponsables.DataBindingComplete += dtgSociosResponsables_DataBindingComplete;
             // 
             // roundedButton19
             // 
@@ -1780,7 +1962,7 @@ namespace Presentacion.Reportes
             checkBoxSoloTerminados.Anchor = AnchorStyles.Top;
             checkBoxSoloTerminados.AutoSize = true;
             checkBoxSoloTerminados.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            checkBoxSoloTerminados.Location = new Point(403, 104);
+            checkBoxSoloTerminados.Location = new Point(405, 172);
             checkBoxSoloTerminados.Name = "checkBoxSoloTerminados";
             checkBoxSoloTerminados.Size = new Size(109, 38);
             checkBoxSoloTerminados.TabIndex = 70;
@@ -1792,7 +1974,7 @@ namespace Presentacion.Reportes
             checkBoxIncluirRelacionados.Anchor = AnchorStyles.Top;
             checkBoxIncluirRelacionados.AutoSize = true;
             checkBoxIncluirRelacionados.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            checkBoxIncluirRelacionados.Location = new Point(208, 104);
+            checkBoxIncluirRelacionados.Location = new Point(210, 172);
             checkBoxIncluirRelacionados.Name = "checkBoxIncluirRelacionados";
             checkBoxIncluirRelacionados.Size = new Size(157, 38);
             checkBoxIncluirRelacionados.TabIndex = 66;
@@ -1805,7 +1987,7 @@ namespace Presentacion.Reportes
             comboBoxTieneRelacion.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxTieneRelacion.FormattingEnabled = true;
             comboBoxTieneRelacion.Items.AddRange(new object[] { "Todos", "Solo casos vinculados", "Solo casos sin vinculación" });
-            comboBoxTieneRelacion.Location = new Point(4, 133);
+            comboBoxTieneRelacion.Location = new Point(6, 201);
             comboBoxTieneRelacion.Name = "comboBoxTieneRelacion";
             comboBoxTieneRelacion.Size = new Size(170, 23);
             comboBoxTieneRelacion.TabIndex = 63;
@@ -1815,7 +1997,7 @@ namespace Presentacion.Reportes
             checkBoxTieneReferencia.Anchor = AnchorStyles.Top;
             checkBoxTieneReferencia.AutoSize = true;
             checkBoxTieneReferencia.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            checkBoxTieneReferencia.Location = new Point(4, 104);
+            checkBoxTieneReferencia.Location = new Point(6, 172);
             checkBoxTieneReferencia.Name = "checkBoxTieneReferencia";
             checkBoxTieneReferencia.Size = new Size(153, 21);
             checkBoxTieneReferencia.TabIndex = 64;
@@ -1873,7 +2055,7 @@ namespace Presentacion.Reportes
             checkBoxEstado.Anchor = AnchorStyles.Top;
             checkBoxEstado.AutoSize = true;
             checkBoxEstado.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            checkBoxEstado.Location = new Point(381, 247);
+            checkBoxEstado.Location = new Point(383, 315);
             checkBoxEstado.Name = "checkBoxEstado";
             checkBoxEstado.Size = new Size(68, 21);
             checkBoxEstado.TabIndex = 26;
@@ -1885,7 +2067,7 @@ namespace Presentacion.Reportes
             txtEstado.Anchor = AnchorStyles.Top;
             txtEstado.BorderStyle = BorderStyle.None;
             txtEstado.Font = new Font("Segoe UI", 9F);
-            txtEstado.Location = new Point(386, 280);
+            txtEstado.Location = new Point(388, 348);
             txtEstado.Name = "txtEstado";
             txtEstado.PlaceholderText = "...";
             txtEstado.Size = new Size(156, 16);
@@ -1904,7 +2086,7 @@ namespace Presentacion.Reportes
             roundedButton5.FlatStyle = FlatStyle.Flat;
             roundedButton5.ForeColor = Color.White;
             roundedButton5.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton5.Location = new Point(381, 267);
+            roundedButton5.Location = new Point(383, 335);
             roundedButton5.Name = "roundedButton5";
             roundedButton5.Size = new Size(170, 40);
             roundedButton5.TabIndex = 25;
@@ -1916,7 +2098,7 @@ namespace Presentacion.Reportes
             checkBoxNotificador.Anchor = AnchorStyles.Top;
             checkBoxNotificador.AutoSize = true;
             checkBoxNotificador.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            checkBoxNotificador.Location = new Point(196, 247);
+            checkBoxNotificador.Location = new Point(198, 315);
             checkBoxNotificador.Name = "checkBoxNotificador";
             checkBoxNotificador.Size = new Size(97, 21);
             checkBoxNotificador.TabIndex = 22;
@@ -1928,7 +2110,7 @@ namespace Presentacion.Reportes
             checkBoxOficial.Anchor = AnchorStyles.Top;
             checkBoxOficial.AutoSize = true;
             checkBoxOficial.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            checkBoxOficial.Location = new Point(6, 247);
+            checkBoxOficial.Location = new Point(8, 315);
             checkBoxOficial.Name = "checkBoxOficial";
             checkBoxOficial.Size = new Size(67, 21);
             checkBoxOficial.TabIndex = 21;
@@ -1940,7 +2122,7 @@ namespace Presentacion.Reportes
             checkBoxJuzgado.Anchor = AnchorStyles.Top;
             checkBoxJuzgado.AutoSize = true;
             checkBoxJuzgado.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            checkBoxJuzgado.Location = new Point(4, 175);
+            checkBoxJuzgado.Location = new Point(6, 243);
             checkBoxJuzgado.Name = "checkBoxJuzgado";
             checkBoxJuzgado.Size = new Size(78, 21);
             checkBoxJuzgado.TabIndex = 20;
@@ -1964,7 +2146,7 @@ namespace Presentacion.Reportes
             txtNotificador.Anchor = AnchorStyles.Top;
             txtNotificador.BorderStyle = BorderStyle.None;
             txtNotificador.Font = new Font("Segoe UI", 9F);
-            txtNotificador.Location = new Point(201, 280);
+            txtNotificador.Location = new Point(203, 348);
             txtNotificador.Name = "txtNotificador";
             txtNotificador.PlaceholderText = "...";
             txtNotificador.Size = new Size(156, 16);
@@ -1983,7 +2165,7 @@ namespace Presentacion.Reportes
             roundedButton4.FlatStyle = FlatStyle.Flat;
             roundedButton4.ForeColor = Color.White;
             roundedButton4.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton4.Location = new Point(196, 267);
+            roundedButton4.Location = new Point(198, 335);
             roundedButton4.Name = "roundedButton4";
             roundedButton4.Size = new Size(170, 40);
             roundedButton4.TabIndex = 17;
@@ -1995,7 +2177,7 @@ namespace Presentacion.Reportes
             txtOficial.Anchor = AnchorStyles.Top;
             txtOficial.BorderStyle = BorderStyle.None;
             txtOficial.Font = new Font("Segoe UI", 9F);
-            txtOficial.Location = new Point(11, 284);
+            txtOficial.Location = new Point(13, 352);
             txtOficial.Name = "txtOficial";
             txtOficial.PlaceholderText = "...";
             txtOficial.Size = new Size(156, 16);
@@ -2014,7 +2196,7 @@ namespace Presentacion.Reportes
             roundedButton2.FlatStyle = FlatStyle.Flat;
             roundedButton2.ForeColor = Color.White;
             roundedButton2.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton2.Location = new Point(6, 271);
+            roundedButton2.Location = new Point(8, 339);
             roundedButton2.Name = "roundedButton2";
             roundedButton2.Size = new Size(170, 40);
             roundedButton2.TabIndex = 14;
@@ -2076,14 +2258,6 @@ namespace Presentacion.Reportes
             checkBoxRama.Text = " Rama Judicial";
             checkBoxRama.UseVisualStyleBackColor = true;
             // 
-            // panel3
-            // 
-            panel3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            panel3.Location = new Point(698, 191);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(45, 137);
-            panel3.TabIndex = 27;
-            // 
             // FrmReportes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -2125,18 +2299,18 @@ namespace Presentacion.Reportes
             panelHeaderTerceros.ResumeLayout(false);
             panelContactosEmpresas.ResumeLayout(false);
             panelContactosEmpresas.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgContactoEmpresa).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dtgContactosEmpresa).EndInit();
             panel2.ResumeLayout(false);
             panelAbogadosDirectores.ResumeLayout(false);
             panelAbogadosDirectores.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgAbogadosDirectores).EndInit();
             panelAbogadosAsistentes.ResumeLayout(false);
             panelAbogadosAsistentes.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dtgAbogadosAsistentes).EndInit();
             panelHeader.ResumeLayout(false);
             panelSociosResponsables.ResumeLayout(false);
             panelSociosResponsables.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dtgSociosResponsables).EndInit();
             panelHeaderSocios.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -2161,12 +2335,11 @@ namespace Presentacion.Reportes
         private CheckBox checkBoxRama;
         private CheckBox checkBoxNotificador;
         private Clases.RoundedButton btnEditarCaso;
-        private Clases.RoundedButton btnVerHistorial;
-        private Clases.RoundedButton btnVerArchivos;
+        private Clases.RoundedButton btnExportarExcel;
+        private Clases.RoundedButton btnExportarPdf;
         private CheckBox checkBoxEstado;
         private TextBox txtEstado;
         private Clases.RoundedButton roundedButton5;
-        private Panel panel3;
         private Clases.RoundedButton roundedButton6;
         private ComboBox comboBoxSubrama;
         private CheckBox checkBoxSubrama;
@@ -2195,29 +2368,26 @@ namespace Presentacion.Reportes
         private Panel panelHeaderTerceros;
         private Clases.RoundedButton roundedButton17;
         private Panel panelContactosEmpresas;
-        private DataGridView dtgContactoEmpresa;
+        private DataGridView dtgContactosEmpresa;
         private Clases.RoundedButton btnAgregarContactoEmpresa;
-        private Label label10;
         private Clases.RoundedButton roundedButton12;
         private Panel panel2;
         private Clases.RoundedButton roundedButton20;
         private Panel panelAbogadosDirectores;
         private Clases.RoundedButton btnAgregarAbogadosDirectores;
-        private Label label11;
         private DataGridView dtgAbogadosDirectores;
         private Clases.RoundedButton roundedButton15;
         private Clases.RoundedButton roundedButton18;
         private Panel panelAbogadosAsistentes;
         private Clases.RoundedButton btnAgregarAbogadosAsistentes;
-        private DataGridView dataGridView4;
-        private Label label13;
+        private DataGridView dtgAbogadosAsistentes;
         private Clases.RoundedButton roundedButton16;
         private Panel panelHeader;
         private Clases.RoundedButton roundedButton14;
         private Panel panelSociosResponsables;
         private Clases.RoundedButton btnAgregarSociosResponsables;
         private Label label12;
-        private DataGridView dataGridView5;
+        private DataGridView dtgSociosResponsables;
         private Clases.RoundedButton roundedButton19;
         private Panel panelHeaderSocios;
         private Clases.RoundedButton roundedButton21;
@@ -2247,5 +2417,16 @@ namespace Presentacion.Reportes
         private Clases.RoundedButton btnAgregarAutoridadesImpugnadas;
         private CheckBox checkBoxTercerosInteresados;
         private Clases.RoundedButton btnAgregarTercerosInteresados;
+        private CheckBox checkBoxContactosEmpresa;
+        private Clases.RoundedButton btnAgregarContactosEmpresa;
+        private CheckBox checkBoxAbogadosDirectores;
+        private CheckBox checkBoxAbogadoAsistente;
+        private Clases.RoundedButton btnAgregarAbogadoAsistente;
+        private CheckBox checkBoxSociosResponsables;
+        private Clases.RoundedButton btnAgregarSocioResponsable;
+        private ComboBox comboBoxMotivoCasacion;
+        private CheckBox checkBoxMotivoCasacion;
+        private ComboBox comboBoxTitulo;
+        private CheckBox checkBoxTitulo;
     }
 }

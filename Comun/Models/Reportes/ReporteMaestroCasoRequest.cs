@@ -49,5 +49,8 @@ namespace Comun.Models.Reportes
 
         public int? IncluirRelacionados { get; set; } = 0;
         public int? NivelRelacion { get; set; } = 1;
+
+        public string? MotivoCasacion { get; set; }
+        public string? Titulo { get; set; }
     }
 }

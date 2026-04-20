@@ -47,6 +47,8 @@ namespace Dominio.Entidades.Reportes
                 req.OrganoJudicial = NormalizarTexto(req.OrganoJudicial);
                 req.Oficial = NormalizarTexto(req.Oficial);
                 req.Notificador = NormalizarTexto(req.Notificador);
+                req.MotivoCasacion= NormalizarTexto(req.MotivoCasacion);
+                req.Titulo = NormalizarTexto(req.Titulo);
                 req.TipoReferencia = NormalizarTexto(req.TipoReferencia);
                 req.FechaDesde = NormalizarTexto(req.FechaDesde);
                 req.FechaHasta = NormalizarTexto(req.FechaHasta);

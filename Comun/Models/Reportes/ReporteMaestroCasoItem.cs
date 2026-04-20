@@ -8,7 +8,7 @@ namespace Comun.Models.Reportes
 {
     public class ReporteMaestroCasoItem
     {
-        public int? id { get; set; }
+        //public int? id { get; set; }
         public string? expediente { get; set; }
         public string? nombre_particular { get; set; }
         public string? tipo_instancia { get; set; }
@@ -18,14 +18,15 @@ namespace Comun.Models.Reportes
         //public string? estado_caso { get; set; }
         public string? causa { get; set; }
         public string? titulo { get; set; }
+        public string? motivo_casacion { get; set; }
         //public int? modulo_id { get; set; }
         public string? rama { get; set; }
         //public string? rama_slug { get; set; }
         public string? estado_actual { get; set; }
         public string? origen_actual { get; set; }
         //public string? fecha_ultimo_movimiento { get; set; }
-        public string? fecha_vencimiento { get; set; }
-        public int tiene_referencia { get; set; }
+        //public string? fecha_vencimiento { get; set; }
+        //public int tiene_referencia { get; set; }
         public string? abogados_directores { get; set; }
         public string? socios_responsables { get; set; }
         public string? abogados_asistentes { get; set; }
@@ -37,6 +38,6 @@ namespace Comun.Models.Reportes
         public string? contactos_empresa { get; set; }
         public string? referencias { get; set; }
         public string? ultima_anotacion { get; set; }
-        public int nivel_relacion { get; set; }
+        //public int nivel_relacion { get; set; }
     }
 }

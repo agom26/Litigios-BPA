@@ -251,7 +251,7 @@ namespace Presentacion.Reportes.BuscarPersonaForm
             }
         }
 
-        private async void BuscarPersonaForm_Load(object sender, EventArgs e)
+        private void BuscarPersonaForm_Load(object sender, EventArgs e)
         {
             dtgPersonas.DataSource = bsPersonas;
             //await Filtrar();

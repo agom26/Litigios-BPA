@@ -179,6 +179,9 @@
     <Compile Update="Reportes\BuscarPersonaForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Reportes\BuscarAbogadoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

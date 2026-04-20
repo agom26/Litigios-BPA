@@ -1,4 +1,5 @@
-﻿using Comun;
+﻿using ClosedXML.Excel;
+using Comun;
 using Comun.Models;
 using Comun.Models.Reportes;
 using DocumentFormat.OpenXml.EMMA;
@@ -6,10 +7,13 @@ using Dominio.Entidades.Reportes;
 using Presentacion.Casos.Civiles.Proceso_ejecucion;
 using Presentacion.Casos.Participantes;
 using Presentacion.Reportes.BuscarPersonaForm;
+using PuppeteerSharp;
+using PuppeteerSharp.Media;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -193,6 +197,82 @@ namespace Presentacion.Reportes
             dtgTercerosInteresados.CellClick += dtgTercerosInteresados_CellClick;
         }
 
+        private void alistarListaContactosEmpresa()
+        {
+            dtgContactosEmpresa.DataSource = listaContactosEmpresa;
+
+            dtgContactosEmpresa.AllowUserToAddRows = false;
+            dtgContactosEmpresa.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgContactosEmpresa.DataSource = listaContactosEmpresa;
+
+            listaContactosEmpresa.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewContactosEmpresa();
+            };
+
+            CrearBotonQuitarContactosEmpresa();
+            dtgContactosEmpresa.CellClick -= dtgContactosEmpresa_CellClick;
+            dtgContactosEmpresa.CellClick += dtgContactosEmpresa_CellClick;
+        }
+
+        private void alistarListaAbogadosDirectores()
+        {
+            dtgAbogadosDirectores.DataSource = listaAbogadosDirectores;
+
+            dtgAbogadosDirectores.AllowUserToAddRows = false;
+            dtgAbogadosDirectores.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgAbogadosDirectores.DataSource = listaAbogadosDirectores;
+
+            listaAbogadosDirectores.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewAbogadosDirectores();
+            };
+
+            CrearBotonQuitarAbogadosDirectores();
+            dtgAbogadosDirectores.CellClick -= dtgAbogadosDirectores_CellClick;
+            dtgAbogadosDirectores.CellClick += dtgAbogadosDirectores_CellClick;
+        }
+
+        private void alistarListaAbogadosAsistentes()
+        {
+            dtgAbogadosAsistentes.DataSource = listaAbogadosAsistentes;
+
+            dtgAbogadosAsistentes.AllowUserToAddRows = false;
+            dtgAbogadosAsistentes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgAbogadosAsistentes.DataSource = listaAbogadosAsistentes;
+
+            listaAbogadosAsistentes.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewAbogadosAsistentes();
+            };
+
+            CrearBotonQuitarAbogadosAsistentes();
+            dtgAbogadosAsistentes.CellClick -= dtgAbogadosAsistentes_CellClick;
+            dtgAbogadosAsistentes.CellClick += dtgAbogadosAsistentes_CellClick;
+        }
+
+        private void alistarListaSocioResponsable()
+        {
+            dtgSociosResponsables.DataSource = listaSociosResponsables;
+
+            dtgSociosResponsables.AllowUserToAddRows = false;
+            dtgSociosResponsables.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgSociosResponsables.DataSource = listaSociosResponsables;
+
+            listaSociosResponsables.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewSociosResponsables();
+            };
+
+            CrearBotonQuitarSociosResponsables();
+            dtgSociosResponsables.CellClick -= dtgSociosResponsables_CellClick;
+            dtgSociosResponsables.CellClick += dtgSociosResponsables_CellClick;
+        }
+
         private void AjustarAlturaDataGridViewDemandantes()
         {
             dtgDemandantes2.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
@@ -257,6 +337,58 @@ namespace Presentacion.Reportes
 
             dtgTercerosInteresados.ScrollBars = ScrollBars.None;
             dtgTercerosInteresados.PerformLayout();
+        }
+
+        private void AjustarAlturaDataGridViewContactosEmpresa()
+        {
+            dtgContactosEmpresa.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgContactosEmpresa.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgContactosEmpresa.ColumnHeadersHeight;
+
+            dtgContactosEmpresa.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgContactosEmpresa.ScrollBars = ScrollBars.None;
+            dtgContactosEmpresa.PerformLayout();
+        }
+
+        private void AjustarAlturaDataGridViewAbogadosDirectores()
+        {
+            dtgAbogadosDirectores.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgAbogadosDirectores.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgAbogadosDirectores.ColumnHeadersHeight;
+
+            dtgAbogadosDirectores.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgAbogadosDirectores.ScrollBars = ScrollBars.None;
+            dtgAbogadosDirectores.PerformLayout();
+        }
+
+        private void AjustarAlturaDataGridViewAbogadosAsistentes()
+        {
+            dtgAbogadosAsistentes.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgAbogadosAsistentes.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgAbogadosAsistentes.ColumnHeadersHeight;
+
+            dtgAbogadosAsistentes.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgAbogadosAsistentes.ScrollBars = ScrollBars.None;
+            dtgAbogadosAsistentes.PerformLayout();
+        }
+
+        private void AjustarAlturaDataGridViewSociosResponsables()
+        {
+            dtgSociosResponsables.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgSociosResponsables.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgSociosResponsables.ColumnHeadersHeight;
+
+            dtgSociosResponsables.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgSociosResponsables.ScrollBars = ScrollBars.None;
+            dtgSociosResponsables.PerformLayout();
         }
 
         private void CrearBotonQuitarDemandante()
@@ -363,6 +495,90 @@ namespace Presentacion.Reportes
             }
         }
 
+        private void CrearBotonQuitarContactosEmpresa()
+        {
+            if (!dtgContactosEmpresa.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgContactosEmpresa.Columns.Add(btnQuitar);
+                dtgContactosEmpresa.Columns["Quitar"].DisplayIndex = dtgContactosEmpresa.ColumnCount - 1;
+            }
+        }
+
+        private void CrearBotonQuitarAbogadosDirectores()
+        {
+            if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgAbogadosDirectores.Columns.Add(btnQuitar);
+                dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+            }
+        }
+
+        private void CrearBotonQuitarAbogadosAsistentes()
+        {
+            if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgAbogadosAsistentes.Columns.Add(btnQuitar);
+                dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+            }
+        }
+
+        private void CrearBotonQuitarSociosResponsables()
+        {
+            if (!dtgSociosResponsables.Columns.Contains("Quitar"))
+            {
+                var btnQuitar = new DataGridViewButtonColumn
+                {
+                    Name = "Quitar",
+                    HeaderText = "",
+                    Text = "➖",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtgSociosResponsables.Columns.Add(btnQuitar);
+                dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+            }
+        }
+
         public FrmReportes()
         {
             InitializeComponent();
@@ -372,6 +588,10 @@ namespace Presentacion.Reportes
             alistarListaSolicitantes();
             alistarListaAutoridadesImpugnadas();
             alistarListaTercerosInteresados();
+            alistarListaContactosEmpresa();
+            alistarListaAbogadosDirectores();
+            alistarListaAbogadosAsistentes();
+            alistarListaSocioResponsable();
         }
 
         private void AjustarFilas()
@@ -392,11 +612,13 @@ namespace Presentacion.Reportes
             int? rama = null;
             string? subrama = null;
             string? expediente = null;
-            string? juzgado = null;
             string? notificador = null;
             string? oficial = null;
             string? estado = null;
             string? tipoReferencia = null;
+            string? motivoCasacion = null;
+            string? titulo = null;
+            var organos = new List<string>();
             int? tieneReferencia = null;
             int? incluirRelacionados = null;
             int soloTerminados = 0;
@@ -406,6 +628,9 @@ namespace Presentacion.Reportes
             List<int>? solicitantesIds = null;
             List<int>? tercerosInteresadosIds = null;
             List<int>? contactosEmpresaIds = null;
+            List<int>? abogadosDirectoresIds = null;
+            List<int>? abogadosAsistentesIds = null;
+            List<int>? sociosResponsablesIds = null;
 
             if (checkBoxRama.Checked)
             {
@@ -440,14 +665,28 @@ namespace Presentacion.Reportes
                 expediente = null;
             }
 
-            if (checkBoxJuzgado.Checked)
+
+            //organos judiciales
+            if (checkBoxJuzgado.Checked && comboBoxJuzgado.SelectedItem != null)
             {
-                juzgado = comboBoxJuzgado.SelectedItem?.ToString();
+                organos.Add(comboBoxJuzgado.SelectedItem.ToString());
             }
-            else
+
+            if (checkBoxSala.Checked && comboBoxSala.SelectedItem != null)
             {
-                juzgado = null;
+                organos.Add(comboBoxSala.SelectedItem.ToString());
             }
+
+            if (checkBoxCorte.Checked && comboBoxCorte.SelectedItem != null)
+            {
+                organos.Add(comboBoxCorte.SelectedItem.ToString());
+            }
+
+            if (checkBoxCamara.Checked && comboBoxCamara.SelectedItem != null)
+            {
+                organos.Add(comboBoxCamara.SelectedItem.ToString());
+            }
+
 
             if (checkBoxNotificador.Checked)
             {
@@ -608,6 +847,89 @@ namespace Presentacion.Reportes
                 tercerosInteresadosIds = null;
             }
 
+            if (checkBoxContactosEmpresa.Checked)
+            {
+                contactosEmpresaIds = listaContactosEmpresa
+                    .Where(x => x.id != null)
+                    .Select(x => x.id)
+                    .ToList();
+            }
+            else
+            {
+                contactosEmpresaIds = null;
+            }
+
+            if (checkBoxAbogadosDirectores.Checked)
+            {
+                abogadosDirectoresIds = listaAbogadosDirectores
+                    .Where(x => x.id != null)
+                    .Select(x => x.id)
+                    .ToList();
+            }
+            else
+            {
+                abogadosDirectoresIds = null;
+            }
+
+            if (checkBoxAbogadoAsistente.Checked)
+            {
+                abogadosAsistentesIds = listaAbogadosAsistentes
+                    .Where(x => x.id != null)
+                    .Select(x => x.id)
+                    .ToList();
+            }
+            else
+            {
+                abogadosAsistentesIds = null;
+            }
+
+            if (checkBoxSociosResponsables.Checked)
+            {
+                sociosResponsablesIds = listaSociosResponsables
+                    .Where(x => x.id != null)
+                    .Select(x => x.id)
+                    .ToList();
+            }
+            else
+            {
+                sociosResponsablesIds = null;
+            }
+
+            if (checkBoxMotivoCasacion.Checked)
+            {
+                switch (comboBoxMotivoCasacion.SelectedIndex)
+                {
+                    case 0: // Todos
+                        motivoCasacion = "FORMA";
+                        break;
+                    case 1: // Solo vinculados
+                        motivoCasacion = "FONDO";
+                        break;
+                    case 2: // Sin vinculación
+                        motivoCasacion = "FORMA Y FONDO";
+                        break;
+                }
+            }
+            else
+            {
+                motivoCasacion = null;
+            }
+
+            if (checkBoxTitulo.Checked)
+            {
+                titulo = comboBoxTitulo.SelectedItem?.ToString();
+            }
+            else
+            {
+                titulo = null;
+            }
+
+
+            // Aquí decides el separador
+            string? organosJudiciales = organos.Count > 0
+                ? string.Join(", ", organos)
+                : null;
+
             var req = new ReporteMaestroCasosRequest
             {
                 UsuarioId = usuarioId,
@@ -617,20 +939,27 @@ namespace Presentacion.Reportes
                 Origen = subrama,
                 EstadoActual = estado,
                 Expediente = expediente,
-                AbogadoDirectorIds = null,//new List<int> { 3, 4 },
+                //partes interesadas
                 DemandanteIds = demandantesIds,
                 DemandadoIds = demandadosIds,
                 SolicitanteIds = solicitantesIds,
                 AutoridadIds = autoridadesIds,
                 TerceroIds = tercerosInteresadosIds,
+                ContactoIds = contactosEmpresaIds,
+                // equipo legal
+                AbogadoDirectorIds = abogadosDirectoresIds,
+                AsistenteIds = abogadosAsistentesIds,
+                SocioIds = sociosResponsablesIds,
                 TieneReferencia = tieneReferencia,
                 TipoReferencia = tipoReferencia,
                 SoloTerminados = soloTerminados,
                 IncluirRelacionados = incluirRelacionados,
+                MotivoCasacion = motivoCasacion,
+                Titulo = titulo,
+                OrganoJudicial = organosJudiciales,
                 FechaDesde = null,
                 FechaHasta = null
             };
-
 
 
             var resp = await reporteModel.ObtenerReporteMaestroCasosExportacionRelacionados(req);
@@ -640,7 +969,11 @@ namespace Presentacion.Reportes
                 var total = resp.total;
                 var lista = resp.data;
 
+                dtgResultadosReporte.DataSource = null;
                 dtgResultadosReporte.DataSource = lista;
+
+                ConfigurarColumnasReporte(rama, titulo, motivoCasacion);
+
                 dtgResultadosReporte.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
                 dtgResultadosReporte.Refresh();
             }
@@ -649,6 +982,115 @@ namespace Presentacion.Reportes
                 var mensaje = resp.message;
                 MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void ConfigurarColumnasReporte(int? rama, string? titulo, string? motivoCasacion)
+        {
+            if (dtgResultadosReporte.Columns.Count == 0)
+                return;
+
+            // Ocultar primero las columnas opcionales
+            OcultarSiExiste("causa");
+            OcultarSiExiste("titulo");
+            OcultarSiExiste("motivo_casacion");
+            OcultarSiExiste("demandantes");
+            OcultarSiExiste("demandados");
+            OcultarSiExiste("solicitantes");
+            OcultarSiExiste("autoridades_impugnadas");
+
+            // Reglas:
+            // rama = 1 Laboral
+            // rama = 2 Civil
+            // rama = 3 Constitucional
+            // rama = 4 Contencioso Administrativo
+            // rama = null => Todas
+
+            if (rama == 3) // Constitucional
+            {
+                MostrarSiExiste("causa");
+                MostrarSiExiste("solicitantes");
+                MostrarSiExiste("autoridades_impugnadas");
+
+                OcultarSiExiste("demandantes");
+                OcultarSiExiste("demandados");
+                OcultarSiExiste("titulo");
+                OcultarSiExiste("motivo_casacion");
+            }
+            else if (rama.HasValue && rama != null) // Cualquier rama específica distinta de "Todas"
+            {
+                MostrarSiExiste("demandantes");
+                MostrarSiExiste("demandados");
+
+                OcultarSiExiste("solicitantes");
+                OcultarSiExiste("autoridades_impugnadas");
+                OcultarSiExiste("causa");
+
+                if (rama == 2) // Civil
+                {
+                    MostrarSiExiste("titulo");
+                }
+
+                if (rama == 4 //&& !string.IsNullOrWhiteSpace(motivoCasacion)
+                    ) // Contencioso + filtro motivo
+                {
+                    MostrarSiExiste("motivo_casacion");
+                }
+            }
+            else // Todas
+            {
+                // En "Todas", para evitar mezclar tipos, deja ocultas las columnas especiales
+                MostrarSiExiste("demandantes");
+                MostrarSiExiste("demandados");
+                MostrarSiExiste("solicitantes");
+                MostrarSiExiste("autoridades_impugnadas");
+                MostrarSiExiste("titulo");
+                MostrarSiExiste("motivo_casacion");
+                MostrarSiExiste("causa");
+                OcultarSiExiste("abogados_asistentes");
+            }
+
+            // Encabezados bonitos
+            RenombrarColumna("expediente", "Expediente");
+            RenombrarColumna("nombre_particular", "Nombre particular");
+            RenombrarColumna("tipo_instancia", "Tipo instancia");
+            RenombrarColumna("organo_judicial", "Organo judicial");
+            RenombrarColumna("oficial", "Oficial");
+            RenombrarColumna("notificador", "Notificador");
+            RenombrarColumna("causa", "Causa");
+            RenombrarColumna("titulo", "Titulo");
+            RenombrarColumna("motivo_casacion", "Motivo de casacion");
+            RenombrarColumna("rama", "Rama");
+            RenombrarColumna("estado_actual", "Estado actual");
+            RenombrarColumna("origen_actual", "Origen actual");
+            RenombrarColumna("abogados_directores", "Abogados directores");
+            RenombrarColumna("socios_responsables", "Socios responsables");
+            RenombrarColumna("abogados_asistentes", "Abogados asistentes");
+            RenombrarColumna("demandantes", "Demandantes");
+            RenombrarColumna("demandados", "Demandados");
+            RenombrarColumna("solicitantes", "Solicitantes");
+            RenombrarColumna("autoridades_impugnadas", "Autoridades impugnadas");
+            RenombrarColumna("terceros_interesados", "Terceros interesados");
+            RenombrarColumna("contactos_empresa", "Contactos empresa");
+            RenombrarColumna("referencias", "Referencias");
+            RenombrarColumna("ultima_anotacion", "Ultima anotacion");
+        }
+
+        private void OcultarSiExiste(string nombreColumna)
+        {
+            if (dtgResultadosReporte.Columns.Contains(nombreColumna))
+                dtgResultadosReporte.Columns[nombreColumna].Visible = false;
+        }
+
+        private void MostrarSiExiste(string nombreColumna)
+        {
+            if (dtgResultadosReporte.Columns.Contains(nombreColumna))
+                dtgResultadosReporte.Columns[nombreColumna].Visible = true;
+        }
+
+        private void RenombrarColumna(string nombreColumna, string encabezado)
+        {
+            if (dtgResultadosReporte.Columns.Contains(nombreColumna))
+                dtgResultadosReporte.Columns[nombreColumna].HeaderText = encabezado;
         }
 
         private void roundedButton6_Click(object sender, EventArgs e)
@@ -894,6 +1336,761 @@ namespace Presentacion.Reportes
             dtgTercerosInteresados.ClearSelection();
         }
 
-        
+        private void btnAgregarContactosEmpresa_Click(object sender, EventArgs e)
+        {
+            var frm = new Presentacion.Reportes.BuscarPersonaForm.BuscarPersonaForm(listaContactosEmpresa, "Contacto Empresa");
+
+            frm.ShowDialog();
+        }
+
+        private void dtgContactosEmpresa_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgContactosEmpresa.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgContactosEmpresa.Rows[e.RowIndex].DataBoundItem as PersonaListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Nombre ?? "este contacto de empresa";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de contactos de empresa?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaContactosEmpresa.Remove(item);
+                }
+            }
+        }
+
+        private void dtgContactosEmpresa_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgContactosEmpresa.Columns["id"] != null)
+            {
+                dtgContactosEmpresa.Columns["id"].Visible = false;
+            }
+            dtgContactosEmpresa.ClearSelection();
+        }
+
+        private void btnAgregarAbogadosDirectores_Click(object sender, EventArgs e)
+        {
+            var frm = new BuscarAbogadoForm(listaAbogadosDirectores, "Abogado Director");
+
+            frm.ShowDialog();
+        }
+
+        private void dtgAbogadosDirectores_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgAbogadosDirectores.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgAbogadosDirectores.Rows[e.RowIndex].DataBoundItem as UserListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Usuario ?? "este abogado director";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de abogados directores?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaAbogadosDirectores.Remove(item);
+                }
+            }
+        }
+
+        private void dtgAbogadosDirectores_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgAbogadosDirectores.Columns["id"] != null)
+            {
+                dtgAbogadosDirectores.Columns["id"].Visible = false;
+            }
+            dtgAbogadosDirectores.ClearSelection();
+        }
+
+        private void btnAgregarAbogadoAsistente_Click(object sender, EventArgs e)
+        {
+            var frm = new BuscarAbogadoForm(listaAbogadosAsistentes, "Abogado Asistente");
+
+            frm.ShowDialog();
+        }
+
+        private void dtgAbogadosAsistentes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgAbogadosAsistentes.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgAbogadosAsistentes.Rows[e.RowIndex].DataBoundItem as UserListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Usuario ?? "este abogado asistente";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de abogados asistentes?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaAbogadosAsistentes.Remove(item);
+                }
+            }
+        }
+
+        private void dtgAbogadosAsistentes_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgAbogadosAsistentes.Columns["id"] != null)
+            {
+                dtgAbogadosAsistentes.Columns["id"].Visible = false;
+            }
+            dtgAbogadosAsistentes.ClearSelection();
+        }
+
+        private void btnAgregarSocioResponsable_Click(object sender, EventArgs e)
+        {
+            var frm = new BuscarAbogadoForm(listaSociosResponsables, "Socio Responsable");
+
+            frm.ShowDialog();
+        }
+
+        private void dtgSociosResponsables_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dtgSociosResponsables.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                var item = dtgSociosResponsables.Rows[e.RowIndex].DataBoundItem as UserListDataResponse;
+                if (item == null) return;
+
+                string nombre = item.Usuario ?? "este socio responsable";
+
+                var confirm = MessageBox.Show(
+                    $"¿Desea quitar a {nombre} de la lista de socios responsables?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    listaSociosResponsables.Remove(item);
+                }
+            }
+        }
+
+        private void dtgSociosResponsables_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgSociosResponsables.Columns["id"] != null)
+            {
+                dtgSociosResponsables.Columns["id"].Visible = false;
+            }
+            dtgSociosResponsables.ClearSelection();
+        }
+        private DataTable ObtenerDataTableDesdeGrid(DataGridView dgv)
+        {
+            DataTable dt = new DataTable();
+
+            // Solo columnas visibles
+            var columnasVisibles = dgv.Columns
+                .Cast<DataGridViewColumn>()
+                .Where(c => c.Visible)
+                .OrderBy(c => c.DisplayIndex)
+                .ToList();
+
+            foreach (var col in columnasVisibles)
+            {
+                string nombreColumna = string.IsNullOrWhiteSpace(col.DataPropertyName)
+                    ? col.Name
+                    : col.DataPropertyName;
+
+                if (!dt.Columns.Contains(nombreColumna))
+                    dt.Columns.Add(nombreColumna);
+            }
+
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                DataRow dr = dt.NewRow();
+
+                foreach (var col in columnasVisibles)
+                {
+                    string nombreColumna = string.IsNullOrWhiteSpace(col.DataPropertyName)
+                        ? col.Name
+                        : col.DataPropertyName;
+
+                    var valor = row.Cells[col.Name].Value;
+                    dr[nombreColumna] = valor?.ToString() ?? "";
+                }
+
+                dt.Rows.Add(dr);
+            }
+
+            return dt;
+        }
+
+
+        private async Task CrearPdfReporteMaestroCasos(DataGridView dgv, string titulo)
+        {
+            DataTable dt = ObtenerDataTableDesdeGrid(dgv);
+
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay datos para generar el PDF");
+                return;
+            }
+
+            string chromePath = "chrome";
+
+            string[] possiblePaths =
+            {
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Google\\Chrome\\Application\\chrome.exe"),
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Google\\Chrome\\Application\\chrome.exe"),
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Google\\Chrome\\Application\\chrome.exe")
+    };
+
+            foreach (var path in possiblePaths)
+            {
+                if (File.Exists(path))
+                {
+                    chromePath = path;
+                    break;
+                }
+            }
+
+            string base64Logo;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Properties.Resources.logoBPA2.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                base64Logo = Convert.ToBase64String(ms.ToArray());
+            }
+
+            string imageHtml = $"<img src='data:image/png;base64,{base64Logo}' style='width:150px;' />";
+
+            int cantidadColumnas = dt.Columns.Count;
+
+            int bodyFontSize = cantidadColumnas >= 16 ? 8 :
+                   cantidadColumnas >= 13 ? 9 :
+                   cantidadColumnas >= 10 ? 10 : 11;
+
+            int headerFontSize = cantidadColumnas >= 16 ? 8 :
+                                 cantidadColumnas >= 13 ? 9 :
+                                 cantidadColumnas >= 10 ? 10 : 11;
+
+            int bodyPadding = cantidadColumnas >= 16 ? 4 :
+                              cantidadColumnas >= 13 ? 5 : 6;
+
+            int headerPadding = cantidadColumnas >= 16 ? 4 :
+                                cantidadColumnas >= 13 ? 5 : 6;
+
+            string headers = "";
+            foreach (DataColumn col in dt.Columns)
+            {
+                headers += $"<th>{System.Net.WebUtility.HtmlEncode(col.ColumnName.Replace("_", " ").ToUpper())}</th>";
+            }
+
+            string rows = "";
+            foreach (DataRow row in dt.Rows)
+            {
+                rows += "<tr>";
+
+                foreach (DataColumn col in dt.Columns)
+                {
+                    object value = row[col.ColumnName] ?? "";
+
+                    if (DateTime.TryParse(value.ToString(), out DateTime fecha))
+                    {
+                        value = fecha.ToString("dd/MM/yyyy HH:mm");
+                    }
+
+                    rows += $"<td>{System.Net.WebUtility.HtmlEncode(value.ToString())}</td>";
+                }
+
+                rows += "</tr>";
+            }
+
+            string html = $@"
+    <html>
+    <head>
+        <meta charset='UTF-8'>
+        <style>
+            body {{
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                color: #222;
+            }}
+
+            .header {{
+                text-align: center;
+                font-size: 20px;
+                font-weight: bold;
+                margin-bottom: 4px;
+            }}
+
+            .subheader {{
+                text-align: center;
+                margin-bottom: 10px;
+                font-size: 11px;
+            }}
+
+            .logo {{
+                text-align: center;
+                margin-bottom: 12px;
+            }}
+
+            table {{
+                border-collapse: collapse;
+                width: 100%;
+                table-layout: auto;
+            }}
+
+            thead {{
+                display: table-header-group;
+            }}
+
+            tbody {{
+                display: table-row-group;
+            }}
+
+            tr {{
+                page-break-inside: avoid !important;
+                break-inside: avoid-page !important;
+            }}
+
+            th {{
+                background-color: #274e77 !important;
+                color: white;
+                padding: {headerPadding}px;
+                border: 1px solid #d6d6d6;
+                text-align: center;
+                vertical-align: middle;
+                font-weight: 700;
+                font-size: {headerFontSize}px;
+                line-height: 1.3;
+                white-space: normal;
+                word-break: break-word;
+            }}
+
+            td {{
+                padding: {bodyPadding}px;
+                border: 1px solid #ddd;
+                vertical-align: top;
+                font-size: {bodyFontSize}px;
+                line-height: 1.2;
+                white-space: normal;
+                word-break: break-word;
+            }}
+
+            tr:nth-child(even) {{
+                background-color: #f9f9f9;
+            }}
+
+            @page {{
+                size: legal landscape;
+                margin: 12mm;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class='header'>{System.Net.WebUtility.HtmlEncode(titulo)}</div>
+        <div class='subheader'>Generado el {DateTime.Now:dd/MM/yyyy} a las {DateTime.Now:HH:mm}</div>
+
+        <div class='logo'>
+            {imageHtml}
+        </div>
+
+        <table>
+            <thead>
+                <tr>{headers}</tr>
+            </thead>
+            <tbody>
+                {rows}
+            </tbody>
+        </table>
+    </body>
+    </html>";
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "PDF Files|*.pdf",
+                FileName = titulo.Replace(" ", "_") + "_" + DateTime.Now.ToString("dd-MM-yyyy-HH-mm") + ".pdf"
+            };
+
+            if (saveFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+            {
+                Headless = true,
+                ExecutablePath = chromePath
+            });
+
+            try
+            {
+                var page = await browser.NewPageAsync();
+
+                await page.SetViewportAsync(new ViewPortOptions
+                {
+                    Width = 1600,
+                    Height = 1200,
+                    DeviceScaleFactor = 1
+                });
+
+                await page.SetContentAsync(html);
+
+                decimal scale = await CalcularEscalaPdfAsync(page);
+
+                await page.PdfAsync(saveFileDialog.FileName, new PdfOptions
+                {
+                    Format = PaperFormat.Legal,
+                    Landscape = true,
+                    PrintBackground = true,
+                    Scale = scale
+                });
+
+                MessageBox.Show("PDF generado correctamente");
+                Process.Start("explorer.exe", Path.GetDirectoryName(saveFileDialog.FileName));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar PDF: " + ex.Message);
+            }
+            finally
+            {
+                await browser.CloseAsync();
+            }
+        }
+
+        private async Task<decimal> CalcularEscalaPdfAsync(PuppeteerSharp.IPage page)
+        {
+            int anchoContenido = await page.EvaluateFunctionAsync<int>(@"() => {
+        const table = document.querySelector('table');
+        const body = document.body;
+        const html = document.documentElement;
+
+        const tableWidth = table ? table.scrollWidth : 0;
+        const bodyWidth = body ? body.scrollWidth : 0;
+        const htmlWidth = html ? html.scrollWidth : 0;
+
+        return Math.max(tableWidth, bodyWidth, htmlWidth);
+    }");
+
+            decimal anchoDisponiblePx = 1250m;
+
+            if (anchoContenido <= 0)
+                return 1.0m;
+
+            decimal scale = anchoDisponiblePx / anchoContenido;
+
+            if (scale > 1.0m)
+                scale = 1.0m;
+
+            if (scale < 0.55m)
+                scale = 0.55m;
+
+            return Math.Round(scale, 2);
+        }
+
+        /*
+        private async Task CrearPdfReporteMaestroCasos(DataGridView dgv, string titulo)
+        {
+            DataTable dt = ObtenerDataTableDesdeGrid(dgv);
+
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay datos para generar el PDF");
+                return;
+            }
+
+            string chromePath = "chrome";
+
+            string[] possiblePaths = {
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Google\\Chrome\\Application\\chrome.exe"),
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Google\\Chrome\\Application\\chrome.exe"),
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Google\\Chrome\\Application\\chrome.exe")
+    };
+
+            foreach (var path in possiblePaths)
+            {
+                if (File.Exists(path))
+                {
+                    chromePath = path;
+                    break;
+                }
+            }
+
+            string base64Logo;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Properties.Resources.logoBPA2.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                base64Logo = Convert.ToBase64String(ms.ToArray());
+            }
+
+            string imageHtml = $"<img src='data:image/png;base64,{base64Logo}' style='width:150px;' />";
+
+            string headers = "";
+            foreach (DataColumn col in dt.Columns)
+            {
+                headers += $"<th>{col.ColumnName.Replace("_", " ").ToUpper()}</th>";
+            }
+
+            string rows = "";
+            foreach (DataRow row in dt.Rows)
+            {
+                rows += "<tr>";
+
+                foreach (DataColumn col in dt.Columns)
+                {
+                    object value = row[col.ColumnName] ?? "";
+
+                    if (DateTime.TryParse(value.ToString(), out DateTime fecha))
+                    {
+                        value = fecha.ToString("dd/MM/yyyy HH:mm");
+                    }
+
+                    rows += $"<td>{System.Net.WebUtility.HtmlEncode(value.ToString())}</td>";
+                }
+
+                rows += "</tr>";
+            }
+
+            string html = $@"
+                <html>
+                <head>
+                <meta charset='UTF-8'>
+                <style>
+                    body {{
+                        font-family: Arial;
+                        font-size: 10px;
+                    }}
+
+                    .header {{
+                        text-align: center;
+                        font-size: 20px;
+                        font-weight: bold;
+                    }}
+
+                    .subheader {{
+                        text-align: center;
+                        margin-bottom: 10px;
+                    }}
+
+                    .logo {{
+                        text-align: center;
+                        margin-bottom: 10px;
+                    }}
+
+                    table {{
+                        border-collapse: collapse;
+                        width: 100%;
+                    }}
+
+                    th {{
+                        background-color: #274e77 !important;
+                        color: white;
+                        padding: 6px;
+                        border: 1px solid #ddd;
+                        text-align: center;
+                    }}
+
+                    td {{
+                        padding: 6px;
+                        border: 1px solid #ddd;
+                        vertical-align: top;
+                        word-break: break-word;
+                    }}
+
+                    tr:nth-child(even) {{
+                        background-color: #f9f9f9;
+                    }}
+
+                    @page {{
+                        size: legal landscape;
+                        margin: 12mm;
+                    }}
+                </style>
+                </head>
+
+                <body>
+                    <div class='header'>{titulo}</div>
+                    <div class='subheader'>Generado el {DateTime.Now:dd/MM/yyyy} a las {DateTime.Now:HH:mm}</div>
+
+                    <div class='logo'>
+                        {imageHtml}
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>{headers}</tr>
+                        </thead>
+                        <tbody>
+                            {rows}
+                        </tbody>
+                    </table>
+                </body>
+                </html>";
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "PDF Files|*.pdf",
+                FileName = titulo.Replace(" ", "_") + "_" + DateTime.Now.ToString("ddMMyyyy_HHmm") + ".pdf"
+            };
+
+            if (saveFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+            {
+                Headless = true,
+                ExecutablePath = chromePath
+            });
+
+            var page = await browser.NewPageAsync();
+            await page.SetContentAsync(html);
+
+            await page.PdfAsync(saveFileDialog.FileName, new PdfOptions
+            {
+                Format = PaperFormat.Legal,
+                Landscape = true,
+                PrintBackground = true,
+                Scale = 0.6m
+            });
+
+            await browser.CloseAsync();
+
+            MessageBox.Show("PDF generado correctamente");
+            Process.Start("explorer.exe", Path.GetDirectoryName(saveFileDialog.FileName));
+        }*/
+
+
+        public void ExportarReporteMaestroCasosAExcel(DataGridView dgv, string titulo)
+        {
+            DataTable dataTable = ObtenerDataTableDesdeGrid(dgv);
+
+            if (dataTable == null || dataTable.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay datos para exportar.");
+                return;
+            }
+
+            string nombre = titulo + "-" + DateTime.Now.ToString("dd-MM-yyyy-HH-mm");
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Title = "Guardar archivo Excel",
+                Filter = "Archivos Excel (*.xlsx)|*.xlsx",
+                FileName = nombre + ".xlsx"
+            };
+
+            if (saveFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            try
+            {
+                string tempLogoPath = Path.Combine(Path.GetTempPath(), "logo_temp.png");
+                Properties.Resources.logoBPA2.Save(tempLogoPath);
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var ws = workbook.Worksheets.Add("REPORTE");
+
+                    ws.Cell("E2").Value = titulo;
+                    ws.Cell("E2").Style.Font.Bold = true;
+                    ws.Cell("E2").Style.Font.FontSize = 16;
+                    ws.Cell("E2").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                    ws.Cell("E3").Value = $"Generado el {DateTime.Now:dd/MM/yyyy} a las {DateTime.Now:HH:mm}";
+                    ws.Cell("E3").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                    if (File.Exists(tempLogoPath))
+                    {
+                        ws.AddPicture(tempLogoPath)
+                          .MoveTo(ws.Cell("A2"))
+                          .Scale(0.15);
+                    }
+
+                    int startRow = 6;
+                    int colIndex = 1;
+
+                    foreach (DataColumn col in dataTable.Columns)
+                    {
+                        ws.Cell(startRow, colIndex).Value = col.ColumnName.Replace("_", " ").ToUpper();
+
+                        var cell = ws.Cell(startRow, colIndex);
+                        cell.Style.Fill.BackgroundColor = XLColor.FromHtml("#274e77");
+                        cell.Style.Font.FontColor = XLColor.White;
+                        cell.Style.Font.Bold = true;
+                        cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                        colIndex++;
+                    }
+
+                    int rowIndex = startRow + 1;
+
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        colIndex = 1;
+
+                        foreach (DataColumn col in dataTable.Columns)
+                        {
+                            object value = row[col.ColumnName] ?? "";
+
+                            if (DateTime.TryParse(value.ToString(), out DateTime fecha))
+                            {
+                                value = fecha.ToString("dd/MM/yyyy HH:mm");
+                            }
+
+                            ws.Cell(rowIndex, colIndex).Value = value.ToString();
+                            colIndex++;
+                        }
+
+                        rowIndex++;
+                    }
+
+                    var rangoTabla = ws.Range(startRow, 1, rowIndex - 1, dataTable.Columns.Count);
+                    var tabla = rangoTabla.CreateTable();
+
+                    tabla.Theme = XLTableTheme.TableStyleMedium2;
+                    tabla.ShowAutoFilter = true;
+
+                    ws.Columns().AdjustToContents();
+
+                    var rango = ws.Range(startRow, 1, rowIndex - 1, dataTable.Columns.Count);
+                    rango.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    rango.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                    workbook.SaveAs(saveFileDialog.FileName);
+                }
+
+                if (File.Exists(tempLogoPath))
+                    File.Delete(tempLogoPath);
+
+                MessageBox.Show("Excel generado correctamente");
+                Process.Start("explorer.exe", Path.GetDirectoryName(saveFileDialog.FileName));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar Excel: " + ex.Message);
+            }
+        }
+        private async void btnExportarPdf_Click(object sender, EventArgs e)
+        {
+            await CrearPdfReporteMaestroCasos(dtgResultadosReporte, "REPORTE DE CASOS");
+        }
+
+        private void btnExportarExcel_Click(object sender, EventArgs e)
+        {
+            ExportarReporteMaestroCasosAExcel(dtgResultadosReporte, "REPORTE DE CASOS");
+        }
     }
 }

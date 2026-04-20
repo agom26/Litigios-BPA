@@ -45,7 +45,7 @@ namespace AccesoDatos.Entidades.Reportes
                 { "contacto_ids", ToCsv(req.ContactoIds) },
                 { "solicitante_ids", ToCsv(req.SolicitanteIds) },
                 { "autoridad_ids", ToCsv(req.AutoridadIds) },
-
+                
                 { "tiene_referencia", req.TieneReferencia?.ToString() ?? "" },
                 { "caso_referencia_id", req.CasoReferenciaId?.ToString() ?? "" },
                 { "tipo_referencia", req.TipoReferencia ?? "" },
@@ -55,8 +55,10 @@ namespace AccesoDatos.Entidades.Reportes
                 { "fecha_hasta", req.FechaHasta ?? "" },
 
                 { "incluir_relacionados", req.IncluirRelacionados.ToString() },
-                { "nivel_relacion", req.NivelRelacion.ToString() }
-            };
+                { "nivel_relacion", req.NivelRelacion.ToString() },
+                { "motivo_casacion", req.MotivoCasacion ?? "" },
+                { "titulo", req.Titulo?? "" }
+        };
 
             using var content = new FormUrlEncodedContent(parameters);
 
