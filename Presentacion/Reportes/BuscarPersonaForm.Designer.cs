@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BuscarPersonaForm));
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             panel1 = new Panel();
             groupBox1 = new GroupBox();
             radioButtonBuscar = new RadioButton();
@@ -52,6 +52,7 @@
             panel3 = new Panel();
             btnCancelar = new Presentacion.Clases.RoundedButton();
             btnAgregarContactoEmpresa = new Presentacion.Clases.RoundedButton();
+            label1 = new Label();
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
             panel2.SuspendLayout();
@@ -114,6 +115,7 @@
             // tabPageBuscar
             // 
             tabPageBuscar.BackColor = Color.FromArgb(250, 249, 246);
+            tabPageBuscar.Controls.Add(label1);
             tabPageBuscar.Controls.Add(comboBoxRama);
             tabPageBuscar.Controls.Add(btnSiguiente);
             tabPageBuscar.Controls.Add(btnAnterior);
@@ -134,8 +136,9 @@
             // comboBoxRama
             // 
             comboBoxRama.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxRama.Enabled = false;
             comboBoxRama.FormattingEnabled = true;
-            comboBoxRama.Items.AddRange(new object[] { "Demandado", "Demandante", "Tercero Interesado", "Contacto de Empresa" });
+            comboBoxRama.Items.AddRange(new object[] { "Demandado", "Demandante", "Tercero Interesado", "Contacto de Empresa", "Solicitante", "Autoridad Impugnada" });
             comboBoxRama.Location = new Point(440, 35);
             comboBoxRama.Name = "comboBoxRama";
             comboBoxRama.Size = new Size(184, 23);
@@ -216,22 +219,22 @@
             dtgPersonas.AllowUserToAddRows = false;
             dtgPersonas.AllowUserToDeleteRows = false;
             dtgPersonas.AllowUserToResizeRows = false;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(249, 247, 242);
-            dtgPersonas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(249, 247, 242);
+            dtgPersonas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dtgPersonas.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dtgPersonas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dtgPersonas.BackgroundColor = Color.White;
             dtgPersonas.BorderStyle = BorderStyle.None;
             dtgPersonas.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgPersonas.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle6.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dtgPersonas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle2.Font = new Font("Microsoft Sans Serif", 8.25F);
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dtgPersonas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dtgPersonas.ColumnHeadersHeight = 40;
             dtgPersonas.EnableHeadersVisualStyles = false;
             dtgPersonas.Location = new Point(37, 100);
@@ -239,22 +242,22 @@
             dtgPersonas.MultiSelect = false;
             dtgPersonas.Name = "dtgPersonas";
             dtgPersonas.ReadOnly = true;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = Color.White;
-            dataGridViewCellStyle7.Font = new Font("Microsoft Sans Serif", 8.25F);
-            dataGridViewCellStyle7.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle7.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dtgPersonas.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Microsoft Sans Serif", 8.25F);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtgPersonas.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgPersonas.RowHeadersVisible = false;
             dtgPersonas.RowHeadersWidth = 62;
-            dataGridViewCellStyle8.BackColor = Color.White;
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle8.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle8.SelectionForeColor = Color.Black;
-            dtgPersonas.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle4.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
+            dtgPersonas.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dtgPersonas.RowTemplate.Height = 45;
             dtgPersonas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgPersonas.Size = new Size(611, 215);
@@ -269,9 +272,9 @@
             lblNombre.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             lblNombre.Location = new Point(26, 3);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(356, 19);
+            lblNombre.Size = new Size(204, 19);
             lblNombre.TabIndex = 7;
-            lblNombre.Text = "Buscar por expediente,  oficial, notificador, juzgado";
+            lblNombre.Text = "Buscar por nombre,dirección";
             // 
             // txtBuscarContactoEmpresa
             // 
@@ -383,6 +386,17 @@
             btnAgregarContactoEmpresa.UseVisualStyleBackColor = false;
             btnAgregarContactoEmpresa.Click += btnAgregarDemante_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.FromArgb(250, 249, 246);
+            label1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label1.Location = new Point(440, 3);
+            label1.Name = "label1";
+            label1.Size = new Size(118, 19);
+            label1.TabIndex = 17;
+            label1.Text = "Tipo de Persona";
+            // 
             // BuscarPersonaForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -429,5 +443,6 @@
         private Clases.RoundedButton btnSiguiente;
         private Clases.RoundedButton btnAnterior;
         private ComboBox comboBoxRama;
+        private Label label1;
     }
 }

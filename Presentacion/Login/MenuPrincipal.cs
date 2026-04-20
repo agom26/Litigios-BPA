@@ -27,7 +27,19 @@ namespace Presentacion
     public partial class MenuPrincipal : Form
     {
         bool menuExpandido = true;
-        
+
+        private readonly List<string> ordenModulos = new List<string>
+        {
+            "laboral",
+            "civil",
+            "constitucional",
+            "contencioso administrativo",
+            "personas involucradas",
+            "vencimientos",
+            "plazos",
+            "usuarios"
+        };
+
         public MenuPrincipal()
         {
             InitializeComponent();
@@ -142,12 +154,8 @@ namespace Presentacion
 
                 UserSession.Logout();
 
+                this.Close();
 
-                FormLogin2 login = new FormLogin2();
-                login.Show();
-
-
-                this.Dispose();
             }
         }
 
@@ -155,9 +163,16 @@ namespace Presentacion
         {
             treeView1.Nodes.Clear();
 
-            foreach (ModuloRol modulo in UserSession.Modulos)
+            var modulosUsuario = UserSession.Modulos
+                .Select(m => m.clave_slug.ToLower())
+                .ToList();
+
+            foreach (string modulo in ordenModulos)
             {
-                switch (modulo.clave_slug.ToLower())
+                if (!modulosUsuario.Contains(modulo))
+                    continue;
+
+                switch (modulo)
                 {
                     case "laboral":
                         TreeNode laboral = CrearNodo("Laboral", "laboral");
@@ -186,6 +201,7 @@ namespace Presentacion
                         oral.Nodes.Add(CrearNodo("Segunda Instancia", "civil"));
 
                         TreeNode terminados = CrearNodo("Terminados", "civil");
+
                         civil.Nodes.Add(ejecucion);
                         civil.Nodes.Add(sumario);
                         civil.Nodes.Add(oral);
@@ -198,7 +214,6 @@ namespace Presentacion
                         TreeNode constitucional = CrearNodo("Constitucional", "constitucional");
                         constitucional.Nodes.Add(CrearNodo("Amparo", "constitucional"));
                         constitucional.Nodes.Add(CrearNodo("Terminados", "constitucional"));
-
                         treeView1.Nodes.Add(constitucional);
                         break;
 
@@ -212,7 +227,6 @@ namespace Presentacion
                         break;
 
                     case "personas involucradas":
-
                         TreeNode personas = CrearNodo("Personas involucradas", "personas");
                         personas.Nodes.Add(CrearNodo("Demandados / Autoridad Responsable", "personas"));
                         personas.Nodes.Add(CrearNodo("Demandantes / Actor", "personas"));
@@ -447,7 +461,7 @@ namespace Presentacion
 
         private void MenuPrincipal_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            
         }
 
         private void roundedButton1_Click(object sender, EventArgs e)

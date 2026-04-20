@@ -7,6 +7,7 @@ using Dominio.Entidades;
 using Dominio.Entidades.Civiles;
 using Presentacion.Casos.Abogados_asignados;
 using Presentacion.Casos.Civiles.Estados_civil;
+using Presentacion.Casos.Civiles.Mostrar_Casos;
 using Presentacion.Casos.Estados;
 using Presentacion.Casos.Participantes;
 using System.ComponentModel;
@@ -37,8 +38,26 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
         HistorialCasoCivilModel historialModel = new HistorialCasoCivilModel();
         ArchivosCivilesModel archivoModel = new ArchivosCivilesModel();
-        CasoCivilJuicioSumarioSIModel casoCivilModel = new CasoCivilJuicioSumarioSIModel();
-        
+        CasoCivilPESIModel casoCivilModel = new CasoCivilPESIModel();
+
+        //caso referencia
+        private BindingList<PersonaListDataResponse> listaDemandadosCasoReferencia
+        = new BindingList<PersonaListDataResponse>();
+        private BindingList<PersonaListDataResponse> listaDemandantesCasoReferencia
+        = new BindingList<PersonaListDataResponse>();
+        private BindingList<PersonaListDataResponse> listaTercerosInteresadosCasoReferencia
+        = new BindingList<PersonaListDataResponse>();
+        private BindingList<PersonaListDataResponse> listaContactosEmpresaCasoReferencia
+        = new BindingList<PersonaListDataResponse>();
+        //abogados en el caso
+        private BindingList<UserListDataResponse> listaAbogadosDirectoresCasoReferencia
+        = new BindingList<UserListDataResponse>();
+        private BindingList<UserListDataResponse> listaSociosResponsablesCasoReferencia
+        = new BindingList<UserListDataResponse>();
+        private BindingList<UserListDataResponse> listaAbogadosAsistentesCasoReferencia
+        = new BindingList<UserListDataResponse>();
+
+        //caso 
         private BindingList<PersonaListDataResponse> listaDemandados
         = new BindingList<PersonaListDataResponse>();
         private BindingList<PersonaListDataResponse> listaDemandantes
@@ -55,6 +74,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
         private bool isAdminCivil = false;
+        private int? idCasoReferencia = null;
         private void VerificarTipoUsuario()
 
         {
@@ -88,7 +108,9 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             EliminarTabPage(tabPageArchivos);
             EliminarTabPage(tabPageHistorial);
             EliminarTabPage(tabPageEditarHistorial);
+            EliminarTabPage(tabPageCasoReferencia);
 
+            //caso
             alistarListaDemandantes();
             alistarListaDemandados();
             alistarListaTercerosInteresados();
@@ -96,6 +118,15 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             alistarListaAbogadosDirectores();
             alistarListaSociosResponsables();
             alistarListaAbogadosAsistentes();
+
+            //caso referencia
+            alistarListaDemandantesCR();
+            alistarListaDemandadosCR();
+            alistarListaTercerosInteresadosCR();
+            alistarListaContactosEmpresaCR();
+            alistarListaAbogadosDirectoresCR();
+            alistarListaSociosResponsablesCR();
+            alistarListaAbogadosAsistentesCR();
 
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.WrapContents = false;
@@ -121,6 +152,33 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
             panelAbogadosAsistentes.AutoSize = true;
             panelAbogadosAsistentes.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+
+            //caso referencia
+            flowLayoutPanel2.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel2.WrapContents = false;
+            flowLayoutPanel2.AutoScroll = true;
+
+            panelDemandadosCR.AutoSize = true;
+            panelDemandadosCR.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelDemandantesCR.AutoSize = true;
+            panelDemandantesCR.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelTercerosInteresadosCR.AutoSize = true;
+            panelTercerosInteresadosCR.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelContactosEmpresaCR.AutoSize = true;
+            panelContactosEmpresaCR.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelAbogadosDirectoresCR.AutoSize = true;
+            panelAbogadosDirectoresCR.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelSociosResponsablesCR.AutoSize = true;
+            panelSociosResponsablesCR.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            panelAbogdadosAsistentesCR.AutoSize = true;
+            panelAbogdadosAsistentesCR.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         }
 
         private async Task EjecutarConLoaderAsync(Func<Task> accion)
@@ -171,6 +229,20 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             LimpiarListas();
         }
 
+        private void LimpiarFormularioCR()
+        {
+            txtExpedienteCasoReferencia.Text = "";
+            ;
+            txtEstadoCasoReferencia.Text = "";
+            textBoxObervacionesCasoReferencia.Text = "";
+            comboBoxNotificadorCasoReferencia.SelectedIndex = -1;
+            comboBoxOficialCasoReferencia.SelectedIndex = -1;
+            comboBoxJuzgadoCasoReferencia.SelectedIndex = -1;
+            txtNombreParticularCasoReferencia.Text = "";
+            txtNombreParticularCasoReferencia.Text = "";
+            LimpiarListasCasoReferencia();
+        }
+
         private async Task CargarDatosCaso(int idCaso)
         {
             int idUsuario = UserSession.Id;
@@ -184,10 +256,10 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
             var data = resp.data;
 
-            
             if (data != null)
             {
                 txtExpediente.Text = data.caso.expediente ?? "";
+                comboBoxTitulo.Text = data.caso.titulo ?? "";
                 comboBoxJuzgado.Text = data.caso.juzgado ?? "";
                 comboboxOficial.Text = data.caso.oficial ?? "";
                 comboboxNotificador.Text = data.caso.notificador ?? "";
@@ -196,6 +268,21 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 txtEstado.Text = data.caso.estado ?? "";
                 txtObservaciones.Text = (data.caso.observaciones ?? "")
                     .Replace("\n", Environment.NewLine); ;
+
+                if (data.caso.titulo == null)
+                {
+                    comboBoxTitulo.Enabled = false;
+                    comboBoxTitulo.Visible = false;
+                    labelTitulo.Visible = false;
+                    btnCasoReferencia.Visible = false;
+                }
+                else
+                {
+                    comboBoxTitulo.Enabled = true;
+                    comboBoxTitulo.Visible = true;
+                    labelTitulo.Visible = true;
+                    btnCasoReferencia.Visible = true;
+                }
             }
 
             LimpiarListas();
@@ -225,11 +312,84 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             dtgSociosResponsables.Refresh();
             dtgAbogadosAsistentes.Refresh();
 
+            this.BeginInvoke(new Action(() =>
+            {
+                AjustarAlturaDataGridViewDemandantes();
+                AjustarAlturaDataGridViewDemandados();
+                AjustarAlturaDataGridViewTercerosInteresados();
+                AjustarAlturaDataGridViewContactosEmpresa();
+                AjustarAlturaDataGridViewAbogadosDirectores();
+                AjustarAlturaDataGridViewSociosResponsables();
+                AjustarAlturaDataGridViewAbogadosAsistentes();
+            }));
+
+            var casoReferencia = data.referencia_comun ?? null;
+            if(casoReferencia != null)
+            {
+                idCasoReferencia = casoReferencia.caso_referencia_id;
+            }
+            else
+            {
+                idCasoReferencia = 0;
+            }
+
             // 6) Ir al tab Detalles
             AnadirTabPage(Detalles);
             EliminarTabPage(Listar);
             btnGuardarCaso.Visible = false;
             btnEditarCaso.Visible = true;
+        }
+
+        private async Task CargarDatosCasoReferencia(int idCaso)
+        {
+            CasoCivilComunModel casoCivilComunModel = new CasoCivilComunModel();
+            int idUsuario = UserSession.Id;
+            var resp = await casoCivilComunModel.ObtenerCasoCivilPorId(idUsuario, idCaso);
+
+            if (!resp.success || resp.data == null)
+            {
+                MessageBox.Show(resp.message ?? "No se pudo cargar el caso de referencia");
+                return;
+            }
+
+            var data = resp.data;
+
+            if (data != null)
+            {
+                txtExpedienteCasoReferencia.Text = data.caso.expediente ?? "";
+                comboBoxJuzgadoCasoReferencia.Text = data.caso.juzgado ?? "";
+                comboBoxOficialCasoReferencia.Text = data.caso.oficial ?? "";
+                comboBoxNotificadorCasoReferencia.Text = data.caso.notificador ?? "";
+                txtNombreParticularCasoReferencia.Text = data.caso.nombre_particular ?? "";
+                // si tienes estado/observaciones en textbox:
+                txtEstadoCasoReferencia.Text = data.caso.estado ?? "";
+                textBoxObervacionesCasoReferencia.Text = (data.caso.observaciones ?? "")
+                    .Replace("\n", Environment.NewLine); ;
+            }
+
+            LimpiarListasCasoReferencia();
+
+            // 3) Personas por rol -> tus BindingList<PersonaListDataResponse>
+            var p = data.personas_por_rol ?? new Dictionary<string, List<PersonaMiniDto>>();
+
+            MapPersonas(p, "Demandante", listaDemandantesCasoReferencia);
+            MapPersonas(p, "Demandado", listaDemandadosCasoReferencia);
+            MapPersonas(p, "Tercero Interesado", listaTercerosInteresadosCasoReferencia);
+            MapPersonas(p, "Contacto de Empresa", listaContactosEmpresaCasoReferencia);
+
+            // 4) Usuarios por rol -> tus BindingList<UserListDataResponse>
+            var u = data.usuarios_por_rol ?? new Dictionary<string, List<UsuarioMiniDto>>();
+
+            MapUsuarios(u, "Abogado Director", listaAbogadosDirectoresCasoReferencia);
+            MapUsuarios(u, "Socio Responsable", listaSociosResponsablesCasoReferencia);
+            MapUsuarios(u, "Abogado Asistente", listaAbogadosAsistentesCasoReferencia);
+
+            // 5) refrescar grids
+            dtgDemandadosCasoReferencia.Refresh();
+            dtgDemandadosCasoReferencia.Refresh();
+            dtgTercerosInteresadosCasoReferencia.Refresh();
+            dtgContactosEmpresaCasoReferencia.Refresh(); dtgAbogadosDirectoresCasoReferencia.Refresh(); dtgSociosResponsablesCasoReferencia.Refresh(); dtgAbogadosAsistentesCasoReferencia.Refresh();
+
         }
 
         // Helpers de mapeo
@@ -452,7 +612,119 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        //caso referencia
+        private void alistarListaDemandadosCR()
+        {
+            dtgDemandadosCasoReferencia.DataSource = listaDemandadosCasoReferencia;
 
+            dtgDemandadosCasoReferencia.AllowUserToAddRows = false;
+            dtgDemandadosCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgDemandadosCasoReferencia.DataSource = listaDemandadosCasoReferencia;
+
+            listaDemandadosCasoReferencia.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewDemandadosCR();
+            };
+
+            //CrearBotonQuitarDemandado();
+            //dtgDemandadosCasoReferencia.CellClick -= dtgDemandados_CellClick;
+            //dtgDemandadosCasoReferencia.CellClick += dtgDemandados_CellClick;
+        }
+        private void alistarListaDemandantesCR()
+        {
+            dataGridViewDemandantesCasoReferencia.DataSource = listaDemandantesCasoReferencia;
+            dataGridViewDemandantesCasoReferencia.AllowUserToAddRows = false;
+            dataGridViewDemandantesCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dataGridViewDemandantesCasoReferencia.DataSource = listaDemandadosCasoReferencia;
+
+            listaDemandantesCasoReferencia.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewDemandantesCR();
+            };
+
+        }
+        private void alistarListaTercerosInteresadosCR()
+        {
+            dtgTercerosInteresadosCasoReferencia.DataSource = listaTercerosInteresadosCasoReferencia;
+
+            dtgTercerosInteresadosCasoReferencia.AllowUserToAddRows = false;
+            dtgTercerosInteresadosCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgTercerosInteresadosCasoReferencia.DataSource = listaTercerosInteresadosCasoReferencia;
+
+            listaTercerosInteresadosCasoReferencia.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewTercerosInteresadosCR();
+            };
+
+        }
+
+        private void alistarListaContactosEmpresaCR()
+        {
+            dtgContactosEmpresaCasoReferencia.DataSource = listaContactosEmpresaCasoReferencia;
+
+            dtgContactosEmpresaCasoReferencia.AllowUserToAddRows = false;
+            dtgContactosEmpresaCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgContactosEmpresaCasoReferencia.DataSource = listaContactosEmpresaCasoReferencia;
+
+            listaContactosEmpresaCasoReferencia.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewContactosEmpresaCR();
+            };
+
+        }
+
+        private void alistarListaAbogadosDirectoresCR()
+        {
+            dtgAbogadosDirectoresCasoReferencia.DataSource = listaAbogadosDirectoresCasoReferencia;
+
+            dtgAbogadosDirectoresCasoReferencia.AllowUserToAddRows = false;
+            dtgAbogadosDirectoresCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgAbogadosDirectoresCasoReferencia.DataSource = listaAbogadosDirectoresCasoReferencia;
+
+            listaAbogadosDirectoresCasoReferencia.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewAbogadosDirectoresCR();
+            };
+
+        }
+
+        private void alistarListaSociosResponsablesCR()
+        {
+            dtgSociosResponsablesCasoReferencia.DataSource = listaSociosResponsablesCasoReferencia;
+
+            dtgSociosResponsablesCasoReferencia.AllowUserToAddRows = false;
+            dtgSociosResponsablesCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgSociosResponsablesCasoReferencia.DataSource = listaSociosResponsablesCasoReferencia;
+
+            listaSociosResponsablesCasoReferencia.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewSociosResponsablesCR();
+            };
+        }
+
+        private void alistarListaAbogadosAsistentesCR()
+        {
+            dtgAbogadosAsistentesCasoReferencia.DataSource = listaAbogadosAsistentesCasoReferencia;
+
+            dtgAbogadosAsistentesCasoReferencia.AllowUserToAddRows = false;
+            dtgAbogadosAsistentesCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dtgAbogadosAsistentesCasoReferencia.DataSource = listaAbogadosAsistentesCasoReferencia;
+
+            listaAbogadosAsistentesCasoReferencia.ListChanged += (s, e) =>
+            {
+                AjustarAlturaDataGridViewAbogadosAsistentesCR();
+            };
+        }
+
+
+        //caso
         private void alistarListaDemandados()
         {
             dtgDemandados.DataSource = listaDemandados;
@@ -849,17 +1121,17 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 return;
             }
 
-            var req = new CrearCasoCivilRequest
+            var req = new CrearCasoViaApremioRequest
             {
                 Expediente = txtExpediente.Text,
                 Juzgado = comboBoxJuzgado.Text,
                 Oficial = comboboxOficial.Text,
                 Notificador = comboboxNotificador.Text,
                 NombreParticular = txtNombreParticular.Text,
-
+                Titulo = comboBoxTitulo.Text,
                 Estado = EstadoCivil.estado ?? txtEstado.Text,
                 Observaciones = EstadoCivil.observaciones ?? txtObservaciones.Text,
-                UsuarioCreador = UserSession.Id,
+                UsuarioId = UserSession.Id,
                 Fecha = EstadoCivil.fechaEstado.HasValue
                 ? EstadoCivil.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss")
                 : null,
@@ -875,9 +1147,10 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
                 SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
                 AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
+                CasoReferenciaId = idCasoReferencia
             };
-
-            var resultado = await casoCivilModel.CrearCasoCivil(req);
+            
+            /*var resultado = await casoCivilModel.CrearCasoCivil(req);
 
             if (resultado.success)
             {
@@ -893,7 +1166,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             else
             {
                 MessageBox.Show("Error: " + resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            }*/
         }
 
         private async void roundedButton18_Click(object sender, EventArgs e)
@@ -906,6 +1179,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             LimpiarFormulario();
             AnadirTabPage(Listar);
             EliminarTabPage(Detalles);
+            EliminarTabPage(tabPageCasoReferencia);
             await EjecutarConLoaderAsync(async () =>
             {
                 await CargarCasos();
@@ -933,19 +1207,20 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 {
                     ApiResponse<object> resultado = null;
 
+                    /*
                     await EjecutarConLoaderAsync(async () =>
                     {
                         resultado = await casoCivilModel.EliminarCasoCivil(idCaso, UserSession.Id);
-                    });
-                    
-                    if(resultado == null)
+                    });*/
+
+                    if (resultado == null)
                     {
                         MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                     if (resultado.success)
                     {
-                        MessageBox.Show("Caso civil eliminado correctamente", "Éxito", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                        MessageBox.Show("Caso civil eliminado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         await EjecutarConLoaderAsync(async () =>
                         {
@@ -975,10 +1250,10 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                     FrmAgregarEstadoCivilTerminado frmAgregarEstado = new FrmAgregarEstadoCivilTerminado();
                     frmAgregarEstado.ShowDialog();
 
-                    if (EstadoCivil.estado != null && EstadoCivil.fechaEstado!= null)
+                    if (EstadoCivil.estado != null && EstadoCivil.fechaEstado != null)
                     {
                         var response = await historialModel.TerminarCasoCivil(
-                            casoId: idCaso, 
+                            casoId: idCaso,
                             usuarioId: UserSession.Id,
                             fecha: EstadoCivil.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                             anotaciones: EstadoCivil.observaciones,
@@ -1008,7 +1283,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
                     }
 
-                    
+
                 }
             }
 
@@ -1057,7 +1332,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
         private void btnAgregarEstado_Click(object sender, EventArgs e)
         {
-            FrmAgregarEstadoCivilJSSI frmAgregarEstado = new FrmAgregarEstadoCivilJSSI();
+            FrmAgregarEstadoCivilPEVA frmAgregarEstado = new FrmAgregarEstadoCivilPEVA();
             frmAgregarEstado.ShowDialog();
 
             if (EstadoCivil.estado != null)
@@ -1114,6 +1389,10 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             else if (tabControl1.SelectedTab == tabPageArchivos)
             {
                 panelBotonesCaso.Visible = false;
+            }
+            else if (tabControl1.SelectedTab == tabPageCasoReferencia)
+            {
+                tabPageCasoReferencia.AutoScrollPosition = new Point(0, 0);
             }
         }
 
@@ -1180,6 +1459,172 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
         }
 
+        private void AjustarLayoutPorResolucionCR()
+        {
+            if (flowLayoutPanel2.Controls.Count == 0) return;
+
+            int w = flowLayoutPanel2.ClientSize.Width;
+            if (w <= 50) return;
+
+            int padding = flowLayoutPanel2.Padding.Left + flowLayoutPanel2.Padding.Right;
+
+            int marginX = 10;
+            int gap = 20;
+            int ancho2Cols = (w - padding - gap) / 2;
+            bool caben2 = (ancho2Cols >= 620);
+
+            if (caben2)
+            {
+                flowLayoutPanel2.FlowDirection = FlowDirection.LeftToRight;
+                flowLayoutPanel2.WrapContents = true;
+
+                foreach (Panel p in flowLayoutPanel2.Controls.OfType<Panel>())
+                {
+                    // Tus paneles son AutoSize, se mantienen así
+                    p.AutoSize = true;
+                    p.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+                    // Le "encerramos" el ancho
+                    p.MinimumSize = new Size(ancho2Cols, p.MinimumSize.Height);
+                    p.MaximumSize = new Size(ancho2Cols, 0);
+
+                    // Margen para que se vea bien y el wrap calcule
+                    p.Margin = new Padding(5);
+                }
+            }
+            else
+            {
+                flowLayoutPanel2.FlowDirection = FlowDirection.TopDown;
+                flowLayoutPanel2.WrapContents = false;
+
+                int ancho1Col = w - padding - 10;
+
+                foreach (Panel p in flowLayoutPanel2.Controls.OfType<Panel>())
+                {
+                    p.AutoSize = true;
+                    p.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+                    p.MinimumSize = new Size(ancho1Col, p.MinimumSize.Height);
+                    p.MaximumSize = new Size(ancho1Col, 0);
+
+                    p.Margin = new Padding(5);
+                }
+            }
+
+            flowLayoutPanel2.PerformLayout();
+
+        }
+        //caso referencia
+        private void AjustarAlturaDataGridViewDemandadosCR()
+        {
+            dtgDemandadosCasoReferencia.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgDemandadosCasoReferencia.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgDemandadosCasoReferencia.ColumnHeadersHeight;
+
+            dtgDemandadosCasoReferencia.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgDemandadosCasoReferencia.ScrollBars = ScrollBars.None;
+
+            panelDemandadosCR.PerformLayout();
+            flowLayoutPanel2.PerformLayout();
+
+        }
+        private void AjustarAlturaDataGridViewDemandantesCR()
+        {
+            dataGridViewDemandantesCasoReferencia.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dataGridViewDemandantesCasoReferencia.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dataGridViewDemandantesCasoReferencia.ColumnHeadersHeight;
+
+            dataGridViewDemandantesCasoReferencia.Height = alturaFilas + alturaHeaders + 22;
+
+            dataGridViewDemandantesCasoReferencia.ScrollBars = ScrollBars.None;
+
+            dataGridViewDemandantesCasoReferencia.PerformLayout();
+            flowLayoutPanel2.PerformLayout();
+
+        }
+        private void AjustarAlturaDataGridViewTercerosInteresadosCR()
+        {
+            dtgTercerosInteresadosCasoReferencia.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgTercerosInteresadosCasoReferencia.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgTercerosInteresadosCasoReferencia.ColumnHeadersHeight;
+
+            dtgTercerosInteresadosCasoReferencia.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgTercerosInteresadosCasoReferencia.ScrollBars = ScrollBars.None;
+
+            dtgTercerosInteresadosCasoReferencia.PerformLayout();
+            flowLayoutPanel2.PerformLayout();
+
+        }
+
+        private void AjustarAlturaDataGridViewContactosEmpresaCR()
+        {
+            dtgContactosEmpresaCasoReferencia.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgContactosEmpresaCasoReferencia.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgContactosEmpresaCasoReferencia.ColumnHeadersHeight;
+
+            dtgContactosEmpresaCasoReferencia.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgContactosEmpresaCasoReferencia.ScrollBars = ScrollBars.None;
+
+            dtgContactosEmpresaCasoReferencia.PerformLayout();
+            flowLayoutPanel2.PerformLayout();
+
+        }
+        private void AjustarAlturaDataGridViewAbogadosDirectoresCR()
+        {
+            dtgAbogadosDirectoresCasoReferencia.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgAbogadosDirectoresCasoReferencia.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgAbogadosDirectoresCasoReferencia.ColumnHeadersHeight;
+
+            dtgAbogadosDirectoresCasoReferencia.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgAbogadosDirectoresCasoReferencia.ScrollBars = ScrollBars.None;
+
+            dtgAbogadosDirectoresCasoReferencia.PerformLayout();
+            flowLayoutPanel2.PerformLayout();
+
+        }
+
+        private void AjustarAlturaDataGridViewSociosResponsablesCR()
+        {
+            dtgSociosResponsablesCasoReferencia.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgSociosResponsablesCasoReferencia.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgSociosResponsablesCasoReferencia.ColumnHeadersHeight;
+
+            dtgSociosResponsablesCasoReferencia.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgSociosResponsablesCasoReferencia.ScrollBars = ScrollBars.None;
+
+            dtgSociosResponsablesCasoReferencia.PerformLayout();
+            flowLayoutPanel2.PerformLayout();
+
+        }
+
+        private void AjustarAlturaDataGridViewAbogadosAsistentesCR()
+        {
+            dtgAbogadosAsistentesCasoReferencia.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+
+            int alturaFilas = dtgAbogadosAsistentesCasoReferencia.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+            int alturaHeaders = dtgAbogadosAsistentesCasoReferencia.ColumnHeadersHeight;
+
+            dtgAbogadosAsistentesCasoReferencia.Height = alturaFilas + alturaHeaders + 22;
+
+            dtgAbogadosAsistentesCasoReferencia.ScrollBars = ScrollBars.None;
+
+            dtgAbogadosAsistentesCasoReferencia.PerformLayout();
+            flowLayoutPanel2.PerformLayout();
+
+        }
+
+        //caso
         private void AjustarAlturaDataGridViewDemandados()
         {
             dtgDemandados.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
@@ -1332,6 +1777,28 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             listaAbogadosDirectores.Clear();
             listaSociosResponsables.Clear();
             listaAbogadosAsistentes.Clear();
+        }
+
+        private void LimpiarListasCasoReferencia()
+        {
+            listaDemandadosCasoReferencia.Clear();
+            listaDemandantesCasoReferencia.Clear();
+            listaTercerosInteresadosCasoReferencia.Clear();
+            listaContactosEmpresaCasoReferencia.Clear();
+
+            listaAbogadosDirectoresCasoReferencia.Clear();
+            listaSociosResponsablesCasoReferencia.Clear();
+            listaAbogadosAsistentesCasoReferencia.Clear();
+
+            dtgDemandadosCasoReferencia.ClearSelection();
+            dataGridViewDemandantesCasoReferencia.ClearSelection();
+            dtgTercerosInteresadosCasoReferencia.ClearSelection();
+            dtgTercerosInteresadosCasoReferencia.ClearSelection();
+
+            dtgAbogadosDirectoresCasoReferencia.ClearSelection();
+            dtgAbogadosAsistentesCasoReferencia.ClearSelection();
+            dtgAbogadosAsistentes.ClearSelection();
+
         }
 
         private void dtgDemandados_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -1630,7 +2097,8 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             if (!this.IsHandleCreated || this.IsDisposed) return;
 
             this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
-            //MessageBox.Show("ancho flow  " + flowLayoutPanel1.ClientSize.Width);
+            this.BeginInvoke(new Action(AjustarLayoutPorResolucionCR));
+
         }
 
 
@@ -1662,12 +2130,13 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 cambioEstado = false;
             }
 
-            var req = new EditarCasoCivilRequest
+            var req = new EditarCasoViaApremioRequest
             {
                 UsuarioId = UserSession.Id,
                 CasoId = _idCasoEditar,
 
                 Expediente = txtExpediente.Text,
+                Titulo = comboBoxTitulo.Text,
                 Juzgado = comboBoxJuzgado.Text,
                 Oficial = comboboxOficial.Text,
                 Notificador = comboboxNotificador.Text,
@@ -1675,7 +2144,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
 
                 // historial (tomas lo último elegido en tu modal de estado)
-                huboCambioEstado = cambioEstado,
+                HuboCambioEstado = cambioEstado,
                 Estado = EstadoCivil.estado ?? txtEstado.Text,
                 Observaciones = EstadoCivil.observaciones ?? txtObservaciones.Text,
 
@@ -1692,14 +2161,17 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
                 SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
                 AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
+
+                CasoReferenciaId = idCasoReferencia
             };
 
             ApiResponseEditarCasoCivil resultado = null;
 
+            /*
             await EjecutarConLoaderAsync(async () =>
             {
                 resultado = await casoCivilModel.EditarCasoCivil(req);
-            });
+            });*/
 
             if (resultado == null)
             {
@@ -1720,6 +2192,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
                 AnadirTabPage(Listar);
                 EliminarTabPage(Detalles);
+                EliminarTabPage(tabPageCasoReferencia);
                 _actualizandoCaso = false;
             }
             else
@@ -1760,7 +2233,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             AnadirTabPage(tabPageHistorial);
             EliminarTabPage(tabPageArchivos);
             EliminarTabPage(Detalles);
-
+            EliminarTabPage(tabPageCasoReferencia);
             await EjecutarConLoaderAsync(async () =>
             {
                 await ListarHistorial();
@@ -1856,7 +2329,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             AnadirTabPage(tabPageArchivos);
             EliminarTabPage(tabPageHistorial);
             EliminarTabPage(Detalles);
-
+            EliminarTabPage(tabPageCasoReferencia);
             await EjecutarConLoaderAsync(async () =>
             {
                 await ListarArchivosCaso();
@@ -2128,11 +2601,11 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             var colName = grid.Columns[e.ColumnIndex].Name;
             var item = grid.Rows[e.RowIndex].DataBoundItem as HistorialCasoCivilDetalle;
             if (item == null) return;
-            
+
             // EDITAR
             if (colName == "Editar")
             {
-                
+
                 CargarDatosHistorialEnTab(item);
 
                 AnadirTabPage(tabPageEditarHistorial);
@@ -2189,7 +2662,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 });
             }
 
-            
+
         }
 
         private void CargarDatosHistorialEnTab(HistorialCasoCivilDetalle item)
@@ -2201,6 +2674,28 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
             comboboxEstado.Text = item.estado ?? "";
             string origen = item.origen;
+
+            if (origen == "CIVIL PROCESO DE EJECUCIÓN VÍA APREMIO SEGUNDA INSTANCIA")
+            {
+                comboboxEstado.Items.Clear();
+                comboboxEstado.Items.AddRange(EstadoCivilHelper.ObtenerEstadosPESegundaInstancia().ToArray());
+            }
+            else if(origen =="CIVIL PROCESO DE EJECUCIÓN COMÚN SEGUNDA INSTANCIA")
+            {
+                comboboxEstado.Items.Clear();
+                comboboxEstado.Items.AddRange(EstadoCivilHelper.ObtenerEstadosPESegundaInstancia().ToArray());
+            }
+            else if(origen == "CIVIL PROCESO DE EJECUCIÓN COMÚN")
+            {
+                comboboxEstado.Items.Clear();
+                comboboxEstado.Items.AddRange(EstadoCivilHelper.ObtenerEstadosPEComun().ToArray());
+            }
+            else if(origen == "CIVIL PROCESO DE EJECUCIÓN VÍA APREMIO")
+            {
+                comboboxEstado.Items.Clear();
+                comboboxEstado.Items.AddRange(EstadoCivilHelper.ObtenerEstadosPEViaApremio().ToArray());
+            }
+
             bool requiereVencimiento = EstadoCivilHelper.RequiereVencimiento(item.estado ?? "", origen);
             bool tieneVencimiento = item.fecha_vencimiento.HasValue || requiereVencimiento;
 
@@ -2368,6 +2863,200 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
         private void dateTimePickerHoraVencimiento_ValueChanged(object sender, EventArgs e)
         {
             ActualizarObservacionEditarHistorial();
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void btnCasoReferencia_Click(object sender, EventArgs e)
+        {
+            LimpiarFormularioCR();
+            if (idCasoReferencia != null && idCasoReferencia != 0)
+            {
+                int idCasoR = idCasoReferencia ?? 0;
+                if(idCasoR!= 0)
+                {
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await CargarDatosCasoReferencia(idCasoR);
+
+                    });
+                }
+                
+            }
+           
+
+            AnadirTabPage(tabPageCasoReferencia);
+            EliminarTabPage(Detalles);
+            EliminarTabPage(Listar);
+            EliminarTabPage(tabPageEditarHistorial);
+            EliminarTabPage(tabPageEditarHistorial);
+
+        }
+
+        private async void btnAgregarCasoReferencia_Click(object sender, EventArgs e)
+        {
+            FrmAgregarCasoComun frmAgregarCasoReferencia = new FrmAgregarCasoComun();
+
+            if (frmAgregarCasoReferencia.ShowDialog() == DialogResult.OK)
+            {
+                int? idCaso = frmAgregarCasoReferencia.IdCasoSeleccionado;
+                int idCasoR = idCaso ?? 0;
+                if (idCaso != null)
+                {
+                    txtCasoReferenciaId.Text = idCaso.ToString();
+                    idCasoReferencia = idCasoR;
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await CargarDatosCasoReferencia(idCasoR);
+                    });
+                }
+                else
+                {
+                    MessageBox.Show("No fue posible cargar los datos del caso de referencia ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void roundedButton19_Click_2(object sender, EventArgs e)
+        {
+            AnadirTabPage(Detalles);
+            EliminarTabPage(tabPageCasoReferencia);
+        }
+
+        private void tabPageCasoReferencia_Resize(object sender, EventArgs e)
+        {
+            if (!this.IsHandleCreated || this.IsDisposed) return;
+
+            this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
+            this.BeginInvoke(new Action(AjustarLayoutPorResolucionCR));
+        }
+
+        private void roundedButton57_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void btnEliminarCasoReferencia_Click(object sender, EventArgs e)
+        {
+            var confirmacion = MessageBox.Show(
+                "¿Está seguro de eliminar el caso de referencia?",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (confirmacion == DialogResult.Yes)
+            {
+                idCasoReferencia = null;
+                LimpiarFormularioCR();
+            }
+        }
+
+        private void dataGridViewDemandantesCasoReferencia_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dataGridViewDemandantesCasoReferencia.Columns["id"] != null)
+            {
+                dataGridViewDemandantesCasoReferencia.Columns["id"].Visible = false;
+            }
+
+            if (dataGridViewDemandantesCasoReferencia.Columns["id_rol"] != null)
+            {
+                dataGridViewDemandantesCasoReferencia.Columns["id_rol"].Visible = false;
+            }
+
+            dataGridViewDemandantesCasoReferencia.ClearSelection();
+        }
+
+        private void dtgDemandadosCasoReferencia_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgDemandadosCasoReferencia.Columns["id"] != null)
+            {
+                dtgDemandadosCasoReferencia.Columns["id"].Visible = false;
+            }
+
+            if (dtgDemandadosCasoReferencia.Columns["id_rol"] != null)
+            {
+                dtgDemandadosCasoReferencia.Columns["id_rol"].Visible = false;
+            }
+
+            dtgDemandadosCasoReferencia.ClearSelection();
+        }
+
+        private void dtgTercerosInteresadosCasoReferencia_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgTercerosInteresadosCasoReferencia.Columns["id"] != null)
+            {
+                dtgTercerosInteresadosCasoReferencia.Columns["id"].Visible = false;
+            }
+
+            if (dtgTercerosInteresadosCasoReferencia.Columns["id_rol"] != null)
+            {
+                dtgTercerosInteresadosCasoReferencia.Columns["id_rol"].Visible = false;
+            }
+
+            dtgTercerosInteresadosCasoReferencia.ClearSelection();
+        }
+
+        private void dtgContactosEmpresaCasoReferencia_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgContactosEmpresaCasoReferencia.Columns["id"] != null)
+            {
+                dtgContactosEmpresaCasoReferencia.Columns["id"].Visible = false;
+            }
+
+            if (dtgContactosEmpresaCasoReferencia.Columns["id_rol"] != null)
+            {
+                dtgContactosEmpresaCasoReferencia.Columns["id_rol"].Visible = false;
+            }
+
+            dtgContactosEmpresaCasoReferencia.ClearSelection();
+        }
+
+        private void dtgAbogadosDirectoresCasoReferencia_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgAbogadosDirectoresCasoReferencia.Columns["id"] != null)
+            {
+                dtgAbogadosDirectoresCasoReferencia.Columns["id"].Visible = false;
+            }
+
+            if (dtgAbogadosDirectoresCasoReferencia.Columns["id_rol"] != null)
+            {
+                dtgAbogadosDirectoresCasoReferencia.Columns["id_rol"].Visible = false;
+            }
+
+            dtgAbogadosDirectoresCasoReferencia.ClearSelection();
+        }
+
+        private void dtgAbogadosAsistentesCasoReferencia_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgAbogadosAsistentesCasoReferencia.Columns["id"] != null)
+            {
+                dtgAbogadosAsistentesCasoReferencia.Columns["id"].Visible = false;
+            }
+
+            if (dtgAbogadosAsistentesCasoReferencia.Columns["id_rol"] != null)
+            {
+                dtgAbogadosAsistentesCasoReferencia.Columns["id_rol"].Visible = false;
+            }
+
+            dtgAbogadosAsistentesCasoReferencia.ClearSelection();
+        }
+
+        private void dtgSociosResponsablesCasoReferencia_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgSociosResponsablesCasoReferencia.Columns["id"] != null)
+            {
+                dtgSociosResponsablesCasoReferencia.Columns["id"].Visible = false;
+            }
+
+            if (dtgSociosResponsablesCasoReferencia.Columns["id_rol"] != null)
+            {
+                dtgSociosResponsablesCasoReferencia.Columns["id_rol"].Visible = false;
+            }
+
+            dtgSociosResponsablesCasoReferencia.ClearSelection();
         }
     }
 }

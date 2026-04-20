@@ -223,7 +223,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
         {
             txtCausaAgravioHechos.Text = "";
             txtExpediente.Text = "";
-            comboBoxJuzgado.Text = "";
+            comboBoxCorte.Text = "";
             comboboxOficial.Text = "";
             txtNombreParticular.Text = "";
             comboboxNotificador.Text = "";
@@ -343,20 +343,19 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
 
             if (data != null)
             {
-                txtExpediente.Text = data.caso.expediente ?? "";
-                comboboxOficial.Text = data.caso.oficial ?? "";
-                txtNombreParticular.Text = data.caso.nombre_particular ?? "";
-                txtCausaAgravioHechos.Text= data.caso.causa ?? "";
-
-                txtEstado.Text = data.caso.estado ?? "";
-                txtObservaciones.Text = (data.caso.observaciones ?? "")
+                txtExpediente.Text = data.caso?.expediente ?? "";
+                comboboxOficial.Text = data.caso?.oficial ?? "";
+                txtNombreParticular.Text = data.caso?.nombre_particular ?? "";
+                txtCausaAgravioHechos.Text= data.caso?.causa ?? "";
+                comboBoxCorte.SelectedItem = data.caso?.corte ?? "";
+                txtEstado.Text = data.caso?.estado ?? "";
+                txtObservaciones.Text = (data.caso?.observaciones ?? "")
                     .Replace("\n", Environment.NewLine); ;
             }
 
-            
 
             // 3) Personas por rol -> tus BindingList<PersonaListDataResponse>
-            var p = data.personas_por_rol ?? new Dictionary<string, List<PersonaMiniDto>>();
+            var p = data?.personas_por_rol ?? new Dictionary<string, List<PersonaMiniDto>>();
 
             MapPersonas(p, "Solicitante", listaDemandantes);
             MapPersonas(p, "Autoridad Impugnada", listaDemandados);
@@ -364,13 +363,13 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
             MapPersonas(p, "Contacto de Empresa", listaContactosEmpresa);
 
             // 4) Usuarios por rol -> tus BindingList<UserListDataResponse>
-            var u = data.usuarios_por_rol ?? new Dictionary<string, List<UsuarioMiniDto>>();
+            var u = data?.usuarios_por_rol ?? new Dictionary<string, List<UsuarioMiniDto>>();
 
             MapUsuarios(u, "Abogado Director", listaAbogadosDirectores);
             MapUsuarios(u, "Socio Responsable", listaSociosResponsables);
             MapUsuarios(u, "Abogado Asistente", listaAbogadosAsistentes);
 
-            var casoReferencia = data.referencia_amparo ?? null;
+            var casoReferencia = data?.referencia_amparo ?? null;
             if (casoReferencia != null)
             {
                 idCasoReferencia = casoReferencia.caso_referencia_id;

@@ -108,10 +108,10 @@
             roundedButton1 = new Presentacion.Clases.RoundedButton();
             label1 = new Label();
             lblPagina = new Label();
-            dtgCasosCiviles = new DataGridView();
             panel7 = new Panel();
             btnSiguiente = new Presentacion.Clases.RoundedButton();
             btnAnterior = new Presentacion.Clases.RoundedButton();
+            dtgCasosCiviles = new DataGridView();
             Detalles = new TabPage();
             flowLayoutPanel1 = new FlowLayoutPanel();
             panelDemandantes = new Panel();
@@ -176,7 +176,7 @@
             label31 = new Label();
             txtCausaAgravioHechos = new TextBox();
             roundedButton63 = new Presentacion.Clases.RoundedButton();
-            comboBoxJuzgado = new ComboBox();
+            comboBoxCorte = new ComboBox();
             comboboxNotificador = new ComboBox();
             comboboxOficial = new ComboBox();
             label9 = new Label();
@@ -371,8 +371,8 @@
             tabControl1.SuspendLayout();
             Listar.SuspendLayout();
             panelBusquedaCaso.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgCasosCiviles).BeginInit();
             panel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgCasosCiviles).BeginInit();
             Detalles.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             panelDemandantes.SuspendLayout();
@@ -460,8 +460,8 @@
             Listar.Controls.Add(labelTotal);
             Listar.Controls.Add(panelBusquedaCaso);
             Listar.Controls.Add(lblPagina);
-            Listar.Controls.Add(dtgCasosCiviles);
             Listar.Controls.Add(panel7);
+            Listar.Controls.Add(dtgCasosCiviles);
             Listar.Location = new Point(4, 24);
             Listar.Name = "Listar";
             Listar.Padding = new Padding(3);
@@ -590,6 +590,66 @@
             lblPagina.TabIndex = 2;
             lblPagina.Text = "label2";
             // 
+            // panel7
+            // 
+            panel7.Controls.Add(btnSiguiente);
+            panel7.Controls.Add(btnAnterior);
+            panel7.Dock = DockStyle.Bottom;
+            panel7.Location = new Point(3, 403);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(800, 46);
+            panel7.TabIndex = 6;
+            // 
+            // btnSiguiente
+            // 
+            btnSiguiente.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSiguiente.BackColor = Color.FromArgb(194, 160, 91);
+            btnSiguiente.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnSiguiente.BorderColor = Color.Empty;
+            btnSiguiente.BorderRadius = 10;
+            btnSiguiente.BorderSize = 1;
+            btnSiguiente.FlatAppearance.BorderSize = 0;
+            btnSiguiente.FlatStyle = FlatStyle.Flat;
+            btnSiguiente.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnSiguiente.ForeColor = Color.White;
+            btnSiguiente.Image = (Image)resources.GetObject("btnSiguiente.Image");
+            btnSiguiente.ImageAlign = ContentAlignment.MiddleRight;
+            btnSiguiente.Location = new Point(665, 8);
+            btnSiguiente.Name = "btnSiguiente";
+            btnSiguiente.Padding = new Padding(3, 0, 0, 0);
+            btnSiguiente.Size = new Size(87, 40);
+            btnSiguiente.TabIndex = 4;
+            btnSiguiente.Text = "Siguiente";
+            btnSiguiente.TextAlign = ContentAlignment.MiddleLeft;
+            btnSiguiente.TextColor = Color.White;
+            btnSiguiente.UseVisualStyleBackColor = false;
+            btnSiguiente.Click += btnSiguiente_Click;
+            // 
+            // btnAnterior
+            // 
+            btnAnterior.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAnterior.BackColor = Color.FromArgb(194, 160, 91);
+            btnAnterior.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnAnterior.BorderColor = Color.Empty;
+            btnAnterior.BorderRadius = 10;
+            btnAnterior.BorderSize = 1;
+            btnAnterior.FlatAppearance.BorderSize = 0;
+            btnAnterior.FlatStyle = FlatStyle.Flat;
+            btnAnterior.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnAnterior.ForeColor = Color.White;
+            btnAnterior.Image = (Image)resources.GetObject("btnAnterior.Image");
+            btnAnterior.ImageAlign = ContentAlignment.MiddleLeft;
+            btnAnterior.Location = new Point(563, 8);
+            btnAnterior.Name = "btnAnterior";
+            btnAnterior.Padding = new Padding(3, 0, 0, 0);
+            btnAnterior.Size = new Size(87, 40);
+            btnAnterior.TabIndex = 3;
+            btnAnterior.Text = "Anterior";
+            btnAnterior.TextAlign = ContentAlignment.MiddleRight;
+            btnAnterior.TextColor = Color.White;
+            btnAnterior.UseVisualStyleBackColor = false;
+            btnAnterior.Click += btnAnterior_Click;
+            // 
             // dtgCasosCiviles
             // 
             dtgCasosCiviles.AllowUserToAddRows = false;
@@ -636,71 +696,11 @@
             dtgCasosCiviles.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dtgCasosCiviles.RowTemplate.Height = 45;
             dtgCasosCiviles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgCasosCiviles.Size = new Size(719, 370);
+            dtgCasosCiviles.Size = new Size(719, 244);
             dtgCasosCiviles.TabIndex = 1;
             dtgCasosCiviles.CellClick += dtgCasosCiviles_CellClick;
             dtgCasosCiviles.CellFormatting += dtgCasosCiviles_CellFormatting;
             dtgCasosCiviles.DataBindingComplete += dtgCasosCiviles_DataBindingComplete;
-            // 
-            // panel7
-            // 
-            panel7.Controls.Add(btnSiguiente);
-            panel7.Controls.Add(btnAnterior);
-            panel7.Dock = DockStyle.Bottom;
-            panel7.Location = new Point(3, 403);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(800, 46);
-            panel7.TabIndex = 6;
-            // 
-            // btnSiguiente
-            // 
-            btnSiguiente.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnSiguiente.BackColor = Color.FromArgb(194, 160, 91);
-            btnSiguiente.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnSiguiente.BorderColor = Color.Empty;
-            btnSiguiente.BorderRadius = 10;
-            btnSiguiente.BorderSize = 1;
-            btnSiguiente.FlatAppearance.BorderSize = 0;
-            btnSiguiente.FlatStyle = FlatStyle.Flat;
-            btnSiguiente.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnSiguiente.ForeColor = Color.White;
-            btnSiguiente.Image = (Image)resources.GetObject("btnSiguiente.Image");
-            btnSiguiente.ImageAlign = ContentAlignment.MiddleRight;
-            btnSiguiente.Location = new Point(690, 3);
-            btnSiguiente.Name = "btnSiguiente";
-            btnSiguiente.Padding = new Padding(3, 0, 0, 0);
-            btnSiguiente.Size = new Size(87, 40);
-            btnSiguiente.TabIndex = 4;
-            btnSiguiente.Text = "Siguiente";
-            btnSiguiente.TextAlign = ContentAlignment.MiddleLeft;
-            btnSiguiente.TextColor = Color.White;
-            btnSiguiente.UseVisualStyleBackColor = false;
-            btnSiguiente.Click += btnSiguiente_Click;
-            // 
-            // btnAnterior
-            // 
-            btnAnterior.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAnterior.BackColor = Color.FromArgb(194, 160, 91);
-            btnAnterior.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnAnterior.BorderColor = Color.Empty;
-            btnAnterior.BorderRadius = 10;
-            btnAnterior.BorderSize = 1;
-            btnAnterior.FlatAppearance.BorderSize = 0;
-            btnAnterior.FlatStyle = FlatStyle.Flat;
-            btnAnterior.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnAnterior.ForeColor = Color.White;
-            btnAnterior.Image = (Image)resources.GetObject("btnAnterior.Image");
-            btnAnterior.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAnterior.Location = new Point(588, 3);
-            btnAnterior.Name = "btnAnterior";
-            btnAnterior.Padding = new Padding(3, 0, 0, 0);
-            btnAnterior.Size = new Size(87, 40);
-            btnAnterior.TabIndex = 3;
-            btnAnterior.Text = "Anterior";
-            btnAnterior.TextAlign = ContentAlignment.MiddleRight;
-            btnAnterior.TextColor = Color.White;
-            btnAnterior.UseVisualStyleBackColor = false;
-            btnAnterior.Click += btnAnterior_Click;
             // 
             // Detalles
             // 
@@ -736,7 +736,7 @@
             flowLayoutPanel1.Controls.Add(panelSociosResponsables);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            flowLayoutPanel1.Location = new Point(52, 633);
+            flowLayoutPanel1.Location = new Point(55, 707);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(676, 1486);
             flowLayoutPanel1.TabIndex = 18;
@@ -1810,9 +1810,9 @@
             panel3.Controls.Add(roundedButton24);
             panel3.Controls.Add(roundedButton22);
             panel3.Controls.Add(roundedButton26);
-            panel3.Location = new Point(55, 340);
+            panel3.Location = new Point(55, 397);
             panel3.Name = "panel3";
-            panel3.Size = new Size(633, 287);
+            panel3.Size = new Size(661, 287);
             panel3.TabIndex = 9;
             // 
             // btnAgregarEstado
@@ -1885,7 +1885,7 @@
             txtObservaciones.PlaceholderText = "...";
             txtObservaciones.ReadOnly = true;
             txtObservaciones.ScrollBars = ScrollBars.Vertical;
-            txtObservaciones.Size = new Size(565, 118);
+            txtObservaciones.Size = new Size(593, 118);
             txtObservaciones.TabIndex = 10;
             // 
             // roundedButton23
@@ -1903,7 +1903,7 @@
             roundedButton23.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton23.Location = new Point(23, 135);
             roundedButton23.Name = "roundedButton23";
-            roundedButton23.Size = new Size(589, 139);
+            roundedButton23.Size = new Size(617, 139);
             roundedButton23.TabIndex = 11;
             roundedButton23.TextColor = Color.White;
             roundedButton23.UseVisualStyleBackColor = false;
@@ -1944,7 +1944,7 @@
             roundedButton22.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton22.Location = new Point(0, 0);
             roundedButton22.Name = "roundedButton22";
-            roundedButton22.Size = new Size(633, 43);
+            roundedButton22.Size = new Size(661, 43);
             roundedButton22.TabIndex = 4;
             roundedButton22.Text = "Estado y Observaciones";
             roundedButton22.TextAlign = ContentAlignment.MiddleLeft;
@@ -1966,7 +1966,7 @@
             roundedButton26.ForeColor = Color.White;
             roundedButton26.Location = new Point(0, 45);
             roundedButton26.Name = "roundedButton26";
-            roundedButton26.Size = new Size(633, 242);
+            roundedButton26.Size = new Size(661, 242);
             roundedButton26.TabIndex = 2;
             roundedButton26.TextColor = Color.White;
             roundedButton26.UseVisualStyleBackColor = false;
@@ -1978,7 +1978,7 @@
             panelInformacionPersonal.Controls.Add(label31);
             panelInformacionPersonal.Controls.Add(txtCausaAgravioHechos);
             panelInformacionPersonal.Controls.Add(roundedButton63);
-            panelInformacionPersonal.Controls.Add(comboBoxJuzgado);
+            panelInformacionPersonal.Controls.Add(comboBoxCorte);
             panelInformacionPersonal.Controls.Add(comboboxNotificador);
             panelInformacionPersonal.Controls.Add(comboboxOficial);
             panelInformacionPersonal.Controls.Add(label9);
@@ -1994,7 +1994,7 @@
             panelInformacionPersonal.Controls.Add(roundedButton9);
             panelInformacionPersonal.Location = new Point(55, 71);
             panelInformacionPersonal.Name = "panelInformacionPersonal";
-            panelInformacionPersonal.Size = new Size(633, 250);
+            panelInformacionPersonal.Size = new Size(661, 311);
             panelInformacionPersonal.TabIndex = 3;
             // 
             // label31
@@ -2002,7 +2002,7 @@
             label31.AutoSize = true;
             label31.BackColor = Color.White;
             label31.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label31.Location = new Point(269, 148);
+            label31.Location = new Point(60, 196);
             label31.Name = "label31";
             label31.Size = new Size(196, 19);
             label31.TabIndex = 24;
@@ -2013,7 +2013,7 @@
             txtCausaAgravioHechos.BackColor = Color.White;
             txtCausaAgravioHechos.BorderStyle = BorderStyle.None;
             txtCausaAgravioHechos.Font = new Font("Segoe UI", 9F);
-            txtCausaAgravioHechos.Location = new Point(278, 179);
+            txtCausaAgravioHechos.Location = new Point(69, 227);
             txtCausaAgravioHechos.Multiline = true;
             txtCausaAgravioHechos.Name = "txtCausaAgravioHechos";
             txtCausaAgravioHechos.PlaceholderText = "...";
@@ -2033,24 +2033,23 @@
             roundedButton63.FlatStyle = FlatStyle.Flat;
             roundedButton63.ForeColor = Color.White;
             roundedButton63.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton63.Location = new Point(266, 170);
+            roundedButton63.Location = new Point(57, 218);
             roundedButton63.Name = "roundedButton63";
             roundedButton63.Size = new Size(378, 70);
             roundedButton63.TabIndex = 26;
             roundedButton63.TextColor = Color.White;
             roundedButton63.UseVisualStyleBackColor = false;
             // 
-            // comboBoxJuzgado
+            // comboBoxCorte
             // 
-            comboBoxJuzgado.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxJuzgado.Font = new Font("Segoe UI", 9.25F);
-            comboBoxJuzgado.FormattingEnabled = true;
-            comboBoxJuzgado.Items.AddRange(new object[] { "1º", "2º", "3º", "4º", "5º", "6º", "7º", "8º", "9º", "10º", "A", "B", "C", "D", "E", "F", "G", "H" });
-            comboBoxJuzgado.Location = new Point(352, 219);
-            comboBoxJuzgado.Name = "comboBoxJuzgado";
-            comboBoxJuzgado.Size = new Size(65, 23);
-            comboBoxJuzgado.TabIndex = 5;
-            comboBoxJuzgado.Visible = false;
+            comboBoxCorte.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxCorte.Font = new Font("Segoe UI", 9.25F);
+            comboBoxCorte.FormattingEnabled = true;
+            comboBoxCorte.Items.AddRange(new object[] { "Corte de Constitucionalidad" });
+            comboBoxCorte.Location = new Point(127, 151);
+            comboBoxCorte.Name = "comboBoxCorte";
+            comboBoxCorte.Size = new Size(200, 23);
+            comboBoxCorte.TabIndex = 5;
             // 
             // comboboxNotificador
             // 
@@ -2058,7 +2057,7 @@
             comboboxNotificador.Font = new Font("Segoe UI", 9.25F);
             comboboxNotificador.FormattingEnabled = true;
             comboboxNotificador.Items.AddRange(new object[] { "1º", "2º", "3º", "4º", "5º", "6º", "7º", "8º", "9º", "10º" });
-            comboboxNotificador.Location = new Point(167, 220);
+            comboboxNotificador.Location = new Point(614, 152);
             comboboxNotificador.Name = "comboboxNotificador";
             comboboxNotificador.Size = new Size(65, 23);
             comboboxNotificador.TabIndex = 4;
@@ -2070,7 +2069,7 @@
             comboboxOficial.Font = new Font("Segoe UI", 9.25F);
             comboboxOficial.FormattingEnabled = true;
             comboboxOficial.Items.AddRange(new object[] { "1º", "2º", "3º", "4º", "5º", "6º", "7º", "8º", "9º", "10º" });
-            comboboxOficial.Location = new Point(130, 176);
+            comboboxOficial.Location = new Point(430, 152);
             comboboxOficial.Name = "comboboxOficial";
             comboboxOficial.Size = new Size(65, 23);
             comboboxOficial.TabIndex = 3;
@@ -2080,7 +2079,7 @@
             label9.AutoSize = true;
             label9.BackColor = Color.White;
             label9.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label9.Location = new Point(65, 220);
+            label9.Location = new Point(512, 152);
             label9.Name = "label9";
             label9.Size = new Size(96, 19);
             label9.TabIndex = 23;
@@ -2143,12 +2142,11 @@
             lblApellido.AutoSize = true;
             lblApellido.BackColor = Color.White;
             lblApellido.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblApellido.Location = new Point(271, 219);
+            lblApellido.Location = new Point(65, 152);
             lblApellido.Name = "lblApellido";
-            lblApellido.Size = new Size(75, 19);
+            lblApellido.Size = new Size(56, 19);
             lblApellido.TabIndex = 5;
-            lblApellido.Text = "Juzgado *";
-            lblApellido.Visible = false;
+            lblApellido.Text = "Corte *";
             // 
             // txtExpediente
             // 
@@ -2165,7 +2163,7 @@
             label2.AutoSize = true;
             label2.BackColor = Color.White;
             label2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label2.Location = new Point(62, 176);
+            label2.Location = new Point(362, 152);
             label2.Name = "label2";
             label2.Size = new Size(62, 19);
             label2.TabIndex = 7;
@@ -2204,7 +2202,7 @@
             roundedButton2.ForeColor = Color.White;
             roundedButton2.Location = new Point(0, 43);
             roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(633, 207);
+            roundedButton2.Size = new Size(661, 268);
             roundedButton2.TabIndex = 2;
             roundedButton2.TextColor = Color.White;
             roundedButton2.UseVisualStyleBackColor = false;
@@ -2225,7 +2223,7 @@
             roundedButton9.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton9.Location = new Point(0, 0);
             roundedButton9.Name = "roundedButton9";
-            roundedButton9.Size = new Size(633, 43);
+            roundedButton9.Size = new Size(661, 43);
             roundedButton9.TabIndex = 4;
             roundedButton9.Text = "Datos Generales";
             roundedButton9.TextAlign = ContentAlignment.MiddleLeft;
@@ -2248,7 +2246,7 @@
             panelBotones.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelBotones.Location = new Point(0, 2125);
             panelBotones.Name = "panelBotones";
-            panelBotones.Size = new Size(380, 48);
+            panelBotones.Size = new Size(364, 48);
             panelBotones.TabIndex = 20;
             // 
             // tabPageHistorial
@@ -2888,7 +2886,7 @@
             btnEliminarCasoReferencia.ForeColor = Color.FromArgb(181, 32, 31);
             btnEliminarCasoReferencia.Image = Properties.Resources.cubo_de_basura;
             btnEliminarCasoReferencia.ImageAlign = ContentAlignment.MiddleRight;
-            btnEliminarCasoReferencia.Location = new Point(413, 32);
+            btnEliminarCasoReferencia.Location = new Point(345, 32);
             btnEliminarCasoReferencia.Name = "btnEliminarCasoReferencia";
             btnEliminarCasoReferencia.Padding = new Padding(3, 0, 0, 0);
             btnEliminarCasoReferencia.Size = new Size(246, 32);
@@ -2924,7 +2922,7 @@
             txtCasoReferenciaId.Anchor = AnchorStyles.Top;
             txtCasoReferenciaId.BorderStyle = BorderStyle.None;
             txtCasoReferenciaId.Font = new Font("Segoe UI", 9F);
-            txtCasoReferenciaId.Location = new Point(-9, 84);
+            txtCasoReferenciaId.Location = new Point(-41, 84);
             txtCasoReferenciaId.Name = "txtCasoReferenciaId";
             txtCasoReferenciaId.Size = new Size(51, 16);
             txtCasoReferenciaId.TabIndex = 32;
@@ -2944,7 +2942,7 @@
             btnAgregarCasoReferencia.ForeColor = Color.FromArgb(52, 109, 235);
             btnAgregarCasoReferencia.Image = Properties.Resources.boton_agregar__1_;
             btnAgregarCasoReferencia.ImageAlign = ContentAlignment.MiddleRight;
-            btnAgregarCasoReferencia.Location = new Point(412, 70);
+            btnAgregarCasoReferencia.Location = new Point(344, 70);
             btnAgregarCasoReferencia.Name = "btnAgregarCasoReferencia";
             btnAgregarCasoReferencia.Padding = new Padding(3, 0, 0, 0);
             btnAgregarCasoReferencia.Size = new Size(246, 32);
@@ -3011,7 +3009,7 @@
             panelDatosGenerales.Controls.Add(roundedButton35);
             panelDatosGenerales.Location = new Point(65, 115);
             panelDatosGenerales.Name = "panelDatosGenerales";
-            panelDatosGenerales.Size = new Size(594, 333);
+            panelDatosGenerales.Size = new Size(526, 333);
             panelDatosGenerales.TabIndex = 25;
             // 
             // comboBoxTituloCasoReferencia
@@ -3240,7 +3238,7 @@
             roundedButton34.ForeColor = Color.White;
             roundedButton34.Location = new Point(0, 43);
             roundedButton34.Name = "roundedButton34";
-            roundedButton34.Size = new Size(594, 290);
+            roundedButton34.Size = new Size(526, 290);
             roundedButton34.TabIndex = 2;
             roundedButton34.TextColor = Color.White;
             roundedButton34.UseVisualStyleBackColor = false;
@@ -3261,7 +3259,7 @@
             roundedButton35.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton35.Location = new Point(0, 0);
             roundedButton35.Name = "roundedButton35";
-            roundedButton35.Size = new Size(594, 43);
+            roundedButton35.Size = new Size(526, 43);
             roundedButton35.TabIndex = 4;
             roundedButton35.Text = "Datos Generales";
             roundedButton35.TextAlign = ContentAlignment.MiddleLeft;
@@ -3735,7 +3733,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 150F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 311F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 8F));
-            tableLayoutPanel1.Size = new Size(605, 2330);
+            tableLayoutPanel1.Size = new Size(537, 2330);
             tableLayoutPanel1.TabIndex = 37;
             // 
             // panelExpedienteReferencia
@@ -3744,7 +3742,7 @@
             panelExpedienteReferencia.Controls.Add(panel18);
             panelExpedienteReferencia.Location = new Point(3, 153);
             panelExpedienteReferencia.Name = "panelExpedienteReferencia";
-            panelExpedienteReferencia.Size = new Size(599, 129);
+            panelExpedienteReferencia.Size = new Size(531, 129);
             panelExpedienteReferencia.TabIndex = 36;
             // 
             // panel14
@@ -3759,7 +3757,7 @@
             panel14.Dock = DockStyle.Fill;
             panel14.Location = new Point(0, 43);
             panel14.Name = "panel14";
-            panel14.Size = new Size(599, 86);
+            panel14.Size = new Size(531, 86);
             panel14.TabIndex = 1;
             // 
             // labelNombreParticularCRRC
@@ -3858,7 +3856,7 @@
             roundedButton57.ForeColor = Color.White;
             roundedButton57.Location = new Point(0, 0);
             roundedButton57.Name = "roundedButton57";
-            roundedButton57.Size = new Size(599, 86);
+            roundedButton57.Size = new Size(531, 86);
             roundedButton57.TabIndex = 0;
             roundedButton57.TextColor = Color.White;
             roundedButton57.UseVisualStyleBackColor = false;
@@ -3869,7 +3867,7 @@
             panel18.Dock = DockStyle.Top;
             panel18.Location = new Point(0, 0);
             panel18.Name = "panel18";
-            panel18.Size = new Size(599, 43);
+            panel18.Size = new Size(531, 43);
             panel18.TabIndex = 0;
             // 
             // roundedButton60
@@ -3888,7 +3886,7 @@
             roundedButton60.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton60.Location = new Point(0, 0);
             roundedButton60.Name = "roundedButton60";
-            roundedButton60.Size = new Size(599, 43);
+            roundedButton60.Size = new Size(531, 43);
             roundedButton60.TabIndex = 5;
             roundedButton60.Text = "Expediente de referencia";
             roundedButton60.TextAlign = ContentAlignment.MiddleLeft;
@@ -3902,7 +3900,7 @@
             panelRecursoCasacion.Controls.Add(panel11);
             panelRecursoCasacion.Location = new Point(3, 3);
             panelRecursoCasacion.Name = "panelRecursoCasacion";
-            panelRecursoCasacion.Size = new Size(599, 129);
+            panelRecursoCasacion.Size = new Size(531, 129);
             panelRecursoCasacion.TabIndex = 35;
             // 
             // panel9
@@ -3916,7 +3914,7 @@
             panel9.Dock = DockStyle.Fill;
             panel9.Location = new Point(0, 43);
             panel9.Name = "panel9";
-            panel9.Size = new Size(599, 86);
+            panel9.Size = new Size(531, 86);
             panel9.TabIndex = 1;
             // 
             // comboBoxMotivoCasacionCR
@@ -3997,7 +3995,7 @@
             roundedButton36.ForeColor = Color.White;
             roundedButton36.Location = new Point(0, 0);
             roundedButton36.Name = "roundedButton36";
-            roundedButton36.Size = new Size(599, 86);
+            roundedButton36.Size = new Size(531, 86);
             roundedButton36.TabIndex = 0;
             roundedButton36.TextColor = Color.White;
             roundedButton36.UseVisualStyleBackColor = false;
@@ -4008,7 +4006,7 @@
             panel11.Dock = DockStyle.Top;
             panel11.Location = new Point(0, 0);
             panel11.Name = "panel11";
-            panel11.Size = new Size(599, 43);
+            panel11.Size = new Size(531, 43);
             panel11.TabIndex = 0;
             // 
             // roundedButton39
@@ -4027,7 +4025,7 @@
             roundedButton39.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton39.Location = new Point(0, 0);
             roundedButton39.Name = "roundedButton39";
-            roundedButton39.Size = new Size(599, 43);
+            roundedButton39.Size = new Size(531, 43);
             roundedButton39.TabIndex = 5;
             roundedButton39.Text = "Recurso de Casación";
             roundedButton39.TextAlign = ContentAlignment.MiddleLeft;
@@ -4049,7 +4047,7 @@
             panel2.Controls.Add(roundedButton31);
             panel2.Location = new Point(3, 303);
             panel2.Name = "panel2";
-            panel2.Size = new Size(599, 287);
+            panel2.Size = new Size(531, 287);
             panel2.TabIndex = 26;
             // 
             // label34
@@ -4097,7 +4095,7 @@
             textBoxObervacionesCasoReferencia.PlaceholderText = "...";
             textBoxObervacionesCasoReferencia.ReadOnly = true;
             textBoxObervacionesCasoReferencia.ScrollBars = ScrollBars.Vertical;
-            textBoxObervacionesCasoReferencia.Size = new Size(527, 118);
+            textBoxObervacionesCasoReferencia.Size = new Size(459, 118);
             textBoxObervacionesCasoReferencia.TabIndex = 10;
             textBoxObervacionesCasoReferencia.TextChanged += textBox6_TextChanged;
             // 
@@ -4116,7 +4114,7 @@
             roundedButton28.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton28.Location = new Point(23, 135);
             roundedButton28.Name = "roundedButton28";
-            roundedButton28.Size = new Size(551, 139);
+            roundedButton28.Size = new Size(483, 139);
             roundedButton28.TabIndex = 11;
             roundedButton28.TextColor = Color.White;
             roundedButton28.UseVisualStyleBackColor = false;
@@ -4156,7 +4154,7 @@
             roundedButton30.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton30.Location = new Point(0, 0);
             roundedButton30.Name = "roundedButton30";
-            roundedButton30.Size = new Size(599, 43);
+            roundedButton30.Size = new Size(531, 43);
             roundedButton30.TabIndex = 4;
             roundedButton30.Text = "Estado y Observaciones";
             roundedButton30.TextAlign = ContentAlignment.MiddleLeft;
@@ -4178,7 +4176,7 @@
             roundedButton31.ForeColor = Color.White;
             roundedButton31.Location = new Point(0, 45);
             roundedButton31.Name = "roundedButton31";
-            roundedButton31.Size = new Size(599, 242);
+            roundedButton31.Size = new Size(531, 242);
             roundedButton31.TabIndex = 2;
             roundedButton31.TextColor = Color.White;
             roundedButton31.UseVisualStyleBackColor = false;
@@ -4199,7 +4197,7 @@
             flowLayoutPanel2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             flowLayoutPanel2.Location = new Point(3, 614);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
-            flowLayoutPanel2.Size = new Size(599, 1687);
+            flowLayoutPanel2.Size = new Size(531, 1687);
             flowLayoutPanel2.TabIndex = 30;
             flowLayoutPanel2.WrapContents = false;
             // 
@@ -5230,8 +5228,8 @@
             Listar.PerformLayout();
             panelBusquedaCaso.ResumeLayout(false);
             panelBusquedaCaso.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgCasosCiviles).EndInit();
             panel7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dtgCasosCiviles).EndInit();
             Detalles.ResumeLayout(false);
             Detalles.PerformLayout();
             flowLayoutPanel1.ResumeLayout(false);
@@ -5421,7 +5419,7 @@
         private Clases.RoundedButton roundedButton6;
         private Panel panelHeader;
         private Clases.RoundedButton roundedButton8;
-        private ComboBox comboBoxJuzgado;
+        private ComboBox comboBoxCorte;
         private Panel panelHeaderSocios;
         private Clases.RoundedButton roundedButton4;
         private Panel panelHeaderTerceros;

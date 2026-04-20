@@ -24,6 +24,16 @@ namespace Presentacion.Plazos
         PlazosModel plazosModel = new PlazosModel();
         private string origenActual = "";
         private bool _cargando = false;
+
+        private bool isLectorPlazo = false;
+        private void VerificarTipoUsuario()
+
+        {
+            isLectorPlazo = UserSession.Modulos.Any(m =>
+                (m.clave_slug ?? "").Trim().Equals("plazos", StringComparison.OrdinalIgnoreCase) &&
+                (m.nombre_rol ?? "").Trim().Equals("Usuario Lector", StringComparison.OrdinalIgnoreCase));
+        }
+
         public FrmPlazos()
         {
             InitializeComponent();
@@ -195,6 +205,15 @@ namespace Presentacion.Plazos
             {
                 MessageBox.Show(plazo.message);
             }
+
+            if (isLectorPlazo)
+            {
+                DeshabilitarControles();
+            }
+            else
+            {
+                HabilitarControles();
+            }
         }
 
         private void EliminarTabPage(TabPage nombre)
@@ -217,6 +236,8 @@ namespace Presentacion.Plazos
 
         private void CrearBotonesAccion(DataGridView dtg)
         {
+            VerificarTipoUsuario();
+            
             // Editar
             if (!dtg.Columns.Contains("Editar"))
             {
@@ -224,7 +245,10 @@ namespace Presentacion.Plazos
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️", // Icono de lápiz
+                    Text = isLectorPlazo
+                    ? "👁️"
+                    : "✏️"
+                    ,
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard, // estilo estándar, sin colores
                     Width = 40,
@@ -278,7 +302,7 @@ namespace Presentacion.Plazos
         private void btnAdd_Click(object sender, EventArgs e)
         {
             lblTitulo.Text = "Nuevo Tercero Interesado";
-            btnGuardarUsuario.Text = "Guardar";
+            btnActualizar.Text = "Guardar";
             LimpiarFormulario();
             AnadirTabPage(Detalles);
             EliminarTabPage(Listar);
@@ -348,6 +372,8 @@ namespace Presentacion.Plazos
             await CargarPlazos();
 
             dtgPlazos.Columns["Editar"].Width = 40;
+
+
             EliminarTabPage(Detalles);
 
         }
@@ -485,8 +511,43 @@ namespace Presentacion.Plazos
             return observacion;
         }
 
+        private void DeshabilitarControles()
+        {
+            dateTimePickerFechaVencimiento.Enabled = false;
+            dateTimePickerFechaEstado.Enabled = false;
+            dateTimePickerHoraVencimiento.Enabled = false;
+
+            dateTimePickerFecha1.Enabled = false;
+            dateTimePickerFecha2.Enabled = false;
+            dateTimePickerFecha3.Enabled = false;
+
+            comboboxEstado.Enabled = false;
+            txtObservaciones.Enabled = false;
+
+            btnActualizar.Enabled = false;
+            btnActualizar.Visible = false;
+        }
+
+        private void HabilitarControles()
+        {
+            dateTimePickerFechaVencimiento.Enabled = true;
+            dateTimePickerFechaEstado.Enabled = true;
+            dateTimePickerHoraVencimiento.Enabled = true;
+            dateTimePickerFecha1.Enabled = true;
+            dateTimePickerFecha2.Enabled = true;
+            dateTimePickerFecha3.Enabled = true;
+
+            comboboxEstado.Enabled = true;
+            txtObservaciones.Enabled = true;
+            btnActualizar.Enabled = true;
+            btnActualizar.Visible = true;
+
+        }
+
         private async Task ActualizarPlazo()
         {
+           
+
             string formatoCorrecto = GenerarFormatoBase();
             string textoUsuario = txtObservaciones.Text;
             int usuarioId = UserSession.Id;
@@ -559,7 +620,7 @@ namespace Presentacion.Plazos
 
             if (dtgPlazos.Columns[e.ColumnIndex].Name == "Editar")
             {
-                btnGuardarUsuario.Text = "Actualizar";
+                btnActualizar.Text = "Actualizar";
                 lblTitulo.Text = "Editar Plazo";
                 int historialId = Convert.ToInt32(dtgPlazos.Rows[e.RowIndex].Cells["historial_id"].Value);
                 _idPlazo = historialId;

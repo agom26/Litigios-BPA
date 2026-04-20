@@ -12,6 +12,7 @@ namespace Comun.Models.Casos.Laborales
         public int modulo_id { get; set; }
         public string expediente { get; set; }
         public string titulo { get; set; }
+        public string? corte { get; set; }
         public string nombre_particular { get; set; }
         public string juzgado { get; set; }
         public string sala { get; set; }

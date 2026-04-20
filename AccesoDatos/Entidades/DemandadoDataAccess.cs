@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace AccesoDatos.Entidades
 {
+
     public class DemandadoDataAccess
     {
         private readonly string _apiUrl = "http://bpa.com.es/peticiones-litigios/demandados.php";

@@ -2,6 +2,7 @@
 using Comun.Models;
 using Comun.Models.Casos.Civiles;
 using Comun.Models.Casos.Laborales;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Dominio.Entidades;
 using Dominio.Entidades.Civiles;
 using Dominio.Entidades.Constitucionales;
@@ -21,48 +22,82 @@ namespace Presentacion.Reportes.BuscarPersonaForm
     public partial class BuscarPersonaForm: Form
     {
         public PersonaListDataResponse? PersonaSeleccionada { get; private set; }
-
-        private BindingList<PersonaListDataResponse> listaPersonas = new BindingList<PersonaListDataResponse>();
-
-        CasoConstitucionalAmparoModel constitucionalModel = new CasoConstitucionalAmparoModel();
+        private readonly BindingList<PersonaListDataResponse> _listaDestino;
+        
+        DemandadoModel demandadoModel = new DemandadoModel();
+        DemandanteModel demandanteModel = new DemandanteModel();
+        ContactoEmpresaModel ContactoEmpresaModel = new ContactoEmpresaModel();
+        TerceroInteresadoModel TerceroInteresadoModel = new TerceroInteresadoModel();
         private int paginaActual = 1;
         private int registrosPorPagina = 10;
         private int totalRegistros = 0;
-        private BindingSource bsCasos = new BindingSource();
-        public int? IdCasoSeleccionado { get; set; }
-        public BuscarPersonaForm()
+        private BindingSource bsPersonas = new BindingSource();
+        public int? IdPersonaSeleccionada { get; set; }
+        public BuscarPersonaForm(BindingList<PersonaListDataResponse> listaDestino, string tipoPersona)
         {
             InitializeComponent();
-            InicializarGrid();
+
+            switch (tipoPersona)
+            {
+                case "Demandado":
+                    {
+                        comboBoxRama.Items.Clear();
+                        comboBoxRama.Items.AddRange(new string[] { "Demandado" });
+                        comboBoxRama.SelectedIndex = 0;
+                        break;
+                    }
+                case "Autoridad Impugnada":
+                    {
+                        comboBoxRama.Items.Clear();
+                        comboBoxRama.Items.AddRange(new string[] { "Autoridad Impugnada" });
+                        comboBoxRama.SelectedIndex = 0;
+                        break;
+                    }
+                case "Solicitante":
+                    {
+                        comboBoxRama.Items.Clear();
+                        comboBoxRama.Items.AddRange(new string[] { "Solicitante"});
+                        comboBoxRama.SelectedIndex = 0;
+                        break;
+                    }
+                case "Demandante":
+                    {
+                        comboBoxRama.Items.Clear();
+                        comboBoxRama.Items.AddRange(new string[] { "Demandante"});
+                        comboBoxRama.SelectedIndex = 0;
+                        break;
+                    }
+                case "Contacto Empresa":
+                    {
+                        comboBoxRama.Items.Clear();
+                        comboBoxRama.Items.Add("Contacto Empresa");
+                        comboBoxRama.SelectedIndex = 0;
+                        break;
+                    }
+                case "Tercero Interesado":
+                    {
+                        comboBoxRama.Items.Clear();
+                        comboBoxRama.Items.Add("Tercero Interesado");
+                        comboBoxRama.SelectedIndex = 0;
+                        break;
+                    }
+                default:
+                    {
+                        comboBoxRama.Items.Clear();
+                        MessageBox.Show("Tipo de persona no reconocido. Se mostrarán todos los tipos.");
+                        comboBoxRama.Items.AddRange(new string[] { "Demandado", "Autoridad Impugnada", "Solicitante", "Demandante", "Contacto Empresa", "Tercero Interesado" });
+                        comboBoxRama.SelectedIndex = 0;
+                        comboBoxRama.Enabled = true;
+                        break;
+                    }
+
+
+            }
+
+            _listaDestino = listaDestino;
         }
 
-        private void InicializarGrid()
-        {
-            dtgPersonas.AutoGenerateColumns = false;
-            dtgPersonas.DataSource = listaPersonas;
-
-            dtgPersonas.Columns.Clear();
-
-            dtgPersonas.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "nombre_completo",
-                HeaderText = "Nombre",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-            });
-
-            var btnSeleccionar = new DataGridViewButtonColumn
-            {
-                Name = "Seleccionar",
-                HeaderText = "",
-                Text = "Seleccionar",
-                UseColumnTextForButtonValue = true,
-                Width = 100
-            };
-
-            dtgPersonas.Columns.Add(btnSeleccionar);
-
-            dtgPersonas.CellClick += dtgPersonas_CellClick;
-        }
+        
         private void EliminarTabPage(TabPage nombre)
         {
             if (tablessControl1.TabPages.Contains(nombre))
@@ -115,8 +150,16 @@ namespace Presentacion.Reportes.BuscarPersonaForm
         {
             if (dtgPersonas.SelectedRows.Count > 0)
             {
+                foreach (DataGridViewRow row in dtgPersonas.SelectedRows)
+                {
+                    var personaSeleccionada = (PersonaListDataResponse)row.DataBoundItem;
 
-                MessageBox.Show("Caso referencial agregado", "Éxito",
+                    if (!_listaDestino.Any(x => x.id == personaSeleccionada.id))
+                        _listaDestino.Add(personaSeleccionada);
+                    
+                }
+
+                MessageBox.Show("Persona agregada", "Éxito",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -124,7 +167,7 @@ namespace Presentacion.Reportes.BuscarPersonaForm
             }
             else
             {
-                MessageBox.Show("Debe seleccionar un caso para poder agregarlo", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Debe seleccionar una persona para poder agregarla", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
         }
@@ -134,13 +177,13 @@ namespace Presentacion.Reportes.BuscarPersonaForm
             if (dtgPersonas.SelectedRows.Count > 0)
             {
                 var row = dtgPersonas.SelectedRows[0];
-                var caso = (CasoLaboralListItem)row.DataBoundItem;
+                var persona = (PersonaListDataResponse)row.DataBoundItem;
 
-                IdCasoSeleccionado = caso.id;
+                IdPersonaSeleccionada = persona.id;
             }
             else
             {
-                MessageBox.Show("Debe seleccionar un caso para poder agregarlo",
+                MessageBox.Show("Debe seleccionar una persona para poder agregarla",
                     "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -160,16 +203,47 @@ namespace Presentacion.Reportes.BuscarPersonaForm
             string filtro = txtBuscarContactoEmpresa.Text;
             int pagina = 1;
             int registrosPorPagina = 10;
-            string rama = comboBoxRama.SelectedItem?.ToString() ?? string.Empty;
+            string tipoPersona = comboBoxRama.SelectedItem?.ToString() ?? string.Empty;
 
-            var resultado = await constitucionalModel.ObtenerCasosPorRama(UserSession.Id, pagina, registrosPorPagina, rama, filtro);
+            ApiGetUserListResponse<List<PersonaListDataResponse>> resultado = null;
+            switch (tipoPersona)
+            {
+                case "Demandado":
+                case "Autoridad Impugnada":
+                    {
+                        resultado = await demandadoModel.ObtenerDemandadosFiltrados( pagina, registrosPorPagina, filtro);
+                        break;
+                    }
+                case "Solicitante":
+                case "Demandante":
+                    {
+                        resultado = await demandanteModel.ObtenerDemandantesFiltrados(pagina, registrosPorPagina, filtro);
+                        break;
+                    }
+                case "Contacto Empresa":
+                    {
+                        resultado = await ContactoEmpresaModel.ObtenerContactosDeEmpresaFiltrados(pagina, registrosPorPagina, filtro);
+                        break;
+                    }
+                case "Tercero Interesado":
+                    {
+                        resultado = await TerceroInteresadoModel.ObtenerTercerosInteresadosFiltrados(pagina, registrosPorPagina, filtro);
+                        break;
+                    }
+                default:
+                    {
+                        MessageBox.Show("Seleccione un tipo válido");
+                        return;
+                    }
+            }
+
 
             if (resultado.success)
             {
-                bsCasos.DataSource = resultado.data;
+                bsPersonas.DataSource = resultado.data;
                 dtgPersonas.Refresh();
-                labelTotal.Text = $"Total de casos: {resultado.total}";
-                lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)resultado.registros / resultado.registros)}";
+                labelTotal.Text = $"Total de personas: {resultado.totalRegistros}";
+                lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)resultado.totalRegistros / registrosPorPagina)}";
             }
             else
             {
@@ -179,8 +253,8 @@ namespace Presentacion.Reportes.BuscarPersonaForm
 
         private async void BuscarPersonaForm_Load(object sender, EventArgs e)
         {
-            dtgPersonas.DataSource = bsCasos;
-            await Filtrar();
+            dtgPersonas.DataSource = bsPersonas;
+            //await Filtrar();
         }
 
         private async void btnAnterior_Click(object sender, EventArgs e)
@@ -203,7 +277,7 @@ namespace Presentacion.Reportes.BuscarPersonaForm
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            IdCasoSeleccionado = null;
+            IdPersonaSeleccionada = null;
             this.Close();
         }
 

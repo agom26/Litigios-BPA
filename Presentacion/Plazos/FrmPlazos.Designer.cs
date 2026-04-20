@@ -78,7 +78,7 @@
             label4 = new Label();
             label3 = new Label();
             roundedButton19 = new Presentacion.Clases.RoundedButton();
-            btnGuardarUsuario = new Presentacion.Clases.RoundedButton();
+            btnActualizar = new Presentacion.Clases.RoundedButton();
             lblTitulo = new Label();
             tabPageReportes = new TabPage();
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -421,7 +421,7 @@
             panel2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel2.Controls.Add(btnSiguiente);
             panel2.Controls.Add(btnAnterior);
-            panel2.Location = new Point(2, 420);
+            panel2.Location = new Point(2, 403);
             panel2.Name = "panel2";
             panel2.Size = new Size(794, 72);
             panel2.TabIndex = 6;
@@ -436,7 +436,7 @@
             Detalles.Controls.Add(label4);
             Detalles.Controls.Add(label3);
             Detalles.Controls.Add(roundedButton19);
-            Detalles.Controls.Add(btnGuardarUsuario);
+            Detalles.Controls.Add(btnActualizar);
             Detalles.Controls.Add(lblTitulo);
             Detalles.Font = new Font("Microsoft Sans Serif", 8.25F);
             Detalles.Location = new Point(4, 24);
@@ -780,28 +780,28 @@
             roundedButton19.UseVisualStyleBackColor = false;
             roundedButton19.Click += roundedButton19_Click;
             // 
-            // btnGuardarUsuario
+            // btnActualizar
             // 
-            btnGuardarUsuario.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnGuardarUsuario.BackColor = Color.FromArgb(194, 160, 91);
-            btnGuardarUsuario.BackgroundColor = Color.FromArgb(194, 160, 91);
-            btnGuardarUsuario.BorderColor = Color.Empty;
-            btnGuardarUsuario.BorderRadius = 10;
-            btnGuardarUsuario.BorderSize = 1;
-            btnGuardarUsuario.FlatAppearance.BorderSize = 0;
-            btnGuardarUsuario.FlatStyle = FlatStyle.Flat;
-            btnGuardarUsuario.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            btnGuardarUsuario.ForeColor = Color.White;
-            btnGuardarUsuario.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGuardarUsuario.Location = new Point(460, 548);
-            btnGuardarUsuario.Name = "btnGuardarUsuario";
-            btnGuardarUsuario.Padding = new Padding(3, 0, 0, 0);
-            btnGuardarUsuario.Size = new Size(150, 40);
-            btnGuardarUsuario.TabIndex = 5;
-            btnGuardarUsuario.Text = "Guardar";
-            btnGuardarUsuario.TextColor = Color.White;
-            btnGuardarUsuario.UseVisualStyleBackColor = false;
-            btnGuardarUsuario.Click += roundedButton18_Click;
+            btnActualizar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnActualizar.BackColor = Color.FromArgb(194, 160, 91);
+            btnActualizar.BackgroundColor = Color.FromArgb(194, 160, 91);
+            btnActualizar.BorderColor = Color.Empty;
+            btnActualizar.BorderRadius = 10;
+            btnActualizar.BorderSize = 1;
+            btnActualizar.FlatAppearance.BorderSize = 0;
+            btnActualizar.FlatStyle = FlatStyle.Flat;
+            btnActualizar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnActualizar.ForeColor = Color.White;
+            btnActualizar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnActualizar.Location = new Point(460, 548);
+            btnActualizar.Name = "btnActualizar";
+            btnActualizar.Padding = new Padding(3, 0, 0, 0);
+            btnActualizar.Size = new Size(150, 40);
+            btnActualizar.TabIndex = 5;
+            btnActualizar.Text = "Guardar";
+            btnActualizar.TextColor = Color.White;
+            btnActualizar.UseVisualStyleBackColor = false;
+            btnActualizar.Click += roundedButton18_Click;
             // 
             // lblTitulo
             // 
@@ -904,7 +904,7 @@
             roundedButton7.FlatStyle = FlatStyle.Flat;
             roundedButton7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             roundedButton7.ForeColor = Color.Black;
-            roundedButton7.Location = new Point(452, 326);
+            roundedButton7.Location = new Point(444, 326);
             roundedButton7.Name = "roundedButton7";
             roundedButton7.Padding = new Padding(3, 0, 0, 0);
             roundedButton7.Size = new Size(150, 40);
@@ -919,7 +919,7 @@
             // 
             checkBoxNombre.Anchor = AnchorStyles.Top;
             checkBoxNombre.AutoSize = true;
-            checkBoxNombre.Location = new Point(15, 166);
+            checkBoxNombre.Location = new Point(7, 166);
             checkBoxNombre.Name = "checkBoxNombre";
             checkBoxNombre.Size = new Size(15, 14);
             checkBoxNombre.TabIndex = 70;
@@ -939,7 +939,7 @@
             btnGenerarReporte.ForeColor = Color.White;
             btnGenerarReporte.Image = Properties.Resources.buscar__1_;
             btnGenerarReporte.ImageAlign = ContentAlignment.MiddleRight;
-            btnGenerarReporte.Location = new Point(608, 326);
+            btnGenerarReporte.Location = new Point(600, 326);
             btnGenerarReporte.Name = "btnGenerarReporte";
             btnGenerarReporte.Padding = new Padding(3, 0, 0, 0);
             btnGenerarReporte.Size = new Size(150, 40);
@@ -965,7 +965,7 @@
             btnGenerarExcel.ForeColor = Color.Black;
             btnGenerarExcel.Image = Properties.Resources.xls__1_;
             btnGenerarExcel.ImageAlign = ContentAlignment.MiddleRight;
-            btnGenerarExcel.Location = new Point(340, 327);
+            btnGenerarExcel.Location = new Point(332, 327);
             btnGenerarExcel.Name = "btnGenerarExcel";
             btnGenerarExcel.Padding = new Padding(3, 0, 0, 0);
             btnGenerarExcel.Size = new Size(90, 40);
@@ -982,7 +982,7 @@
             txtNombre.Anchor = AnchorStyles.Top;
             txtNombre.BorderStyle = BorderStyle.None;
             txtNombre.Font = new Font("Segoe UI", 9F);
-            txtNombre.Location = new Point(20, 203);
+            txtNombre.Location = new Point(12, 203);
             txtNombre.Name = "txtNombre";
             txtNombre.PlaceholderText = "...";
             txtNombre.Size = new Size(256, 16);
@@ -1002,7 +1002,7 @@
             btnGenerarPDF.ForeColor = Color.Black;
             btnGenerarPDF.Image = Properties.Resources.pdf__2_;
             btnGenerarPDF.ImageAlign = ContentAlignment.MiddleRight;
-            btnGenerarPDF.Location = new Point(233, 327);
+            btnGenerarPDF.Location = new Point(225, 327);
             btnGenerarPDF.Name = "btnGenerarPDF";
             btnGenerarPDF.Padding = new Padding(3, 0, 0, 0);
             btnGenerarPDF.Size = new Size(90, 40);
@@ -1027,7 +1027,7 @@
             roundedButton5.FlatStyle = FlatStyle.Flat;
             roundedButton5.ForeColor = Color.White;
             roundedButton5.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton5.Location = new Point(15, 190);
+            roundedButton5.Location = new Point(7, 190);
             roundedButton5.Name = "roundedButton5";
             roundedButton5.Size = new Size(270, 40);
             roundedButton5.TabIndex = 69;
@@ -1039,7 +1039,7 @@
             label20.Anchor = AnchorStyles.Top;
             label20.AutoSize = true;
             label20.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label20.Location = new Point(36, 163);
+            label20.Location = new Point(28, 163);
             label20.Name = "label20";
             label20.Size = new Size(58, 17);
             label20.TabIndex = 67;
@@ -1052,7 +1052,7 @@
             comboBoxOrigen.DropDownWidth = 250;
             comboBoxOrigen.FormattingEnabled = true;
             comboBoxOrigen.ItemHeight = 15;
-            comboBoxOrigen.Location = new Point(308, 204);
+            comboBoxOrigen.Location = new Point(300, 204);
             comboBoxOrigen.Name = "comboBoxOrigen";
             comboBoxOrigen.Size = new Size(193, 23);
             comboBoxOrigen.TabIndex = 66;
@@ -1062,7 +1062,7 @@
             // 
             checkBoxOrigen.Anchor = AnchorStyles.Top;
             checkBoxOrigen.AutoSize = true;
-            checkBoxOrigen.Location = new Point(308, 170);
+            checkBoxOrigen.Location = new Point(300, 170);
             checkBoxOrigen.Name = "checkBoxOrigen";
             checkBoxOrigen.Size = new Size(15, 14);
             checkBoxOrigen.TabIndex = 65;
@@ -1073,7 +1073,7 @@
             label19.Anchor = AnchorStyles.Top;
             label19.AutoSize = true;
             label19.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label19.Location = new Point(329, 167);
+            label19.Location = new Point(321, 167);
             label19.Name = "label19";
             label19.Size = new Size(62, 17);
             label19.TabIndex = 64;
@@ -1083,7 +1083,7 @@
             // 
             dateTimePickerFechaVencimientoFin.Anchor = AnchorStyles.Top;
             dateTimePickerFechaVencimientoFin.Format = DateTimePickerFormat.Short;
-            dateTimePickerFechaVencimientoFin.Location = new Point(654, 278);
+            dateTimePickerFechaVencimientoFin.Location = new Point(646, 278);
             dateTimePickerFechaVencimientoFin.Name = "dateTimePickerFechaVencimientoFin";
             dateTimePickerFechaVencimientoFin.Size = new Size(104, 23);
             dateTimePickerFechaVencimientoFin.TabIndex = 63;
@@ -1092,7 +1092,7 @@
             // 
             dateTimePickerFechaVencimientoInicio.Anchor = AnchorStyles.Top;
             dateTimePickerFechaVencimientoInicio.Format = DateTimePickerFormat.Short;
-            dateTimePickerFechaVencimientoInicio.Location = new Point(537, 278);
+            dateTimePickerFechaVencimientoInicio.Location = new Point(529, 278);
             dateTimePickerFechaVencimientoInicio.Name = "dateTimePickerFechaVencimientoInicio";
             dateTimePickerFechaVencimientoInicio.Size = new Size(104, 23);
             dateTimePickerFechaVencimientoInicio.TabIndex = 62;
@@ -1101,7 +1101,7 @@
             // 
             checkBoxFechaVencimiento.Anchor = AnchorStyles.Top;
             checkBoxFechaVencimiento.AutoSize = true;
-            checkBoxFechaVencimiento.Location = new Point(537, 258);
+            checkBoxFechaVencimiento.Location = new Point(529, 258);
             checkBoxFechaVencimiento.Name = "checkBoxFechaVencimiento";
             checkBoxFechaVencimiento.Size = new Size(15, 14);
             checkBoxFechaVencimiento.TabIndex = 61;
@@ -1112,7 +1112,7 @@
             label18.Anchor = AnchorStyles.Top;
             label18.AutoSize = true;
             label18.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label18.Location = new Point(558, 255);
+            label18.Location = new Point(550, 255);
             label18.Name = "label18";
             label18.Size = new Size(143, 17);
             label18.TabIndex = 60;
@@ -1122,7 +1122,7 @@
             // 
             dateTimePickerFechaIngresoFin.Anchor = AnchorStyles.Top;
             dateTimePickerFechaIngresoFin.Format = DateTimePickerFormat.Short;
-            dateTimePickerFechaIngresoFin.Location = new Point(411, 278);
+            dateTimePickerFechaIngresoFin.Location = new Point(403, 278);
             dateTimePickerFechaIngresoFin.Name = "dateTimePickerFechaIngresoFin";
             dateTimePickerFechaIngresoFin.Size = new Size(104, 23);
             dateTimePickerFechaIngresoFin.TabIndex = 59;
@@ -1131,7 +1131,7 @@
             // 
             dateTimePickerFechaIngresoInicio.Anchor = AnchorStyles.Top;
             dateTimePickerFechaIngresoInicio.Format = DateTimePickerFormat.Short;
-            dateTimePickerFechaIngresoInicio.Location = new Point(294, 278);
+            dateTimePickerFechaIngresoInicio.Location = new Point(286, 278);
             dateTimePickerFechaIngresoInicio.Name = "dateTimePickerFechaIngresoInicio";
             dateTimePickerFechaIngresoInicio.Size = new Size(104, 23);
             dateTimePickerFechaIngresoInicio.TabIndex = 58;
@@ -1140,7 +1140,7 @@
             // 
             checkBoxFechaIngreso.Anchor = AnchorStyles.Top;
             checkBoxFechaIngreso.AutoSize = true;
-            checkBoxFechaIngreso.Location = new Point(294, 258);
+            checkBoxFechaIngreso.Location = new Point(286, 258);
             checkBoxFechaIngreso.Name = "checkBoxFechaIngreso";
             checkBoxFechaIngreso.Size = new Size(15, 14);
             checkBoxFechaIngreso.TabIndex = 57;
@@ -1151,7 +1151,7 @@
             label17.Anchor = AnchorStyles.Top;
             label17.AutoSize = true;
             label17.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label17.Location = new Point(315, 255);
+            label17.Location = new Point(307, 255);
             label17.Name = "label17";
             label17.Size = new Size(100, 17);
             label17.TabIndex = 56;
@@ -1164,7 +1164,7 @@
             comboBoxEstadoReporte.DropDownWidth = 500;
             comboBoxEstadoReporte.FormattingEnabled = true;
             comboBoxEstadoReporte.Items.AddRange(new object[] { "Juzgado 1º. De Trabajo y Previsión Social", "Juzgado 2º. De Trabajo y Previsión Social", "Juzgado 3º. De Trabajo y Previsión Social", "Juzgado 4º. De Trabajo y Previsión Social", "Juzgado 5º. De Trabajo y Previsión Social", "Juzgado 6º. De Trabajo y Previsión Social", "Juzgado 7º. De Trabajo y Previsión Social", "Juzgado 8º. De Trabajo y Previsión Social", "Juzgado 9º. De Trabajo y Previsión Social", "Juzgado 10º. De Trabajo y Previsión Social", "Juzgado 11º. De Trabajo y Previsión Social", "Juzgado 12º. De Trabajo y Previsión Social", "Juzgado 13º. De Trabajo y Previsión Social", "Juzgado 14º. De Trabajo y Previsión Social", "Juzgado pluripersonal de primera instancia de faltas laborales" });
-            comboBoxEstadoReporte.Location = new Point(518, 200);
+            comboBoxEstadoReporte.Location = new Point(510, 200);
             comboBoxEstadoReporte.Name = "comboBoxEstadoReporte";
             comboBoxEstadoReporte.Size = new Size(240, 23);
             comboBoxEstadoReporte.TabIndex = 55;
@@ -1175,7 +1175,7 @@
             comboBoxOrganoJudicial.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxOrganoJudicial.FormattingEnabled = true;
             comboBoxOrganoJudicial.Items.AddRange(new object[] { "Juzgado 1º. De Trabajo y Previsión Social", "Juzgado 2º. De Trabajo y Previsión Social", "Juzgado 3º. De Trabajo y Previsión Social", "Juzgado 4º. De Trabajo y Previsión Social", "Juzgado 5º. De Trabajo y Previsión Social", "Juzgado 6º. De Trabajo y Previsión Social", "Juzgado 7º. De Trabajo y Previsión Social", "Juzgado 8º. De Trabajo y Previsión Social", "Juzgado 9º. De Trabajo y Previsión Social", "Juzgado 10º. De Trabajo y Previsión Social", "Juzgado 11º. De Trabajo y Previsión Social", "Juzgado 12º. De Trabajo y Previsión Social", "Juzgado 13º. De Trabajo y Previsión Social", "Juzgado 14º. De Trabajo y Previsión Social", "Juzgado pluripersonal de primera instancia de faltas laborales" });
-            comboBoxOrganoJudicial.Location = new Point(588, 120);
+            comboBoxOrganoJudicial.Location = new Point(580, 120);
             comboBoxOrganoJudicial.Name = "comboBoxOrganoJudicial";
             comboBoxOrganoJudicial.Size = new Size(170, 23);
             comboBoxOrganoJudicial.TabIndex = 54;
@@ -1184,7 +1184,7 @@
             // 
             checkBoxOrganoJudicial.Anchor = AnchorStyles.Top;
             checkBoxOrganoJudicial.AutoSize = true;
-            checkBoxOrganoJudicial.Location = new Point(588, 86);
+            checkBoxOrganoJudicial.Location = new Point(580, 86);
             checkBoxOrganoJudicial.Name = "checkBoxOrganoJudicial";
             checkBoxOrganoJudicial.Size = new Size(15, 14);
             checkBoxOrganoJudicial.TabIndex = 53;
@@ -1195,7 +1195,7 @@
             label15.Anchor = AnchorStyles.Top;
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label15.Location = new Point(609, 83);
+            label15.Location = new Point(601, 83);
             label15.Name = "label15";
             label15.Size = new Size(105, 17);
             label15.TabIndex = 52;
@@ -1207,7 +1207,7 @@
             comboBoxTipoInstancia.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxTipoInstancia.FormattingEnabled = true;
             comboBoxTipoInstancia.Items.AddRange(new object[] { "Juzgado", "Sala", "Cámara", "Corte" });
-            comboBoxTipoInstancia.Location = new Point(397, 120);
+            comboBoxTipoInstancia.Location = new Point(389, 120);
             comboBoxTipoInstancia.Name = "comboBoxTipoInstancia";
             comboBoxTipoInstancia.Size = new Size(170, 23);
             comboBoxTipoInstancia.TabIndex = 51;
@@ -1235,7 +1235,7 @@
             // 
             checkBoxEstado.Anchor = AnchorStyles.Top;
             checkBoxEstado.AutoSize = true;
-            checkBoxEstado.Location = new Point(518, 170);
+            checkBoxEstado.Location = new Point(510, 170);
             checkBoxEstado.Name = "checkBoxEstado";
             checkBoxEstado.Size = new Size(15, 14);
             checkBoxEstado.TabIndex = 49;
@@ -1246,7 +1246,7 @@
             label8.Anchor = AnchorStyles.Top;
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(539, 167);
+            label8.Location = new Point(531, 167);
             label8.Name = "label8";
             label8.Size = new Size(49, 17);
             label8.TabIndex = 46;
@@ -1256,7 +1256,7 @@
             // 
             checkBoxNotificador.Anchor = AnchorStyles.Top;
             checkBoxNotificador.AutoSize = true;
-            checkBoxNotificador.Location = new Point(152, 237);
+            checkBoxNotificador.Location = new Point(144, 237);
             checkBoxNotificador.Name = "checkBoxNotificador";
             checkBoxNotificador.Size = new Size(15, 14);
             checkBoxNotificador.TabIndex = 45;
@@ -1266,7 +1266,7 @@
             // 
             checkBoxOficial.Anchor = AnchorStyles.Top;
             checkBoxOficial.AutoSize = true;
-            checkBoxOficial.Location = new Point(9, 237);
+            checkBoxOficial.Location = new Point(1, 237);
             checkBoxOficial.Name = "checkBoxOficial";
             checkBoxOficial.Size = new Size(15, 14);
             checkBoxOficial.TabIndex = 44;
@@ -1276,7 +1276,7 @@
             // 
             checkBoxTipoInstancia.Anchor = AnchorStyles.Top;
             checkBoxTipoInstancia.AutoSize = true;
-            checkBoxTipoInstancia.Location = new Point(397, 86);
+            checkBoxTipoInstancia.Location = new Point(389, 86);
             checkBoxTipoInstancia.Name = "checkBoxTipoInstancia";
             checkBoxTipoInstancia.Size = new Size(15, 14);
             checkBoxTipoInstancia.TabIndex = 43;
@@ -1286,7 +1286,7 @@
             // 
             checkBoxExpediente.Anchor = AnchorStyles.Top;
             checkBoxExpediente.AutoSize = true;
-            checkBoxExpediente.Location = new Point(205, 86);
+            checkBoxExpediente.Location = new Point(197, 86);
             checkBoxExpediente.Name = "checkBoxExpediente";
             checkBoxExpediente.Size = new Size(15, 14);
             checkBoxExpediente.TabIndex = 42;
@@ -1296,7 +1296,7 @@
             // 
             checkBoxRama.Anchor = AnchorStyles.Top;
             checkBoxRama.AutoSize = true;
-            checkBoxRama.Location = new Point(20, 86);
+            checkBoxRama.Location = new Point(12, 86);
             checkBoxRama.Name = "checkBoxRama";
             checkBoxRama.Size = new Size(15, 14);
             checkBoxRama.TabIndex = 41;
@@ -1307,7 +1307,7 @@
             txtNotificador.Anchor = AnchorStyles.Top;
             txtNotificador.BorderStyle = BorderStyle.None;
             txtNotificador.Font = new Font("Segoe UI", 9F);
-            txtNotificador.Location = new Point(157, 274);
+            txtNotificador.Location = new Point(149, 274);
             txtNotificador.Name = "txtNotificador";
             txtNotificador.PlaceholderText = "...";
             txtNotificador.Size = new Size(107, 16);
@@ -1326,7 +1326,7 @@
             roundedButton4.FlatStyle = FlatStyle.Flat;
             roundedButton4.ForeColor = Color.White;
             roundedButton4.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton4.Location = new Point(152, 261);
+            roundedButton4.Location = new Point(144, 261);
             roundedButton4.Name = "roundedButton4";
             roundedButton4.Size = new Size(121, 40);
             roundedButton4.TabIndex = 40;
@@ -1338,7 +1338,7 @@
             label9.Anchor = AnchorStyles.Top;
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(173, 234);
+            label9.Location = new Point(165, 234);
             label9.Name = "label9";
             label9.Size = new Size(78, 17);
             label9.TabIndex = 38;
@@ -1349,7 +1349,7 @@
             txtOficial.Anchor = AnchorStyles.Top;
             txtOficial.BorderStyle = BorderStyle.None;
             txtOficial.Font = new Font("Segoe UI", 9F);
-            txtOficial.Location = new Point(14, 274);
+            txtOficial.Location = new Point(6, 274);
             txtOficial.Name = "txtOficial";
             txtOficial.PlaceholderText = "...";
             txtOficial.Size = new Size(107, 16);
@@ -1368,7 +1368,7 @@
             roundedButton6.FlatStyle = FlatStyle.Flat;
             roundedButton6.ForeColor = Color.White;
             roundedButton6.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton6.Location = new Point(9, 261);
+            roundedButton6.Location = new Point(1, 261);
             roundedButton6.Name = "roundedButton6";
             roundedButton6.Size = new Size(121, 40);
             roundedButton6.TabIndex = 37;
@@ -1380,7 +1380,7 @@
             label10.Anchor = AnchorStyles.Top;
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(30, 234);
+            label10.Location = new Point(22, 234);
             label10.Name = "label10";
             label10.Size = new Size(48, 17);
             label10.TabIndex = 35;
@@ -1391,7 +1391,7 @@
             label11.Anchor = AnchorStyles.Top;
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.Location = new Point(418, 83);
+            label11.Location = new Point(410, 83);
             label11.Name = "label11";
             label11.Size = new Size(95, 17);
             label11.TabIndex = 32;
@@ -1402,7 +1402,7 @@
             txtExpediente.Anchor = AnchorStyles.Top;
             txtExpediente.BorderStyle = BorderStyle.None;
             txtExpediente.Font = new Font("Segoe UI", 9F);
-            txtExpediente.Location = new Point(210, 123);
+            txtExpediente.Location = new Point(202, 123);
             txtExpediente.Name = "txtExpediente";
             txtExpediente.PlaceholderText = "...";
             txtExpediente.Size = new Size(156, 16);
@@ -1421,7 +1421,7 @@
             roundedButton8.FlatStyle = FlatStyle.Flat;
             roundedButton8.ForeColor = Color.White;
             roundedButton8.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton8.Location = new Point(205, 110);
+            roundedButton8.Location = new Point(197, 110);
             roundedButton8.Name = "roundedButton8";
             roundedButton8.Size = new Size(170, 40);
             roundedButton8.TabIndex = 31;
@@ -1433,7 +1433,7 @@
             label12.Anchor = AnchorStyles.Top;
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.Location = new Point(226, 83);
+            label12.Location = new Point(218, 83);
             label12.Name = "label12";
             label12.Size = new Size(76, 17);
             label12.TabIndex = 29;
@@ -1444,7 +1444,7 @@
             label13.Anchor = AnchorStyles.Top;
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.Location = new Point(41, 83);
+            label13.Location = new Point(33, 83);
             label13.Name = "label13";
             label13.Size = new Size(93, 17);
             label13.TabIndex = 28;
@@ -1456,7 +1456,7 @@
             comboBoxRamaReporte.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxRamaReporte.FormattingEnabled = true;
             comboBoxRamaReporte.Items.AddRange(new object[] { "Laboral", "Civil", "Contencioso Administrativo", "Constitucional", "Todas" });
-            comboBoxRamaReporte.Location = new Point(20, 120);
+            comboBoxRamaReporte.Location = new Point(12, 120);
             comboBoxRamaReporte.Name = "comboBoxRamaReporte";
             comboBoxRamaReporte.Size = new Size(170, 23);
             comboBoxRamaReporte.TabIndex = 27;
@@ -1581,7 +1581,7 @@
         private TabPage Detalles;
         private Label labelTotal;
         private Label lblTitulo;
-        private Clases.RoundedButton btnGuardarUsuario;
+        private Clases.RoundedButton btnActualizar;
         private Clases.RoundedButton roundedButton19;
         private Panel panel2;
         private ComboBox comboBoxRama;

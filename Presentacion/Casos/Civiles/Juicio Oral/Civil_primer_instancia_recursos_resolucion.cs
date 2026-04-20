@@ -250,6 +250,17 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
             dtgSociosResponsables.Refresh();
             dtgAbogadosAsistentes.Refresh();
 
+            this.BeginInvoke(new Action(() =>
+            {
+                AjustarAlturaDataGridViewDemandantes();
+                AjustarAlturaDataGridViewDemandados();
+                AjustarAlturaDataGridViewTercerosInteresados();
+                AjustarAlturaDataGridViewContactosEmpresa();
+                AjustarAlturaDataGridViewAbogadosDirectores();
+                AjustarAlturaDataGridViewSociosResponsables();
+                AjustarAlturaDataGridViewAbogadosAsistentes();
+            }));
+
             // 6) Ir al tab Detalles
             AnadirTabPage(Detalles);
             EliminarTabPage(Listar);

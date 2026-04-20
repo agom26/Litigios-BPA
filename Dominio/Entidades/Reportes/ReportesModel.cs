@@ -10,46 +10,134 @@ namespace Dominio.Entidades.Reportes
 {
     public class ReportesModel
     {
-        ReportesDataAccess reportesData = new ReportesDataAccess();
-        public async Task<ApiResponseReporteCasos> ObtenerReporteCasos(ReporteCasosRequest req)
+        private readonly ReportesDataAccess reportesData = new ReportesDataAccess();
+
+        public async Task<ApiResponseReporteMaestroCasos> ObtenerReporteMaestroCasos(ReporteMaestroCasosRequest req)
         {
             try
             {
                 if (req == null)
-                    return new ApiResponseReporteCasos { success = false, message = "Solicitud inválida" };
+                {
+                    return new ApiResponseReporteMaestroCasos
+                    {
+                        success = false,
+                        message = "Solicitud invalida"
+                    };
+                }
 
-                // 🔹 Normalizar strings
-                req.Expediente = string.IsNullOrWhiteSpace(req.Expediente) ? null : req.Expediente.Trim();
-                req.Juzgado = string.IsNullOrWhiteSpace(req.Juzgado) ? null : req.Juzgado.Trim();
-                req.Oficial = string.IsNullOrWhiteSpace(req.Oficial) ? null : req.Oficial.Trim();
-                req.Notificador = string.IsNullOrWhiteSpace(req.Notificador) ? null : req.Notificador.Trim();
-                req.Estado = string.IsNullOrWhiteSpace(req.Estado) ? null : req.Estado.Trim();
-                req.Causa = string.IsNullOrWhiteSpace(req.Causa) ? null : req.Causa.Trim();
-                req.TipoReferencia = string.IsNullOrWhiteSpace(req.TipoReferencia) ? null : req.TipoReferencia.Trim();
+                if (req.UsuarioId <= 0)
+                {
+                    return new ApiResponseReporteMaestroCasos
+                    {
+                        success = false,
+                        message = "El UsuarioId es obligatorio"
+                    };
+                }
 
-                // 🔹 Normalizar listas
-                req.Demandantes = NormalizarIds(req.Demandantes);
-                req.Demandados = NormalizarIds(req.Demandados);
-                req.TercerosInteresados = NormalizarIds(req.TercerosInteresados);
-                req.ContactosEmpresa = NormalizarIds(req.ContactosEmpresa);
+                // paginación
+                if (req.Pagina <= 0) req.Pagina = 1;
+                if (req.RegistrosPorPagina <= 0) req.RegistrosPorPagina = 20;
 
-                req.Solicitantes = NormalizarIds(req.Solicitantes);
-                req.AutoridadesImpugnadas = NormalizarIds(req.AutoridadesImpugnadas);
+                // normalizar strings
+                req.Origen = NormalizarTexto(req.Origen);
+                req.EstadoActual = NormalizarTexto(req.EstadoActual);
+                req.Expediente = NormalizarTexto(req.Expediente);
+                req.NombreParticular = NormalizarTexto(req.NombreParticular);
+                req.TipoInstancia = NormalizarTexto(req.TipoInstancia);
+                req.OrganoJudicial = NormalizarTexto(req.OrganoJudicial);
+                req.Oficial = NormalizarTexto(req.Oficial);
+                req.Notificador = NormalizarTexto(req.Notificador);
+                req.TipoReferencia = NormalizarTexto(req.TipoReferencia);
+                req.FechaDesde = NormalizarTexto(req.FechaDesde);
+                req.FechaHasta = NormalizarTexto(req.FechaHasta);
 
-                req.AbogadosDirectores = NormalizarIds(req.AbogadosDirectores);
-                req.SociosResponsables = NormalizarIds(req.SociosResponsables);
-                req.AbogadosAsistentes = NormalizarIds(req.AbogadosAsistentes);
+                // normalizar listas
+                req.AbogadoDirectorIds = NormalizarIds(req.AbogadoDirectorIds);
+                req.SocioIds = NormalizarIds(req.SocioIds);
+                req.AsistenteIds = NormalizarIds(req.AsistenteIds);
 
-                return await reportesData.ObtenerReporteCasos(req);
+                req.DemandanteIds = NormalizarIds(req.DemandanteIds);
+                req.DemandadoIds = NormalizarIds(req.DemandadoIds);
+                req.TerceroIds = NormalizarIds(req.TerceroIds);
+                req.ContactoIds = NormalizarIds(req.ContactoIds);
+                req.SolicitanteIds = NormalizarIds(req.SolicitanteIds);
+                req.AutoridadIds = NormalizarIds(req.AutoridadIds);
+
+                return await reportesData.ObtenerReporteMaestroCasos(req);
             }
             catch (Exception ex)
             {
-                return new ApiResponseReporteCasos
+                return new ApiResponseReporteMaestroCasos
                 {
                     success = false,
                     message = "Error: " + ex.Message
                 };
             }
+        }
+
+        public async Task<ApiResponseReporteMaestroCasos> ObtenerReporteMaestroCasosExportacionRelacionados(ReporteMaestroCasosRequest req)
+        {
+            try
+            {
+                if (req == null)
+                {
+                    return new ApiResponseReporteMaestroCasos
+                    {
+                        success = false,
+                        message = "Solicitud invalida"
+                    };
+                }
+
+                if (req.UsuarioId <= 0)
+                {
+                    return new ApiResponseReporteMaestroCasos
+                    {
+                        success = false,
+                        message = "El UsuarioId es obligatorio"
+                    };
+                }
+
+                if (req.NivelRelacion <= 0)
+                    req.NivelRelacion = 1;
+
+                req.Origen = NormalizarTexto(req.Origen);
+                req.EstadoActual = NormalizarTexto(req.EstadoActual);
+                req.Expediente = NormalizarTexto(req.Expediente);
+                req.NombreParticular = NormalizarTexto(req.NombreParticular);
+                req.TipoInstancia = NormalizarTexto(req.TipoInstancia);
+                req.OrganoJudicial = NormalizarTexto(req.OrganoJudicial);
+                req.Oficial = NormalizarTexto(req.Oficial);
+                req.Notificador = NormalizarTexto(req.Notificador);
+                req.TipoReferencia = NormalizarTexto(req.TipoReferencia);
+                req.FechaDesde = NormalizarTexto(req.FechaDesde);
+                req.FechaHasta = NormalizarTexto(req.FechaHasta);
+
+                req.AbogadoDirectorIds = NormalizarIds(req.AbogadoDirectorIds);
+                req.SocioIds = NormalizarIds(req.SocioIds);
+                req.AsistenteIds = NormalizarIds(req.AsistenteIds);
+
+                req.DemandanteIds = NormalizarIds(req.DemandanteIds);
+                req.DemandadoIds = NormalizarIds(req.DemandadoIds);
+                req.TerceroIds = NormalizarIds(req.TerceroIds);
+                req.ContactoIds = NormalizarIds(req.ContactoIds);
+                req.SolicitanteIds = NormalizarIds(req.SolicitanteIds);
+                req.AutoridadIds = NormalizarIds(req.AutoridadIds);
+
+                return await reportesData.ObtenerReporteMaestroCasosExportacionRelacionados(req);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponseReporteMaestroCasos
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
+        }
+
+        private static string? NormalizarTexto(string? valor)
+        {
+            return string.IsNullOrWhiteSpace(valor) ? null : valor.Trim();
         }
 
         private static List<int>? NormalizarIds(List<int>? ids)

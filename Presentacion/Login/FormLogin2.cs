@@ -43,8 +43,32 @@ namespace Presentacion
             Properties.Settings.Default.Save();
             Presentacion.Properties.Settings.Default.Reload();
         }
-        
 
+        public void Logout(object sender, FormClosedEventArgs e)
+        {
+            if (Presentacion.Properties.Settings.Default.Recordar == true)
+            {
+                txtUsuario.Text = Presentacion.Properties.Settings.Default.Usuario;
+                txtPassword.Text = Presentacion.Properties.Settings.Default.Contrasena;
+                checkBoxRememberMe.Checked = Presentacion.Properties.Settings.Default.Recordar;
+                this.Show();
+                txtUsuario.Focus();
+                txtUsuario.Enabled = true;
+                txtPassword.Enabled = true;
+            }
+            else
+            {
+                txtUsuario.Text = "";
+                txtPassword.Text = "";
+                checkBoxRememberMe.Checked = false;
+                this.Show();
+                txtUsuario.Focus();
+                txtUsuario.Enabled= true;
+                txtPassword.Enabled= true;
+            }
+
+
+        }
         private async Task Login()
         {
             string user = txtUsuario.Text.Trim();
@@ -69,9 +93,9 @@ namespace Presentacion
                     UserSession.Modulos =response.data.modulos;
 
                     MenuPrincipal menuPrincipal = new MenuPrincipal();
+                    menuPrincipal.FormClosed += new FormClosedEventHandler(this.Logout);
+                    menuPrincipal.Show();
                     this.Hide();
-                    menuPrincipal.ShowDialog();
-
 
                 }
                 else

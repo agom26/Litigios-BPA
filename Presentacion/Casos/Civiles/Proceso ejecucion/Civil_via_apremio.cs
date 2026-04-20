@@ -297,6 +297,17 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             dtgSociosResponsables.Refresh();
             dtgAbogadosAsistentes.Refresh();
 
+            this.BeginInvoke(new Action(() =>
+            {
+                AjustarAlturaDataGridViewDemandantes();
+                AjustarAlturaDataGridViewDemandados();
+                AjustarAlturaDataGridViewTercerosInteresados();
+                AjustarAlturaDataGridViewContactosEmpresa();
+                AjustarAlturaDataGridViewAbogadosDirectores();
+                AjustarAlturaDataGridViewSociosResponsables();
+                AjustarAlturaDataGridViewAbogadosAsistentes();
+            }));
+
             var casoReferencia = data.referencia_comun ?? null;
             if(casoReferencia != null)
             {
