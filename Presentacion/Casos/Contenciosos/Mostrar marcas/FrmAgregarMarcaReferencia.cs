@@ -69,19 +69,24 @@ namespace Presentacion.Casos.Contenciosos.Mostrar_marcas
         private void dtgContactoEmpresas_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
 
-            if (dtgContactoEmpresas.Columns["id"] != null)
+            if (dtgMarcas.Columns["id"] != null)
             {
-                dtgContactoEmpresas.Columns["id"].Visible = false;
+                dtgMarcas.Columns["id"].Visible = false;
             }
 
-            dtgContactoEmpresas.ClearSelection();
+            if (dtgMarcas.Columns["recurso_id"] != null)
+            {
+                dtgMarcas.Columns["recurso_id"].Visible = false;
+            }
+
+            dtgMarcas.ClearSelection();
         }
 
         
 
         private void btnAgregarDemante_Click(object sender, EventArgs e)
         {
-            if (dtgContactoEmpresas.SelectedRows.Count > 0)
+            if (dtgMarcas.SelectedRows.Count > 0)
             {
                 
                 MessageBox.Show("Marca de referencia agregada", "Éxito",
@@ -101,9 +106,9 @@ namespace Presentacion.Casos.Contenciosos.Mostrar_marcas
 
         private void dtgContactoEmpresas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dtgContactoEmpresas.SelectedRows.Count > 0)
+            if (dtgMarcas.SelectedRows.Count > 0)
             {
-                var row = dtgContactoEmpresas.SelectedRows[0];
+                var row = dtgMarcas.SelectedRows[0];
                 var caso = (MarcaContenciosaListItem)row.DataBoundItem;
 
                 IdMarcaSeleccionada = caso.recurso_id; // 👈 guardas el ID
@@ -138,7 +143,7 @@ namespace Presentacion.Casos.Contenciosos.Mostrar_marcas
             if (resultado.success)
             {
                 bsViaAmpremio.DataSource = resultado.data;
-                dtgContactoEmpresas.Refresh();
+                dtgMarcas.Refresh();
                 labelTotal.Text = $"Total de marcas: {resultado.total}";
                 lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)resultado.registros/ resultado.registros)}";
             }
@@ -150,7 +155,7 @@ namespace Presentacion.Casos.Contenciosos.Mostrar_marcas
 
         private async void FrmAgregarMarcaReferencia_Load(object sender, EventArgs e)
         {
-            dtgContactoEmpresas.DataSource = bsViaAmpremio;
+            dtgMarcas.DataSource = bsViaAmpremio;
             await Filtrar();
         }
 

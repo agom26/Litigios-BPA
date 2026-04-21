@@ -1095,8 +1095,8 @@ namespace Presentacion.Reportes
 
         private void roundedButton6_Click(object sender, EventArgs e)
         {
-
-
+            dtgResultadosReporte.DataSource = null;
+            dtgResultadosReporte.Refresh();
         }
 
         private void comboBoxRama_SelectedValueChanged(object sender, EventArgs e)

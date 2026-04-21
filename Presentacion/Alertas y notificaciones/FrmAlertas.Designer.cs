@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAlertas));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
             panelBusqueda = new Panel();
             btnIrAReportes = new Presentacion.Clases.RoundedButton();
             btnAdd = new Presentacion.Clases.RoundedButton();
@@ -264,46 +264,46 @@
             dtgAlertas.AllowUserToAddRows = false;
             dtgAlertas.AllowUserToDeleteRows = false;
             dtgAlertas.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(249, 247, 242);
-            dtgAlertas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.BackColor = Color.FromArgb(249, 247, 242);
+            dtgAlertas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
             dtgAlertas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dtgAlertas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dtgAlertas.BackgroundColor = Color.White;
             dtgAlertas.BorderStyle = BorderStyle.None;
             dtgAlertas.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgAlertas.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dtgAlertas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle10.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle10.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle10.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle10.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
+            dtgAlertas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             dtgAlertas.ColumnHeadersHeight = 40;
             dtgAlertas.EnableHeadersVisualStyles = false;
             dtgAlertas.Location = new Point(35, 196);
             dtgAlertas.MinimumSize = new Size(719, 226);
             dtgAlertas.MultiSelect = false;
             dtgAlertas.Name = "dtgAlertas";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dtgAlertas.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = Color.White;
+            dataGridViewCellStyle11.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle11.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle11.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            dtgAlertas.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
             dtgAlertas.RowHeadersVisible = false;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle4.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dtgAlertas.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.BackColor = Color.White;
+            dataGridViewCellStyle12.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle12.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle12.SelectionForeColor = Color.Black;
+            dtgAlertas.RowsDefaultCellStyle = dataGridViewCellStyle12;
             dtgAlertas.RowTemplate.Height = 45;
             dtgAlertas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgAlertas.Size = new Size(719, 289);
+            dtgAlertas.Size = new Size(719, 335);
             dtgAlertas.TabIndex = 1;
             dtgAlertas.CellClick += dtgAlertas_CellClick;
             dtgAlertas.CellFormatting += dtgTercerosInteresados_CellFormatting;
@@ -904,12 +904,8 @@
             // 
             panelParametrosBusqueda.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelParametrosBusqueda.AutoScroll = true;
-            panelParametrosBusqueda.Controls.Add(roundedButton7);
             panelParametrosBusqueda.Controls.Add(checkBoxNombre);
-            panelParametrosBusqueda.Controls.Add(btnGenerarReporte);
-            panelParametrosBusqueda.Controls.Add(btnGenerarExcel);
             panelParametrosBusqueda.Controls.Add(txtNombre);
-            panelParametrosBusqueda.Controls.Add(btnGenerarPDF);
             panelParametrosBusqueda.Controls.Add(roundedButton5);
             panelParametrosBusqueda.Controls.Add(label20);
             panelParametrosBusqueda.Controls.Add(comboBoxOrigen);
@@ -965,7 +961,7 @@
             roundedButton7.FlatStyle = FlatStyle.Flat;
             roundedButton7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             roundedButton7.ForeColor = Color.Black;
-            roundedButton7.Location = new Point(364, 326);
+            roundedButton7.Location = new Point(611, 11);
             roundedButton7.Name = "roundedButton7";
             roundedButton7.Padding = new Padding(3, 0, 0, 0);
             roundedButton7.Size = new Size(150, 40);
@@ -980,7 +976,7 @@
             // 
             checkBoxNombre.Anchor = AnchorStyles.Top;
             checkBoxNombre.AutoSize = true;
-            checkBoxNombre.Location = new Point(-73, 166);
+            checkBoxNombre.Location = new Point(-81, 166);
             checkBoxNombre.Name = "checkBoxNombre";
             checkBoxNombre.Size = new Size(15, 14);
             checkBoxNombre.TabIndex = 70;
@@ -1000,7 +996,7 @@
             btnGenerarReporte.ForeColor = Color.White;
             btnGenerarReporte.Image = Properties.Resources.buscar__1_;
             btnGenerarReporte.ImageAlign = ContentAlignment.MiddleRight;
-            btnGenerarReporte.Location = new Point(520, 326);
+            btnGenerarReporte.Location = new Point(455, 12);
             btnGenerarReporte.Name = "btnGenerarReporte";
             btnGenerarReporte.Padding = new Padding(3, 0, 0, 0);
             btnGenerarReporte.Size = new Size(150, 40);
@@ -1026,7 +1022,7 @@
             btnGenerarExcel.ForeColor = Color.Black;
             btnGenerarExcel.Image = Properties.Resources.xls__1_;
             btnGenerarExcel.ImageAlign = ContentAlignment.MiddleRight;
-            btnGenerarExcel.Location = new Point(252, 327);
+            btnGenerarExcel.Location = new Point(343, 11);
             btnGenerarExcel.Name = "btnGenerarExcel";
             btnGenerarExcel.Padding = new Padding(3, 0, 0, 0);
             btnGenerarExcel.Size = new Size(90, 40);
@@ -1043,7 +1039,7 @@
             txtNombre.Anchor = AnchorStyles.Top;
             txtNombre.BorderStyle = BorderStyle.None;
             txtNombre.Font = new Font("Segoe UI", 9F);
-            txtNombre.Location = new Point(-68, 203);
+            txtNombre.Location = new Point(-76, 203);
             txtNombre.Name = "txtNombre";
             txtNombre.PlaceholderText = "...";
             txtNombre.Size = new Size(256, 16);
@@ -1063,7 +1059,7 @@
             btnGenerarPDF.ForeColor = Color.Black;
             btnGenerarPDF.Image = Properties.Resources.pdf__2_;
             btnGenerarPDF.ImageAlign = ContentAlignment.MiddleRight;
-            btnGenerarPDF.Location = new Point(145, 327);
+            btnGenerarPDF.Location = new Point(236, 11);
             btnGenerarPDF.Name = "btnGenerarPDF";
             btnGenerarPDF.Padding = new Padding(3, 0, 0, 0);
             btnGenerarPDF.Size = new Size(90, 40);
@@ -1088,7 +1084,7 @@
             roundedButton5.FlatStyle = FlatStyle.Flat;
             roundedButton5.ForeColor = Color.White;
             roundedButton5.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton5.Location = new Point(-73, 190);
+            roundedButton5.Location = new Point(-81, 190);
             roundedButton5.Name = "roundedButton5";
             roundedButton5.Size = new Size(270, 40);
             roundedButton5.TabIndex = 69;
@@ -1100,7 +1096,7 @@
             label20.Anchor = AnchorStyles.Top;
             label20.AutoSize = true;
             label20.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label20.Location = new Point(-52, 163);
+            label20.Location = new Point(-60, 163);
             label20.Name = "label20";
             label20.Size = new Size(58, 17);
             label20.TabIndex = 67;
@@ -1113,7 +1109,7 @@
             comboBoxOrigen.DropDownWidth = 250;
             comboBoxOrigen.FormattingEnabled = true;
             comboBoxOrigen.ItemHeight = 15;
-            comboBoxOrigen.Location = new Point(220, 204);
+            comboBoxOrigen.Location = new Point(212, 204);
             comboBoxOrigen.Name = "comboBoxOrigen";
             comboBoxOrigen.Size = new Size(193, 23);
             comboBoxOrigen.TabIndex = 66;
@@ -1123,7 +1119,7 @@
             // 
             checkBoxOrigen.Anchor = AnchorStyles.Top;
             checkBoxOrigen.AutoSize = true;
-            checkBoxOrigen.Location = new Point(220, 170);
+            checkBoxOrigen.Location = new Point(212, 170);
             checkBoxOrigen.Name = "checkBoxOrigen";
             checkBoxOrigen.Size = new Size(15, 14);
             checkBoxOrigen.TabIndex = 65;
@@ -1134,7 +1130,7 @@
             label19.Anchor = AnchorStyles.Top;
             label19.AutoSize = true;
             label19.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label19.Location = new Point(241, 167);
+            label19.Location = new Point(233, 167);
             label19.Name = "label19";
             label19.Size = new Size(62, 17);
             label19.TabIndex = 64;
@@ -1144,7 +1140,7 @@
             // 
             dateTimePickerFechaVencimientoFin.Anchor = AnchorStyles.Top;
             dateTimePickerFechaVencimientoFin.Format = DateTimePickerFormat.Short;
-            dateTimePickerFechaVencimientoFin.Location = new Point(566, 278);
+            dateTimePickerFechaVencimientoFin.Location = new Point(558, 278);
             dateTimePickerFechaVencimientoFin.Name = "dateTimePickerFechaVencimientoFin";
             dateTimePickerFechaVencimientoFin.Size = new Size(104, 23);
             dateTimePickerFechaVencimientoFin.TabIndex = 63;
@@ -1153,7 +1149,7 @@
             // 
             dateTimePickerFechaVencimientoInicio.Anchor = AnchorStyles.Top;
             dateTimePickerFechaVencimientoInicio.Format = DateTimePickerFormat.Short;
-            dateTimePickerFechaVencimientoInicio.Location = new Point(449, 278);
+            dateTimePickerFechaVencimientoInicio.Location = new Point(441, 278);
             dateTimePickerFechaVencimientoInicio.Name = "dateTimePickerFechaVencimientoInicio";
             dateTimePickerFechaVencimientoInicio.Size = new Size(104, 23);
             dateTimePickerFechaVencimientoInicio.TabIndex = 62;
@@ -1162,7 +1158,7 @@
             // 
             checkBoxFechaVencimiento.Anchor = AnchorStyles.Top;
             checkBoxFechaVencimiento.AutoSize = true;
-            checkBoxFechaVencimiento.Location = new Point(449, 258);
+            checkBoxFechaVencimiento.Location = new Point(441, 258);
             checkBoxFechaVencimiento.Name = "checkBoxFechaVencimiento";
             checkBoxFechaVencimiento.Size = new Size(15, 14);
             checkBoxFechaVencimiento.TabIndex = 61;
@@ -1173,7 +1169,7 @@
             label18.Anchor = AnchorStyles.Top;
             label18.AutoSize = true;
             label18.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label18.Location = new Point(470, 255);
+            label18.Location = new Point(462, 255);
             label18.Name = "label18";
             label18.Size = new Size(143, 17);
             label18.TabIndex = 60;
@@ -1183,7 +1179,7 @@
             // 
             dateTimePickerFechaIngresoFin.Anchor = AnchorStyles.Top;
             dateTimePickerFechaIngresoFin.Format = DateTimePickerFormat.Short;
-            dateTimePickerFechaIngresoFin.Location = new Point(323, 278);
+            dateTimePickerFechaIngresoFin.Location = new Point(315, 278);
             dateTimePickerFechaIngresoFin.Name = "dateTimePickerFechaIngresoFin";
             dateTimePickerFechaIngresoFin.Size = new Size(104, 23);
             dateTimePickerFechaIngresoFin.TabIndex = 59;
@@ -1192,7 +1188,7 @@
             // 
             dateTimePickerFechaIngresoInicio.Anchor = AnchorStyles.Top;
             dateTimePickerFechaIngresoInicio.Format = DateTimePickerFormat.Short;
-            dateTimePickerFechaIngresoInicio.Location = new Point(206, 278);
+            dateTimePickerFechaIngresoInicio.Location = new Point(198, 278);
             dateTimePickerFechaIngresoInicio.Name = "dateTimePickerFechaIngresoInicio";
             dateTimePickerFechaIngresoInicio.Size = new Size(104, 23);
             dateTimePickerFechaIngresoInicio.TabIndex = 58;
@@ -1201,7 +1197,7 @@
             // 
             checkBoxFechaIngreso.Anchor = AnchorStyles.Top;
             checkBoxFechaIngreso.AutoSize = true;
-            checkBoxFechaIngreso.Location = new Point(206, 258);
+            checkBoxFechaIngreso.Location = new Point(198, 258);
             checkBoxFechaIngreso.Name = "checkBoxFechaIngreso";
             checkBoxFechaIngreso.Size = new Size(15, 14);
             checkBoxFechaIngreso.TabIndex = 57;
@@ -1212,7 +1208,7 @@
             label17.Anchor = AnchorStyles.Top;
             label17.AutoSize = true;
             label17.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label17.Location = new Point(227, 255);
+            label17.Location = new Point(219, 255);
             label17.Name = "label17";
             label17.Size = new Size(100, 17);
             label17.TabIndex = 56;
@@ -1225,7 +1221,7 @@
             comboBoxEstadoReporte.DropDownWidth = 500;
             comboBoxEstadoReporte.FormattingEnabled = true;
             comboBoxEstadoReporte.Items.AddRange(new object[] { "Juzgado 1º. De Trabajo y Previsión Social", "Juzgado 2º. De Trabajo y Previsión Social", "Juzgado 3º. De Trabajo y Previsión Social", "Juzgado 4º. De Trabajo y Previsión Social", "Juzgado 5º. De Trabajo y Previsión Social", "Juzgado 6º. De Trabajo y Previsión Social", "Juzgado 7º. De Trabajo y Previsión Social", "Juzgado 8º. De Trabajo y Previsión Social", "Juzgado 9º. De Trabajo y Previsión Social", "Juzgado 10º. De Trabajo y Previsión Social", "Juzgado 11º. De Trabajo y Previsión Social", "Juzgado 12º. De Trabajo y Previsión Social", "Juzgado 13º. De Trabajo y Previsión Social", "Juzgado 14º. De Trabajo y Previsión Social", "Juzgado pluripersonal de primera instancia de faltas laborales" });
-            comboBoxEstadoReporte.Location = new Point(430, 200);
+            comboBoxEstadoReporte.Location = new Point(422, 200);
             comboBoxEstadoReporte.Name = "comboBoxEstadoReporte";
             comboBoxEstadoReporte.Size = new Size(240, 23);
             comboBoxEstadoReporte.TabIndex = 55;
@@ -1236,7 +1232,7 @@
             comboBoxOrganoJudicial.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxOrganoJudicial.FormattingEnabled = true;
             comboBoxOrganoJudicial.Items.AddRange(new object[] { "Juzgado 1º. De Trabajo y Previsión Social", "Juzgado 2º. De Trabajo y Previsión Social", "Juzgado 3º. De Trabajo y Previsión Social", "Juzgado 4º. De Trabajo y Previsión Social", "Juzgado 5º. De Trabajo y Previsión Social", "Juzgado 6º. De Trabajo y Previsión Social", "Juzgado 7º. De Trabajo y Previsión Social", "Juzgado 8º. De Trabajo y Previsión Social", "Juzgado 9º. De Trabajo y Previsión Social", "Juzgado 10º. De Trabajo y Previsión Social", "Juzgado 11º. De Trabajo y Previsión Social", "Juzgado 12º. De Trabajo y Previsión Social", "Juzgado 13º. De Trabajo y Previsión Social", "Juzgado 14º. De Trabajo y Previsión Social", "Juzgado pluripersonal de primera instancia de faltas laborales" });
-            comboBoxOrganoJudicial.Location = new Point(500, 120);
+            comboBoxOrganoJudicial.Location = new Point(492, 120);
             comboBoxOrganoJudicial.Name = "comboBoxOrganoJudicial";
             comboBoxOrganoJudicial.Size = new Size(170, 23);
             comboBoxOrganoJudicial.TabIndex = 54;
@@ -1245,7 +1241,7 @@
             // 
             checkBoxOrganoJudicial.Anchor = AnchorStyles.Top;
             checkBoxOrganoJudicial.AutoSize = true;
-            checkBoxOrganoJudicial.Location = new Point(500, 86);
+            checkBoxOrganoJudicial.Location = new Point(492, 86);
             checkBoxOrganoJudicial.Name = "checkBoxOrganoJudicial";
             checkBoxOrganoJudicial.Size = new Size(15, 14);
             checkBoxOrganoJudicial.TabIndex = 53;
@@ -1256,7 +1252,7 @@
             label15.Anchor = AnchorStyles.Top;
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label15.Location = new Point(521, 83);
+            label15.Location = new Point(513, 83);
             label15.Name = "label15";
             label15.Size = new Size(105, 17);
             label15.TabIndex = 52;
@@ -1268,14 +1264,18 @@
             comboBoxTipoInstancia.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxTipoInstancia.FormattingEnabled = true;
             comboBoxTipoInstancia.Items.AddRange(new object[] { "Juzgado", "Sala", "Cámara", "Corte" });
-            comboBoxTipoInstancia.Location = new Point(309, 120);
+            comboBoxTipoInstancia.Location = new Point(301, 120);
             comboBoxTipoInstancia.Name = "comboBoxTipoInstancia";
             comboBoxTipoInstancia.Size = new Size(170, 23);
             comboBoxTipoInstancia.TabIndex = 51;
             // 
             // panel1
             // 
+            panel1.Controls.Add(roundedButton7);
             panel1.Controls.Add(label14);
+            panel1.Controls.Add(btnGenerarReporte);
+            panel1.Controls.Add(btnGenerarPDF);
+            panel1.Controls.Add(btnGenerarExcel);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
@@ -1296,7 +1296,7 @@
             // 
             checkBoxEstado.Anchor = AnchorStyles.Top;
             checkBoxEstado.AutoSize = true;
-            checkBoxEstado.Location = new Point(430, 170);
+            checkBoxEstado.Location = new Point(422, 170);
             checkBoxEstado.Name = "checkBoxEstado";
             checkBoxEstado.Size = new Size(15, 14);
             checkBoxEstado.TabIndex = 49;
@@ -1307,7 +1307,7 @@
             label8.Anchor = AnchorStyles.Top;
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(451, 167);
+            label8.Location = new Point(443, 167);
             label8.Name = "label8";
             label8.Size = new Size(49, 17);
             label8.TabIndex = 46;
@@ -1317,7 +1317,7 @@
             // 
             checkBoxNotificador.Anchor = AnchorStyles.Top;
             checkBoxNotificador.AutoSize = true;
-            checkBoxNotificador.Location = new Point(64, 237);
+            checkBoxNotificador.Location = new Point(56, 237);
             checkBoxNotificador.Name = "checkBoxNotificador";
             checkBoxNotificador.Size = new Size(15, 14);
             checkBoxNotificador.TabIndex = 45;
@@ -1327,7 +1327,7 @@
             // 
             checkBoxOficial.Anchor = AnchorStyles.Top;
             checkBoxOficial.AutoSize = true;
-            checkBoxOficial.Location = new Point(-79, 237);
+            checkBoxOficial.Location = new Point(-87, 237);
             checkBoxOficial.Name = "checkBoxOficial";
             checkBoxOficial.Size = new Size(15, 14);
             checkBoxOficial.TabIndex = 44;
@@ -1337,7 +1337,7 @@
             // 
             checkBoxTipoInstancia.Anchor = AnchorStyles.Top;
             checkBoxTipoInstancia.AutoSize = true;
-            checkBoxTipoInstancia.Location = new Point(309, 86);
+            checkBoxTipoInstancia.Location = new Point(301, 86);
             checkBoxTipoInstancia.Name = "checkBoxTipoInstancia";
             checkBoxTipoInstancia.Size = new Size(15, 14);
             checkBoxTipoInstancia.TabIndex = 43;
@@ -1347,7 +1347,7 @@
             // 
             checkBoxExpediente.Anchor = AnchorStyles.Top;
             checkBoxExpediente.AutoSize = true;
-            checkBoxExpediente.Location = new Point(117, 86);
+            checkBoxExpediente.Location = new Point(109, 86);
             checkBoxExpediente.Name = "checkBoxExpediente";
             checkBoxExpediente.Size = new Size(15, 14);
             checkBoxExpediente.TabIndex = 42;
@@ -1357,7 +1357,7 @@
             // 
             checkBoxRama.Anchor = AnchorStyles.Top;
             checkBoxRama.AutoSize = true;
-            checkBoxRama.Location = new Point(-68, 86);
+            checkBoxRama.Location = new Point(-76, 86);
             checkBoxRama.Name = "checkBoxRama";
             checkBoxRama.Size = new Size(15, 14);
             checkBoxRama.TabIndex = 41;
@@ -1368,7 +1368,7 @@
             txtNotificador.Anchor = AnchorStyles.Top;
             txtNotificador.BorderStyle = BorderStyle.None;
             txtNotificador.Font = new Font("Segoe UI", 9F);
-            txtNotificador.Location = new Point(69, 274);
+            txtNotificador.Location = new Point(61, 274);
             txtNotificador.Name = "txtNotificador";
             txtNotificador.PlaceholderText = "...";
             txtNotificador.Size = new Size(107, 16);
@@ -1387,7 +1387,7 @@
             roundedButton4.FlatStyle = FlatStyle.Flat;
             roundedButton4.ForeColor = Color.White;
             roundedButton4.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton4.Location = new Point(64, 261);
+            roundedButton4.Location = new Point(56, 261);
             roundedButton4.Name = "roundedButton4";
             roundedButton4.Size = new Size(121, 40);
             roundedButton4.TabIndex = 40;
@@ -1399,7 +1399,7 @@
             label9.Anchor = AnchorStyles.Top;
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(85, 234);
+            label9.Location = new Point(77, 234);
             label9.Name = "label9";
             label9.Size = new Size(78, 17);
             label9.TabIndex = 38;
@@ -1410,7 +1410,7 @@
             txtOficial.Anchor = AnchorStyles.Top;
             txtOficial.BorderStyle = BorderStyle.None;
             txtOficial.Font = new Font("Segoe UI", 9F);
-            txtOficial.Location = new Point(-74, 274);
+            txtOficial.Location = new Point(-82, 274);
             txtOficial.Name = "txtOficial";
             txtOficial.PlaceholderText = "...";
             txtOficial.Size = new Size(107, 16);
@@ -1429,7 +1429,7 @@
             roundedButton6.FlatStyle = FlatStyle.Flat;
             roundedButton6.ForeColor = Color.White;
             roundedButton6.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton6.Location = new Point(-79, 261);
+            roundedButton6.Location = new Point(-87, 261);
             roundedButton6.Name = "roundedButton6";
             roundedButton6.Size = new Size(121, 40);
             roundedButton6.TabIndex = 37;
@@ -1441,7 +1441,7 @@
             label10.Anchor = AnchorStyles.Top;
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(-58, 234);
+            label10.Location = new Point(-66, 234);
             label10.Name = "label10";
             label10.Size = new Size(48, 17);
             label10.TabIndex = 35;
@@ -1452,7 +1452,7 @@
             label11.Anchor = AnchorStyles.Top;
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.Location = new Point(330, 83);
+            label11.Location = new Point(322, 83);
             label11.Name = "label11";
             label11.Size = new Size(95, 17);
             label11.TabIndex = 32;
@@ -1463,7 +1463,7 @@
             txtExpediente.Anchor = AnchorStyles.Top;
             txtExpediente.BorderStyle = BorderStyle.None;
             txtExpediente.Font = new Font("Segoe UI", 9F);
-            txtExpediente.Location = new Point(122, 123);
+            txtExpediente.Location = new Point(114, 123);
             txtExpediente.Name = "txtExpediente";
             txtExpediente.PlaceholderText = "...";
             txtExpediente.Size = new Size(156, 16);
@@ -1482,7 +1482,7 @@
             roundedButton8.FlatStyle = FlatStyle.Flat;
             roundedButton8.ForeColor = Color.White;
             roundedButton8.ImageAlign = ContentAlignment.MiddleLeft;
-            roundedButton8.Location = new Point(117, 110);
+            roundedButton8.Location = new Point(109, 110);
             roundedButton8.Name = "roundedButton8";
             roundedButton8.Size = new Size(170, 40);
             roundedButton8.TabIndex = 31;
@@ -1494,7 +1494,7 @@
             label12.Anchor = AnchorStyles.Top;
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.Location = new Point(138, 83);
+            label12.Location = new Point(130, 83);
             label12.Name = "label12";
             label12.Size = new Size(76, 17);
             label12.TabIndex = 29;
@@ -1505,7 +1505,7 @@
             label13.Anchor = AnchorStyles.Top;
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.Location = new Point(-47, 83);
+            label13.Location = new Point(-55, 83);
             label13.Name = "label13";
             label13.Size = new Size(93, 17);
             label13.TabIndex = 28;
@@ -1517,7 +1517,7 @@
             comboBoxRamaReporte.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxRamaReporte.FormattingEnabled = true;
             comboBoxRamaReporte.Items.AddRange(new object[] { "Laboral", "Civil", "Contencioso Administrativo", "Constitucional", "Todas" });
-            comboBoxRamaReporte.Location = new Point(-68, 120);
+            comboBoxRamaReporte.Location = new Point(-76, 120);
             comboBoxRamaReporte.Name = "comboBoxRamaReporte";
             comboBoxRamaReporte.Size = new Size(170, 23);
             comboBoxRamaReporte.TabIndex = 27;
@@ -1547,43 +1547,43 @@
             dtgReportesResultado.AllowUserToAddRows = false;
             dtgReportesResultado.AllowUserToDeleteRows = false;
             dtgReportesResultado.AllowUserToResizeRows = false;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(249, 247, 242);
-            dtgReportesResultado.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle13.BackColor = Color.FromArgb(249, 247, 242);
+            dtgReportesResultado.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             dtgReportesResultado.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dtgReportesResultado.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dtgReportesResultado.BackgroundColor = Color.White;
             dtgReportesResultado.BorderStyle = BorderStyle.None;
             dtgReportesResultado.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgReportesResultado.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dtgReportesResultado.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle14.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle14.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle14.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle14.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.True;
+            dtgReportesResultado.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
             dtgReportesResultado.ColumnHeadersHeight = 40;
             dtgReportesResultado.EnableHeadersVisualStyles = false;
             dtgReportesResultado.Location = new Point(23, 27);
             dtgReportesResultado.MinimumSize = new Size(619, 126);
             dtgReportesResultado.MultiSelect = false;
             dtgReportesResultado.Name = "dtgReportesResultado";
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = Color.White;
-            dataGridViewCellStyle7.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle7.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle7.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dtgReportesResultado.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = Color.White;
+            dataGridViewCellStyle15.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle15.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle15.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
+            dtgReportesResultado.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
             dtgReportesResultado.RowHeadersVisible = false;
-            dataGridViewCellStyle8.BackColor = Color.White;
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle8.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle8.SelectionForeColor = Color.Black;
-            dtgReportesResultado.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle16.BackColor = Color.White;
+            dataGridViewCellStyle16.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle16.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle16.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle16.SelectionForeColor = Color.Black;
+            dtgReportesResultado.RowsDefaultCellStyle = dataGridViewCellStyle16;
             dtgReportesResultado.RowTemplate.Height = 45;
             dtgReportesResultado.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgReportesResultado.Size = new Size(738, 215);

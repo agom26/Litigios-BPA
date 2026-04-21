@@ -1,5 +1,6 @@
 ﻿using Comun;
 using Comun.Models;
+using Comun.Models.Users;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -333,6 +334,65 @@ namespace AccesoDatos.Entidades
             }
         }
 
+        public async Task<ApiResponse<PermisoModuloDataResponse>> ObtenerPermisoPorModulo(int idUsuario, int idModulo)
+        {
+            using (var client = new HttpClient())
+            {
+                var parameters = new Dictionary<string, string>
+        {
+            { "action", "get_permiso_por_modulo" },
+            { "id_usuario", idUsuario.ToString() },
+            { "id_modulo", idModulo.ToString() }
+        };
+
+                var content = new FormUrlEncodedContent(parameters);
+
+                try
+                {
+                    var response = await client.PostAsync(_apiUrl, content);
+                    var jsonResult = await response.Content.ReadAsStringAsync();
+
+                    return JsonConvert.DeserializeObject<ApiResponse<PermisoModuloDataResponse>>(jsonResult);
+                }
+                catch (Exception ex)
+                {
+                    return new ApiResponse<PermisoModuloDataResponse>
+                    {
+                        success = false,
+                        message = "Error: " + ex.Message
+                    };
+                }
+            }
+        }
+        public async Task<ApiResponse<DashboardTotalesUsuarioDataResponse>> ObtenerTotalesDashboardUsuario(int idUsuario)
+        {
+            using (var client = new HttpClient())
+            {
+                var parameters = new Dictionary<string, string>
+        {
+            { "action", "get_totales_dashboard_usuario" },
+            { "id_usuario", idUsuario.ToString() }
+        };
+
+                var content = new FormUrlEncodedContent(parameters);
+
+                try
+                {
+                    var response = await client.PostAsync(_apiUrl, content);
+                    var jsonResult = await response.Content.ReadAsStringAsync();
+
+                    return JsonConvert.DeserializeObject<ApiResponse<DashboardTotalesUsuarioDataResponse>>(jsonResult);
+                }
+                catch (Exception ex)
+                {
+                    return new ApiResponse<DashboardTotalesUsuarioDataResponse>
+                    {
+                        success = false,
+                        message = "Error: " + ex.Message
+                    };
+                }
+            }
+        }
 
 
     }

@@ -1,6 +1,7 @@
 ﻿using AccesoDatos.Entidades;
 using Comun;
 using Comun.Models;
+using Comun.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -218,6 +219,65 @@ namespace Dominio.Entidades
                 };
 
             return await userData.EliminarUsuario(idUsuario);
+        }
+
+        public async Task<ApiResponse<PermisoModuloDataResponse>> ObtenerPermisoPorModulo(int idUsuario, int idModulo)
+        {
+            try
+            {
+                if (idUsuario <= 0)
+                {
+                    return new ApiResponse<PermisoModuloDataResponse>
+                    {
+                        success = false,
+                        message = "ID de usuario inválido"
+                    };
+                }
+
+                if (idModulo <= 0)
+                {
+                    return new ApiResponse<PermisoModuloDataResponse>
+                    {
+                        success = false,
+                        message = "ID de módulo inválido"
+                    };
+                }
+
+                return await userData.ObtenerPermisoPorModulo(idUsuario, idModulo);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<PermisoModuloDataResponse>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
+        }
+
+        public async Task<ApiResponse<DashboardTotalesUsuarioDataResponse>> ObtenerTotalesDashboardUsuario(int idUsuario)
+        {
+            try
+            {
+                if (idUsuario <= 0)
+                {
+                    return new ApiResponse<DashboardTotalesUsuarioDataResponse>
+                    {
+                        success = false,
+                        message = "ID de usuario inválido"
+                    };
+                }
+
+                return await userData.ObtenerTotalesDashboardUsuario(idUsuario);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<DashboardTotalesUsuarioDataResponse>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
         }
     }
 }

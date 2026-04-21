@@ -1349,6 +1349,16 @@ namespace Presentacion.Casos.Civiles
                 FrmAgregarEstadoCivilJSSI frmAgregarEstado = new FrmAgregarEstadoCivilJSSI();
                 frmAgregarEstado.ShowDialog();
             }
+            else if (ultimoOrigenHistorial == "CIVIL JUICIO ORAL PRIMER INSTANCIA")
+            {
+                FrmAgregarEstadoCivilJOPI frmAgregarEstado = new FrmAgregarEstadoCivilJOPI();
+                frmAgregarEstado.ShowDialog();
+            }
+            else if (ultimoOrigenHistorial == "CIVIL JUICIO ORAL SEGUNDA INSTANCIA")
+            {
+                FrmAgregarEstadoCivilJOSI frmAgregarEstado = new FrmAgregarEstadoCivilJOSI();
+                frmAgregarEstado.ShowDialog();
+            }
             else if (ultimoOrigenHistorial == "CIVIL PROCESO DE EJECUCIÓN VÍA APREMIO")
             {
                 FrmAgregarEstadoCivilPEVA frmAgregarEstado = new FrmAgregarEstadoCivilPEVA();

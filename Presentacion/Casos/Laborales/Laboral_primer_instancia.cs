@@ -3,6 +3,7 @@ using Comun;
 using Comun.DatosParaInterfaz;
 using Comun.Models;
 using Comun.Models.Casos.Laborales;
+using DocumentFormat.OpenXml.Office.PowerPoint.Y2021.M06.Main;
 using Dominio.Entidades;
 using Newtonsoft.Json;
 using Presentacion.Casos.Abogados_asignados;
@@ -60,12 +61,37 @@ namespace Presentacion.Casos.Laborales
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
         private bool isAdminLaboral = false;
-        private void VerificarTipoUsuario()
+        private bool isLectorLaboral = false;
+        UserModel userModel = new UserModel();
 
+        private async Task VerificarTipoUsuario()
         {
-            isAdminLaboral = UserSession.Modulos.Any(m =>
-                (m.clave_slug ?? "").Trim().Equals("laboral", StringComparison.OrdinalIgnoreCase) &&
-                (m.nombre_rol ?? "").Trim().Equals("Administrador", StringComparison.OrdinalIgnoreCase));
+            var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, 1);
+            if (resp.success && resp.data != null)
+            {
+                string rol = resp.data.nombre_rol;
+
+                if (rol == "Administrador")
+                {
+                    isAdminLaboral = true;
+                    isLectorLaboral = false;
+                }
+                else if(rol =="Usuario Lector")
+                {
+                    isLectorLaboral= true;
+                    isAdminLaboral = false;
+                }
+                else if(rol == "Usuario Normal") 
+                {
+                    isLectorLaboral = false;
+                    isAdminLaboral = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show(resp.message);
+            }
+            
         }
 
         public async Task LoadAsync()
@@ -176,6 +202,19 @@ namespace Presentacion.Casos.Laborales
             LimpiarListas();
         }
 
+
+        void HabilitarBotonesCaso()
+        {
+            btnAgregarDemandados.Enabled = !isLectorLaboral;
+            btnAgregarDemandantes.Enabled= !isLectorLaboral;
+            btnAgregarPartesInteresadas.Enabled= !isLectorLaboral;
+            btnAgregarContactoEmpresa.Enabled= !isLectorLaboral;
+            btnAgregarAbogadosAsistentes.Enabled= !isLectorLaboral;
+            btnAgregarAbogadosDirectores.Enabled= !isLectorLaboral;
+            btnAgregarSociosResponsables.Enabled = !isLectorLaboral;
+            btnAgregarEstado.Enabled= !isLectorLaboral;
+        }
+
         private async Task CargarDatosCaso(int idCaso)
         {
             int idUsuario = UserSession.Id;
@@ -245,8 +284,19 @@ namespace Presentacion.Casos.Laborales
             // 6) Ir al tab Detalles
             AnadirTabPage(Detalles);
             EliminarTabPage(Listar);
-            btnGuardarCaso.Visible = false;
-            btnEditarCaso.Visible = true;
+
+            if (!isLectorLaboral)
+            {
+                btnGuardarCaso.Visible = false;
+                btnEditarCaso.Visible = true;
+            }
+            else
+            {
+                btnGuardarCaso.Visible = false;
+                btnEditarCaso.Visible = false;
+            }
+
+            HabilitarBotonesCaso();
         }
 
         // Helpers de mapeo
@@ -308,15 +358,19 @@ namespace Presentacion.Casos.Laborales
 
 
 
-        private void CrearBotonesAccion(DataGridView dtg)
+        private async void CrearBotonesAccion(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️",
+                    Text = isLectorLaboral
+                    ? "👁️"
+                    : "✏️"
+                    ,
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard,
                     Width = 40,
@@ -325,7 +379,6 @@ namespace Presentacion.Casos.Laborales
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            VerificarTipoUsuario();
 
             if (isAdminLaboral == true)
             {
@@ -372,15 +425,19 @@ namespace Presentacion.Casos.Laborales
                 dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
         }
 
-        private void CrearBotonesAccionHistorial(DataGridView dtg)
+        private async void CrearBotonesAccionHistorial(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️",
+                    Text = !isLectorLaboral
+                    ? "✏️"
+                    : "👁️"
+                    ,
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard,
                     Width = 40,
@@ -389,7 +446,7 @@ namespace Presentacion.Casos.Laborales
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            VerificarTipoUsuario();
+           
 
             if (isAdminLaboral == true)
             {
@@ -445,8 +502,18 @@ namespace Presentacion.Casos.Laborales
             LimpiarFormulario();
             AnadirTabPage(Detalles);
             EliminarTabPage(Listar);
-            btnGuardarCaso.Visible = true;
-            btnEditarCaso.Visible = false;
+
+            if (!isLectorLaboral)
+            {
+                btnGuardarCaso.Visible = true;
+                btnEditarCaso.Visible = false;
+            }
+            else
+            {
+                btnGuardarCaso.Visible = false;
+                btnEditarCaso.Visible = false;
+            }
+            
         }
 
         private async Task CargarCasos()
@@ -605,155 +672,189 @@ namespace Presentacion.Casos.Laborales
 
         private void CrearBotonQuitarDemandado()
         {
-            if (!dtgDemandados.Columns.Contains("Quitar"))
+            if (!isLectorLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgDemandados.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandados.Columns.Add(btnQuitar);
-                dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                    dtgDemandados.Columns.Add(btnQuitar);
+                    dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                }
             }
         }
 
         private void CrearBotonQuitarDemandante()
         {
-            if (!dtgDemandantes.Columns.Contains("Quitar"))
+            if (!isLectorLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgDemandantes.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandantes.Columns.Add(btnQuitar);
-                dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+                    dtgDemandantes.Columns.Add(btnQuitar);
+                    dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+                }
             }
+            
         }
         private void CrearBotonQuitarTerceroInteresado()
         {
-            if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
+            if (!isLectorLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgTercerosInteresados.Columns.Add(btnQuitar);
-                dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                    dtgTercerosInteresados.Columns.Add(btnQuitar);
+                    dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                }
             }
         }
 
         private void CrearBotonQuitarAbogadoDirector()
         {
-            if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
+            if (!isLectorLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosDirectores.Columns.Add(btnQuitar);
-                dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+                    dtgAbogadosDirectores.Columns.Add(btnQuitar);
+                    dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+                }
             }
+            
         }
 
         private void CrearBotonQuitarContactoEmpresa()
         {
-            if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
+            if (!isLectorLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgContactoEmpresa.Columns.Add(btnQuitar);
-                dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+                    dtgContactoEmpresa.Columns.Add(btnQuitar);
+                    dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+                }
             }
         }
 
         private void CrearBotonQuitarSocioResponsable()
         {
-            if (!dtgSociosResponsables.Columns.Contains("Quitar"))
+            if (!isLectorLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgSociosResponsables.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgSociosResponsables.Columns.Add(btnQuitar);
-                dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                    dtgSociosResponsables.Columns.Add(btnQuitar);
+                    dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                }
             }
+            
         }
 
         private void CrearBotonQuitarAbogadoAsistente()
         {
-            if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
+            if (!isLectorLaboral)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosAsistentes.Columns.Add(btnQuitar);
-                dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                    dtgAbogadosAsistentes.Columns.Add(btnQuitar);
+                    dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                }
             }
+            
         }
 
         private async void Laboral_primer_instancia_Load(object sender, EventArgs e)
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (!_yaCargo)
                 await LoadAsync();
+
+            if (isLectorLaboral)
+            {
+                btnAdd.Visible = false;
+            }
+            else
+            {
+                btnAdd.Visible = true;
+            }
         }
 
 
@@ -962,92 +1063,99 @@ namespace Presentacion.Casos.Laborales
 
             if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Eliminar")
             {
-                int idCaso = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
-                string? expediente = Convert.ToString(dtgCasosLaborales.Rows[e.RowIndex].Cells["expediente"].Value);
-                var confirm = MessageBox.Show(
-                    "¿Seguro que desea eliminar el caso " + expediente + "?",
-                    "Confirmar",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
-
-                if (confirm == DialogResult.Yes)
+                if (isAdminLaboral)
                 {
-                    ApiResponse<object> resultado = null;
+                    int idCaso = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
+                    string? expediente = Convert.ToString(dtgCasosLaborales.Rows[e.RowIndex].Cells["expediente"].Value);
+                    var confirm = MessageBox.Show(
+                        "¿Seguro que desea eliminar el caso " + expediente + "?",
+                        "Confirmar",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
 
-                    await EjecutarConLoaderAsync(async () =>
+                    if (confirm == DialogResult.Yes)
                     {
-                        resultado = await casoLaboralModel.EliminarCasoLaboral(idCaso, UserSession.Id);
-                    });
-                    
-                    if(resultado == null)
-                    {
-                        MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
-                    if (resultado.success)
-                    {
-                        MessageBox.Show("Caso laboral eliminado correctamente", "Éxito", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                        ApiResponse<object> resultado = null;
 
                         await EjecutarConLoaderAsync(async () =>
                         {
-                            await CargarCasos();
+                            resultado = await casoLaboralModel.EliminarCasoLaboral(idCaso, UserSession.Id);
                         });
-                    }
-                    else
-                    {
-                        MessageBox.Show(resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
 
+                        if (resultado == null)
+                        {
+                            MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+                        if (resultado.success)
+                        {
+                            MessageBox.Show("Caso laboral eliminado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            await EjecutarConLoaderAsync(async () =>
+                            {
+                                await CargarCasos();
+                            });
+                        }
+                        else
+                        {
+                            MessageBox.Show(resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+                    }
                 }
             }
 
             if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Terminar")
             {
-                int idCaso = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
-                string? expediente = Convert.ToString(dtgCasosLaborales.Rows[e.RowIndex].Cells["expediente"].Value);
-                var confirm = MessageBox.Show(
-                    "¿Seguro que desea terminar el caso " + expediente + "?",
-                    "Confirmar",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
-
-                if (confirm == DialogResult.Yes)
+                if (isAdminLaboral)
                 {
-                    FrmAgregarEstadoLaboralTerminado frmAgregarEstado = new FrmAgregarEstadoLaboralTerminado();
-                    frmAgregarEstado.ShowDialog();
+                    int idCaso = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
+                    string? expediente = Convert.ToString(dtgCasosLaborales.Rows[e.RowIndex].Cells["expediente"].Value);
+                    var confirm = MessageBox.Show(
+                        "¿Seguro que desea terminar el caso " + expediente + "?",
+                        "Confirmar",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
 
-                    if (EstadoLaboral.estado != null)
+                    if (confirm == DialogResult.Yes)
                     {
-                        var response = await historialModel.TerminarCasoLaboral(
-                            casoId: idCaso, 
-                            usuarioId: UserSession.Id,
-                            fecha: EstadoLaboral.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
-                            anotaciones: EstadoLaboral.observaciones,
-                            origen: "LABORAL PRIMER INSTANCIA"
-                        );
+                        FrmAgregarEstadoLaboralTerminado frmAgregarEstado = new FrmAgregarEstadoLaboralTerminado();
+                        frmAgregarEstado.ShowDialog();
 
-                        if (response.success)
+                        if (EstadoLaboral.estado != null)
                         {
-                            MessageBox.Show("Caso terminado correctamente", "Éxito",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            var response = await historialModel.TerminarCasoLaboral(
+                                casoId: idCaso,
+                                usuarioId: UserSession.Id,
+                                fecha: EstadoLaboral.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
+                                anotaciones: EstadoLaboral.observaciones,
+                                origen: "LABORAL PRIMER INSTANCIA"
+                            );
+
+                            if (response.success)
+                            {
+                                MessageBox.Show("Caso terminado correctamente", "Éxito",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            }
+                            else
+                            {
+                                MessageBox.Show(response.message, "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
 
                         }
                         else
                         {
-                            MessageBox.Show(response.message, "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("El caso no se mandó a terminado.", "Aviso",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                         }
 
-                    }
-                    else
-                    {
-                        MessageBox.Show("El caso no se mandó a terminado.", "Aviso",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                     }
-
-                    
                 }
+                
             }
 
             if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Editar")
@@ -1095,30 +1203,38 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAgregarEstado_Click(object sender, EventArgs e)
         {
-            FrmAgregarEstadoLaboralPI frmAgregarEstado = new FrmAgregarEstadoLaboralPI();
-            frmAgregarEstado.ShowDialog();
 
-            if (EstadoLaboral.estado != null)
+            if (!isLectorLaboral)
             {
-                _huboCambioEstado = true;
-                txtEstado.Text = EstadoLaboral.estado.ToString();
-                txtObservaciones.AppendText(Environment.NewLine + EstadoLaboral.observaciones);
+                FrmAgregarEstadoLaboralPI frmAgregarEstado = new FrmAgregarEstadoLaboralPI();
+                frmAgregarEstado.ShowDialog();
 
-                MessageBox.Show("Estado agregado correctamente", "Éxito",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                string texto = txtEstado.Text.Trim();
-                if (!String.IsNullOrWhiteSpace(texto))
+                if (EstadoLaboral.estado != null)
                 {
-                    txtEstado.Text = texto;
+                    _huboCambioEstado = true;
+                    txtEstado.Text = EstadoLaboral.estado.ToString();
+                    txtObservaciones.AppendText(Environment.NewLine + EstadoLaboral.observaciones);
+
+                    MessageBox.Show("Estado agregado correctamente", "Éxito",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    txtEstado.Text = "";
-                }
+                    string texto = txtEstado.Text.Trim();
+                    if (!String.IsNullOrWhiteSpace(texto))
+                    {
+                        txtEstado.Text = texto;
+                    }
+                    else
+                    {
+                        txtEstado.Text = "";
+                    }
 
+                }
+            }
+            else
+            {
+                MessageBox.Show("No tiene permisos para agregar un estado", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -1158,9 +1274,12 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAgregarDemandantes_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarDemandante(listaDemandantes);
+            if (!isLectorLaboral)
+            {
+                var frm = new FrmAgregarDemandante(listaDemandantes);
 
-            frm.Show();
+                frm.Show();
+            }
         }
 
         private void AjustarLayoutPorResolucion()
@@ -1331,10 +1450,12 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAgregarDemandados_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarDemandado(listaDemandados);
+            if (!isLectorLaboral)
+            {
+                var frm = new FrmAgregarDemandado(listaDemandados);
 
-            frm.Show();
-
+                frm.Show();
+            }
         }
 
         private void dtgDemandados_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1430,9 +1551,12 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAgregarPartesInteresadas_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarTerceroInteresado(listaTercerosInteresados);
+            if (!isLectorLaboral)
+            {
+                var frm = new FrmAgregarTerceroInteresado(listaTercerosInteresados);
 
-            frm.Show();
+                frm.Show();
+            }
         }
 
         private void dtgPartesInteresadas_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1477,9 +1601,12 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAgregarContactoEmpresa_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarContactoEmpresa(listaContactosEmpresa);
+            if (!isLectorLaboral)
+            {
+                var frm = new FrmAgregarContactoEmpresa(listaContactosEmpresa);
 
-            frm.Show();
+                frm.Show();
+            }
         }
 
         private void dtgContactoEmpresa_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1524,8 +1651,11 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAgregarAbogadosDirectores_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarAbogadoDirector(listaAbogadosDirectores);
-            frm.Show();
+            if (!isLectorLaboral)
+            {
+                var frm = new FrmAgregarAbogadoDirector(listaAbogadosDirectores);
+                frm.Show();
+            }
         }
 
         private void dtgAbogadosDirectores_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1571,8 +1701,11 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAgregarSociosResponsables_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarSocioResponsable(listaSociosResponsables);
-            frm.Show();
+            if (!isLectorLaboral)
+            {
+                var frm = new FrmAgregarSocioResponsable(listaSociosResponsables);
+                frm.Show();
+            }
         }
 
         private void dtgSociosResponsables_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1616,8 +1749,11 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAgregarAbogadosAsistentes_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarAbogadoAsistente(listaAbogadosAsistentes);
-            frm.Show();
+            if (!isLectorLaboral)
+            {
+                var frm = new FrmAgregarAbogadoAsistente(listaAbogadosAsistentes);
+                frm.Show();
+            }
         }
 
         private void dtgAbogadosAsistentes_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1810,6 +1946,16 @@ namespace Presentacion.Casos.Laborales
         {
             var res = await casoLaboralModel.ListarArchivosCasoLaboral(_idCasoEditar);
 
+
+            if (!isLectorLaboral)
+            {
+                btnSubirArchivo.Visible = true;
+            }
+            else
+            {
+                btnSubirArchivo.Visible = false;
+            }
+
             if (!res.success)
             {
                 MessageBox.Show(res.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1831,6 +1977,8 @@ namespace Presentacion.Casos.Laborales
 
         private void CrearBotonesAccionArchivos(DataGridView dtg)
         {
+            
+
             dtg.AutoGenerateColumns = true;
 
             // Abrir
@@ -1867,27 +2015,29 @@ namespace Presentacion.Casos.Laborales
                 dtg.Columns.Add(btnDescargar);
             }
 
-            // Eliminar
-            if (!dtg.Columns.Contains("Eliminar"))
-            {
-                var btnEliminar = new DataGridViewButtonColumn
+            
+                // Eliminar
+                if (!dtg.Columns.Contains("Eliminar"))
                 {
-                    Name = "Eliminar",
-                    HeaderText = "",
-                    Text = "🗑️",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 45,
-                    MinimumWidth = 45,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
-                dtg.Columns.Add(btnEliminar);
-            }
+                    var btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 45,
+                        MinimumWidth = 45,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
+            
 
             // mover al final (en orden)
-            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 3;
+            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
             dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2;
-            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
+            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
         }
 
         private async void btnVerArchivos_Click(object sender, EventArgs e)
@@ -2046,37 +2196,45 @@ namespace Presentacion.Casos.Laborales
                 // ELIMINAR (confirmación)
                 else if (colName == "Eliminar")
                 {
-                    var r = MessageBox.Show($"¿Eliminar el archivo?\n\n{nombre}", "Confirmar",
+                    if (!isLectorLaboral)
+                    {
+                        var r = MessageBox.Show($"¿Eliminar el archivo?\n\n{nombre}", "Confirmar",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                    if (r != DialogResult.Yes)
-                        return;
-
-                    if (r == DialogResult.Yes)
-                    {
-                        ApiResponse<object> resp = null;
-
-                        await EjecutarConLoaderAsync(async () =>
-                        {
-                            resp = await casoLaboralModel.EliminarArchivoCasoLaboral(_idCasoEditar, archivoId);
-                        });
-
-                        if (resp == null)
-                        {
-                            MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (r != DialogResult.Yes)
                             return;
-                        }
 
-                        if (!resp.success)
+                        if (r == DialogResult.Yes)
                         {
-                            MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
+                            ApiResponse<object> resp = null;
 
-                        MessageBox.Show("Archivo eliminado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        await RefrescarListaArchivos();
+                            await EjecutarConLoaderAsync(async () =>
+                            {
+                                resp = await casoLaboralModel.EliminarArchivoCasoLaboral(_idCasoEditar, archivoId);
+                            });
+
+                            if (resp == null)
+                            {
+                                MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
+                            if (!resp.success)
+                            {
+                                MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
+                            MessageBox.Show("Archivo eliminado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            await RefrescarListaArchivos();
+                        }
                     }
+                    else
+                    {
+                        MessageBox.Show("No tiene permisos para eliminar", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information );
+                    }
+                    
                 }
             }
             catch (Exception ex)
@@ -2093,64 +2251,72 @@ namespace Presentacion.Casos.Laborales
 
         private async void btnSubirArchivo_Click(object sender, EventArgs e)
         {
-            if (_idCasoEditar <= 0)
+            if (!isLectorLaboral)
             {
-                MessageBox.Show("Debe seleccionar un caso válido.",
-                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            using var ofd = new OpenFileDialog
-            {
-                Title = "Seleccionar archivos",
-                Filter = "Archivos permitidos|*.pdf;*.doc;*.docx;*.xls;*.xlsx;*.png;*.jpg;*.jpeg;*.zip;*.rar;*.txt",
-                Multiselect = true
-            };
-
-            if (ofd.ShowDialog() != DialogResult.OK || ofd.FileNames.Length == 0)
-                return;
-
-            ApiResponse<List<SubirArchivoCasoLaboralData>> response = null;
-
-            try
-            {
-                btnSubirArchivo.Enabled = false;
-                btnSubirArchivo.Text = "Subiendo...";
-
-                await EjecutarConLoaderAsync(async () =>
+                if (_idCasoEditar <= 0)
                 {
-                    response = await casoLaboralModel.SubirArchivosCasoLaboral(_idCasoEditar, ofd.FileNames.ToList());
-                });
-
-                if (response == null)
-                {
-                    MessageBox.Show("No se obtuvo respuesta del servidor.",
-                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Debe seleccionar un caso válido.",
+                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (!response.success)
+                using var ofd = new OpenFileDialog
                 {
-                    MessageBox.Show(response.message,
-                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Title = "Seleccionar archivos",
+                    Filter = "Archivos permitidos|*.pdf;*.doc;*.docx;*.xls;*.xlsx;*.png;*.jpg;*.jpeg;*.zip;*.rar;*.txt",
+                    Multiselect = true
+                };
+
+                if (ofd.ShowDialog() != DialogResult.OK || ofd.FileNames.Length == 0)
                     return;
+
+                ApiResponse<List<SubirArchivoCasoLaboralData>> response = null;
+
+                try
+                {
+                    btnSubirArchivo.Enabled = false;
+                    btnSubirArchivo.Text = "Subiendo...";
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        response = await casoLaboralModel.SubirArchivosCasoLaboral(_idCasoEditar, ofd.FileNames.ToList());
+                    });
+
+                    if (response == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor.",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (!response.success)
+                    {
+                        MessageBox.Show(response.message,
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    MessageBox.Show($"Se subieron {response.data?.Count ?? 0} archivo(s) correctamente.",
+                        "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    await RefrescarListaArchivos();
                 }
-
-                MessageBox.Show($"Se subieron {response.data?.Count ?? 0} archivo(s) correctamente.",
-                    "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                await RefrescarListaArchivos();
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    btnSubirArchivo.Enabled = true;
+                    btnSubirArchivo.Text = "Subir archivo";
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Error: " + ex.Message,
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No tiene permisos para subir archivos", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            finally
-            {
-                btnSubirArchivo.Enabled = true;
-                btnSubirArchivo.Text = "Subir archivo";
-            }
+            
         }
 
         private void btnCancelarEdicionHistorial_Click(object sender, EventArgs e)
@@ -2183,56 +2349,73 @@ namespace Presentacion.Casos.Laborales
             // ELIMINAR
             if (colName == "Eliminar")
             {
-                var confirm = MessageBox.Show(
+                if (!isLectorLaboral)
+                {
+                    var confirm = MessageBox.Show(
                     $"¿Desea eliminar este registro de historial?\n\nEstado: {item.estado}",
                     "Confirmar",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
                 );
 
-                if (confirm != DialogResult.Yes)
-                    return;
+                    if (confirm != DialogResult.Yes)
+                        return;
 
-                ApiResponse<object> resp = null;
+                    ApiResponse<object> resp = null;
 
-                await EjecutarConLoaderAsync(async () =>
-                {
-                    resp = await historialModel.EliminarHistorialCasoLaboral(
-                        item.id,
-                        item.caso_id,
-                        UserSession.Id
-                    );
-                });
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        resp = await historialModel.EliminarHistorialCasoLaboral(
+                            item.id,
+                            item.caso_id,
+                            UserSession.Id
+                        );
+                    });
 
-                if (resp == null)
-                {
-                    MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    if (resp == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (!resp.success)
+                    {
+                        MessageBox.Show(resp.message, "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    MessageBox.Show("Historial eliminado correctamente.", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await ListarHistorial();
+                        await CargarDatosCaso(_idCasoEditar);
+                    });
                 }
-
-                if (!resp.success)
+                else
                 {
-                    MessageBox.Show(resp.message, "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    MessageBox.Show("No tiene permisos para eliminar", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-                MessageBox.Show("Historial eliminado correctamente.", "Éxito",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                await EjecutarConLoaderAsync(async () =>
-                {
-                    await ListarHistorial();
-                    await CargarDatosCaso(_idCasoEditar);
-                });
             }
 
             
         }
 
+        void HabilitarControlesEdicionHistorial()
+        {
+            comboboxEstado.Enabled = !isLectorLaboral;
+            dateTimePickerFechaEstado.Enabled = !isLectorLaboral;
+            txtObservacionesHistorial.Enabled = !isLectorLaboral;
+            dateTimePickerFechaVencimiento.Enabled = !isLectorLaboral;
+            dateTimePickerHoraVencimiento.Enabled = !isLectorLaboral;
+        }
+
         private void CargarDatosHistorialEnTab(HistorialCasoLaboralDetalle item)
         {
+
             _idHistorialEditar = item.id;
             _casoIdHistorialEditar = item.caso_id;
 
@@ -2263,80 +2446,98 @@ namespace Presentacion.Casos.Laborales
             txtOrigenHistorial.Text = item.origen ?? "";
             txtUsuarioCreadorHistorial.Text = item.usuario_creador ?? "";
             txtUsuarioEditorHistorial.Text = item.usuario_editor ?? "";
+
+            if (isLectorLaboral)
+            {
+                btnGuardarEdicionHistorial.Visible = false;
+            }
+            else
+            {
+                btnGuardarEdicionHistorial.Visible = true;
+            }
+
+            HabilitarControlesEdicionHistorial();
         }
 
         private async void btnGuardarEdicionHistorial_Click(object sender, EventArgs e)
         {
-            if (_idHistorialEditar <= 0)
+            if (!isLectorLaboral)
             {
-                MessageBox.Show("No hay historial seleccionado.", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (_idHistorialEditar <= 0)
+                {
+                    MessageBox.Show("No hay historial seleccionado.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(comboboxEstado.Text))
+                {
+                    MessageBox.Show("Estado es requerido.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    comboboxEstado.Focus();
+                    return;
+                }
+
+                DateTime fechaEstado = dateTimePickerFechaEstado.Value.Date;
+
+                DateTime? fechaVencimiento = null;
+                if (checkBoxTieneVencimiento.Checked)
+                {
+                    fechaVencimiento =
+                        dateTimePickerFechaVencimiento.Value.Date +
+                        dateTimePickerHoraVencimiento.Value.TimeOfDay;
+                }
+
+                var req = new EditarHistorialCasoRequest
+                {
+                    HistorialId = _idHistorialEditar,
+                    CasoId = _casoIdHistorialEditar,
+                    UsuarioId = UserSession.Id,
+                    Fecha = fechaEstado.ToString("yyyy-MM-dd HH:mm:ss"),
+                    FechaVencimiento = fechaVencimiento.HasValue
+                        ? fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                        : "",
+                    Estado = comboboxEstado.Text.Trim(),
+                    Anotaciones = txtObservacionesHistorial.Text.Trim()
+                };
+
+                ApiResponse<object> resp = null;
+
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    resp = await historialModel.EditarHistorialCaso(req);
+                });
+
+                if (resp == null)
+                {
+                    MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (!resp.success)
+                {
+                    MessageBox.Show(resp.message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show("Historial actualizado correctamente.", "Éxito",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    await ListarHistorial();
+                    await CargarDatosCaso(_idCasoEditar);
+                });
+
+                AnadirTabPage(tabPageHistorial);
+                EliminarTabPage(tabPageEditarHistorial);
             }
-
-            if (string.IsNullOrWhiteSpace(comboboxEstado.Text))
+            else
             {
-                MessageBox.Show("Estado es requerido.", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                comboboxEstado.Focus();
-                return;
+                MessageBox.Show("No tiene permisos para editar el historial", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            DateTime fechaEstado = dateTimePickerFechaEstado.Value.Date;
-
-            DateTime? fechaVencimiento = null;
-            if (checkBoxTieneVencimiento.Checked)
-            {
-                fechaVencimiento =
-                    dateTimePickerFechaVencimiento.Value.Date +
-                    dateTimePickerHoraVencimiento.Value.TimeOfDay;
-            }
-
-            var req = new EditarHistorialCasoRequest
-            {
-                HistorialId = _idHistorialEditar,
-                CasoId = _casoIdHistorialEditar,
-                UsuarioId = UserSession.Id,
-                Fecha = fechaEstado.ToString("yyyy-MM-dd HH:mm:ss"),
-                FechaVencimiento = fechaVencimiento.HasValue
-                    ? fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                    : "",
-                Estado = comboboxEstado.Text.Trim(),
-                Anotaciones = txtObservacionesHistorial.Text.Trim()
-            };
-
-            ApiResponse<object> resp = null;
-
-            await EjecutarConLoaderAsync(async () =>
-            {
-                resp = await historialModel.EditarHistorialCaso(req);
-            });
-
-            if (resp == null)
-            {
-                MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (!resp.success)
-            {
-                MessageBox.Show(resp.message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            MessageBox.Show("Historial actualizado correctamente.", "Éxito",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            await EjecutarConLoaderAsync(async () =>
-            {
-                await ListarHistorial();
-                await CargarDatosCaso(_idCasoEditar);
-            });
-
-            AnadirTabPage(tabPageHistorial);
-            EliminarTabPage(tabPageEditarHistorial);
         }
 
         private void VerificarEstadoEditarHistorial()

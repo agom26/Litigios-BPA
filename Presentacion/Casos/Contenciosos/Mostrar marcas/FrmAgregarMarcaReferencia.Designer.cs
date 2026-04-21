@@ -43,7 +43,7 @@
             btnAnterior = new Presentacion.Clases.RoundedButton();
             lblPagina = new Label();
             labelTotal = new Label();
-            dtgContactoEmpresas = new DataGridView();
+            dtgMarcas = new DataGridView();
             lblNombre = new Label();
             txtBuscarContactoEmpresa = new TextBox();
             roundedButton3 = new Presentacion.Clases.RoundedButton();
@@ -56,7 +56,7 @@
             panel2.SuspendLayout();
             tablessControl1.SuspendLayout();
             tabPageBuscar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgContactoEmpresas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dtgMarcas).BeginInit();
             panel3.SuspendLayout();
             SuspendLayout();
             // 
@@ -117,14 +117,14 @@
             tabPageBuscar.Controls.Add(btnAnterior);
             tabPageBuscar.Controls.Add(lblPagina);
             tabPageBuscar.Controls.Add(labelTotal);
-            tabPageBuscar.Controls.Add(dtgContactoEmpresas);
+            tabPageBuscar.Controls.Add(dtgMarcas);
             tabPageBuscar.Controls.Add(lblNombre);
             tabPageBuscar.Controls.Add(txtBuscarContactoEmpresa);
             tabPageBuscar.Controls.Add(roundedButton3);
             tabPageBuscar.Controls.Add(roundedButton1);
             tabPageBuscar.Location = new Point(4, 24);
             tabPageBuscar.Name = "tabPageBuscar";
-            tabPageBuscar.Padding = new Padding(3, 3, 3, 3);
+            tabPageBuscar.Padding = new Padding(3);
             tabPageBuscar.Size = new Size(676, 386);
             tabPageBuscar.TabIndex = 0;
             // 
@@ -197,19 +197,19 @@
             labelTotal.TabIndex = 12;
             labelTotal.Text = "label2";
             // 
-            // dtgContactoEmpresas
+            // dtgMarcas
             // 
-            dtgContactoEmpresas.AllowUserToAddRows = false;
-            dtgContactoEmpresas.AllowUserToDeleteRows = false;
-            dtgContactoEmpresas.AllowUserToResizeRows = false;
+            dtgMarcas.AllowUserToAddRows = false;
+            dtgMarcas.AllowUserToDeleteRows = false;
+            dtgMarcas.AllowUserToResizeRows = false;
             dataGridViewCellStyle5.BackColor = Color.FromArgb(249, 247, 242);
-            dtgContactoEmpresas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            dtgContactoEmpresas.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dtgContactoEmpresas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgContactoEmpresas.BackgroundColor = Color.White;
-            dtgContactoEmpresas.BorderStyle = BorderStyle.None;
-            dtgContactoEmpresas.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgContactoEmpresas.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dtgMarcas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dtgMarcas.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtgMarcas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgMarcas.BackgroundColor = Color.White;
+            dtgMarcas.BorderStyle = BorderStyle.None;
+            dtgMarcas.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgMarcas.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = Color.FromArgb(250, 248, 245);
             dataGridViewCellStyle6.Font = new Font("Microsoft Sans Serif", 8.25F);
@@ -217,14 +217,14 @@
             dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle6.SelectionForeColor = Color.Black;
             dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dtgContactoEmpresas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            dtgContactoEmpresas.ColumnHeadersHeight = 40;
-            dtgContactoEmpresas.EnableHeadersVisualStyles = false;
-            dtgContactoEmpresas.Location = new Point(37, 100);
-            dtgContactoEmpresas.MinimumSize = new Size(400, 100);
-            dtgContactoEmpresas.MultiSelect = false;
-            dtgContactoEmpresas.Name = "dtgContactoEmpresas";
-            dtgContactoEmpresas.ReadOnly = true;
+            dtgMarcas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dtgMarcas.ColumnHeadersHeight = 40;
+            dtgMarcas.EnableHeadersVisualStyles = false;
+            dtgMarcas.Location = new Point(37, 100);
+            dtgMarcas.MinimumSize = new Size(400, 100);
+            dtgMarcas.MultiSelect = false;
+            dtgMarcas.Name = "dtgMarcas";
+            dtgMarcas.ReadOnly = true;
             dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle7.BackColor = Color.White;
             dataGridViewCellStyle7.Font = new Font("Microsoft Sans Serif", 8.25F);
@@ -232,21 +232,21 @@
             dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle7.SelectionForeColor = Color.Black;
             dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dtgContactoEmpresas.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            dtgContactoEmpresas.RowHeadersVisible = false;
-            dtgContactoEmpresas.RowHeadersWidth = 62;
+            dtgMarcas.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dtgMarcas.RowHeadersVisible = false;
+            dtgMarcas.RowHeadersWidth = 62;
             dataGridViewCellStyle8.BackColor = Color.White;
             dataGridViewCellStyle8.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle8.ForeColor = Color.FromArgb(60, 60, 60);
             dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(220, 235, 252);
             dataGridViewCellStyle8.SelectionForeColor = Color.Black;
-            dtgContactoEmpresas.RowsDefaultCellStyle = dataGridViewCellStyle8;
-            dtgContactoEmpresas.RowTemplate.Height = 45;
-            dtgContactoEmpresas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgContactoEmpresas.Size = new Size(611, 215);
-            dtgContactoEmpresas.TabIndex = 11;
-            dtgContactoEmpresas.CellClick += dtgContactoEmpresas_CellClick;
-            dtgContactoEmpresas.DataBindingComplete += dtgContactoEmpresas_DataBindingComplete;
+            dtgMarcas.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dtgMarcas.RowTemplate.Height = 45;
+            dtgMarcas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgMarcas.Size = new Size(611, 215);
+            dtgMarcas.TabIndex = 11;
+            dtgMarcas.CellClick += dtgContactoEmpresas_CellClick;
+            dtgMarcas.DataBindingComplete += dtgContactoEmpresas_DataBindingComplete;
             // 
             // lblNombre
             // 
@@ -389,7 +389,7 @@
             tablessControl1.ResumeLayout(false);
             tabPageBuscar.ResumeLayout(false);
             tabPageBuscar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgContactoEmpresas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dtgMarcas).EndInit();
             panel3.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -406,7 +406,7 @@
         private TextBox txtBuscarContactoEmpresa;
         private Clases.RoundedButton roundedButton3;
         private Clases.RoundedButton roundedButton1;
-        private DataGridView dtgContactoEmpresas;
+        private DataGridView dtgMarcas;
         private Panel panel3;
         private Clases.RoundedButton btnCancelar;
         private Clases.RoundedButton btnAgregarContactoEmpresa;
