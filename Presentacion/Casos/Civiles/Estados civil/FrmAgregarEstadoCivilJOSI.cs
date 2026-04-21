@@ -89,7 +89,7 @@ namespace Presentacion.Casos.Civiles.Estados_civil
                 estado == "Recurso de Apelación presentado" ||
                 estado == "Vista" ||
                 estado == "Audiencia para recepción de pruebas"|| 
-                estado == "Recursos de aclaración y ampliación" ||
+                estado == "Recurso de aclaración y ampliación" ||
                 estado == "Recurso de Revocatoria y/o Reposición";
 
             checkBoxTieneVencimiento.Checked = requiereVencimiento;

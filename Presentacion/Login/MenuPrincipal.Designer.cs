@@ -385,6 +385,7 @@
             WindowState = FormWindowState.Maximized;
             FormClosing += MenuPrincipal_FormClosing_1;
             Load += MenuPrincipal_Load;
+            ResizeEnd += MenuPrincipal_ResizeEnd;
             panelDatosUsuarioContraido.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBoxUserContraido).EndInit();
             panelDatosUsuarioExpandido.ResumeLayout(false);
@@ -400,7 +401,6 @@
         #endregion
 
         private TreeView treeView1;
-        private ImageList imageList1;
         private Panel panelChildForm;
         private Panel panelDatosUsuario;
         private PictureBox pictureBoxUser;
@@ -417,5 +417,6 @@
         private Clases.RoundedButton btnLogOut2;
         private PictureBox pictureBoxUserContraido;
         private ToolTip toolTip1;
+        public ImageList imageList1;
     }
 }

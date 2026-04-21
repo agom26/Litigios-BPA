@@ -118,8 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="clip-de-papel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\clip-de-papel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="fluctuacion-del-mercado" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fluctuacion-del-mercado.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="boton-guardar (2)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\boton-guardar (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -148,6 +148,9 @@
   <data name="tiempo-pasado (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tiempo-pasado (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="no-leido" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\no-leido.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="grafico" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\grafico.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -172,9 +175,6 @@
   <data name="pdf (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pdf (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ojo-abierto" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ojo-abierto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="buscar (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\buscar (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -195,6 +195,9 @@
   </data>
   <data name="lista-del-portapapeles" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lista-del-portapapeles.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="filtrar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\filtrar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="boton-guardar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\boton-guardar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -232,11 +235,17 @@
   <data name="reloj-con-flecha-circular" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\reloj-con-flecha-circular.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="intercambiar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\intercambiar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="perfil (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\perfil (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="intercambiar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\intercambiar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ojo-abierto" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ojo-abierto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clip-de-papel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clip-de-papel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="cubo-de-basura" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cubo-de-basura.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -244,7 +253,7 @@
   <data name="pdf" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pdf.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="fluctuacion-del-mercado" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fluctuacion-del-mercado.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="basura" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\basura.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

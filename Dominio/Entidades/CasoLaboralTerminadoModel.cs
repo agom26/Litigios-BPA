@@ -12,7 +12,7 @@ namespace Dominio.Entidades
     public class CasoLaboralTerminadoModel
     {
         private CasosLaboralesTerminadosDataAccess casoLaboralData = new CasosLaboralesTerminadosDataAccess();
-        public async Task<ApiResponseCasosLaboralesList> ObtenerCasosLaborales(
+        public async Task<ApiResponseCasosLaboralesTerminadosList> ObtenerCasosLaborales(
             int usuarioId,
             int pagina,
             int registros,
@@ -22,7 +22,7 @@ namespace Dominio.Entidades
             try
             {
                 if (usuarioId <= 0)
-                    return new ApiResponseCasosLaboralesList { success = false, message = "Usuario requerido" };
+                    return new ApiResponseCasosLaboralesTerminadosList { success = false, message = "Usuario requerido" };
 
                 if (pagina <= 0) pagina = 1;
                 if (registros <= 0) registros = 10;
@@ -31,7 +31,7 @@ namespace Dominio.Entidades
             }
             catch (Exception ex)
             {
-                return new ApiResponseCasosLaboralesList { success = false, message = "Error: " + ex.Message };
+                return new ApiResponseCasosLaboralesTerminadosList { success = false, message = "Error: " + ex.Message };
             }
         }
 

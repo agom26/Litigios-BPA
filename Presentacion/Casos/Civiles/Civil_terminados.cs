@@ -276,11 +276,11 @@ namespace Presentacion.Casos.Civiles
                 
             }
 
-            ultimoOrigenHistorial = data.ultimo_historial.origen;
+            ultimoOrigenHistorial = data?.ultimo_historial?.origen ?? "";
             LimpiarListas();
 
             // 3) Personas por rol -> tus BindingList<PersonaListDataResponse>
-            var p = data.personas_por_rol ?? new Dictionary<string, List<PersonaMiniDto>>();
+            var p = data?.personas_por_rol ?? new Dictionary<string, List<PersonaMiniDto>>();
 
             MapPersonas(p, "Demandante", listaDemandantes);
             MapPersonas(p, "Demandado", listaDemandados);
@@ -288,7 +288,7 @@ namespace Presentacion.Casos.Civiles
             MapPersonas(p, "Contacto de Empresa", listaContactosEmpresa);
 
             // 4) Usuarios por rol -> tus BindingList<UserListDataResponse>
-            var u = data.usuarios_por_rol ?? new Dictionary<string, List<UsuarioMiniDto>>();
+            var u = data?.usuarios_por_rol ?? new Dictionary<string, List<UsuarioMiniDto>>();
 
             MapUsuarios(u, "Abogado Director", listaAbogadosDirectores);
             MapUsuarios(u, "Socio Responsable", listaSociosResponsables);
@@ -1132,6 +1132,21 @@ namespace Presentacion.Casos.Civiles
                 FrmAgregarEstadoCivilJSSI frmAgregarEstado = new FrmAgregarEstadoCivilJSSI();
                 frmAgregarEstado.ShowDialog();
             }
+            else if (ultimoOrigenHistorial == "CIVIL PROCESO DE EJECUCIÓN VÍA APREMIO")
+            {
+                FrmAgregarEstadoCivilPEVA frmAgregarEstado = new FrmAgregarEstadoCivilPEVA();
+                frmAgregarEstado.ShowDialog();
+            }
+            else if (ultimoOrigenHistorial == "CIVIL PROCESO DE EJECUCIÓN COMÚN")
+            {
+                FrmAgregarEstadoCivilPEC frmAgregarEstado = new FrmAgregarEstadoCivilPEC();
+                frmAgregarEstado.ShowDialog();
+            }
+            else if (ultimoOrigenHistorial == "CIVIL PROCESO DE EJECUCIÓN VÍA APREMIO SEGUNDA INSTANCIA" || ultimoOrigenHistorial == "CIVIL PROCESO DE EJECUCIÓN COMÚN SEGUNDA INSTANCIA")
+            {
+                FrmAgregarEstadoCivilPESI frmAgregarEstado = new FrmAgregarEstadoCivilPESI();
+                frmAgregarEstado.ShowDialog();
+            }
 
             if (EstadoCivil.estado != null)
             {
@@ -1710,6 +1725,7 @@ namespace Presentacion.Casos.Civiles
 
         private async void btnEditarCaso_Click(object sender, EventArgs e)
         {
+            /*
             //aqui actualizo los datos del caso 
             bool cambioEstado = false;
 
@@ -1801,7 +1817,7 @@ namespace Presentacion.Casos.Civiles
             else
             {
                 MessageBox.Show("Error: " + resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            }*/
         }
 
         private void roundedButton24_Click(object sender, EventArgs e)

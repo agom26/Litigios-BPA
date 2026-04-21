@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Comun.DatosParaInterfaz
 {
+
     public class EstadoCivilHelper
     {
         public static List<string> ObtenerEstadosOralPrimerInstancia()

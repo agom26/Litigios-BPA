@@ -94,8 +94,9 @@ namespace Presentacion
 
                     MenuPrincipal menuPrincipal = new MenuPrincipal();
                     menuPrincipal.FormClosed += new FormClosedEventHandler(this.Logout);
-                    menuPrincipal.Show();
                     this.Hide();
+                    menuPrincipal.Show();
+                    
 
                 }
                 else

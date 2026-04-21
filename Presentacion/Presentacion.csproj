@@ -19,6 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Alertas y notificaciones\FrmAlertas.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Casos\Abogados asignados\FrmAgregarAbogadoAsistente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -28,6 +31,9 @@
     <Compile Update="Casos\Abogados asignados\FrmAgregarAbogadoDirector.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Casos\Civiles\Civil_Terminados2.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilJOSI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -35,6 +41,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilJOPI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilPESI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Civiles\Estados civil\FrmAgregarEstadoCivilPEVA.cs">
@@ -149,6 +158,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Casos\Participantes\FrmAgregarDemandante.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dashboard\FrmDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Personas\ContactoEmpresa.cs">

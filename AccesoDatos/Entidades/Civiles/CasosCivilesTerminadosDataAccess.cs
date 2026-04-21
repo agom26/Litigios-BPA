@@ -112,7 +112,7 @@ namespace AccesoDatos.Entidades.Civiles
         }
 
         // Obtener caso por ID
-        public async Task<ApiResponse<CasoCivilDetalleData>> ObtenerCasoCivilPorId(int usuarioId, int casoId)
+        public async Task<ApiResponse<CasoCivilViaApremioDetalleData>> ObtenerCasoCivilPorId(int usuarioId, int casoId)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -128,12 +128,12 @@ namespace AccesoDatos.Entidades.Civiles
                 var response = await _http.PostAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
 
-                return JsonConvert.DeserializeObject<ApiResponse<CasoCivilDetalleData>>(jsonResult)
-                       ?? new ApiResponse<CasoCivilDetalleData> { success = false, message = "Respuesta vacía o inválida." };
+                return JsonConvert.DeserializeObject<ApiResponse<CasoCivilViaApremioDetalleData>>(jsonResult)
+                       ?? new ApiResponse<CasoCivilViaApremioDetalleData> { success = false, message = "Respuesta vacía o inválida." };
             }
             catch (Exception ex)
             {
-                return new ApiResponse<CasoCivilDetalleData>
+                return new ApiResponse<CasoCivilViaApremioDetalleData>
                 {
                     success = false,
                     message = "Error: " + ex.Message
@@ -141,7 +141,7 @@ namespace AccesoDatos.Entidades.Civiles
             }
         }
 
-        public async Task<ApiResponseEditarCasoCivil> EditarCasoCivil(EditarCasoCivilRequest req)
+        public async Task<ApiResponseEditarCasoCivil> EditarCasoCivil(EditarCasoViaApremioRequest req)
         {
             string ToCsv(IEnumerable<int>? ids) =>
                 ids == null ? "" : string.Join(",", ids.Where(x => x > 0).Distinct());
@@ -158,7 +158,7 @@ namespace AccesoDatos.Entidades.Civiles
                 { "oficial", req.Oficial ?? "" },
                 { "notificador", req.Notificador ?? "" },
 
-                { "guardar_historial", req.huboCambioEstado ? "1" : "0" },
+                { "guardar_historial", req.HuboCambioEstado ? "1" : "0" },
                 { "estado", req.Estado ?? "" },
                 { "observaciones", req.Observaciones ?? "" },
                 { "fecha", req.Fecha ?? "" },

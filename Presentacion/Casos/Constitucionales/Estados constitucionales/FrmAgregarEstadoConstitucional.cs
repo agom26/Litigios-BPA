@@ -129,7 +129,7 @@ namespace Presentacion.Casos.Constitucionales.Estados_constitucionales
             string estado = comboboxEstado.Text;
 
             bool requiereVencimiento =
-                estado == "Primer audiencia" ||
+                estado == "Primera audiencia" ||
                 estado == "Apertura a prueba" ||
                 estado == "Segunda audiencia" ||
                 estado == "Recurso de Aclaración o ampliación" ||

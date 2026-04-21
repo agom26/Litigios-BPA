@@ -62,7 +62,7 @@ namespace Presentacion.Casos.Laborales
         private void VerificarTipoUsuario()
 
         {
-            isAdminLaboral= UserSession.Modulos.Any(m =>
+            isAdminLaboral = UserSession.Modulos.Any(m =>
                 (m.clave_slug ?? "").Trim().Equals("laboral", StringComparison.OrdinalIgnoreCase) &&
                 (m.nombre_rol ?? "").Trim().Equals("Administrador", StringComparison.OrdinalIgnoreCase));
         }
@@ -267,11 +267,80 @@ namespace Presentacion.Casos.Laborales
                 txtEstado.Text = caso.estado ?? "";
                 txtObservaciones.Text = (caso.observaciones ?? "")
                     .Replace("\n", Environment.NewLine); ;
-                
             }
 
             ultimoOrigenHistorial = data.ultimo_historial.origen;
+
+            if (ultimoOrigenHistorial == "LABORAL PRIMER INSTANCIA")
+            {
+                comboBoxJuzgado.Items.Clear();
+                lblSalaJuzgado.Text = "Juzgado *";
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+                "Juzgado 1º. De Trabajo y Previsión Social",
+                "Juzgado 2º. De Trabajo y Previsión Social",
+                "Juzgado 3º. De Trabajo y Previsión Social",
+                "Juzgado 4º. De Trabajo y Previsión Social",
+                "Juzgado 5º. De Trabajo y Previsión Social",
+                "Juzgado 6º. De Trabajo y Previsión Social",
+                "Juzgado 7º. De Trabajo y Previsión Social",
+                "Juzgado 8º. De Trabajo y Previsión Social",
+                "Juzgado 9º. De Trabajo y Previsión Social",
+                "Juzgado 10º. De Trabajo y Previsión Social",
+                "Juzgado 11º. De Trabajo y Previsión Social",
+                "Juzgado 12º. De Trabajo y Previsión Social",
+                "Juzgado 13º. De Trabajo y Previsión Social",
+                "Juzgado 14º. De Trabajo y Previsión Social",
+                "Juzgado pluripersonal de primera instancia de faltas laborales"
+                });
+
+
+            }
+            else if (ultimoOrigenHistorial == "LABORAL SEGUNDA INSTANCIA")
+            {
+                comboBoxJuzgado.Items.Clear();
+                lblSalaJuzgado.Text = "Sala *";
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+                    "Sala 1ª. De Trabajo y Previsión Social",
+                    "Sala 2ª. De Trabajo y Previsión Social",
+                    "Sala 3ª. De Trabajo y Previsión Social",
+                    "Sala 5ª. De Trabajo y Previsión Social"
+                });
+            }
+            else
+            {
+                comboBoxJuzgado.Items.Clear();
+                lblSalaJuzgado.Text = "Juzgado *";
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+                // Juzgados
+                "Juzgado 1º. De Trabajo y Previsión Social",
+                "Juzgado 2º. De Trabajo y Previsión Social",
+                "Juzgado 3º. De Trabajo y Previsión Social",
+                "Juzgado 4º. De Trabajo y Previsión Social",
+                "Juzgado 5º. De Trabajo y Previsión Social",
+                "Juzgado 6º. De Trabajo y Previsión Social",
+                "Juzgado 7º. De Trabajo y Previsión Social",
+                "Juzgado 8º. De Trabajo y Previsión Social",
+                "Juzgado 9º. De Trabajo y Previsión Social",
+                "Juzgado 10º. De Trabajo y Previsión Social",
+                "Juzgado 11º. De Trabajo y Previsión Social",
+                "Juzgado 12º. De Trabajo y Previsión Social",
+                "Juzgado 13º. De Trabajo y Previsión Social",
+                "Juzgado 14º. De Trabajo y Previsión Social",
+                "Juzgado pluripersonal de primera instancia de faltas laborales",
+
+                // Salas
+                "Sala 1ª. De Trabajo y Previsión Social",
+                "Sala 2ª. De Trabajo y Previsión Social",
+                "Sala 3ª. De Trabajo y Previsión Social",
+                "Sala 5ª. De Trabajo y Previsión Social"
+                });
+            }
+
             LimpiarListas();
+
 
             // 3) Personas por rol -> tus BindingList<PersonaListDataResponse>
             var p = data.personas_por_rol ?? new Dictionary<string, List<PersonaMiniDto>>();
@@ -384,7 +453,7 @@ namespace Presentacion.Casos.Laborales
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = isAdminLaboral 
+                    Text = isAdminLaboral
                     ? "✏️"
                     : "👁️"
                     ,
@@ -462,7 +531,7 @@ namespace Presentacion.Casos.Laborales
                 dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 2;
                 dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
             }
-            
+
         }
 
 
@@ -673,7 +742,7 @@ namespace Presentacion.Casos.Laborales
                     dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
                 }
             }
-            
+
         }
 
         private void CrearBotonQuitarDemandante()
@@ -699,7 +768,7 @@ namespace Presentacion.Casos.Laborales
                     dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
                 }
             }
-            
+
         }
         private void CrearBotonQuitarTerceroInteresado()
         {
@@ -749,13 +818,13 @@ namespace Presentacion.Casos.Laborales
                     dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
                 }
             }
-            
+
         }
 
         private void CrearBotonQuitarContactoEmpresa()
         {
             VerificarTipoUsuario();
-            if (isAdminLaboral) 
+            if (isAdminLaboral)
             {
                 if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
                 {
@@ -775,7 +844,7 @@ namespace Presentacion.Casos.Laborales
                     dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
                 }
             }
-            
+
         }
 
         private void CrearBotonQuitarSocioResponsable()
@@ -806,7 +875,7 @@ namespace Presentacion.Casos.Laborales
         private void CrearBotonQuitarAbogadoAsistente()
         {
             VerificarTipoUsuario();
-            if(isAdminLaboral)
+            if (isAdminLaboral)
             {
                 if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
                 {
@@ -826,7 +895,7 @@ namespace Presentacion.Casos.Laborales
                     dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
                 }
             }
-            
+
         }
 
         private async void Laboral_terminados_Load(object sender, EventArgs e)
@@ -834,7 +903,7 @@ namespace Presentacion.Casos.Laborales
             if (!_yaCargo)
                 await LoadAsync();
 
-            
+
         }
 
 
@@ -1127,14 +1196,14 @@ namespace Presentacion.Casos.Laborales
 
         private void btnAgregarEstado_Click(object sender, EventArgs e)
         {
-            
-            if(ultimoOrigenHistorial == "LABORAL PRIMER INSTANCIA")
+
+            if (ultimoOrigenHistorial == "LABORAL PRIMER INSTANCIA")
             {
                 FrmAgregarEstadoLaboralPI frmAgregarEstadoLaboralPI = new FrmAgregarEstadoLaboralPI();
                 frmAgregarEstadoLaboralPI.ShowDialog();
 
             }
-            else if(ultimoOrigenHistorial == "LABORAL SEGUNDA INSTANCIA")
+            else if (ultimoOrigenHistorial == "LABORAL SEGUNDA INSTANCIA")
             {
                 FrmAgregarEstadoLaboralSI frmAgregarEstado = new FrmAgregarEstadoLaboralSI();
                 frmAgregarEstado.ShowDialog();
@@ -1932,7 +2001,7 @@ namespace Presentacion.Casos.Laborales
                     dtg.Columns.Add(btnEliminar);
                 }
             }
-            
+
 
             // mover al final (en orden)
             dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
@@ -1942,7 +2011,7 @@ namespace Presentacion.Casos.Laborales
             {
                 dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
             }
-            
+
         }
 
         private async void btnVerArchivos_Click(object sender, EventArgs e)
@@ -2265,7 +2334,7 @@ namespace Presentacion.Casos.Laborales
                 _historialSeleccionado = item;
                 CargarDatosHistorialEnTab(item);
 
-                
+
                 return;
             }
 
@@ -2329,7 +2398,7 @@ namespace Presentacion.Casos.Laborales
             {
                 comboboxEstado.Items.AddRange(new string[] { estado });
             }
-            
+
             comboboxEstado.SelectedIndex = -1;
         }
 
@@ -2350,7 +2419,7 @@ namespace Presentacion.Casos.Laborales
 
             string estadoActual = (item.estado ?? "").Trim();
 
-            
+
 
             bool requiereVencimiento = EstadoLaboralHelper.RequiereVencimiento(
                     item.estado ?? "",
@@ -2378,7 +2447,7 @@ namespace Presentacion.Casos.Laborales
             }
 
             txtObservacionesHistorial.Text = item.anotaciones ?? "";
-            comboboxEstado.SelectedItem= estadoActual;
+            comboboxEstado.SelectedItem = estadoActual;
 
 
             AnadirTabPage(tabPageEditarHistorial);
@@ -2526,5 +2595,7 @@ namespace Presentacion.Casos.Laborales
         {
 
         }
+
+        
     }
 }

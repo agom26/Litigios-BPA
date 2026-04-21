@@ -44,6 +44,7 @@ namespace Presentacion.Casos.Contenciosos
         HistorialCasoContenciosoModel historialModel = new HistorialCasoContenciosoModel();
         ArchivosContenciososModel archivoModel = new ArchivosContenciososModel();
         CAGeneralModel casoContenciosoModel = new CAGeneralModel();
+        CATerminadosModel casoContenciosoTModel = new CATerminadosModel();
         CARecursoCasacionModel recursoCasacionModel = new CARecursoCasacionModel();
         //caso 
         private BindingList<PersonaListDataResponse> listaDemandados
@@ -543,7 +544,7 @@ namespace Presentacion.Casos.Contenciosos
 
             int idUsuario = UserSession.Id;
             string filtro = txtBuscar.Text;
-            var response = await casoContenciosoModel.ObtenerCasosContenciosos(idUsuario, paginaActual, registrosPorPagina, filtro);
+            var response = await casoContenciosoTModel.ObtenerCasosContenciosos(idUsuario, paginaActual, registrosPorPagina, filtro);
 
             if (response.success)
             {

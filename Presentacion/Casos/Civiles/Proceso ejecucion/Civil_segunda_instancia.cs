@@ -10,6 +10,7 @@ using Presentacion.Casos.Civiles.Estados_civil;
 using Presentacion.Casos.Civiles.Mostrar_Casos;
 using Presentacion.Casos.Estados;
 using Presentacion.Casos.Participantes;
+using PuppeteerSharp;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
@@ -193,7 +194,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 loading.Show(this);
 
                 // Centrar respecto al formulario actual
-                var centro = this.PointToScreen(Point.Empty);
+                var centro = this.PointToScreen(System.Drawing.Point.Empty);
 
                 loading.Left = centro.X + (this.ClientSize.Width - loading.Width) / 2;
                 loading.Top = centro.Y + (this.ClientSize.Height - loading.Height) / 2;
@@ -575,7 +576,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             {
                 // Pantalla pequeña → top-left
                 panelBusquedaCaso.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                panelBusquedaCaso.Location = new Point(0, 0); // o donde quieras
+                panelBusquedaCaso.Location = new System.Drawing.Point(0, 0); // o donde quieras
             }
         }
 
@@ -1252,29 +1253,48 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
                     if (EstadoCivil.estado != null && EstadoCivil.fechaEstado != null)
                     {
-                        var response = await historialModel.TerminarCasoCivil(
-                            casoId: idCaso,
-                            usuarioId: UserSession.Id,
-                            fecha: EstadoCivil.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
-                            anotaciones: EstadoCivil.observaciones,
-                            origen: "CIVIL JUICIO SUMARIO SEGUNDA INSTANCIA"
-                        );
-
-                        if (response.success)
+                        try
                         {
-                            MessageBox.Show("Caso terminado correctamente", "Éxito",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            var resp = await casoCivilModel.ObtenerCasoCivilPorId(UserSession.Id, idCaso);
 
-                            await EjecutarConLoaderAsync(async () =>
+                            if (!resp.success || resp.data == null)
                             {
-                                await CargarCasos();
-                            });
+                                MessageBox.Show(resp.message ?? "No se pudo cargar el caso");
+                                return;
+                            }
+
+                            var data = resp.data;
+                            string origenUltH = resp.data.ultimo_historial.origen ?? "CIVIL PROCESO DE EJECUIÓN SEGUNDA INSTANCIA";
+                            var response = await historialModel.TerminarCasoCivil(
+                                casoId: idCaso,
+                                usuarioId: UserSession.Id,
+                                fecha: EstadoCivil.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
+                                anotaciones: EstadoCivil.observaciones,
+                                origen: origenUltH
+                            );
+
+                            if (response.success)
+                            {
+                                MessageBox.Show("Caso terminado correctamente", "Éxito",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                await EjecutarConLoaderAsync(async () =>
+                                {
+                                    await CargarCasos();
+                                });
+                            }
+                            else
+                            {
+                                MessageBox.Show(response.message, "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
-                        else
+                        catch(Exception ex)
                         {
-                            MessageBox.Show(response.message, "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(ex.Message, "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
+                        
                     }
                     else
                     {
@@ -1332,7 +1352,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
         private void btnAgregarEstado_Click(object sender, EventArgs e)
         {
-            FrmAgregarEstadoCivilPEVA frmAgregarEstado = new FrmAgregarEstadoCivilPEVA();
+            FrmAgregarEstadoCivilPESI frmAgregarEstado = new FrmAgregarEstadoCivilPESI();
             frmAgregarEstado.ShowDialog();
 
             if (EstadoCivil.estado != null)
@@ -1362,7 +1382,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
         {
             if (tabControl1.SelectedTab == Detalles)
             {
-                Detalles.AutoScrollPosition = new Point(0, 0);
+                Detalles.AutoScrollPosition = new System.Drawing.Point(0, 0);
 
                 if (_actualizandoCaso)
                 {
@@ -1392,7 +1412,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             }
             else if (tabControl1.SelectedTab == tabPageCasoReferencia)
             {
-                tabPageCasoReferencia.AutoScrollPosition = new Point(0, 0);
+                tabPageCasoReferencia.AutoScrollPosition = new System.Drawing.Point(0, 0);
             }
         }
 

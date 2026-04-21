@@ -137,3 +137,7 @@ C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.genruntimeconfig.cache
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\ref\Presentacion.dll
 C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Reportes.BuscarAbogadoForm.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Alertas_y_notificaciones.FrmAlertas.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Dashboard.FrmDashboard.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Civiles.Estados_civil.FrmAgregarEstadoCivilPESI.resources
+C:\Users\LENOVO\source\repos\Programa-BPA-Litigios\Presentacion\obj\Debug\net8.0-windows\Presentacion.Casos.Civiles.Civil_Terminados2.resources

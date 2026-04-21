@@ -109,22 +109,22 @@ namespace Dominio.Entidades.Civiles
             return clean.Count == 0 ? new List<int>() : clean;
         }
 
-        public async Task<ApiResponse<CasoCivilDetalleData>> ObtenerCasoCivilPorId(int usuarioId, int casoId)
+        public async Task<ApiResponse<CasoCivilViaApremioDetalleData>> ObtenerCasoCivilPorId(int usuarioId, int casoId)
         {
             try
             {
                 if (usuarioId <= 0)
-                    return new ApiResponse<CasoCivilDetalleData> { success = false, message = "Usuario requerido" };
+                    return new ApiResponse<CasoCivilViaApremioDetalleData> { success = false, message = "Usuario requerido" };
 
                 if (casoId <= 0)
-                    return new ApiResponse<CasoCivilDetalleData> { success = false, message = "caso_id es requerido" };
+                    return new ApiResponse<CasoCivilViaApremioDetalleData> { success = false, message = "caso_id es requerido" };
 
                 // Llamar DataAccess
                 return await casoCivilModel.ObtenerCasoCivilPorId(usuarioId, casoId);
             }
             catch (Exception ex)
             {
-                return new ApiResponse<CasoCivilDetalleData>
+                return new ApiResponse<CasoCivilViaApremioDetalleData>
                 {
                     success = false,
                     message = "Error: " + ex.Message
@@ -132,7 +132,7 @@ namespace Dominio.Entidades.Civiles
             }
         }
 
-        public async Task<ApiResponseEditarCasoCivil> EditarCasoCivil(EditarCasoCivilRequest req)
+        public async Task<ApiResponseEditarCasoCivil> EditarCasoCivil(EditarCasoViaApremioRequest req)
         {
             try
             {

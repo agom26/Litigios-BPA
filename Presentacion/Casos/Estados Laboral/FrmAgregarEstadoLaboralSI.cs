@@ -90,7 +90,7 @@ namespace Presentacion.Casos.Estados
                 estado == "Vista" ||
                 estado == "Tercera Audiencia para recepción de pruebas" ||
                 estado == "Audiencia para recepción de pruebas" ||
-                estado == "Recurso de aclaración y ampliación";
+                estado == "Recursos de aclaración y ampliación";
 
             checkBoxTieneVencimiento.Checked = requiereVencimiento;
         }

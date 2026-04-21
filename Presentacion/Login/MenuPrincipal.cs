@@ -22,6 +22,8 @@ using Presentacion.Casos.Constitucionales.Constitucional_amparo;
 using Presentacion.Casos.Constitucionales.Constitucional_Terminado;
 using Presentacion.Reportes;
 using Presentacion.Plazos;
+using Presentacion.Alertas_y_notificaciones;
+using Presentacion.Dashboard;
 namespace Presentacion
 {
     public partial class MenuPrincipal : Form
@@ -167,6 +169,7 @@ namespace Presentacion
                 .Select(m => m.clave_slug.ToLower())
                 .ToList();
 
+            treeView1.Nodes.Add(CrearNodo("Inicio", "inicio"));
             foreach (string modulo in ordenModulos)
             {
                 if (!modulosUsuario.Contains(modulo))
@@ -268,11 +271,14 @@ namespace Presentacion
             lblUsuario.Text = UserSession.Usuario;
         }
 
-        private void MenuPrincipal_Load(object sender, EventArgs e)
+        private async void MenuPrincipal_Load(object sender, EventArgs e)
         {
             CargarMenuPorModulos();
             CargarDatosUsuario();
             AjustarAnchoTreeView();
+            if (this.IsDisposed) return;
+
+            await AbrirFormularioConLoaderAsync(new FrmDashboard());
         }
 
         private async void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -317,7 +323,7 @@ namespace Presentacion
                     nodo.Parent.Text == "Laboral")
                 {
                     await AbrirFormularioConLoaderAsync(new Laboral_primer_instancia());
-                    
+
                 }
                 else if (nodo.Text == "Recursos contra resoluciones" && nodo.Parent != null &&
                     nodo.Parent.Text == "Laboral")
@@ -401,7 +407,7 @@ namespace Presentacion
                 else if (nodo.Text == "Terminados" && nodo.Parent != null &&
                     nodo.Parent.Text == "Civil")
                 {
-                    await AbrirFormularioConLoaderAsync(new Civil_terminados());
+                    await AbrirFormularioConLoaderAsync(new Civil_Terminados2());
                 }
                 else if (nodo.Text == "General" && nodo.Parent != null &&
                   nodo.Parent.Text == "Contencioso Administrativo")
@@ -417,6 +423,11 @@ namespace Presentacion
                   nodo.Parent.Text == "Contencioso Administrativo")
                 {
                     await AbrirFormularioConLoaderAsync(new Contencioso_RecursoCasacion());
+                }
+                else if (nodo.Text == "Terminados" && nodo.Parent != null &&
+                  nodo.Parent.Text == "Contencioso Administrativo")
+                {
+                    await AbrirFormularioConLoaderAsync(new Contencioso_Terminado());
                 }
                 else if (nodo.Text == "Amparo" && nodo.Parent != null &&
                   nodo.Parent.Text == "Constitucional")
@@ -436,7 +447,25 @@ namespace Presentacion
                 {
                     await AbrirFormularioConLoaderAsync(new FrmPlazos());
                 }
+                else if (nodo.Text == "Vencimientos")
+                {
+                    await AbrirFormularioConLoaderAsync(new FrmAlertas());
+                }
+                else if (nodo.Text == "Inicio")
+                {
+                    await AbrirFormularioConLoaderAsync(new FrmDashboard());
+                }
             }
+        }
+
+        public async Task AbrirPlazos()
+        {
+            await AbrirFormularioConLoaderAsync(new FrmPlazos());
+        }
+
+        public async Task AbrirAlertas()
+        {
+            await AbrirFormularioConLoaderAsync(new FrmAlertas());
         }
 
         private void roundedButton23_Click(object sender, EventArgs e)
@@ -461,7 +490,7 @@ namespace Presentacion
 
         private void MenuPrincipal_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            
+
         }
 
         private void roundedButton1_Click(object sender, EventArgs e)
@@ -557,7 +586,7 @@ namespace Presentacion
                 ? Color.FromArgb(255, 255, 255)
                 //Color.FromArgb(243, 237, 228)
                 : Color.FromArgb(45, 45, 45);
-           
+
             //Color.FromArgb(243, 237, 228);
             // Dibujar fondo
             using (SolidBrush brush = new SolidBrush(backColor))
@@ -588,23 +617,13 @@ namespace Presentacion
 
             e.DrawDefault = false;
 
-            /*
-            if ((e.State & TreeNodeStates.Selected) != 0)
-            {
-                e.Graphics.FillRectangle(
-                    new SolidBrush(Color.FromArgb(0, 120, 215)),
-                    e.Bounds);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    e.Node.Text,
-                    treeView1.Font,
-                    e.Bounds,
-                    Color.White);
-            }
-            else
-            {
-                e.DrawDefault = true;
-            }*/
+        }
+
+        private async void MenuPrincipal_ResizeEnd(object sender, EventArgs e)
+        {
+            if (this.IsDisposed) return;
+
+            await AbrirFormularioConLoaderAsync(new FrmDashboard());
         }
     }
 }

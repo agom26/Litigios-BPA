@@ -23,6 +23,7 @@ namespace Comun.Models.Casos.Civiles
         public string? Observaciones { get; set; }
         public string? Fecha { get; set; }
         public string? FechaVencimiento { get; set; }
+        public string? Origen {  get; set; }
 
         public List<int>? Demandantes { get; set; }
         public List<int>? Demandados { get; set; }

@@ -13,7 +13,7 @@ namespace Dominio.Entidades
     {
         CasosLaboralesSegundaIDataAccess casoLaboralData = new CasosLaboralesSegundaIDataAccess();
 
-        public async Task<ApiResponseCasosLaboralesList> ObtenerCasosLaborales(
+        public async Task<ApiResponseCasosLaboralesSIList> ObtenerCasosLaborales(
             int usuarioId,
             int pagina,
             int registros,
@@ -23,7 +23,7 @@ namespace Dominio.Entidades
             try
             {
                 if (usuarioId <= 0)
-                    return new ApiResponseCasosLaboralesList { success = false, message = "Usuario requerido" };
+                    return new ApiResponseCasosLaboralesSIList { success = false, message = "Usuario requerido" };
 
                 if (pagina <= 0) pagina = 1;
                 if (registros <= 0) registros = 10;
@@ -32,7 +32,7 @@ namespace Dominio.Entidades
             }
             catch (Exception ex)
             {
-                return new ApiResponseCasosLaboralesList { success = false, message = "Error: " + ex.Message };
+                return new ApiResponseCasosLaboralesSIList{ success = false, message = "Error: " + ex.Message };
             }
         }
 
@@ -49,7 +49,7 @@ namespace Dominio.Entidades
                     return new ApiResponseCrearCasoLaboral { success = false, message = "Expediente es requerido" };
 
                 if (string.IsNullOrWhiteSpace(req.Juzgado))
-                    return new ApiResponseCrearCasoLaboral { success = false, message = "Juzgado es requerido" };
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Sala es requerida" };
 
                 if (string.IsNullOrWhiteSpace(req.Notificador))
                     return new ApiResponseCrearCasoLaboral { success = false, message = "Notificador es requerido" };

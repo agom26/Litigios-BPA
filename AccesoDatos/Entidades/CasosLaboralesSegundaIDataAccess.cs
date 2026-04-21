@@ -18,7 +18,7 @@ namespace AccesoDatos.Entidades
         // Recomendado: reutilizar HttpClient (no crearlo en cada método)
         private static readonly HttpClient _http = new HttpClient();
 
-        public async Task<ApiResponseCasosLaboralesList> ListarCasosLaborales(
+        public async Task<ApiResponseCasosLaboralesSIList> ListarCasosLaborales(
             int usuarioId,
             int pagina,
             int registros,
@@ -41,12 +41,12 @@ namespace AccesoDatos.Entidades
                 var response = await _http.PostAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
 
-                return JsonConvert.DeserializeObject<ApiResponseCasosLaboralesList>(jsonResult)
-                       ?? new ApiResponseCasosLaboralesList { success = false, message = "Respuesta vacía o inválida." };
+                return JsonConvert.DeserializeObject<ApiResponseCasosLaboralesSIList>(jsonResult)
+                       ?? new ApiResponseCasosLaboralesSIList { success = false, message = "Respuesta vacía o inválida." };
             }
             catch (Exception ex)
             {
-                return new ApiResponseCasosLaboralesList
+                return new ApiResponseCasosLaboralesSIList
                 {
                     success = false,
                     message = "Error: " + ex.Message
