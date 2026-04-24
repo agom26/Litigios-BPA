@@ -73,6 +73,7 @@ namespace Comun.DatosParaInterfaz
                 return false;
 
             return
+                estado == "Recurso de apelación presentado" ||
                 estado == "Audiencia" ||
                 estado == "Vista" ||
                 estado == "Audiencia para recepción de pruebas" ||

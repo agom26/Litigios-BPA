@@ -150,7 +150,7 @@ namespace Presentacion.Personas
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            lblTitulo.Text = "Nuevo Demandado / Autoridad Responsable";
+            lblTitulo.Text = "Nuevo Demandado / Autoridad Impugnada";
             btnGuardarUsuario.Text = "Guardar";
             LimpiarFormulario();
             AnadirTabPage(Detalles);
@@ -350,7 +350,7 @@ namespace Presentacion.Personas
 
         private async void roundedButton18_Click(object sender, EventArgs e)
         {
-            if (lblTitulo.Text == "Nuevo Demandado / Autoridad Responsable")
+            if (lblTitulo.Text == "Nuevo Demandado / Autoridad Impugnada")
             {
                 await GuardarDemandado();
             }
@@ -405,7 +405,7 @@ namespace Presentacion.Personas
             if (dtgDemandados.Columns[e.ColumnIndex].Name == "Editar")
             {
                 btnGuardarUsuario.Text = "Actualizar";
-                lblTitulo.Text = "Editar Demandado / Autoridad Responsable";
+                lblTitulo.Text = "Editar Demandado / Autoridad Impugnada";
                 int idPersona = Convert.ToInt32(dtgDemandados.Rows[e.RowIndex].Cells["id"].Value);
                 _idDemandadoEditar= idPersona;
                 await CargarDatosPersona(idPersona);

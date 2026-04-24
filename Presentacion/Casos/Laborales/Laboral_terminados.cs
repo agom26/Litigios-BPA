@@ -59,13 +59,37 @@ namespace Presentacion.Casos.Laborales
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
         private bool isAdminLaboral = false;
-        private void VerificarTipoUsuario()
-
+        private bool isLectorLaboral = false;
+        UserModel userModel = new UserModel();
+        private async Task VerificarTipoUsuario()
         {
-            isAdminLaboral = UserSession.Modulos.Any(m =>
-                (m.clave_slug ?? "").Trim().Equals("laboral", StringComparison.OrdinalIgnoreCase) &&
-                (m.nombre_rol ?? "").Trim().Equals("Administrador", StringComparison.OrdinalIgnoreCase));
+            var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, 1);
+            if (resp.success && resp.data != null)
+            {
+                string rol = resp.data.nombre_rol;
+
+                if (rol == "Administrador")
+                {
+                    isAdminLaboral = true;
+                    isLectorLaboral = false;
+                }
+                else if (rol == "Usuario Lector")
+                {
+                    isLectorLaboral = true;
+                    isAdminLaboral = false;
+                }
+                else if (rol == "Usuario Normal")
+                {
+                    isLectorLaboral = false;
+                    isAdminLaboral = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show(resp.message);
+            }
         }
+
         public async Task LoadAsync()
         {
             if (_yaCargo) return;
@@ -171,9 +195,9 @@ namespace Presentacion.Casos.Laborales
             txtNombreParticular.Text = "";
             LimpiarListas();
         }
-        private void BotonesAdmin()
+        private async void BotonesAdmin()
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (isAdminLaboral)
             {
                 //editar caso
@@ -444,8 +468,9 @@ namespace Presentacion.Casos.Laborales
             tabControl1.SelectedTab = nombre;
         }
 
-        private void CrearBotonesAccion(DataGridView dtg)
+        private async void CrearBotonesAccion(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             // Editar
             if (!dtg.Columns.Contains("Editar"))
             {
@@ -466,50 +491,8 @@ namespace Presentacion.Casos.Laborales
                 dtg.Columns.Add(btnEditar);
             }
 
-            // Eliminar
-            if (!dtg.Columns.Contains("Eliminar"))
-            {
-                DataGridViewButtonColumn btnEliminar = new DataGridViewButtonColumn
-                {
-                    Name = "Eliminar",
-                    HeaderText = "",
-                    Text = "🗑️", // Icono de basura
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
-                dtg.Columns.Add(btnEliminar);
-            }
-
-            // Mover los botones al final
-            dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 2;
-            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
-        }
-
-        private void CrearBotonesAccionHistorial(DataGridView dtg)
-        {
-            VerificarTipoUsuario();
             if (isAdminLaboral)
             {
-                // Editar
-                if (!dtg.Columns.Contains("Editar"))
-                {
-                    DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
-                    {
-                        Name = "Editar",
-                        HeaderText = "",
-                        Text = "✏️", // Icono de lápiz
-                        UseColumnTextForButtonValue = true,
-                        FlatStyle = FlatStyle.Standard, // estilo estándar, sin colores
-                        Width = 40,
-                        MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
-                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None // Mantiene el tamaño fijo
-                    };
-                    dtg.Columns.Add(btnEditar);
-                }
-
                 // Eliminar
                 if (!dtg.Columns.Contains("Eliminar"))
                 {
@@ -526,14 +509,65 @@ namespace Presentacion.Casos.Laborales
                     };
                     dtg.Columns.Add(btnEliminar);
                 }
-
-                // Mover los botones al final
-                dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 2;
-                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
             }
+            
 
+            // Mover los botones al final
+            dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
+            if (isAdminLaboral == true && dtg.Columns.Contains("Eliminar"))
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
         }
 
+        private async void CrearBotonesAccionHistorial(DataGridView dtg)
+        {
+            await VerificarTipoUsuario();
+            // Editar
+            if (!dtg.Columns.Contains("Editar"))
+            {
+                DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
+                {
+                    Name = "Editar",
+                    HeaderText = "",
+                    Text = isAdminLaboral
+                    ? "✏️"
+                    : "👁️"
+                    ,
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard, // estilo estándar, sin colores
+                    Width = 40,
+                    MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None // Mantiene el tamaño fijo
+                };
+                dtg.Columns.Add(btnEditar);
+            }
+
+            if (isAdminLaboral)
+            {
+                // Eliminar
+                if (!dtg.Columns.Contains("Eliminar"))
+                {
+                    DataGridViewButtonColumn btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️", // Icono de basura
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
+            }
+
+            if (dtg.Columns.Contains("Editar"))
+                dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
+
+            if (isAdminLaboral == true && dtg.Columns.Contains("Eliminar"))
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
+
+        }
 
 
         private void CentrarPanel()
@@ -2401,6 +2435,14 @@ namespace Presentacion.Casos.Laborales
 
             comboboxEstado.SelectedIndex = -1;
         }
+        void HabilitarControlesEdicionHistorial()
+        {
+            comboboxEstado.Enabled = isAdminLaboral;
+            dateTimePickerFechaEstado.Enabled = isAdminLaboral;
+            txtObservacionesHistorial.Enabled = isAdminLaboral;
+            dateTimePickerFechaVencimiento.Enabled = isAdminLaboral;
+            dateTimePickerHoraVencimiento.Enabled = isAdminLaboral;
+        }
 
         private void CargarDatosHistorialEnTab(HistorialCasoLaboralDetalle item)
         {
@@ -2449,6 +2491,16 @@ namespace Presentacion.Casos.Laborales
             txtObservacionesHistorial.Text = item.anotaciones ?? "";
             comboboxEstado.SelectedItem = estadoActual;
 
+            if (isAdminLaboral)
+            {
+                btnGuardarEdicionHistorial.Visible = true;
+            }
+            else
+            {
+                btnGuardarEdicionHistorial.Visible = false;
+            }
+
+            HabilitarControlesEdicionHistorial();
 
             AnadirTabPage(tabPageEditarHistorial);
             EliminarTabPage(tabPageHistorial);

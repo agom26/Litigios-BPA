@@ -22,6 +22,7 @@ namespace Presentacion.Personas
         }
         private void LimpiarFormulario()
         {
+            txtTelefono.Text = "";
             txtNombre.Text = "";
             txtApellido.Text = "";
             txtCorreo.Text = "";
@@ -434,10 +435,11 @@ namespace Presentacion.Personas
             {
                 MessageBox.Show("Usuario actualizado correctamente",
                     "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await CargarUsuarios();
+                
                 LimpiarFormulario();
                 AnadirTabPage(Listar);
                 EliminarTabPage(Detalles);
+                await CargarUsuarios();
             }
             else
             {
@@ -466,10 +468,11 @@ namespace Presentacion.Personas
             if (resultado.success)
             {
                 MessageBox.Show("Usuario creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await CargarUsuarios();
+                
                 LimpiarFormulario();
                 AnadirTabPage(Listar);
                 EliminarTabPage(Detalles);
+                await CargarUsuarios();
             }
             else
             {

@@ -184,6 +184,9 @@ namespace Dominio.Entidades
             if (string.IsNullOrWhiteSpace(telefono))
                 return new ApiResponse<object> { success = false, message = "El teléfono es obligatorio" };
 
+            if (string.IsNullOrWhiteSpace(correo))
+                return new ApiResponse<object> { success = false, message = "El correo es obligatorio" };
+
             if (!string.IsNullOrWhiteSpace(correo))
             {
                 var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");

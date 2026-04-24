@@ -43,8 +43,10 @@ namespace Presentacion.Dashboard
         PlazosModel plazosModel = new PlazosModel();
         AlertasModel alertasModel = new AlertasModel();
         UserModel userModel = new UserModel();
-        
+
         private bool isAdminLaboral = false;
+        Color normal = ColorTranslator.FromHtml("#ffffff"); // tu color base
+        Color hover = ColorTranslator.FromHtml("#e5e5e5");
         private void VerificarTipoUsuario()
 
         {
@@ -409,7 +411,7 @@ namespace Presentacion.Dashboard
             this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
         }
 
-     
+
         private void FrmDashboard_Resize_1(object sender, EventArgs e)
         {
             CentrarPanel();
@@ -571,6 +573,99 @@ namespace Presentacion.Dashboard
 
                 e.FormattingApplied = true;
             }
+        }
+
+        private void Listar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblLaborales_MouseEnter(object sender, EventArgs e)
+        {
+            lblLaborales.BackColor = hover;
+            btnLaborales.BackColor = hover;
+        }
+
+        private void lblLaborales_MouseLeave(object sender, EventArgs e)
+        {
+            lblLaborales.BackColor = normal;
+            btnLaborales.BackColor = normal;
+        }
+
+        private void roundedButton37_MouseEnter(object sender, EventArgs e)
+        {
+            lblLaborales.BackColor = hover;
+        }
+
+        private void roundedButton37_MouseLeave(object sender, EventArgs e)
+        {
+            lblLaborales.BackColor = normal;
+        }
+
+        private void btnCiviles_MouseEnter(object sender, EventArgs e)
+        {
+            lblCiviles.BackColor = hover;
+        }
+
+        private void btnCiviles_MouseLeave(object sender, EventArgs e)
+        {
+            lblCiviles.BackColor = normal;
+        }
+
+        private void btnContenciosos_MouseEnter(object sender, EventArgs e)
+        {
+            lblContenciosos.BackColor = hover;
+        }
+
+        private void btnContenciosos_MouseLeave(object sender, EventArgs e)
+        {
+            lblContenciosos.BackColor = normal;
+        }
+
+        private void btnConstitucionales_MouseEnter(object sender, EventArgs e)
+        {
+            lblConstitucionales.BackColor = hover;
+        }
+
+        private void btnConstitucionales_MouseLeave(object sender, EventArgs e)
+        {
+            lblConstitucionales.BackColor = normal;
+        }
+
+        private void lblCiviles_MouseEnter(object sender, EventArgs e)
+        {
+            btnCiviles.BackColor = hover;
+            lblCiviles.BackColor = hover;
+        }
+
+        private void lblCiviles_MouseLeave(object sender, EventArgs e)
+        {
+            btnCiviles.BackColor = normal;
+            lblCiviles.BackColor = normal;
+        }
+
+        private void lblContenciosos_MouseEnter(object sender, EventArgs e)
+        {
+            lblContenciosos.BackColor = hover;
+            btnContenciosos.BackColor = hover;
+        }
+
+        private void lblContenciosos_MouseLeave(object sender, EventArgs e)
+        {
+            lblContenciosos.BackColor = normal;
+            btnContenciosos.BackColor = normal;
+        }
+
+        private void lblConstitucionales_MouseEnter(object sender, EventArgs e)
+        {
+            lblConstitucionales.BackColor = hover;
+            btnConstitucionales.BackColor = hover;
+        }
+
+        private void lblConstitucionales_MouseLeave(object sender, EventArgs e)
+        {
+            lblConstitucionales.BackColor = normal;
+            btnConstitucionales.BackColor = normal;
         }
     }
 }

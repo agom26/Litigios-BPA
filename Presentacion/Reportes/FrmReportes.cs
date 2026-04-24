@@ -578,7 +578,7 @@ namespace Presentacion.Reportes
                 dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
             }
         }
-
+        
         public FrmReportes()
         {
             InitializeComponent();
@@ -592,6 +592,7 @@ namespace Presentacion.Reportes
             alistarListaAbogadosDirectores();
             alistarListaAbogadosAsistentes();
             alistarListaSocioResponsable();
+            
         }
 
         private void AjustarFilas()

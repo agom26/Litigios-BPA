@@ -76,6 +76,8 @@
             roundedButton6 = new Presentacion.Clases.RoundedButton();
             roundedButton2 = new Presentacion.Clases.RoundedButton();
             lblTitulo = new Label();
+            pictureBox1 = new PictureBox();
+            panel2 = new Panel();
             panelBusqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDemandantes).BeginInit();
             tabControl1.SuspendLayout();
@@ -83,11 +85,14 @@
             Detalles.SuspendLayout();
             panel1.SuspendLayout();
             panelInformacionPersonal.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // panelBusqueda
             // 
             panelBusqueda.BackColor = Color.White;
+            panelBusqueda.Controls.Add(pictureBox1);
             panelBusqueda.Controls.Add(btnAdd);
             panelBusqueda.Controls.Add(txtBuscar);
             panelBusqueda.Controls.Add(roundedButton1);
@@ -160,7 +165,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(47, 25);
+            label1.Location = new Point(89, 25);
             label1.Name = "label1";
             label1.Size = new Size(229, 30);
             label1.TabIndex = 0;
@@ -210,7 +215,7 @@
             dtgDemandantes.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dtgDemandantes.RowTemplate.Height = 45;
             dtgDemandantes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgDemandantes.Size = new Size(744, 226);
+            dtgDemandantes.Size = new Size(744, 265);
             dtgDemandantes.TabIndex = 1;
             dtgDemandantes.CellClick += dtgDemandantes_CellClick;
             dtgDemandantes.CellFormatting += dtgDemandantes_CellFormatting;
@@ -240,7 +245,7 @@
             btnAnterior.ForeColor = Color.White;
             btnAnterior.Image = (Image)resources.GetObject("btnAnterior.Image");
             btnAnterior.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAnterior.Location = new Point(587, 404);
+            btnAnterior.Location = new Point(584, 2);
             btnAnterior.Name = "btnAnterior";
             btnAnterior.Padding = new Padding(3, 0, 0, 0);
             btnAnterior.Size = new Size(87, 40);
@@ -265,7 +270,7 @@
             btnSiguiente.ForeColor = Color.White;
             btnSiguiente.Image = (Image)resources.GetObject("btnSiguiente.Image");
             btnSiguiente.ImageAlign = ContentAlignment.MiddleRight;
-            btnSiguiente.Location = new Point(693, 404);
+            btnSiguiente.Location = new Point(690, 2);
             btnSiguiente.Name = "btnSiguiente";
             btnSiguiente.Padding = new Padding(3, 0, 0, 0);
             btnSiguiente.Size = new Size(87, 40);
@@ -291,11 +296,10 @@
             // 
             Listar.AutoScroll = true;
             Listar.AutoScrollMinSize = new Size(800, 506);
+            Listar.Controls.Add(panel2);
             Listar.Controls.Add(labelTotal);
             Listar.Controls.Add(panelBusqueda);
-            Listar.Controls.Add(btnSiguiente);
             Listar.Controls.Add(lblPagina);
-            Listar.Controls.Add(btnAnterior);
             Listar.Controls.Add(dtgDemandantes);
             Listar.Location = new Point(4, 24);
             Listar.Name = "Listar";
@@ -806,6 +810,26 @@
             lblTitulo.TabIndex = 1;
             lblTitulo.Text = "Contacto de Empresa";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.equipo;
+            pictureBox1.Location = new Point(33, 15);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(50, 50);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 5;
+            pictureBox1.TabStop = false;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(btnSiguiente);
+            panel2.Controls.Add(btnAnterior);
+            panel2.Dock = DockStyle.Bottom;
+            panel2.Location = new Point(3, 503);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(800, 48);
+            panel2.TabIndex = 6;
+            // 
             // ContactoEmpresa
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -830,6 +854,8 @@
             panel1.PerformLayout();
             panelInformacionPersonal.ResumeLayout(false);
             panelInformacionPersonal.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -878,5 +904,7 @@
         private Clases.RoundedButton roundedButton10;
         private Clases.RoundedButton roundedButton11;
         private Clases.RoundedButton roundedButton13;
+        private PictureBox pictureBox1;
+        private Panel panel2;
     }
 }

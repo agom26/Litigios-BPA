@@ -37,6 +37,7 @@ namespace Presentacion.Plazos
         public FrmPlazos()
         {
             InitializeComponent();
+            EliminarTabPage(tabPageReportes);
         }
 
         private async Task EjecutarConLoaderAsync(Func<Task> accion)
@@ -135,12 +136,14 @@ namespace Presentacion.Plazos
                         break;
                     }
                 case "CIVIL PROCESO DE EJECUCIÓN SEGUNDA INSTANCIA":
+                case "CIVIL PROCESO DE EJECUCIÓN VÍA APREMIO SEGUNDA INSTANCIA":
+                case "CIVIL PROCESO DE EJECUCIÓN COMÚN SEGUNDA INSTANCIA":
                     {
                         comboboxEstado.Items.Clear();
                         comboboxEstado.Items.AddRange(EstadoCivilHelper.ObtenerEstadosPESegundaInstancia().ToArray());
                         break;
                     }
-                case "ADMINISTRATIVO GENERAL PRIMERA INSTANCIA":
+                case "ADMINISTRATIVO GENERAL PRIMER INSTANCIA":
                     {
                         comboboxEstado.Items.Clear();
                         comboboxEstado.Items.AddRange(EstadoContenciosoHelper.ObtenerEstadosPrimeraInstancia().ToArray());
@@ -179,13 +182,11 @@ namespace Presentacion.Plazos
                     dateTimePickerFechaEstado.Value = plazo.data.fecha_inicio.Value;
                 origenActual = plazo.data.origen ?? "";
                 CargarEstadosComboBoxSegunOrigen(origenActual);
-                comboboxEstado.SelectedItem = plazo.data.estado;
+                
                 txtObservaciones.Text = plazo.data.anotaciones;
-
 
                 if (plazo.data.fecha_vencimiento.HasValue)
                 {
-                    checkBoxTieneVencimiento.Checked = true;
                     var fechaVenc = plazo.data.fecha_vencimiento.Value;
                     // Fecha
                     dateTimePickerFechaVencimiento.Value = fechaVenc.Date;
@@ -197,7 +198,7 @@ namespace Presentacion.Plazos
                     dateTimePickerFechaVencimiento.Value = DateTime.Now;
                     dateTimePickerHoraVencimiento.Value = DateTime.Now;
                 }
-
+                comboboxEstado.SelectedItem = plazo.data.estado;
                 AnadirTabPage(Detalles);
                 EliminarTabPage(Listar);
             }
@@ -573,7 +574,8 @@ namespace Presentacion.Plazos
 
             if (checkBoxTieneVencimiento.Checked)
             {
-                fechaVencimiento = dateTimePickerFechaVencimiento.Value;
+                fechaVencimiento = dateTimePickerFechaVencimiento.Value+
+                    dateTimePickerHoraVencimiento.Value.TimeOfDay;
             }
             else
             {
@@ -715,7 +717,7 @@ namespace Presentacion.Plazos
                         requiereVencimiento = EstadoCivilHelper.RequiereVencimientoPESegundaInstancia(estado);
                         break;
                     }
-                case "ADMINISTRATIVO GENERAL PRIMERA INSTANCIA":
+                case "ADMINISTRATIVO GENERAL PRIMER INSTANCIA":
                     {
                         requiereVencimiento = EstadoContenciosoHelper.RequiereVencimientoPrimeraInstancia(estado);
                         txtObservaciones.Text =
@@ -752,6 +754,7 @@ namespace Presentacion.Plazos
 
         private void comboboxEstado_SelectedValueChanged(object sender, EventArgs e)
         {
+            
             VerificarSiEstadoTieneVencimientoAutomaticoYActualizarObservaciones(origenActual);
         }
 

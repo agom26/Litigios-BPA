@@ -26,6 +26,7 @@ using Presentacion.Alertas_y_notificaciones;
 using Presentacion.Dashboard;
 namespace Presentacion
 {
+
     public partial class MenuPrincipal : Form
     {
         bool menuExpandido = true;
@@ -231,8 +232,8 @@ namespace Presentacion
 
                     case "personas involucradas":
                         TreeNode personas = CrearNodo("Personas involucradas", "personas");
-                        personas.Nodes.Add(CrearNodo("Demandados / Autoridad Responsable", "personas"));
-                        personas.Nodes.Add(CrearNodo("Demandantes / Actor", "personas"));
+                        personas.Nodes.Add(CrearNodo("Demandados / Autoridad Impugnada", "personas"));
+                        personas.Nodes.Add(CrearNodo("Demandantes / Solicitantes", "personas"));
                         personas.Nodes.Add(CrearNodo("Terceros Interesados", "personas"));
                         personas.Nodes.Add(CrearNodo("Contactos de Empresa", "personas"));
                         treeView1.Nodes.Add(personas);
@@ -299,12 +300,12 @@ namespace Presentacion
                     else
                         nodo.Expand();
                 }
-                else if (nodo.Text == "Demandados / Autoridad Responsable" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
+                else if (nodo.Text == "Demandados / Autoridad Impugnada" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
                 {
                     openChildForm(new Demandados());
 
                 }
-                else if (nodo.Text == "Demandantes / Actor" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
+                else if (nodo.Text == "Demandantes / Solicitantes" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
                 {
                     openChildForm(new Demandantes());
 

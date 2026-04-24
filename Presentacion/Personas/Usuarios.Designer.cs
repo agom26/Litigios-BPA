@@ -38,6 +38,7 @@
             DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             panelBusqueda = new Panel();
+            pictureBox1 = new PictureBox();
             btnAdd = new Presentacion.Clases.RoundedButton();
             txtBuscar = new TextBox();
             roundedButton1 = new Presentacion.Clases.RoundedButton();
@@ -48,6 +49,7 @@
             btnSiguiente = new Presentacion.Clases.RoundedButton();
             tabControl1 = new TabControl();
             Listar = new TabPage();
+            panel2 = new Panel();
             labelTotal = new Label();
             Detalles = new TabPage();
             roundedButton19 = new Presentacion.Clases.RoundedButton();
@@ -83,9 +85,11 @@
             roundedButton2 = new Presentacion.Clases.RoundedButton();
             lblTitulo = new Label();
             panelBusqueda.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgUsuarios).BeginInit();
             tabControl1.SuspendLayout();
             Listar.SuspendLayout();
+            panel2.SuspendLayout();
             Detalles.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgPermisos).BeginInit();
@@ -95,6 +99,7 @@
             // panelBusqueda
             // 
             panelBusqueda.BackColor = Color.White;
+            panelBusqueda.Controls.Add(pictureBox1);
             panelBusqueda.Controls.Add(btnAdd);
             panelBusqueda.Controls.Add(txtBuscar);
             panelBusqueda.Controls.Add(roundedButton1);
@@ -104,6 +109,16 @@
             panelBusqueda.Name = "panelBusqueda";
             panelBusqueda.Size = new Size(800, 100);
             panelBusqueda.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.perfil__2_;
+            pictureBox1.Location = new Point(33, 15);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(50, 50);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 3;
+            pictureBox1.TabStop = false;
             // 
             // btnAdd
             // 
@@ -167,7 +182,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(47, 25);
+            label1.Location = new Point(89, 24);
             label1.Name = "label1";
             label1.Size = new Size(97, 30);
             label1.TabIndex = 0;
@@ -217,7 +232,7 @@
             dtgUsuarios.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dtgUsuarios.RowTemplate.Height = 45;
             dtgUsuarios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgUsuarios.Size = new Size(744, 226);
+            dtgUsuarios.Size = new Size(744, 351);
             dtgUsuarios.TabIndex = 1;
             dtgUsuarios.CellClick += dtgUsuarios_CellClick;
             dtgUsuarios.CellFormatting += dtgUsuarios_CellFormatting;
@@ -247,7 +262,7 @@
             btnAnterior.ForeColor = Color.White;
             btnAnterior.Image = (Image)resources.GetObject("btnAnterior.Image");
             btnAnterior.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAnterior.Location = new Point(587, 373);
+            btnAnterior.Location = new Point(588, 8);
             btnAnterior.Name = "btnAnterior";
             btnAnterior.Padding = new Padding(3, 0, 0, 0);
             btnAnterior.Size = new Size(87, 40);
@@ -272,7 +287,7 @@
             btnSiguiente.ForeColor = Color.White;
             btnSiguiente.Image = (Image)resources.GetObject("btnSiguiente.Image");
             btnSiguiente.ImageAlign = ContentAlignment.MiddleRight;
-            btnSiguiente.Location = new Point(693, 373);
+            btnSiguiente.Location = new Point(690, 8);
             btnSiguiente.Name = "btnSiguiente";
             btnSiguiente.Padding = new Padding(3, 0, 0, 0);
             btnSiguiente.Size = new Size(87, 40);
@@ -298,11 +313,10 @@
             // 
             Listar.AutoScroll = true;
             Listar.AutoScrollMinSize = new Size(800, 506);
+            Listar.Controls.Add(panel2);
             Listar.Controls.Add(labelTotal);
             Listar.Controls.Add(panelBusqueda);
-            Listar.Controls.Add(btnSiguiente);
             Listar.Controls.Add(lblPagina);
-            Listar.Controls.Add(btnAnterior);
             Listar.Controls.Add(dtgUsuarios);
             Listar.Location = new Point(4, 24);
             Listar.Name = "Listar";
@@ -310,6 +324,16 @@
             Listar.Size = new Size(799, 532);
             Listar.TabIndex = 0;
             Listar.UseVisualStyleBackColor = true;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(btnSiguiente);
+            panel2.Controls.Add(btnAnterior);
+            panel2.Dock = DockStyle.Bottom;
+            panel2.Location = new Point(3, 503);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(800, 62);
+            panel2.TabIndex = 6;
             // 
             // labelTotal
             // 
@@ -668,9 +692,9 @@
             label2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             label2.Location = new Point(82, 146);
             label2.Name = "label2";
-            label2.Size = new Size(56, 19);
+            label2.Size = new Size(62, 19);
             label2.TabIndex = 7;
-            label2.Text = "Correo";
+            label2.Text = "Correo*";
             // 
             // lblPassword
             // 
@@ -889,10 +913,12 @@
             Resize += Usuarios_Resize;
             panelBusqueda.ResumeLayout(false);
             panelBusqueda.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgUsuarios).EndInit();
             tabControl1.ResumeLayout(false);
             Listar.ResumeLayout(false);
             Listar.PerformLayout();
+            panel2.ResumeLayout(false);
             Detalles.ResumeLayout(false);
             Detalles.PerformLayout();
             panel1.ResumeLayout(false);
@@ -949,5 +975,7 @@
         private Label label5;
         private TextBox txtTelefono;
         private Clases.RoundedButton roundedButton12;
+        private Panel panel2;
+        private PictureBox pictureBox1;
     }
 }

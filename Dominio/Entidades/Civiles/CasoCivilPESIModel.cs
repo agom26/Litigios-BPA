@@ -57,5 +57,59 @@ namespace Dominio.Entidades.Civiles
                 };
             }
         }
+
+        public async Task<ApiResponseEditarCasoCivil> EditarCasoCivil(EditarCasoViaApremioRequest req)
+        {
+            try
+            {
+                if (req == null)
+                    return new ApiResponseEditarCasoCivil { success = false, message = "Solicitud inválida" };
+
+                if (req.UsuarioId <= 0)
+                    return new ApiResponseEditarCasoCivil { success = false, message = "Usuario requerido" };
+
+                if (req.CasoId <= 0)
+                    return new ApiResponseEditarCasoCivil { success = false, message = "Caso requerido" };
+
+                if (string.IsNullOrWhiteSpace(req.Expediente))
+                    return new ApiResponseEditarCasoCivil { success = false, message = "Expediente es requerido" };
+
+                if (string.IsNullOrWhiteSpace(req.Juzgado))
+                    return new ApiResponseEditarCasoCivil { success = false, message = "Juzgado es requerido" };
+
+                // fecha obligatoria según PHP (para historial)
+                if (string.IsNullOrWhiteSpace(req.Fecha))
+                    return new ApiResponseEditarCasoCivil { success = false, message = "Fecha es requerida" };
+
+                // normalizar listas
+                req.Demandantes = NormalizarIds(req.Demandantes);
+                req.Demandados = NormalizarIds(req.Demandados);
+                req.TercerosInteresados = NormalizarIds(req.TercerosInteresados);
+                req.ContactosEmpresa = NormalizarIds(req.ContactosEmpresa);
+
+                req.AbogadosDirectores = NormalizarIds(req.AbogadosDirectores);
+                req.SociosResponsables = NormalizarIds(req.SociosResponsables);
+                req.AbogadosAsistentes = NormalizarIds(req.AbogadosAsistentes);
+
+                return await casoCivilData.EditarCasoViaApremio(req);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponseEditarCasoCivil { success = false, message = "Error: " + ex.Message };
+            }
+        }
+
+        // Helper interno del Dominio
+        private static List<int>? NormalizarIds(List<int>? ids)
+        {
+            if (ids == null) return null;
+
+            var clean = ids
+                .Where(x => x > 0)
+                .Distinct()
+                .ToList();
+
+            return clean.Count == 0 ? new List<int>() : clean;
+        }
     }
 }

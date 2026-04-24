@@ -40,6 +40,7 @@ namespace Presentacion.Alertas_y_notificaciones
         public FrmAlertas()
         {
             InitializeComponent();
+            EliminarTabPage(tabPageReportes);
         }
 
         private async Task EjecutarConLoaderAsync(Func<Task> accion)

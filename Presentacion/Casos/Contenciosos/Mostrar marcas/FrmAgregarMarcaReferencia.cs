@@ -79,6 +79,11 @@ namespace Presentacion.Casos.Contenciosos.Mostrar_marcas
                 dtgMarcas.Columns["recurso_id"].Visible = false;
             }
 
+            if (dtgMarcas.Columns["nombre_particular"] != null)
+            {
+                dtgMarcas.Columns["nombre_particular"].Visible = false;
+            }
+
             dtgMarcas.ClearSelection();
         }
 

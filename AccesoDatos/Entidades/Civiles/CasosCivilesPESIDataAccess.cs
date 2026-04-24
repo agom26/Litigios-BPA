@@ -95,10 +95,10 @@ namespace AccesoDatos.Entidades.Civiles
 
             var parameters = new Dictionary<string, string>
             {
-                { "action", "editar_caso_via_apremio" },
+                { "action", "editar_caso" },
                 { "usuario_id", req.UsuarioId.ToString() },
                 { "caso_id", req.CasoId.ToString() },
-
+                
                 { "expediente", req.Expediente ?? "" },
                 { "titulo", req.Titulo ?? "" },
                 { "nombre_particular", req.NombreParticular ?? "" },
@@ -111,7 +111,7 @@ namespace AccesoDatos.Entidades.Civiles
                 { "observaciones", req.Observaciones ?? "" },
                 { "fecha", req.Fecha ?? "" },
                 { "fecha_vencimiento", req.FechaVencimiento ?? "" },
-
+                { "origen", req.Origen ?? "" },
                 { "demandantes", ToCsv(req.Demandantes) },
                 { "demandados", ToCsv(req.Demandados) },
                 { "terceros_interesados", ToCsv(req.TercerosInteresados) },

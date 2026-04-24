@@ -192,7 +192,7 @@ namespace Presentacion.Casos.Estados
             EstadoLaboral.fechaEstado = fechaEstado;
             EstadoLaboral.estado = comboboxEstado.Text;
             EstadoLaboral.fechaVencimiento = fechaVencimiento;
-            EstadoLaboral.observaciones = formatoCorrecto;
+            EstadoLaboral.observaciones = txtObservaciones.Text;
             this.Close();
         }
     }

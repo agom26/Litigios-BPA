@@ -33,6 +33,7 @@ namespace Comun.DatosParaInterfaz
         {
             return new List<string>
             {
+                "Recurso de Apelación presentado",
                 "Audiencia",
                 "Vista",
                 "Audiencia para recepción de pruebas",
@@ -144,6 +145,7 @@ namespace Comun.DatosParaInterfaz
                 return false;
 
             return
+                estado == "Recurso de Apelación presentado" ||
                estado == "Vista" ||
                 estado == "Recurso de aclaración y ampliación" ||
                 estado == "Recurso de Aclaración y ampliación" ||

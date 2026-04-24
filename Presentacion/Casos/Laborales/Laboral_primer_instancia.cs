@@ -91,7 +91,6 @@ namespace Presentacion.Casos.Laborales
             {
                 MessageBox.Show(resp.message);
             }
-            
         }
 
         public async Task LoadAsync()
@@ -194,17 +193,26 @@ namespace Presentacion.Casos.Laborales
         private void LimpiarFormulario()
         {
             txtExpediente.Text = "";
-            comboBoxJuzgado.Text = "";
-            comboboxOficial.Text = "";
+            comboBoxJuzgado.SelectedIndex = -1;
+            comboboxOficial.SelectedIndex = -1;
+            comboboxNotificador.SelectedIndex = -1;
             txtNombreParticular.Text = "";
             comboboxNotificador.Text = "";
             txtNombreParticular.Text = "";
+            txtEstado.Text = "";
+            txtObservaciones.Text = "";
             LimpiarListas();
         }
 
 
         void HabilitarBotonesCaso()
         {
+            txtExpediente.Enabled = !isLectorLaboral;
+            txtNombreParticular.Enabled= !isLectorLaboral;
+            comboboxNotificador.Enabled= !isLectorLaboral;
+            comboBoxJuzgado.Enabled= !isLectorLaboral;
+            comboboxOficial.Enabled = !isLectorLaboral;
+
             btnAgregarDemandados.Enabled = !isLectorLaboral;
             btnAgregarDemandantes.Enabled= !isLectorLaboral;
             btnAgregarPartesInteresadas.Enabled= !isLectorLaboral;
@@ -465,8 +473,6 @@ namespace Presentacion.Casos.Laborales
                     };
                     dtg.Columns.Add(btnEliminar);
                 }
-
-                
             }
 
             if (dtg.Columns.Contains("Editar"))
@@ -1977,8 +1983,6 @@ namespace Presentacion.Casos.Laborales
 
         private void CrearBotonesAccionArchivos(DataGridView dtg)
         {
-            
-
             dtg.AutoGenerateColumns = true;
 
             // Abrir
@@ -2015,7 +2019,8 @@ namespace Presentacion.Casos.Laborales
                 dtg.Columns.Add(btnDescargar);
             }
 
-            
+            if (!isLectorLaboral)
+            {
                 // Eliminar
                 if (!dtg.Columns.Contains("Eliminar"))
                 {
@@ -2032,12 +2037,16 @@ namespace Presentacion.Casos.Laborales
                     };
                     dtg.Columns.Add(btnEliminar);
                 }
-            
+            }
 
             // mover al final (en orden)
             dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
             dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2;
-            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
+
+            if (!isLectorLaboral)
+            {
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
+            }
         }
 
         private async void btnVerArchivos_Click(object sender, EventArgs e)
@@ -2400,8 +2409,6 @@ namespace Presentacion.Casos.Laborales
                     MessageBox.Show("No tiene permisos para eliminar", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-
-            
         }
 
         void HabilitarControlesEdicionHistorial()

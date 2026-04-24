@@ -186,6 +186,7 @@ namespace Presentacion.Casos.Contenciosos
             txtNombreParticular.Text = "";
             txtEstado.Text = "";
             txtObservaciones.Text = "";
+            
             LimpiarListas();
         }
 

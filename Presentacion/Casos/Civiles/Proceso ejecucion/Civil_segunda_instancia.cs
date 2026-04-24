@@ -40,7 +40,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
         HistorialCasoCivilModel historialModel = new HistorialCasoCivilModel();
         ArchivosCivilesModel archivoModel = new ArchivosCivilesModel();
         CasoCivilPESIModel casoCivilModel = new CasoCivilPESIModel();
-
+        string ultimoOrigenHistorial;
         //caso referencia
         private BindingList<PersonaListDataResponse> listaDemandadosCasoReferencia
         = new BindingList<PersonaListDataResponse>();
@@ -285,7 +285,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                     btnCasoReferencia.Visible = true;
                 }
             }
-
+            ultimoOrigenHistorial = data.ultimo_historial.origen;
             LimpiarListas();
 
             // 3) Personas por rol -> tus BindingList<PersonaListDataResponse>
@@ -1264,13 +1264,13 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                             }
 
                             var data = resp.data;
-                            string origenUltH = resp.data.ultimo_historial.origen ?? "CIVIL PROCESO DE EJECUIÓN SEGUNDA INSTANCIA";
+                            ultimoOrigenHistorial = resp.data.ultimo_historial.origen ?? "CIVIL PROCESO DE EJECUIÓN SEGUNDA INSTANCIA";
                             var response = await historialModel.TerminarCasoCivil(
                                 casoId: idCaso,
                                 usuarioId: UserSession.Id,
                                 fecha: EstadoCivil.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                                 anotaciones: EstadoCivil.observaciones,
-                                origen: origenUltH
+                                origen: ultimoOrigenHistorial
                             );
 
                             if (response.success)
@@ -2167,7 +2167,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 HuboCambioEstado = cambioEstado,
                 Estado = EstadoCivil.estado ?? txtEstado.Text,
                 Observaciones = EstadoCivil.observaciones ?? txtObservaciones.Text,
-
+                Origen= ultimoOrigenHistorial,
                 Fecha = (EstadoCivil.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
                 FechaVencimiento = EstadoCivil.fechaVencimiento.HasValue
                         ? EstadoCivil.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
@@ -2187,11 +2187,11 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
             ApiResponseEditarCasoCivil resultado = null;
 
-            /*
+            
             await EjecutarConLoaderAsync(async () =>
             {
                 resultado = await casoCivilModel.EditarCasoCivil(req);
-            });*/
+            });
 
             if (resultado == null)
             {

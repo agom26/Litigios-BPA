@@ -176,7 +176,7 @@ namespace Dominio.Entidades.Civiles
                 return new ApiResponseEditarCasoCivil { success = false, message = "Error: " + ex.Message };
             }
         }
-
+        
         public async Task<ApiResponse<object>> EliminarCasoCivil(int casoId, int usuarioId)
         {
             try

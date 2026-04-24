@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Demandados));
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             panelBusqueda = new Panel();
             btnAdd = new Presentacion.Clases.RoundedButton();
             txtBuscar = new TextBox();
@@ -76,6 +76,8 @@
             roundedButton6 = new Presentacion.Clases.RoundedButton();
             roundedButton2 = new Presentacion.Clases.RoundedButton();
             lblTitulo = new Label();
+            pictureBox1 = new PictureBox();
+            panel2 = new Panel();
             panelBusqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDemandados).BeginInit();
             tabControl1.SuspendLayout();
@@ -83,11 +85,14 @@
             Detalles.SuspendLayout();
             panel1.SuspendLayout();
             panelInformacionPersonal.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // panelBusqueda
             // 
             panelBusqueda.BackColor = Color.White;
+            panelBusqueda.Controls.Add(pictureBox1);
             panelBusqueda.Controls.Add(btnAdd);
             panelBusqueda.Controls.Add(txtBuscar);
             panelBusqueda.Controls.Add(roundedButton1);
@@ -160,57 +165,57 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(47, 25);
+            label1.Location = new Point(89, 15);
             label1.Name = "label1";
-            label1.Size = new Size(270, 60);
+            label1.Size = new Size(261, 60);
             label1.TabIndex = 0;
-            label1.Text = "Demandados / \r\nAutoridades Responsables";
+            label1.Text = "Demandados / \r\nAutoridades Impugnadas";
             // 
             // dtgDemandados
             // 
             dtgDemandados.AllowUserToAddRows = false;
             dtgDemandados.AllowUserToDeleteRows = false;
             dtgDemandados.AllowUserToResizeRows = false;
-            dataGridViewCellStyle9.BackColor = Color.FromArgb(249, 247, 242);
-            dtgDemandados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(249, 247, 242);
+            dtgDemandados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dtgDemandados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dtgDemandados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dtgDemandados.BackgroundColor = Color.White;
             dtgDemandados.BorderStyle = BorderStyle.None;
             dtgDemandados.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgDemandados.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle10.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle10.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle10.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle10.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
-            dtgDemandados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dtgDemandados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dtgDemandados.ColumnHeadersHeight = 40;
             dtgDemandados.EnableHeadersVisualStyles = false;
             dtgDemandados.Location = new Point(36, 161);
             dtgDemandados.MinimumSize = new Size(719, 226);
             dtgDemandados.MultiSelect = false;
             dtgDemandados.Name = "dtgDemandados";
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = Color.White;
-            dataGridViewCellStyle11.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle11.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle11.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dtgDemandados.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtgDemandados.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgDemandados.RowHeadersVisible = false;
-            dataGridViewCellStyle12.BackColor = Color.White;
-            dataGridViewCellStyle12.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle12.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle12.SelectionForeColor = Color.Black;
-            dtgDemandados.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle4.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
+            dtgDemandados.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dtgDemandados.RowTemplate.Height = 45;
             dtgDemandados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgDemandados.Size = new Size(744, 226);
+            dtgDemandados.Size = new Size(744, 264);
             dtgDemandados.TabIndex = 1;
             dtgDemandados.CellClick += dtgDemandados_CellClick;
             dtgDemandados.CellFormatting += dtgDemandados_CellFormatting;
@@ -240,7 +245,7 @@
             btnAnterior.ForeColor = Color.White;
             btnAnterior.Image = (Image)resources.GetObject("btnAnterior.Image");
             btnAnterior.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAnterior.Location = new Point(587, 406);
+            btnAnterior.Location = new Point(584, 7);
             btnAnterior.Name = "btnAnterior";
             btnAnterior.Padding = new Padding(3, 0, 0, 0);
             btnAnterior.Size = new Size(87, 40);
@@ -265,7 +270,7 @@
             btnSiguiente.ForeColor = Color.White;
             btnSiguiente.Image = (Image)resources.GetObject("btnSiguiente.Image");
             btnSiguiente.ImageAlign = ContentAlignment.MiddleRight;
-            btnSiguiente.Location = new Point(693, 406);
+            btnSiguiente.Location = new Point(690, 7);
             btnSiguiente.Name = "btnSiguiente";
             btnSiguiente.Padding = new Padding(3, 0, 0, 0);
             btnSiguiente.Size = new Size(87, 40);
@@ -291,11 +296,10 @@
             // 
             Listar.AutoScroll = true;
             Listar.AutoScrollMinSize = new Size(800, 506);
+            Listar.Controls.Add(panel2);
             Listar.Controls.Add(labelTotal);
             Listar.Controls.Add(panelBusqueda);
-            Listar.Controls.Add(btnSiguiente);
             Listar.Controls.Add(lblPagina);
-            Listar.Controls.Add(btnAnterior);
             Listar.Controls.Add(dtgDemandados);
             Listar.Location = new Point(4, 24);
             Listar.Name = "Listar";
@@ -806,6 +810,26 @@
             lblTitulo.TabIndex = 1;
             lblTitulo.Text = "Demandados";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.equipo;
+            pictureBox1.Location = new Point(33, 15);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(50, 50);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 5;
+            pictureBox1.TabStop = false;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(btnSiguiente);
+            panel2.Controls.Add(btnAnterior);
+            panel2.Dock = DockStyle.Bottom;
+            panel2.Location = new Point(3, 503);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(800, 47);
+            panel2.TabIndex = 6;
+            // 
             // Demandados
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -830,6 +854,8 @@
             panel1.PerformLayout();
             panelInformacionPersonal.ResumeLayout(false);
             panelInformacionPersonal.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -878,5 +904,7 @@
         private Clases.RoundedButton roundedButton10;
         private Clases.RoundedButton roundedButton11;
         private Clases.RoundedButton roundedButton13;
+        private PictureBox pictureBox1;
+        private Panel panel2;
     }
 }
