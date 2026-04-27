@@ -277,13 +277,52 @@ namespace Presentacion.Casos.Laborales
             }
 
             var data = resp.data;
-
+            if (resp.data.ultimo_historial.origen == "LABORAL PRIMER INSTANCIA")
+            {
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+                    "Juzgado 1º. De Trabajo y Previsión Social",
+                    "Juzgado 2º. De Trabajo y Previsión Social",
+                    "Juzgado 3º. De Trabajo y Previsión Social",
+                    "Juzgado 4º. De Trabajo y Previsión Social",
+                    "Juzgado 5º. De Trabajo y Previsión Social",
+                    "Juzgado 6º. De Trabajo y Previsión Social",
+                    "Juzgado 7º. De Trabajo y Previsión Social",
+                    "Juzgado 8º. De Trabajo y Previsión Social",
+                    "Juzgado 9º. De Trabajo y Previsión Social",
+                    "Juzgado 10º. De Trabajo y Previsión Social",
+                    "Juzgado 11º. De Trabajo y Previsión Social",
+                    "Juzgado 12º. De Trabajo y Previsión Social",
+                    "Juzgado 13º. De Trabajo y Previsión Social",
+                    "Juzgado 14º. De Trabajo y Previsión Social",
+                    "Juzgado pluripersonal de primera instancia de faltas laborales"
+                });
+            }
+            else
+            {
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+                    "Sala 1ª. De Trabajo y Previsión Social",
+                    "Sala 2ª. De Trabajo y Previsión Social",
+                    "Sala 3ª. De Trabajo y Previsión Social",
+                    "Sala 5ª. De Trabajo y Previsión Social"
+                });
+            }
             // 1) Inputs principales del caso
             var caso = data.caso;
             if (caso != null)
             {
-                txtExpediente.Text = caso.expediente ?? "";
-                comboBoxJuzgado.Text = caso.juzgado ?? "";
+                txtExpediente.Text = caso.expediente ?? ""; 
+                if (resp.data.ultimo_historial.origen == "LABORAL PRIMER INSTANCIA")
+                {
+                    comboBoxJuzgado.SelectedItem = caso.juzgado ?? "";
+                }
+                else
+                {
+                    comboBoxJuzgado.SelectedItem = caso.sala ?? "";
+                }
                 comboboxOficial.Text = caso.oficial ?? "";
                 comboboxNotificador.Text = caso.notificador ?? "";
                 txtNombreParticular.Text = caso.nombre_particular ?? "";
@@ -753,9 +792,9 @@ namespace Presentacion.Casos.Laborales
             dtgAbogadosAsistentes.CellClick += dtgAbogadosAsistentes_CellClick;
         }
 
-        private void CrearBotonQuitarDemandado()
+        private async void CrearBotonQuitarDemandado()
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (isAdminLaboral)
             {
                 if (!dtgDemandados.Columns.Contains("Quitar"))
@@ -779,9 +818,9 @@ namespace Presentacion.Casos.Laborales
 
         }
 
-        private void CrearBotonQuitarDemandante()
+        private async void CrearBotonQuitarDemandante()
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (isAdminLaboral)
             {
                 if (!dtgDemandantes.Columns.Contains("Quitar"))
@@ -804,9 +843,9 @@ namespace Presentacion.Casos.Laborales
             }
 
         }
-        private void CrearBotonQuitarTerceroInteresado()
+        private async void CrearBotonQuitarTerceroInteresado()
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (isAdminLaboral)
             {
                 if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
@@ -829,9 +868,9 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private void CrearBotonQuitarAbogadoDirector()
+        private async void CrearBotonQuitarAbogadoDirector()
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (isAdminLaboral)
             {
                 if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
@@ -855,9 +894,9 @@ namespace Presentacion.Casos.Laborales
 
         }
 
-        private void CrearBotonQuitarContactoEmpresa()
+        private async void CrearBotonQuitarContactoEmpresa()
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (isAdminLaboral)
             {
                 if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
@@ -881,9 +920,9 @@ namespace Presentacion.Casos.Laborales
 
         }
 
-        private void CrearBotonQuitarSocioResponsable()
+        private async void CrearBotonQuitarSocioResponsable()
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (isAdminLaboral)
             {
                 if (!dtgSociosResponsables.Columns.Contains("Quitar"))
@@ -906,9 +945,9 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private void CrearBotonQuitarAbogadoAsistente()
+        private async void CrearBotonQuitarAbogadoAsistente()
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (isAdminLaboral)
             {
                 if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
@@ -1977,7 +2016,7 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private void CrearBotonesAccionArchivos(DataGridView dtg)
+        private async void CrearBotonesAccionArchivos(DataGridView dtg)
         {
             dtg.AutoGenerateColumns = true;
 
@@ -2015,7 +2054,7 @@ namespace Presentacion.Casos.Laborales
                 dtg.Columns.Add(btnDescargar);
             }
 
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (isAdminLaboral)
             {
                 // Eliminar
@@ -2432,7 +2471,7 @@ namespace Presentacion.Casos.Laborales
             {
                 comboboxEstado.Items.AddRange(new string[] { estado });
             }
-
+            comboboxEstado.Items.Add("Terminado");
             comboboxEstado.SelectedIndex = -1;
         }
         void HabilitarControlesEdicionHistorial()

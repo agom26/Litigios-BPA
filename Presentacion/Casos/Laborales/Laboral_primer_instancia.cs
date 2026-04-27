@@ -236,12 +236,14 @@ namespace Presentacion.Casos.Laborales
 
             var data = resp.data;
 
+            
+
             // 1) Inputs principales del caso
             var caso = data.caso;
             if (caso != null)
             {
                 txtExpediente.Text = caso.expediente ?? "";
-                comboBoxJuzgado.Text = caso.juzgado ?? "";
+                comboBoxJuzgado.SelectedItem = caso.juzgado ?? "";
                 comboboxOficial.Text = caso.oficial ?? "";
                 comboboxNotificador.Text = caso.notificador ?? "";
                 txtNombreParticular.Text = caso.nombre_particular ?? "";
@@ -1367,7 +1369,7 @@ namespace Presentacion.Casos.Laborales
             int alturaHeaders = dtgDemandantes.ColumnHeadersHeight;
 
             dtgDemandantes.Height = alturaFilas + alturaHeaders + 22;
-
+            
             dtgDemandantes.ScrollBars = ScrollBars.None;
 
             dtgDemandantes.PerformLayout();
