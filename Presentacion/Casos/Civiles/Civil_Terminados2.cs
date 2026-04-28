@@ -73,14 +73,38 @@ namespace Presentacion.Casos.Civiles
         = new BindingList<UserListDataResponse>();
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
-        private bool isAdminCivil = false;
         private int? idCasoReferencia = null;
-        private void VerificarTipoUsuario()
+        private bool isAdminCivil = false;
+        private bool isLectorCivil = false;
+        UserModel userModel = new UserModel();
 
+        private async Task VerificarTipoUsuario()
         {
-            isAdminCivil = UserSession.Modulos.Any(m =>
-                (m.clave_slug ?? "").Trim().Equals("civil", StringComparison.OrdinalIgnoreCase) &&
-                (m.nombre_rol ?? "").Trim().Equals("Administrador", StringComparison.OrdinalIgnoreCase));
+            var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, 2);
+            if (resp.success && resp.data != null)
+            {
+                string rol = resp.data.nombre_rol;
+
+                if (rol == "Administrador")
+                {
+                    isAdminCivil = true;
+                    isLectorCivil = false;
+                }
+                else if (rol == "Usuario Lector")
+                {
+                    isLectorCivil = true;
+                    isAdminCivil = false;
+                }
+                else if (rol == "Usuario Normal")
+                {
+                    isLectorCivil = false;
+                    isAdminCivil = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show(resp.message);
+            }
         }
 
         public async Task LoadAsync()
@@ -240,9 +264,101 @@ namespace Presentacion.Casos.Civiles
             comboBoxJuzgadoCasoReferencia.SelectedIndex = -1;
             txtNombreParticularCasoReferencia.Text = "";
             txtNombreParticularCasoReferencia.Text = "";
+
+            txtEstado.Text = "";
+            txtObservaciones.Text = "";
             LimpiarListasCasoReferencia();
         }
+        private async void BotonesAdmin()
+        {
+            await VerificarTipoUsuario();
+            if (isAdminCivil)
+            {
+                //editar caso
+                btnEditarCaso.Visible = true;
+                btnEditarCaso.Enabled = true;
 
+                //agregar estado
+                btnAgregarEstado.Visible = true;
+                btnAgregarEstado.Enabled = true;
+
+                //agregar participantes
+                btnAgregarDemandantes.Visible = true;
+                btnAgregarDemandantes.Enabled = true;
+
+                btnAgregarDemandados.Visible = true;
+                btnAgregarDemandados.Enabled = true;
+
+                btnAgregarPartesInteresadas.Visible = true;
+                btnAgregarPartesInteresadas.Enabled = true;
+
+                btnAgregarContactoEmpresa.Visible = true;
+                btnAgregarContactoEmpresa.Enabled = true;
+
+                //agregar equipo legal
+                btnAgregarAbogadosAsistentes.Visible = true;
+                btnAgregarAbogadosAsistentes.Enabled = true;
+
+                btnAgregarAbogadosDirectores.Visible = true;
+                btnAgregarAbogadosDirectores.Enabled = true;
+
+                btnAgregarSociosResponsables.Visible = true;
+                btnAgregarSociosResponsables.Enabled = true;
+            }
+            else
+            {
+                //editar caso
+                btnEditarCaso.Visible = false;
+                btnEditarCaso.Enabled = false;
+
+                //agregar estado
+                btnAgregarEstado.Visible = false;
+                btnAgregarEstado.Enabled = false;
+
+                //agregar participantes
+                btnAgregarDemandantes.Visible = false;
+                btnAgregarDemandantes.Enabled = false;
+
+                btnAgregarDemandados.Visible = false;
+                btnAgregarDemandados.Enabled = false;
+
+                btnAgregarPartesInteresadas.Visible = false;
+                btnAgregarPartesInteresadas.Enabled = false;
+
+                btnAgregarContactoEmpresa.Visible = false;
+                btnAgregarContactoEmpresa.Enabled = false;
+
+                //agregar equipo legal
+                btnAgregarAbogadosAsistentes.Visible = false;
+                btnAgregarAbogadosAsistentes.Enabled = false;
+
+                btnAgregarAbogadosDirectores.Visible = false;
+                btnAgregarAbogadosDirectores.Enabled = false;
+
+                btnAgregarSociosResponsables.Visible = false;
+                btnAgregarSociosResponsables.Enabled = false;
+            }
+        }
+        void HabilitarBotonesCaso()
+        {
+            txtExpediente.Enabled = isAdminCivil;
+            txtNombreParticular.Enabled = isAdminCivil;
+            comboboxNotificador.Enabled = isAdminCivil;
+            comboBoxJuzgado.Enabled = isAdminCivil;
+            comboBoxTitulo.Enabled = isAdminCivil;
+            comboboxOficial.Enabled = isAdminCivil;
+            btnAgregarDemandados.Enabled = isAdminCivil;
+            btnAgregarDemandantes.Enabled = isAdminCivil;
+            btnAgregarPartesInteresadas.Enabled = isAdminCivil;
+            btnAgregarContactoEmpresa.Enabled = isAdminCivil;
+            btnAgregarAbogadosAsistentes.Enabled = isAdminCivil;
+            btnAgregarAbogadosDirectores.Enabled = isAdminCivil;
+            btnAgregarSociosResponsables.Enabled = isAdminCivil;
+            btnAgregarEstado.Enabled = isAdminCivil;
+
+            btnAgregarCasoReferencia.Enabled = isAdminCivil;
+            btnEliminarCasoReferencia.Enabled = isAdminCivil;
+        }
         private async Task CargarDatosCaso(int idCaso)
         {
             int idUsuario = UserSession.Id;
@@ -344,6 +460,8 @@ namespace Presentacion.Casos.Civiles
             EliminarTabPage(Listar);
             btnGuardarCaso.Visible = false;
             btnEditarCaso.Visible = true;
+            HabilitarBotonesCaso();
+            BotonesAdmin();
         }
 
         private async Task CargarDatosCasoReferencia(int idCaso)
@@ -457,15 +575,19 @@ namespace Presentacion.Casos.Civiles
 
 
 
-        private void CrearBotonesAccion(DataGridView dtg)
+        private async void CrearBotonesAccion(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️",
+                    Text = isAdminCivil
+                    ? "✏️"
+                    : "👁️"
+                    ,
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard,
                     Width = 40,
@@ -474,7 +596,7 @@ namespace Presentacion.Casos.Civiles
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            VerificarTipoUsuario();
+            
 
             if (isAdminCivil == true)
             {
@@ -494,21 +616,6 @@ namespace Presentacion.Casos.Civiles
                     dtg.Columns.Add(btnEliminar);
                 }
 
-                if (!dtg.Columns.Contains("Terminar"))
-                {
-                    DataGridViewButtonColumn btnTerminar = new DataGridViewButtonColumn
-                    {
-                        Name = "Terminar",
-                        HeaderText = "",
-                        Text = "🔒",
-                        UseColumnTextForButtonValue = true,
-                        FlatStyle = FlatStyle.Standard,
-                        Width = 40,
-                        MinimumWidth = 40,
-                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                    };
-                    dtg.Columns.Add(btnTerminar);
-                }
             }
 
             if (dtg.Columns.Contains("Editar"))
@@ -517,19 +624,21 @@ namespace Presentacion.Casos.Civiles
             if (isAdminCivil == true && dtg.Columns.Contains("Eliminar"))
                 dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
 
-            if (isAdminCivil == true && dtg.Columns.Contains("Terminar"))
-                dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
         }
 
-        private void CrearBotonesAccionHistorial(DataGridView dtg)
+        private async void CrearBotonesAccionHistorial(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️",
+                    Text = isAdminCivil
+                    ? "✏️"
+                    : "👁️"
+                    ,
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard,
                     Width = 40,
@@ -538,7 +647,6 @@ namespace Presentacion.Casos.Civiles
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            VerificarTipoUsuario();
 
             if (isAdminCivil == true)
             {
@@ -864,155 +972,183 @@ namespace Presentacion.Casos.Civiles
 
         private void CrearBotonQuitarDemandado()
         {
-            if (!dtgDemandados.Columns.Contains("Quitar"))
+            if (isAdminCivil)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgDemandados.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandados.Columns.Add(btnQuitar);
-                dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                    dtgDemandados.Columns.Add(btnQuitar);
+                    dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                }
             }
         }
 
         private void CrearBotonQuitarDemandante()
         {
-            if (!dtgDemandantes.Columns.Contains("Quitar"))
+            if (isAdminCivil)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgDemandantes.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandantes.Columns.Add(btnQuitar);
-                dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+                    dtgDemandantes.Columns.Add(btnQuitar);
+                    dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+                }
             }
+            
         }
         private void CrearBotonQuitarTerceroInteresado()
         {
-            if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
+            if (isAdminCivil)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgTercerosInteresados.Columns.Add(btnQuitar);
-                dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                    dtgTercerosInteresados.Columns.Add(btnQuitar);
+                    dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                }
             }
+            
         }
 
         private void CrearBotonQuitarAbogadoDirector()
         {
-            if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
+            if (isAdminCivil)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosDirectores.Columns.Add(btnQuitar);
-                dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+                    dtgAbogadosDirectores.Columns.Add(btnQuitar);
+                    dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+                }
             }
+            
         }
 
         private void CrearBotonQuitarContactoEmpresa()
         {
-            if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
+            if (isAdminCivil)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgContactoEmpresa.Columns.Add(btnQuitar);
-                dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+                    dtgContactoEmpresa.Columns.Add(btnQuitar);
+                    dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+                }
             }
+            
         }
 
         private void CrearBotonQuitarSocioResponsable()
         {
-            if (!dtgSociosResponsables.Columns.Contains("Quitar"))
+            if (isAdminCivil)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgSociosResponsables.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgSociosResponsables.Columns.Add(btnQuitar);
-                dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                    dtgSociosResponsables.Columns.Add(btnQuitar);
+                    dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                }
             }
+            
         }
 
         private void CrearBotonQuitarAbogadoAsistente()
         {
-            if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
+            if (isAdminCivil)
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosAsistentes.Columns.Add(btnQuitar);
-                dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                    dtgAbogadosAsistentes.Columns.Add(btnQuitar);
+                    dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                }
             }
         }
 
         private async void Civil_Terminados2_Load(object sender, EventArgs e)
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (!_yaCargo)
                 await LoadAsync();
+
+            btnAdd.Visible = false;
         }
 
 
@@ -2303,8 +2439,9 @@ namespace Presentacion.Casos.Civiles
             }
         }
 
-        private void CrearBotonesAccionArchivos(DataGridView dtg)
+        private async void CrearBotonesAccionArchivos(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             dtg.AutoGenerateColumns = true;
 
             // Abrir
@@ -2341,27 +2478,33 @@ namespace Presentacion.Casos.Civiles
                 dtg.Columns.Add(btnDescargar);
             }
 
-            // Eliminar
-            if (!dtg.Columns.Contains("Eliminar"))
+            if (isAdminCivil)
             {
-                var btnEliminar = new DataGridViewButtonColumn
+                // Eliminar
+                if (!dtg.Columns.Contains("Eliminar"))
                 {
-                    Name = "Eliminar",
-                    HeaderText = "",
-                    Text = "🗑️",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 45,
-                    MinimumWidth = 45,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
-                dtg.Columns.Add(btnEliminar);
+                    var btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 45,
+                        MinimumWidth = 45,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
             }
 
             // mover al final (en orden)
-            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 3;
+            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
             dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2;
-            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
+            if (isAdminCivil)
+            {
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
+            }
         }
 
         private async void btnVerArchivos_Click(object sender, EventArgs e)
@@ -2704,6 +2847,15 @@ namespace Presentacion.Casos.Civiles
 
 
         }
+        void HabilitarControlesEdicionHistorial()
+        {
+            comboboxEstado.Enabled = isAdminCivil;
+            dateTimePickerFechaEstado.Enabled = isAdminCivil;
+            txtObservacionesHistorial.Enabled = isAdminCivil;
+            dateTimePickerFechaVencimiento.Enabled = isAdminCivil;
+            dateTimePickerHoraVencimiento.Enabled = isAdminCivil;
+        }
+
 
         private void CargarDatosHistorialEnTab(HistorialCasoCivilDetalle item)
         {
@@ -2737,6 +2889,17 @@ namespace Presentacion.Casos.Civiles
             txtOrigenHistorial.Text = item.origen ?? "";
             txtUsuarioCreadorHistorial.Text = item.usuario_creador ?? "";
             txtUsuarioEditorHistorial.Text = item.usuario_editor ?? "";
+
+            if (isAdminCivil)
+            {
+                btnGuardarEdicionHistorial.Visible = true;
+            }
+            else
+            {
+                btnGuardarEdicionHistorial.Visible = false;
+            }
+
+            HabilitarControlesEdicionHistorial();
         }
 
         private async void btnGuardarEdicionHistorial_Click(object sender, EventArgs e)

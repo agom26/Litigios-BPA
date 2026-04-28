@@ -193,6 +193,8 @@ namespace Presentacion.Casos.Laborales
             txtNombreParticular.Text = "";
             comboboxNotificador.Text = "";
             txtNombreParticular.Text = "";
+            txtEstado.Text = "";
+            txtObservaciones.Text = "";
             LimpiarListas();
         }
         private async void BotonesAdmin()
@@ -264,6 +266,23 @@ namespace Presentacion.Casos.Laborales
                 btnAgregarSociosResponsables.Visible = false;
                 btnAgregarSociosResponsables.Enabled = false;
             }
+        }
+
+        void HabilitarBotonesCaso()
+        {
+            txtExpediente.Enabled = isAdminLaboral;
+            txtNombreParticular.Enabled = isAdminLaboral;
+            comboboxNotificador.Enabled = isAdminLaboral;
+            comboBoxJuzgado.Enabled = isAdminLaboral;
+            comboboxOficial.Enabled = isAdminLaboral;
+            btnAgregarDemandados.Enabled = isAdminLaboral;
+            btnAgregarDemandantes.Enabled = isAdminLaboral;
+            btnAgregarPartesInteresadas.Enabled = isAdminLaboral;
+            btnAgregarContactoEmpresa.Enabled = isAdminLaboral;
+            btnAgregarAbogadosAsistentes.Enabled = isAdminLaboral;
+            btnAgregarAbogadosDirectores.Enabled = isAdminLaboral;
+            btnAgregarSociosResponsables.Enabled = isAdminLaboral;
+            btnAgregarEstado.Enabled = isAdminLaboral;
         }
         private async Task CargarDatosCaso(int idCaso)
         {
@@ -448,6 +467,7 @@ namespace Presentacion.Casos.Laborales
             btnEditarCaso.Visible = true;
 
             BotonesAdmin();
+            HabilitarBotonesCaso();
         }
 
         // Helpers de mapeo
@@ -2499,8 +2519,6 @@ namespace Presentacion.Casos.Laborales
             comboboxEstado.SelectedIndex = -1;
 
             string estadoActual = (item.estado ?? "").Trim();
-
-
 
             bool requiereVencimiento = EstadoLaboralHelper.RequiereVencimiento(
                     item.estado ?? "",

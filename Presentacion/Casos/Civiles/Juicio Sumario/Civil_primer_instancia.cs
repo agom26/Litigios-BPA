@@ -54,13 +54,37 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
         = new BindingList<UserListDataResponse>();
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
-        private bool isAdminCivil = false;
-        private void VerificarTipoUsuario()
+        private bool isAdminCivil= false;
+        private bool isLectorCivil = false;
+        UserModel userModel = new UserModel();
 
+        private async Task VerificarTipoUsuario()
         {
-            isAdminCivil = UserSession.Modulos.Any(m =>
-                (m.clave_slug ?? "").Trim().Equals("civil", StringComparison.OrdinalIgnoreCase) &&
-                (m.nombre_rol ?? "").Trim().Equals("Administrador", StringComparison.OrdinalIgnoreCase));
+            var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, 2);
+            if (resp.success && resp.data != null)
+            {
+                string rol = resp.data.nombre_rol;
+
+                if (rol == "Administrador")
+                {
+                    isAdminCivil = true;
+                    isLectorCivil = false;
+                }
+                else if (rol == "Usuario Lector")
+                {
+                    isLectorCivil = true;
+                    isAdminCivil = false;
+                }
+                else if (rol == "Usuario Normal")
+                {
+                    isLectorCivil = false;
+                    isAdminCivil = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show(resp.message);
+            }
         }
 
         public async Task LoadAsync()
@@ -168,9 +192,28 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
             txtNombreParticular.Text = "";
             comboboxNotificador.Text = "";
             txtNombreParticular.Text = "";
+
+            txtEstado.Text = "";
+            txtObservaciones.Text = "";
             LimpiarListas();
         }
+        void HabilitarBotonesCaso()
+        {
+            txtExpediente.Enabled = !isLectorCivil;
+            txtNombreParticular.Enabled = !isLectorCivil;
+            comboboxNotificador.Enabled = !isLectorCivil;
+            comboBoxJuzgado.Enabled = !isLectorCivil;
+            comboboxOficial.Enabled = !isLectorCivil;
 
+            btnAgregarDemandados.Enabled = !isLectorCivil;
+            btnAgregarDemandantes.Enabled = !isLectorCivil;
+            btnAgregarPartesInteresadas.Enabled = !isLectorCivil;
+            btnAgregarContactoEmpresa.Enabled = !isLectorCivil;
+            btnAgregarAbogadosAsistentes.Enabled = !isLectorCivil;
+            btnAgregarAbogadosDirectores.Enabled = !isLectorCivil;
+            btnAgregarSociosResponsables.Enabled = !isLectorCivil;
+            btnAgregarEstado.Enabled = !isLectorCivil;
+        }
         private async Task CargarDatosCaso(int idCaso)
         {
             int idUsuario = UserSession.Id;
@@ -240,8 +283,19 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
             // 6) Ir al tab Detalles
             AnadirTabPage(Detalles);
             EliminarTabPage(Listar);
-            btnGuardarCaso.Visible = false;
-            btnEditarCaso.Visible = true;
+
+            if (!isLectorCivil)
+            {
+                btnGuardarCaso.Visible = false;
+                btnEditarCaso.Visible = true;
+            }
+            else
+            {
+                btnGuardarCaso.Visible = false;
+                btnEditarCaso.Visible = false;
+            }
+
+            HabilitarBotonesCaso();
         }
 
         // Helpers de mapeo
@@ -301,17 +355,19 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
             tabControl1.SelectedTab = nombre;
         }
 
-
-
-        private void CrearBotonesAccion(DataGridView dtg)
+        private async void CrearBotonesAccion(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️",
+                    Text = isLectorCivil
+                    ? "👁️"
+                    : "✏️"
+                    ,
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard,
                     Width = 40,
@@ -320,7 +376,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            VerificarTipoUsuario();
+            
 
             if (isAdminCivil == true)
             {
@@ -367,15 +423,19 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                 dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
         }
 
-        private void CrearBotonesAccionHistorial(DataGridView dtg)
+        private async void CrearBotonesAccionHistorial(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️",
+                    Text = !isLectorCivil
+                    ? "✏️"
+                    : "👁️"
+                    ,
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard,
                     Width = 40,
@@ -384,7 +444,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            VerificarTipoUsuario();
+            
 
             if (isAdminCivil == true)
             {
@@ -600,20 +660,23 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
         {
             if (!dtgDemandados.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorCivil)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandados.Columns.Add(btnQuitar);
-                dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                    dtgDemandados.Columns.Add(btnQuitar);
+                    dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                }
             }
         }
 
@@ -621,40 +684,46 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
         {
             if (!dtgDemandantes.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorCivil)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandantes.Columns.Add(btnQuitar);
-                dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+                    dtgDemandantes.Columns.Add(btnQuitar);
+                    dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+                }
             }
         }
         private void CrearBotonQuitarTerceroInteresado()
         {
             if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorCivil)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgTercerosInteresados.Columns.Add(btnQuitar);
-                dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                    dtgTercerosInteresados.Columns.Add(btnQuitar);
+                    dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                }
             }
         }
 
@@ -662,20 +731,23 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
         {
             if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorCivil)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosDirectores.Columns.Add(btnQuitar);
-                dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+                    dtgAbogadosDirectores.Columns.Add(btnQuitar);
+                    dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+                }
             }
         }
 
@@ -683,20 +755,23 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
         {
             if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorCivil)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgContactoEmpresa.Columns.Add(btnQuitar);
-                dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+                    dtgContactoEmpresa.Columns.Add(btnQuitar);
+                    dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+                }
             }
         }
 
@@ -704,20 +779,23 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
         {
             if (!dtgSociosResponsables.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorCivil)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgSociosResponsables.Columns.Add(btnQuitar);
-                dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                    dtgSociosResponsables.Columns.Add(btnQuitar);
+                    dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                }
             }
         }
 
@@ -725,28 +803,40 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
         {
             if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorCivil)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosAsistentes.Columns.Add(btnQuitar);
-                dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                    dtgAbogadosAsistentes.Columns.Add(btnQuitar);
+                    dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                }
             }
         }
 
         private async void Civil_primer_instancia_Load(object sender, EventArgs e)
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (!_yaCargo)
                 await LoadAsync();
+
+            if (isLectorCivil)
+            {
+                btnAdd.Visible = false;
+            }
+            else
+            {
+                btnAdd.Visible = true;
+            }
         }
 
 
@@ -927,80 +1017,38 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
         private async void dtgCasosCiviles_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
             if (e.RowIndex < 0) return;
             if (_cargandoCaso) return;
 
             if (dtgCasosCiviles.Columns[e.ColumnIndex].Name == "Eliminar")
             {
-                int idCaso = Convert.ToInt32(dtgCasosCiviles.Rows[e.RowIndex].Cells["id"].Value);
-                string? expediente = Convert.ToString(dtgCasosCiviles.Rows[e.RowIndex].Cells["expediente"].Value);
-                var confirm = MessageBox.Show(
-                    "¿Seguro que desea eliminar el caso " + expediente + "?",
-                    "Confirmar",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
-
-                if (confirm == DialogResult.Yes)
+                if (isAdminCivil)
                 {
-                    ApiResponse<object> resultado = null;
+                    int idCaso = Convert.ToInt32(dtgCasosCiviles.Rows[e.RowIndex].Cells["id"].Value);
+                    string? expediente = Convert.ToString(dtgCasosCiviles.Rows[e.RowIndex].Cells["expediente"].Value);
+                    var confirm = MessageBox.Show(
+                        "¿Seguro que desea eliminar el caso " + expediente + "?",
+                        "Confirmar",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
 
-                    await EjecutarConLoaderAsync(async () =>
+                    if (confirm == DialogResult.Yes)
                     {
-                        resultado = await casoCivilModel.EliminarCasoCivil(idCaso, UserSession.Id);
-                    });
-                    
-                    if(resultado == null)
-                    {
-                        MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
-                    if (resultado.success)
-                    {
-                        MessageBox.Show("Caso civil eliminado correctamente", "Éxito", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                        ApiResponse<object> resultado = null;
 
                         await EjecutarConLoaderAsync(async () =>
                         {
-                            await CargarCasos();
+                            resultado = await casoCivilModel.EliminarCasoCivil(idCaso, UserSession.Id);
                         });
-                    }
-                    else
-                    {
-                        MessageBox.Show(resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
 
-                }
-            }
-
-            if (dtgCasosCiviles.Columns[e.ColumnIndex].Name == "Terminar")
-            {
-                int idCaso = Convert.ToInt32(dtgCasosCiviles.Rows[e.RowIndex].Cells["id"].Value);
-                string? expediente = Convert.ToString(dtgCasosCiviles.Rows[e.RowIndex].Cells["expediente"].Value);
-                var confirm = MessageBox.Show(
-                    "¿Seguro que desea terminar el caso " + expediente + "?",
-                    "Confirmar",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
-
-                if (confirm == DialogResult.Yes)
-                {
-                    FrmAgregarEstadoCivilTerminado frmAgregarEstado = new FrmAgregarEstadoCivilTerminado();
-                    frmAgregarEstado.ShowDialog();
-
-                    if (EstadoCivil.estado != null && EstadoCivil.fechaEstado!= null)
-                    {
-                        var response = await historialModel.TerminarCasoCivil(
-                            casoId: idCaso, 
-                            usuarioId: UserSession.Id,
-                            fecha: EstadoCivil.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
-                            anotaciones: EstadoCivil.observaciones,
-                            origen: "CIVIL JUICIO SUMARIO PRIMER INSTANCIA"
-                        );
-
-                        if (response.success)
+                        if (resultado == null)
                         {
-                            MessageBox.Show("Caso terminado correctamente", "Éxito",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+                        if (resultado.success)
+                        {
+                            MessageBox.Show("Caso civil eliminado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                             await EjecutarConLoaderAsync(async () =>
                             {
@@ -1009,20 +1057,66 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                         }
                         else
                         {
-                            MessageBox.Show(response.message, "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
 
                     }
-                    else
-                    {
-                        MessageBox.Show("El caso no se mandó a terminado.", "Aviso",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                    }
-
-                    
                 }
+            }
+
+            if (dtgCasosCiviles.Columns[e.ColumnIndex].Name == "Terminar")
+            {
+                if (isAdminCivil)
+                {
+                    int idCaso = Convert.ToInt32(dtgCasosCiviles.Rows[e.RowIndex].Cells["id"].Value);
+                    string? expediente = Convert.ToString(dtgCasosCiviles.Rows[e.RowIndex].Cells["expediente"].Value);
+                    var confirm = MessageBox.Show(
+                        "¿Seguro que desea terminar el caso " + expediente + "?",
+                        "Confirmar",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (confirm == DialogResult.Yes)
+                    {
+                        FrmAgregarEstadoCivilTerminado frmAgregarEstado = new FrmAgregarEstadoCivilTerminado();
+                        frmAgregarEstado.ShowDialog();
+
+                        if (EstadoCivil.estado != null && EstadoCivil.fechaEstado != null)
+                        {
+                            var response = await historialModel.TerminarCasoCivil(
+                                casoId: idCaso,
+                                usuarioId: UserSession.Id,
+                                fecha: EstadoCivil.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
+                                anotaciones: EstadoCivil.observaciones,
+                                origen: "CIVIL JUICIO SUMARIO PRIMER INSTANCIA"
+                            );
+
+                            if (response.success)
+                            {
+                                MessageBox.Show("Caso terminado correctamente", "Éxito",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                await EjecutarConLoaderAsync(async () =>
+                                {
+                                    await CargarCasos();
+                                });
+                            }
+                            else
+                            {
+                                MessageBox.Show(response.message, "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("El caso no se mandó a terminado.", "Aviso",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        }
+                    }
+                }
+                
             }
 
             if (dtgCasosCiviles.Columns[e.ColumnIndex].Name == "Editar")
@@ -1070,29 +1164,36 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
         private void btnAgregarEstado_Click(object sender, EventArgs e)
         {
-            FrmAgregarEstadoCivilJSPI frmAgregarEstado = new FrmAgregarEstadoCivilJSPI();
-            frmAgregarEstado.ShowDialog();
-
-            if (EstadoCivil.estado != null)
+            if (!isLectorCivil)
             {
-                _huboCambioEstado = true;
-                txtEstado.Text = EstadoCivil.estado.ToString();
-                txtObservaciones.AppendText(Environment.NewLine + EstadoCivil.observaciones);
+                FrmAgregarEstadoCivilJSPI frmAgregarEstado = new FrmAgregarEstadoCivilJSPI();
+                frmAgregarEstado.ShowDialog();
 
-                MessageBox.Show("Estado agregado correctamente", "Éxito",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                string texto = txtEstado.Text.Trim();
-                if (!String.IsNullOrWhiteSpace(texto))
+                if (EstadoCivil.estado != null)
                 {
-                    txtEstado.Text = texto;
+                    _huboCambioEstado = true;
+                    txtEstado.Text = EstadoCivil.estado.ToString();
+                    txtObservaciones.AppendText(Environment.NewLine + EstadoCivil.observaciones);
+
+                    MessageBox.Show("Estado agregado correctamente", "Éxito",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    txtEstado.Text = "";
+                    string texto = txtEstado.Text.Trim();
+                    if (!String.IsNullOrWhiteSpace(texto))
+                    {
+                        txtEstado.Text = texto;
+                    }
+                    else
+                    {
+                        txtEstado.Text = "";
+                    }
                 }
+            }
+            else
+            {
+                MessageBox.Show("No tiene permisos para agregar un estado", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -1132,9 +1233,11 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
         private void btnAgregarDemandantes_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarDemandante(listaDemandantes);
-
-            frm.Show();
+            if (!isLectorCivil)
+            {
+                var frm = new FrmAgregarDemandante(listaDemandantes);
+                frm.Show();
+            }
         }
 
         private void AjustarLayoutPorResolucion()
@@ -1305,10 +1408,11 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
         private void btnAgregarDemandados_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarDemandado(listaDemandados);
-
-            frm.Show();
-
+            if (!isLectorCivil)
+            {
+                var frm = new FrmAgregarDemandado(listaDemandados);
+                frm.Show();
+            }
         }
 
         private void dtgDemandados_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1404,9 +1508,11 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
         private void btnAgregarPartesInteresadas_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarTerceroInteresado(listaTercerosInteresados);
-
-            frm.Show();
+            if (!isLectorCivil)
+            {
+                var frm = new FrmAgregarTerceroInteresado(listaTercerosInteresados);
+                frm.Show();
+            }
         }
 
         private void dtgPartesInteresadas_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1451,9 +1557,12 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
         private void btnAgregarContactoEmpresa_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarContactoEmpresa(listaContactosEmpresa);
+            if (!isLectorCivil)
+            {
 
-            frm.Show();
+                var frm = new FrmAgregarContactoEmpresa(listaContactosEmpresa);
+                frm.Show();
+            }
         }
 
         private void dtgContactoEmpresa_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1498,8 +1607,11 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
         private void btnAgregarAbogadosDirectores_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarAbogadoDirector(listaAbogadosDirectores);
-            frm.Show();
+            if (!isLectorCivil)
+            {
+                var frm = new FrmAgregarAbogadoDirector(listaAbogadosDirectores);
+                frm.Show();
+            }
         }
 
         private void dtgAbogadosDirectores_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1545,8 +1657,11 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
         private void btnAgregarSociosResponsables_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarSocioResponsable(listaSociosResponsables);
-            frm.Show();
+            if (!isLectorCivil)
+            {
+                var frm = new FrmAgregarSocioResponsable(listaSociosResponsables);
+                frm.Show();
+            }
         }
 
         private void dtgSociosResponsables_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1590,8 +1705,11 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
         private void btnAgregarAbogadosAsistentes_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAgregarAbogadoAsistente(listaAbogadosAsistentes);
-            frm.Show();
+            if (!isLectorCivil)
+            {
+                var frm = new FrmAgregarAbogadoAsistente(listaAbogadosAsistentes);
+                frm.Show();
+            }
         }
 
         private void dtgAbogadosAsistentes_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1784,6 +1902,15 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
         {
             var res = await archivoModel.ListarArchivosCasoCivil(_idCasoEditar);
 
+            if (!isLectorCivil)
+            {
+                btnSubirArchivo.Visible = true;
+            }
+            else
+            {
+                btnSubirArchivo.Visible = false;
+            }
+
             if (!res.success)
             {
                 MessageBox.Show(res.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1840,28 +1967,33 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                 };
                 dtg.Columns.Add(btnDescargar);
             }
-
-            // Eliminar
-            if (!dtg.Columns.Contains("Eliminar"))
+            if (!isLectorCivil)
             {
-                var btnEliminar = new DataGridViewButtonColumn
+                // Eliminar
+                if (!dtg.Columns.Contains("Eliminar"))
                 {
-                    Name = "Eliminar",
-                    HeaderText = "",
-                    Text = "🗑️",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 45,
-                    MinimumWidth = 45,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
-                dtg.Columns.Add(btnEliminar);
+                    var btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 45,
+                        MinimumWidth = 45,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
             }
-
+            
             // mover al final (en orden)
-            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 3;
+            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
             dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2;
-            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
+            if (!isLectorCivil)
+            {
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
+            }
         }
 
         private async void btnVerArchivos_Click(object sender, EventArgs e)
@@ -2020,36 +2152,43 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                 // ELIMINAR (confirmación)
                 else if (colName == "Eliminar")
                 {
-                    var r = MessageBox.Show($"¿Eliminar el archivo?\n\n{nombre}", "Confirmar",
+                    if (!isLectorCivil)
+                    {
+                        var r = MessageBox.Show($"¿Eliminar el archivo?\n\n{nombre}", "Confirmar",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                    if (r != DialogResult.Yes)
-                        return;
+                        if (r != DialogResult.Yes)
+                            return;
 
-                    if (r == DialogResult.Yes)
+                        if (r == DialogResult.Yes)
+                        {
+                            ApiResponse<object> resp = null;
+
+                            await EjecutarConLoaderAsync(async () =>
+                            {
+                                resp = await archivoModel.EliminarArchivoCasoCivil(_idCasoEditar, archivoId);
+                            });
+
+                            if (resp == null)
+                            {
+                                MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
+                            if (!resp.success)
+                            {
+                                MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
+                            MessageBox.Show("Archivo eliminado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            await RefrescarListaArchivos();
+                        }
+                    }
+                    else
                     {
-                        ApiResponse<object> resp = null;
-
-                        await EjecutarConLoaderAsync(async () =>
-                        {
-                            resp = await archivoModel.EliminarArchivoCasoCivil(_idCasoEditar, archivoId);
-                        });
-
-                        if (resp == null)
-                        {
-                            MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        if (!resp.success)
-                        {
-                            MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        MessageBox.Show("Archivo eliminado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        await RefrescarListaArchivos();
+                        MessageBox.Show("No tiene permisos para eliminar", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
@@ -2067,63 +2206,70 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
         private async void btnSubirArchivo_Click(object sender, EventArgs e)
         {
-            if (_idCasoEditar <= 0)
+            if (!isLectorCivil)
             {
-                MessageBox.Show("Debe seleccionar un caso válido.",
-                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            using var ofd = new OpenFileDialog
-            {
-                Title = "Seleccionar archivos",
-                Filter = "Archivos permitidos|*.pdf;*.doc;*.docx;*.xls;*.xlsx;*.png;*.jpg;*.jpeg;*.zip;*.rar;*.txt",
-                Multiselect = true
-            };
-
-            if (ofd.ShowDialog() != DialogResult.OK || ofd.FileNames.Length == 0)
-                return;
-
-            ApiResponse<List<SubirArchivoCasoCivilData>> response = null;
-
-            try
-            {
-                btnSubirArchivo.Enabled = false;
-                btnSubirArchivo.Text = "Subiendo...";
-
-                await EjecutarConLoaderAsync(async () =>
+                if (_idCasoEditar <= 0)
                 {
-                    response = await archivoModel.SubirArchivosCasoCivil(_idCasoEditar, ofd.FileNames.ToList());
-                });
-
-                if (response == null)
-                {
-                    MessageBox.Show("No se obtuvo respuesta del servidor.",
-                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Debe seleccionar un caso válido.",
+                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (!response.success)
+                using var ofd = new OpenFileDialog
                 {
-                    MessageBox.Show(response.message,
-                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Title = "Seleccionar archivos",
+                    Filter = "Archivos permitidos|*.pdf;*.doc;*.docx;*.xls;*.xlsx;*.png;*.jpg;*.jpeg;*.zip;*.rar;*.txt",
+                    Multiselect = true
+                };
+
+                if (ofd.ShowDialog() != DialogResult.OK || ofd.FileNames.Length == 0)
                     return;
+
+                ApiResponse<List<SubirArchivoCasoCivilData>> response = null;
+
+                try
+                {
+                    btnSubirArchivo.Enabled = false;
+                    btnSubirArchivo.Text = "Subiendo...";
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        response = await archivoModel.SubirArchivosCasoCivil(_idCasoEditar, ofd.FileNames.ToList());
+                    });
+
+                    if (response == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor.",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (!response.success)
+                    {
+                        MessageBox.Show(response.message,
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    MessageBox.Show($"Se subieron {response.data?.Count ?? 0} archivo(s) correctamente.",
+                        "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    await RefrescarListaArchivos();
                 }
-
-                MessageBox.Show($"Se subieron {response.data?.Count ?? 0} archivo(s) correctamente.",
-                    "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                await RefrescarListaArchivos();
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    btnSubirArchivo.Enabled = true;
+                    btnSubirArchivo.Text = "Subir archivo";
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Error: " + ex.Message,
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                btnSubirArchivo.Enabled = true;
-                btnSubirArchivo.Text = "Subir archivo";
+                MessageBox.Show("No tiene permisos para subir archivos", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -2157,52 +2303,66 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
             // ELIMINAR
             if (colName == "Eliminar")
             {
-                var confirm = MessageBox.Show(
+                if (!isLectorCivil)
+                {
+                    var confirm = MessageBox.Show(
                     $"¿Desea eliminar este registro de historial?\n\nEstado: {item.estado}",
                     "Confirmar",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
                 );
 
-                if (confirm != DialogResult.Yes)
-                    return;
+                    if (confirm != DialogResult.Yes)
+                        return;
 
-                ApiResponse<object> resp = null;
+                    ApiResponse<object> resp = null;
 
-                await EjecutarConLoaderAsync(async () =>
-                {
-                    resp = await historialModel.EliminarHistorialCasoCivil(
-                        item.id,
-                        item.caso_id,
-                        UserSession.Id
-                    );
-                });
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        resp = await historialModel.EliminarHistorialCasoCivil(
+                            item.id,
+                            item.caso_id,
+                            UserSession.Id
+                        );
+                    });
 
-                if (resp == null)
-                {
-                    MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    if (resp == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (!resp.success)
+                    {
+                        MessageBox.Show(resp.message, "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    MessageBox.Show("Historial eliminado correctamente.", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await ListarHistorial();
+                        await CargarDatosCaso(_idCasoEditar);
+                    });
                 }
-
-                if (!resp.success)
+                else
                 {
-                    MessageBox.Show(resp.message, "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    MessageBox.Show("No tiene permisos para eliminar", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-                MessageBox.Show("Historial eliminado correctamente.", "Éxito",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                await EjecutarConLoaderAsync(async () =>
-                {
-                    await ListarHistorial();
-                    await CargarDatosCaso(_idCasoEditar);
-                });
             }
 
-            
+        }
+        void HabilitarControlesEdicionHistorial()
+        {
+            comboboxEstado.Enabled = !isLectorCivil;
+            dateTimePickerFechaEstado.Enabled = !isLectorCivil;
+            txtObservacionesHistorial.Enabled = !isLectorCivil;
+            dateTimePickerFechaVencimiento.Enabled = !isLectorCivil;
+            dateTimePickerHoraVencimiento.Enabled = !isLectorCivil;
         }
 
         private void CargarDatosHistorialEnTab(HistorialCasoCivilDetalle item)
@@ -2237,80 +2397,98 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
             txtOrigenHistorial.Text = item.origen ?? "";
             txtUsuarioCreadorHistorial.Text = item.usuario_creador ?? "";
             txtUsuarioEditorHistorial.Text = item.usuario_editor ?? "";
+
+            if (isLectorCivil)
+            {
+                btnGuardarEdicionHistorial.Visible = false;
+            }
+            else
+            {
+                btnGuardarEdicionHistorial.Visible = true;
+            }
+
+            HabilitarControlesEdicionHistorial();
         }
 
         private async void btnGuardarEdicionHistorial_Click(object sender, EventArgs e)
         {
-            if (_idHistorialEditar <= 0)
+            if (!isLectorCivil)
             {
-                MessageBox.Show("No hay historial seleccionado.", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (_idHistorialEditar <= 0)
+                {
+                    MessageBox.Show("No hay historial seleccionado.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(comboboxEstado.Text))
+                {
+                    MessageBox.Show("Estado es requerido.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    comboboxEstado.Focus();
+                    return;
+                }
+
+                DateTime fechaEstado = dateTimePickerFechaEstado.Value.Date;
+
+                DateTime? fechaVencimiento = null;
+                if (checkBoxTieneVencimiento.Checked)
+                {
+                    fechaVencimiento =
+                        dateTimePickerFechaVencimiento.Value.Date +
+                        dateTimePickerHoraVencimiento.Value.TimeOfDay;
+                }
+
+                var req = new EditarHistorialCasoCivilRequest
+                {
+                    HistorialId = _idHistorialEditar,
+                    CasoId = _casoIdHistorialEditar,
+                    UsuarioId = UserSession.Id,
+                    Fecha = fechaEstado.ToString("yyyy-MM-dd HH:mm:ss"),
+                    FechaVencimiento = fechaVencimiento.HasValue
+                        ? fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                        : "",
+                    Estado = comboboxEstado.Text.Trim(),
+                    Anotaciones = txtObservacionesHistorial.Text.Trim()
+                };
+
+                ApiResponse<object> resp = null;
+
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    resp = await historialModel.EditarHistorialCaso(req);
+                });
+
+                if (resp == null)
+                {
+                    MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (!resp.success)
+                {
+                    MessageBox.Show(resp.message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show("Historial actualizado correctamente.", "Éxito",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    await ListarHistorial();
+                    await CargarDatosCaso(_idCasoEditar);
+                });
+
+                AnadirTabPage(tabPageHistorial);
+                EliminarTabPage(tabPageEditarHistorial);
             }
-
-            if (string.IsNullOrWhiteSpace(comboboxEstado.Text))
+            else
             {
-                MessageBox.Show("Estado es requerido.", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                comboboxEstado.Focus();
-                return;
+                MessageBox.Show("No tiene permisos para editar el historial", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            DateTime fechaEstado = dateTimePickerFechaEstado.Value.Date;
-
-            DateTime? fechaVencimiento = null;
-            if (checkBoxTieneVencimiento.Checked)
-            {
-                fechaVencimiento =
-                    dateTimePickerFechaVencimiento.Value.Date +
-                    dateTimePickerHoraVencimiento.Value.TimeOfDay;
-            }
-
-            var req = new EditarHistorialCasoCivilRequest
-            {
-                HistorialId = _idHistorialEditar,
-                CasoId = _casoIdHistorialEditar,
-                UsuarioId = UserSession.Id,
-                Fecha = fechaEstado.ToString("yyyy-MM-dd HH:mm:ss"),
-                FechaVencimiento = fechaVencimiento.HasValue
-                    ? fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                    : "",
-                Estado = comboboxEstado.Text.Trim(),
-                Anotaciones = txtObservacionesHistorial.Text.Trim()
-            };
-
-            ApiResponse<object> resp = null;
-
-            await EjecutarConLoaderAsync(async () =>
-            {
-                resp = await historialModel.EditarHistorialCaso(req);
-            });
-
-            if (resp == null)
-            {
-                MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (!resp.success)
-            {
-                MessageBox.Show(resp.message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            MessageBox.Show("Historial actualizado correctamente.", "Éxito",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            await EjecutarConLoaderAsync(async () =>
-            {
-                await ListarHistorial();
-                await CargarDatosCaso(_idCasoEditar);
-            });
-
-            AnadirTabPage(tabPageHistorial);
-            EliminarTabPage(tabPageEditarHistorial);
         }
 
         private void VerificarEstadoEditarHistorial()

@@ -268,7 +268,7 @@
             Listar.Controls.Add(panel7);
             Listar.Location = new Point(4, 24);
             Listar.Name = "Listar";
-            Listar.Padding = new Padding(3, 3, 3, 3);
+            Listar.Padding = new Padding(3);
             Listar.Size = new Size(799, 472);
             Listar.TabIndex = 0;
             // 
@@ -389,7 +389,7 @@
             // 
             lblPagina.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblPagina.AutoSize = true;
-            lblPagina.Location = new Point(368, 132);
+            lblPagina.Location = new Point(688, 132);
             lblPagina.Name = "lblPagina";
             lblPagina.Size = new Size(38, 15);
             lblPagina.TabIndex = 2;
@@ -441,7 +441,7 @@
             dtgCasosCiviles.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dtgCasosCiviles.RowTemplate.Height = 45;
             dtgCasosCiviles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgCasosCiviles.Size = new Size(719, 227);
+            dtgCasosCiviles.Size = new Size(719, 226);
             dtgCasosCiviles.TabIndex = 1;
             dtgCasosCiviles.CellClick += dtgCasosCiviles_CellClick;
             dtgCasosCiviles.CellFormatting += dtgCasosCiviles_CellFormatting;
@@ -522,7 +522,7 @@
             Detalles.Font = new Font("Microsoft Sans Serif", 8.25F);
             Detalles.Location = new Point(4, 24);
             Detalles.Name = "Detalles";
-            Detalles.Padding = new Padding(3, 3, 3, 3);
+            Detalles.Padding = new Padding(3);
             Detalles.Size = new Size(799, 472);
             Detalles.TabIndex = 1;
             Detalles.Click += Detalles_Click;
@@ -1617,7 +1617,7 @@
             panel3.Controls.Add(roundedButton26);
             panel3.Location = new Point(55, 340);
             panel3.Name = "panel3";
-            panel3.Size = new Size(561, 287);
+            panel3.Size = new Size(557, 287);
             panel3.TabIndex = 9;
             // 
             // btnAgregarEstado
@@ -1690,7 +1690,7 @@
             txtObservaciones.PlaceholderText = "...";
             txtObservaciones.ReadOnly = true;
             txtObservaciones.ScrollBars = ScrollBars.Vertical;
-            txtObservaciones.Size = new Size(492, 118);
+            txtObservaciones.Size = new Size(488, 118);
             txtObservaciones.TabIndex = 10;
             // 
             // roundedButton23
@@ -1708,7 +1708,7 @@
             roundedButton23.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton23.Location = new Point(23, 135);
             roundedButton23.Name = "roundedButton23";
-            roundedButton23.Size = new Size(516, 139);
+            roundedButton23.Size = new Size(512, 139);
             roundedButton23.TabIndex = 11;
             roundedButton23.TextColor = Color.White;
             roundedButton23.UseVisualStyleBackColor = false;
@@ -1749,7 +1749,7 @@
             roundedButton22.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton22.Location = new Point(0, 0);
             roundedButton22.Name = "roundedButton22";
-            roundedButton22.Size = new Size(561, 43);
+            roundedButton22.Size = new Size(557, 43);
             roundedButton22.TabIndex = 4;
             roundedButton22.Text = "Estado y Observaciones";
             roundedButton22.TextAlign = ContentAlignment.MiddleLeft;
@@ -1771,7 +1771,7 @@
             roundedButton26.ForeColor = Color.White;
             roundedButton26.Location = new Point(0, 45);
             roundedButton26.Name = "roundedButton26";
-            roundedButton26.Size = new Size(561, 242);
+            roundedButton26.Size = new Size(557, 242);
             roundedButton26.TabIndex = 2;
             roundedButton26.TextColor = Color.White;
             roundedButton26.UseVisualStyleBackColor = false;
@@ -1796,7 +1796,7 @@
             panelInformacionPersonal.Controls.Add(roundedButton9);
             panelInformacionPersonal.Location = new Point(55, 71);
             panelInformacionPersonal.Name = "panelInformacionPersonal";
-            panelInformacionPersonal.Size = new Size(561, 250);
+            panelInformacionPersonal.Size = new Size(557, 250);
             panelInformacionPersonal.TabIndex = 3;
             // 
             // comboBoxJuzgado
@@ -1959,7 +1959,7 @@
             roundedButton2.ForeColor = Color.White;
             roundedButton2.Location = new Point(0, 43);
             roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(561, 207);
+            roundedButton2.Size = new Size(557, 207);
             roundedButton2.TabIndex = 2;
             roundedButton2.TextColor = Color.White;
             roundedButton2.UseVisualStyleBackColor = false;
@@ -1980,7 +1980,7 @@
             roundedButton9.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton9.Location = new Point(0, 0);
             roundedButton9.Name = "roundedButton9";
-            roundedButton9.Size = new Size(561, 43);
+            roundedButton9.Size = new Size(557, 43);
             roundedButton9.TabIndex = 4;
             roundedButton9.Text = "Datos Generales";
             roundedButton9.TextAlign = ContentAlignment.MiddleLeft;
@@ -2003,7 +2003,7 @@
             panelBotones.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelBotones.Location = new Point(0, 2125);
             panelBotones.Name = "panelBotones";
-            panelBotones.Size = new Size(614, 48);
+            panelBotones.Size = new Size(610, 48);
             panelBotones.TabIndex = 20;
             // 
             // tabPageHistorial
@@ -2016,7 +2016,7 @@
             tabPageHistorial.Controls.Add(label20);
             tabPageHistorial.Location = new Point(4, 24);
             tabPageHistorial.Name = "tabPageHistorial";
-            tabPageHistorial.Padding = new Padding(3, 3, 3, 3);
+            tabPageHistorial.Padding = new Padding(3);
             tabPageHistorial.Size = new Size(799, 472);
             tabPageHistorial.TabIndex = 2;
             // 
@@ -2132,7 +2132,7 @@
             tabPageArchivos.Controls.Add(label23);
             tabPageArchivos.Location = new Point(4, 24);
             tabPageArchivos.Name = "tabPageArchivos";
-            tabPageArchivos.Padding = new Padding(3, 3, 3, 3);
+            tabPageArchivos.Padding = new Padding(3);
             tabPageArchivos.Size = new Size(799, 472);
             tabPageArchivos.TabIndex = 3;
             // 
@@ -2276,7 +2276,7 @@
             tabPageEditarHistorial.Controls.Add(panelDetalles);
             tabPageEditarHistorial.Location = new Point(4, 24);
             tabPageEditarHistorial.Name = "tabPageEditarHistorial";
-            tabPageEditarHistorial.Padding = new Padding(3, 3, 3, 3);
+            tabPageEditarHistorial.Padding = new Padding(3);
             tabPageEditarHistorial.Size = new Size(799, 472);
             tabPageEditarHistorial.TabIndex = 4;
             // 
