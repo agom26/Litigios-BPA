@@ -2310,7 +2310,6 @@ namespace Presentacion.Casos.Laborales
                     MessageBox.Show($"Se subieron {response.data?.Count ?? 0} archivo(s) correctamente.",
                         "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    await RefrescarListaArchivos();
                 }
                 catch (Exception ex)
                 {
@@ -2319,6 +2318,7 @@ namespace Presentacion.Casos.Laborales
                 }
                 finally
                 {
+                    await RefrescarListaArchivos();
                     btnSubirArchivo.Enabled = true;
                     btnSubirArchivo.Text = "Subir archivo";
                 }

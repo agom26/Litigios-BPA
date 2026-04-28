@@ -43,7 +43,6 @@ namespace Presentacion.Casos.Contenciosos
 
         HistorialCasoContenciosoModel historialModel = new HistorialCasoContenciosoModel();
         ArchivosContenciososModel archivoModel = new ArchivosContenciososModel();
-        CAGeneralModel casoContenciosoModel = new CAGeneralModel();
         CATerminadosModel casoContenciosoTModel = new CATerminadosModel();
         CARecursoCasacionModel recursoCasacionModel = new CARecursoCasacionModel();
         //caso 
@@ -63,16 +62,40 @@ namespace Presentacion.Casos.Contenciosos
         = new BindingList<UserListDataResponse>();
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
-        private bool isAdminContencioso = false;
         private int? idMarcaReferencia = null;
         private string? expedienteCasacion = null;
         private string? motivoCasacion = null;
-        private void VerificarTipoUsuario()
+        private bool isAdminContencioso = false;
+        private bool isLectorContencioso = false;
+        UserModel userModel = new UserModel();
 
+        private async Task VerificarTipoUsuario()
         {
-            isAdminContencioso = UserSession.Modulos.Any(m =>
-                (m.clave_slug ?? "").Trim().Equals("contencioso administrativo", StringComparison.OrdinalIgnoreCase) &&
-                (m.nombre_rol ?? "").Trim().Equals("Administrador", StringComparison.OrdinalIgnoreCase));
+            var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, 4);
+            if (resp.success && resp.data != null)
+            {
+                string rol = resp.data.nombre_rol;
+
+                if (rol == "Administrador")
+                {
+                    isAdminContencioso = true;
+                    isLectorContencioso = false;
+                }
+                else if (rol == "Usuario Lector")
+                {
+                    isLectorContencioso = true;
+                    isAdminContencioso = false;
+                }
+                else if (rol == "Usuario Normal")
+                {
+                    isLectorContencioso = false;
+                    isAdminContencioso = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show(resp.message);
+            }
         }
 
         public async Task LoadAsync()
@@ -202,15 +225,109 @@ namespace Presentacion.Casos.Contenciosos
             txtEstadoCasoReferencia.Text = "";
             textBoxObervacionesCasoReferencia.Text = "";
             
+            txtEstado.Text = "";
+            txtObservaciones.Text = "";
 
             txtSignoMarcaReferencia.Text = "";
             txtSignoMarcaReferencia.Text = "";
+        }
+        private async void BotonesAdmin()
+        {
+            await VerificarTipoUsuario();
+            if (isAdminContencioso)
+            {
+                //editar caso
+                btnEditarCaso.Visible = true;
+                btnEditarCaso.Enabled = true;
+
+                //agregar estado
+                btnAgregarEstado.Visible = true;
+                btnAgregarEstado.Enabled = true;
+
+                //agregar participantes
+                btnAgregarDemandantes.Visible = true;
+                btnAgregarDemandantes.Enabled = true;
+
+                btnAgregarDemandados.Visible = true;
+                btnAgregarDemandados.Enabled = true;
+
+                btnAgregarPartesInteresadas.Visible = true;
+                btnAgregarPartesInteresadas.Enabled = true;
+
+                btnAgregarContactoEmpresa.Visible = true;
+                btnAgregarContactoEmpresa.Enabled = true;
+
+                //agregar equipo legal
+                btnAgregarAbogadosAsistentes.Visible = true;
+                btnAgregarAbogadosAsistentes.Enabled = true;
+
+                btnAgregarAbogadosDirectores.Visible = true;
+                btnAgregarAbogadosDirectores.Enabled = true;
+
+                btnAgregarSociosResponsables.Visible = true;
+                btnAgregarSociosResponsables.Enabled = true;
+            }
+            else
+            {
+                //editar caso
+                btnEditarCaso.Visible = false;
+                btnEditarCaso.Enabled = false;
+
+                //agregar estado
+                btnAgregarEstado.Visible = false;
+                btnAgregarEstado.Enabled = false;
+
+                //agregar participantes
+                btnAgregarDemandantes.Visible = false;
+                btnAgregarDemandantes.Enabled = false;
+
+                btnAgregarDemandados.Visible = false;
+                btnAgregarDemandados.Enabled = false;
+
+                btnAgregarPartesInteresadas.Visible = false;
+                btnAgregarPartesInteresadas.Enabled = false;
+
+                btnAgregarContactoEmpresa.Visible = false;
+                btnAgregarContactoEmpresa.Enabled = false;
+
+                //agregar equipo legal
+                btnAgregarAbogadosAsistentes.Visible = false;
+                btnAgregarAbogadosAsistentes.Enabled = false;
+
+                btnAgregarAbogadosDirectores.Visible = false;
+                btnAgregarAbogadosDirectores.Enabled = false;
+
+                btnAgregarSociosResponsables.Visible = false;
+                btnAgregarSociosResponsables.Enabled = false;
+            }
+        }
+        void HabilitarBotonesCaso()
+        {
+            txtExpediente.Enabled = isAdminContencioso;
+            txtNombreParticular.Enabled = isAdminContencioso;
+            comboboxNotificador.Enabled = isAdminContencioso;
+            comboBoxJuzgado.Enabled = isAdminContencioso;
+            comboBoxMotivoCasacion.Enabled = isAdminContencioso;
+            comboboxOficial.Enabled = isAdminContencioso;
+            btnAgregarDemandados.Enabled = isAdminContencioso;
+            btnAgregarDemandantes.Enabled = isAdminContencioso;
+            btnAgregarPartesInteresadas.Enabled = isAdminContencioso;
+            btnAgregarContactoEmpresa.Enabled = isAdminContencioso;
+            btnAgregarAbogadosAsistentes.Enabled = isAdminContencioso;
+            btnAgregarAbogadosDirectores.Enabled = isAdminContencioso;
+            btnAgregarSociosResponsables.Enabled = isAdminContencioso;
+            btnAgregarEstado.Enabled = isAdminContencioso;
+
+            txtExpedienteRecursoCasacion.Enabled = isAdminContencioso;
+            
+            btnAgregarCasoReferencia.Enabled = isAdminContencioso;
+            btnEliminarCasoReferencia.Enabled = isAdminContencioso;
         }
 
         private async Task CargarDatosCaso(int idCaso)
         {
             int idUsuario = UserSession.Id;
-            var resp = await casoContenciosoModel.ObtenerCasoContenciosoPorId(idUsuario, idCaso);
+            var resp = await casoContenciosoTModel.ObtenerCasoContenciosoPorId(idUsuario, idCaso);
 
             if (!resp.success || resp.data == null)
             {
@@ -219,6 +336,15 @@ namespace Presentacion.Casos.Contenciosos
             }
 
             var data = resp.data;
+
+            if (data.ultimo_historial.origen == "ADMINISTRATIVO GENERAL PRIMER INSTANCIA" )
+            {
+                btnCasoReferencia.Visible = true;
+            }
+            else
+            {
+                btnCasoReferencia.Visible = false;
+            }
 
             if (data != null)
             {
@@ -229,7 +355,7 @@ namespace Presentacion.Casos.Contenciosos
                 txtNombreParticular.Text = data.caso.nombre_particular ?? "";
                 // si tienes estado/observaciones en textbox:
                 txtEstado.Text = data.caso.estado ?? "";
-                
+
                 txtObservaciones.Text = (data.caso.observaciones ?? "")
                     .Replace("\n", Environment.NewLine); ;
             }
@@ -309,6 +435,8 @@ namespace Presentacion.Casos.Contenciosos
             EliminarTabPage(Listar);
             btnGuardarCaso.Visible = false;
             btnEditarCaso.Visible = true;
+            HabilitarBotonesCaso();
+            BotonesAdmin();
         }
 
         private async Task CargarDatosMarcaReferencia(int idMarca)
@@ -398,15 +526,19 @@ namespace Presentacion.Casos.Contenciosos
 
 
 
-        private void CrearBotonesAccion(DataGridView dtg)
+        private async void CrearBotonesAccion(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️",
+                    Text = isAdminContencioso
+                    ? "✏️"
+                    : "👁️"
+                    ,
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard,
                     Width = 40,
@@ -415,7 +547,7 @@ namespace Presentacion.Casos.Contenciosos
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            VerificarTipoUsuario();
+            
 
             if (isAdminContencioso == true)
             {
@@ -434,23 +566,7 @@ namespace Presentacion.Casos.Contenciosos
                     };
                     dtg.Columns.Add(btnEliminar);
                 }
-
-                /*
-                if (!dtg.Columns.Contains("Terminar"))
-                {
-                    DataGridViewButtonColumn btnTerminar = new DataGridViewButtonColumn
-                    {
-                        Name = "Terminar",
-                        HeaderText = "",
-                        Text = "🔒",
-                        UseColumnTextForButtonValue = true,
-                        FlatStyle = FlatStyle.Standard,
-                        Width = 40,
-                        MinimumWidth = 40,
-                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                    };
-                    dtg.Columns.Add(btnTerminar);
-                }*/
+               
             }
 
             if (dtg.Columns.Contains("Editar"))
@@ -459,19 +575,21 @@ namespace Presentacion.Casos.Contenciosos
             if (isAdminContencioso == true && dtg.Columns.Contains("Eliminar"))
                 dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
 
-            //if (isAdminContencioso == true && dtg.Columns.Contains("Terminar"))
-                //dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
         }
 
-        private void CrearBotonesAccionHistorial(DataGridView dtg)
+        private async void CrearBotonesAccionHistorial(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️",
+                    Text = isAdminContencioso
+                    ? "✏️"
+                    : "👁️"
+                    ,
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard,
                     Width = 40,
@@ -480,7 +598,7 @@ namespace Presentacion.Casos.Contenciosos
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            VerificarTipoUsuario();
+            
 
             if (isAdminContencioso == true)
             {
@@ -698,20 +816,24 @@ namespace Presentacion.Casos.Contenciosos
         {
             if (!dtgDemandados.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorContencioso)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandados.Columns.Add(btnQuitar);
-                dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                    dtgDemandados.Columns.Add(btnQuitar);
+                    dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                }
+                
             }
         }
 
@@ -719,40 +841,49 @@ namespace Presentacion.Casos.Contenciosos
         {
             if (!dtgDemandantes.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorContencioso)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandantes.Columns.Add(btnQuitar);
-                dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+                    dtgDemandantes.Columns.Add(btnQuitar);
+                    dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+
+                }
+                
             }
         }
         private void CrearBotonQuitarTerceroInteresado()
         {
             if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorContencioso)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgTercerosInteresados.Columns.Add(btnQuitar);
-                dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                    dtgTercerosInteresados.Columns.Add(btnQuitar);
+                    dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                }
+                
             }
         }
 
@@ -760,20 +891,25 @@ namespace Presentacion.Casos.Contenciosos
         {
             if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorContencioso)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosDirectores.Columns.Add(btnQuitar);
-                dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+                    dtgAbogadosDirectores.Columns.Add(btnQuitar);
+                    dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+
+                }
+                
             }
         }
 
@@ -781,20 +917,25 @@ namespace Presentacion.Casos.Contenciosos
         {
             if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorContencioso)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgContactoEmpresa.Columns.Add(btnQuitar);
-                dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+                    dtgContactoEmpresa.Columns.Add(btnQuitar);
+                    dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+
+                }
+                
             }
         }
 
@@ -802,20 +943,24 @@ namespace Presentacion.Casos.Contenciosos
         {
             if (!dtgSociosResponsables.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorContencioso)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgSociosResponsables.Columns.Add(btnQuitar);
-                dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                    dtgSociosResponsables.Columns.Add(btnQuitar);
+                    dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                }
+                
             }
         }
 
@@ -823,26 +968,30 @@ namespace Presentacion.Casos.Contenciosos
         {
             if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (!isLectorContencioso)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosAsistentes.Columns.Add(btnQuitar);
-                dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                    dtgAbogadosAsistentes.Columns.Add(btnQuitar);
+                    dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                }
+               
             }
         }
 
         private async void Contencioso_Terminado_Load(object sender, EventArgs e)
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (!_yaCargo)
                 await LoadAsync();
         }
@@ -916,102 +1065,10 @@ namespace Presentacion.Casos.Contenciosos
             }
         }
 
-        private async Task GuardarCaso()
+
+        private  void roundedButton18_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtExpediente.Text))
-            {
-                MessageBox.Show("Expediente es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtExpediente.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(comboBoxJuzgado.Text))
-            {
-                MessageBox.Show("Juzgado es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                comboBoxJuzgado.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(comboboxOficial.Text))
-            {
-                MessageBox.Show("Oficial es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                comboboxOficial.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(comboboxNotificador.Text))
-            {
-                MessageBox.Show("Notificador es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                comboboxNotificador.Focus();
-                return;
-            }
-
-            // Estado/Fecha: tu app depende de EstadoContencioso
-            if (string.IsNullOrWhiteSpace(EstadoContencioso.estado) && string.IsNullOrWhiteSpace(txtEstado.Text))
-            {
-                MessageBox.Show("Debe agregar un estado antes de guardar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (!EstadoContencioso.fechaEstado.HasValue)
-            {
-                MessageBox.Show("Debe agregar la fecha del estado antes de guardar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-           
-            var req = new CrearCasoContenciosoRequest
-            {
-                Expediente = txtExpediente.Text,
-                Juzgado = comboBoxJuzgado.Text,
-                Oficial = comboboxOficial.Text,
-                Notificador = comboboxNotificador.Text,
-                NombreParticular = txtNombreParticular.Text,
-                Estado = EstadoContencioso.estado ?? txtEstado.Text,
-                Observaciones = EstadoContencioso.observaciones ?? txtObservaciones.Text,
-                UsuarioCreador = UserSession.Id,
-                Fecha = EstadoContencioso.fechaEstado.HasValue
-                ? EstadoContencioso.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                : null,
-                FechaVencimiento = EstadoContencioso.fechaVencimiento.HasValue
-                ? EstadoContencioso.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                : "",
-
-                Demandantes = listaDemandantes.Select(x => x.id).ToList(),
-                Demandados = listaDemandados.Select(x => x.id).ToList(),
-                TercerosInteresados = listaTercerosInteresados.Select(x => x.id).ToList(),
-                ContactosEmpresa = listaContactosEmpresa.Select(x => x.id).ToList(),
-
-                AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
-                SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
-                AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
-                MarcaReferenciaId = idMarcaReferencia,
-
-                
-
-            };
-
-            var resultado = await casoContenciosoModel.CrearCasoContencioso(req);
-
-            if (resultado.success)
-            {
-                MessageBox.Show("Caso contencioso administrativo creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await EjecutarConLoaderAsync(async () =>
-                {
-                    await CargarCasos();
-                });
-                LimpiarFormulario();
-                AnadirTabPage(Listar);
-                EliminarTabPage(Detalles);
-            }
-            else
-            {
-                MessageBox.Show("Error: " + resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async void roundedButton18_Click(object sender, EventArgs e)
-        {
-            await GuardarCaso();
+            
         }
 
         private async void roundedButton19_Click(object sender, EventArgs e)
@@ -1049,7 +1106,7 @@ namespace Presentacion.Casos.Contenciosos
 
                     await EjecutarConLoaderAsync(async () =>
                     {
-                        resultado = await casoContenciosoModel.EliminarCasoContencioso(idCaso, UserSession.Id);
+                        resultado = await casoContenciosoTModel.EliminarCasoContencioso(idCaso, UserSession.Id);
                     });
 
                     if (resultado == null)
@@ -1924,7 +1981,7 @@ namespace Presentacion.Casos.Contenciosos
 
             await EjecutarConLoaderAsync(async () =>
             {
-                resultado = await casoContenciosoModel.EditarCasoContencioso(req);
+                resultado = await casoContenciosoTModel.EditarCasoContencioso(req);
                 if (EstadoContencioso.estado == "Sentencia/Recurso de Casación")
                 {
                     resultado2 = await recursoCasacionModel.CrearRecursoCasacion(req2);
@@ -2094,27 +2151,34 @@ namespace Presentacion.Casos.Contenciosos
                 dtg.Columns.Add(btnDescargar);
             }
 
-            // Eliminar
-            if (!dtg.Columns.Contains("Eliminar"))
+            if (isAdminContencioso)
             {
-                var btnEliminar = new DataGridViewButtonColumn
+                // Eliminar
+                if (!dtg.Columns.Contains("Eliminar"))
                 {
-                    Name = "Eliminar",
-                    HeaderText = "",
-                    Text = "🗑️",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 45,
-                    MinimumWidth = 45,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
-                dtg.Columns.Add(btnEliminar);
+                    var btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 45,
+                        MinimumWidth = 45,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
             }
 
+
             // mover al final (en orden)
-            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 3;
+            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
             dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2;
-            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
+            if (isAdminContencioso)
+            {
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
+            }
         }
 
         private async void btnVerArchivos_Click(object sender, EventArgs e)
@@ -2455,7 +2519,14 @@ namespace Presentacion.Casos.Contenciosos
                 });
             }
         }
-
+        void HabilitarControlesEdicionHistorial()
+        {
+            comboboxEstado.Enabled = isAdminContencioso;
+            dateTimePickerFechaEstado.Enabled = isAdminContencioso;
+            txtObservacionesHistorial.Enabled = isAdminContencioso;
+            dateTimePickerFechaVencimiento.Enabled = isAdminContencioso;
+            dateTimePickerHoraVencimiento.Enabled = isAdminContencioso;
+        }
         private void CargarDatosHistorialEnTab(HistorialCasoContenciosoDetalle item)
         {
             _idHistorialEditar = item.id;
@@ -2488,6 +2559,17 @@ namespace Presentacion.Casos.Contenciosos
             txtOrigenHistorial.Text = item.origen ?? "";
             txtUsuarioCreadorHistorial.Text = item.usuario_creador ?? "";
             txtUsuarioEditorHistorial.Text = item.usuario_editor ?? "";
+
+            if (isAdminContencioso)
+            {
+                btnGuardarEdicionHistorial.Visible = true;
+            }
+            else
+            {
+                btnGuardarEdicionHistorial.Visible = false;
+            }
+
+            HabilitarControlesEdicionHistorial();
         }
 
         private async void btnGuardarEdicionHistorial_Click(object sender, EventArgs e)

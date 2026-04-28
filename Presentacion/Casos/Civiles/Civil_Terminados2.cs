@@ -372,6 +372,8 @@ namespace Presentacion.Casos.Civiles
 
             var data = resp.data;
 
+            
+
             if (data != null)
             {
                 txtExpediente.Text = data.caso.expediente ?? "";
@@ -2844,9 +2846,8 @@ namespace Presentacion.Casos.Civiles
                     await CargarDatosCaso(_idCasoEditar);
                 });
             }
-
-
         }
+
         void HabilitarControlesEdicionHistorial()
         {
             comboboxEstado.Enabled = isAdminCivil;
