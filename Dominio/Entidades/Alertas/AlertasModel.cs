@@ -20,7 +20,7 @@ namespace Dominio.Entidades.Alertas
             {
                 return new ApiResponseAlertas
                 {
-                    success = false,
+                    ok = false,
                     message = "El id del usuario debe ser mayor que cero."
                 };
             }
@@ -29,7 +29,7 @@ namespace Dominio.Entidades.Alertas
             {
                 return new ApiResponseAlertas
                 {
-                    success = false,
+                    ok = false,
                     message = "El id del módulo no puede ser negativo."
                 };
             }
@@ -38,7 +38,7 @@ namespace Dominio.Entidades.Alertas
             {
                 return new ApiResponseAlertas
                 {
-                    success = false,
+                    ok = false,
                     message = "La página debe ser mayor que cero."
                 };
             }
@@ -47,7 +47,7 @@ namespace Dominio.Entidades.Alertas
             {
                 return new ApiResponseAlertas
                 {
-                    success = false,
+                    ok = false,
                     message = "Los registros por página deben ser mayores que cero."
                 };
             }
@@ -56,7 +56,7 @@ namespace Dominio.Entidades.Alertas
             {
                 return new ApiResponseAlertas
                 {
-                    success = false,
+                    ok = false,
                     message = "No puedes solicitar más de 200 registros por página."
                 };
             }
@@ -68,12 +68,12 @@ namespace Dominio.Entidades.Alertas
             {
                 return new ApiResponseAlertas
                 {
-                    success = false,
+                    ok = false,
                     message = "El filtro no puede tener más de 150 caracteres."
                 };
             }
 
-            return await alertasDao.ObtenerAlertasUsuarioPaginadas(
+            return await alertasDao.ListarAlertas(
                 usuarioId,
                 moduloId,
                 pagina,

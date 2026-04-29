@@ -1,4 +1,6 @@
 ﻿using Comun.Models.Alertas;
+using Comun.Models.Plazos;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -47,13 +49,15 @@ namespace AccesoDatos.Entidades.Alertas
             return tabla;
         }
 
-        public async Task<ApiResponseAlertas> ObtenerAlertasUsuarioPaginadas(
+
+        public async Task<ApiResponseAlertas> ListarAlertas(
             int usuarioId,
             int moduloId = 0,
             int pagina = 1,
             int registrosPorPagina = 20,
             bool soloNoLeidas = false,
-            string filtro = "")
+            string filtro = ""
+        )
         {
             var parameters = new Dictionary<string, string>
             {
@@ -66,6 +70,11 @@ namespace AccesoDatos.Entidades.Alertas
                 { "filtro", filtro ?? "" }
             };
 
+            if (moduloId > 0)
+            {
+                parameters.Add("modulo_id", moduloId.ToString());
+            }
+
             using var content = new FormUrlEncodedContent(parameters);
 
             try
@@ -73,48 +82,15 @@ namespace AccesoDatos.Entidades.Alertas
                 var response = await _http.PostAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
 
-                if (string.IsNullOrWhiteSpace(jsonResult))
-                {
-                    return new ApiResponseAlertas
-                    {
-                        success = false,
-                        message = "Respuesta vacía del servidor.",
-                        Tabla = new DataTable()
-                    };
-                }
-
-                var json = JObject.Parse(jsonResult);
-
-                bool ok = json["ok"]?.Value<bool>() ?? false;
-
-                if (!response.IsSuccessStatusCode || !ok)
-                {
-                    return new ApiResponseAlertas
-                    {
-                        success = false,
-                        message = json["error"]?.ToString() ?? $"Error HTTP {response.StatusCode}",
-                        Tabla = new DataTable()
-                    };
-                }
-
-                return new ApiResponseAlertas
-                {
-                    success = true,
-                    message = "Alertas obtenidas correctamente.",
-                    Tabla = ConvertirRowsADataTable(json["rows"]),
-                    total = json["total"]?.Value<int>() ?? 0,
-                    pagina = json["pagina"]?.Value<int>() ?? pagina,
-                    registrosPorPagina = json["registrosPorPagina"]?.Value<int>() ?? registrosPorPagina,
-                    totalPaginas = json["totalPaginas"]?.Value<int>() ?? 0
-                };
+                return JsonConvert.DeserializeObject<ApiResponseAlertas>(jsonResult)
+                       ?? new ApiResponseAlertas { ok = false, message = "Respuesta vacía o inválida." };
             }
             catch (Exception ex)
             {
                 return new ApiResponseAlertas
                 {
-                    success = false,
-                    message = "Error: " + ex.Message,
-                    Tabla = new DataTable()
+                    ok = false,
+                    message = "Error: " + ex.Message
                 };
             }
         }

@@ -25,13 +25,37 @@ namespace Presentacion.Plazos
         private string origenActual = "";
         private bool _cargando = false;
 
-        private bool isLectorPlazo = false;
-        private void VerificarTipoUsuario()
+        private bool isAdminPlazos = false;
+        private bool isLectorPlazos= false;
+        UserModel userModel = new UserModel();
 
+        private async Task VerificarTipoUsuario()
         {
-            isLectorPlazo = UserSession.Modulos.Any(m =>
-                (m.clave_slug ?? "").Trim().Equals("plazos", StringComparison.OrdinalIgnoreCase) &&
-                (m.nombre_rol ?? "").Trim().Equals("Usuario Lector", StringComparison.OrdinalIgnoreCase));
+            var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, 6);
+            if (resp.success && resp.data != null)
+            {
+                string rol = resp.data.nombre_rol;
+
+                if (rol == "Administrador")
+                {
+                    isAdminPlazos = true;
+                    isLectorPlazos = false;
+                }
+                else if (rol == "Usuario Lector")
+                {
+                    isLectorPlazos = true;
+                    isAdminPlazos = false;
+                }
+                else if (rol == "Usuario Normal")
+                {
+                    isLectorPlazos = false;
+                    isAdminPlazos = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show(resp.message);
+            }
         }
 
         public FrmPlazos()
@@ -161,7 +185,7 @@ namespace Presentacion.Plazos
                         comboboxEstado.Items.AddRange(EstadoContenciosoHelper.ObtenerEstadosSegundaInstancia().ToArray());
                         break;
                     }
-                case "CONSTITUCIONAL PRIMERA INSTANCIA":
+                case "CONSTITUCIONAL AMPARO":
                     {
                         comboboxEstado.Items.Clear();
                         comboboxEstado.Items.AddRange(EstadoConstitucionalHelper.ObtenerEstadosAmparo().ToArray());
@@ -207,7 +231,7 @@ namespace Presentacion.Plazos
                 MessageBox.Show(plazo.message);
             }
 
-            if (isLectorPlazo)
+            if (isLectorPlazos)
             {
                 DeshabilitarControles();
             }
@@ -235,9 +259,9 @@ namespace Presentacion.Plazos
             tabControl1.SelectedTab = nombre;
         }
 
-        private void CrearBotonesAccion(DataGridView dtg)
+        private async void CrearBotonesAccion(DataGridView dtg)
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             
             // Editar
             if (!dtg.Columns.Contains("Editar"))
@@ -246,7 +270,7 @@ namespace Presentacion.Plazos
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = isLectorPlazo
+                    Text = isLectorPlazos
                     ? "👁️"
                     : "✏️"
                     ,
@@ -467,6 +491,58 @@ namespace Presentacion.Plazos
             if (dtgPlazos.Columns["rama"] != null)
             {
                 dtgPlazos.Columns["rama"].Width = 100;
+            }
+
+            if (dtgPlazos.Columns["expediente"] != null)
+            {
+                dtgPlazos.Columns["expediente"].HeaderText = "Expediente";
+            }
+
+            if (dtgPlazos.Columns["nombre"] != null)
+            {
+                dtgPlazos.Columns["nombre"].HeaderText = "Nombre";
+            }
+
+            if (dtgPlazos.Columns["tipo_instancia"] != null)
+            {
+                dtgPlazos.Columns["tipo_instancia"].HeaderText = " Tipo Instancia";
+            }
+
+            if (dtgPlazos.Columns["organo_judicial"] != null)
+            {
+                dtgPlazos.Columns["organo_judicial"].HeaderText = "Órgano Judicial";
+            }
+
+            if (dtgPlazos.Columns["oficial"] != null)
+            {
+                dtgPlazos.Columns["oficial"].HeaderText = "Oficial";
+            }
+
+            if (dtgPlazos.Columns["notificador"] != null)
+            {
+                dtgPlazos.Columns["notificador"].HeaderText = "Notificador";
+            }
+
+            if (dtgPlazos.Columns["estado"] != null)
+            {
+                dtgPlazos.Columns["estado"].HeaderText = "Estado";
+            }
+
+            if (dtgPlazos.Columns["fecha_inicio"] != null)
+            {
+                dtgPlazos.Columns["fecha_inicio"].HeaderText = "Fecha Inicio";
+                dtgPlazos.Columns["fecha_inicio"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            }
+
+            if (dtgPlazos.Columns["fecha_vencimiento"] != null)
+            {
+                dtgPlazos.Columns["fecha_vencimiento"].HeaderText = "Fecha Vencimiento";
+                dtgPlazos.Columns["fecha_vencimiento"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+            }
+
+            if (dtgPlazos.Columns["rama"] != null)
+            {
+                dtgPlazos.Columns["rama"].HeaderText = "Rama";
             }
 
             CrearBotonesAccion(dtgPlazos);
@@ -738,7 +814,7 @@ namespace Presentacion.Plazos
                             EstadoContenciosoHelper.GenerarObservacion(fecha, estado, requiereVencimiento, fechaVencimiento);
                         break;
                     }
-                case "CONSTITUCIONAL PRIMERA INSTANCIA":
+                case "CONSTITUCIONAL AMPARO":
                     {
                         requiereVencimiento = EstadoConstitucionalHelper.RequiereVencimiento(estado);
                         txtObservaciones.Text =

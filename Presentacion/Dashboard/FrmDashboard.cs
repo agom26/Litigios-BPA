@@ -351,10 +351,10 @@ namespace Presentacion.Dashboard
             int idUsuario = UserSession.Id;
             var response = await alertasModel.ObtenerAlertasUsuarioPaginadas(idUsuario, 0, paginaActual, registrosPorPagina, false, "");
 
-            if (response.success)
+            if (response.ok)
             {
                 // Asignar los datos al BindingSource
-                bsAlertas.DataSource = response.Tabla;
+                bsAlertas.DataSource = response.rows;
                 dtgAlertas.Refresh();
             }
             else
@@ -520,6 +520,68 @@ namespace Presentacion.Dashboard
             if (dtgAlertas.Columns["mensaje"] != null)
             {
                 dtgAlertas.Columns["mensaje"].Visible = false;
+            }
+
+            if (dtgAlertas.Columns["expediente"] != null)
+            {
+                dtgAlertas.Columns["expediente"].HeaderText = "Expediente";
+            }
+
+            if (dtgAlertas.Columns["nombre_particular"] != null)
+            {
+                dtgAlertas.Columns["nombre_particular"].HeaderText = "Nombre";
+            }
+
+            if (dtgAlertas.Columns["organo_judicial"] != null)
+            {
+                dtgAlertas.Columns["organo_judicial"].HeaderText = "Órgano Judicial";
+            }
+
+            if (dtgAlertas.Columns["rama"] != null)
+            {
+                dtgAlertas.Columns["rama"].HeaderText = "Rama";
+            }
+
+            if (dtgAlertas.Columns["titulo"] != null)
+            {
+                dtgAlertas.Columns["titulo"].HeaderText = "Título";
+            }
+
+            if (dtgAlertas.Columns["tipo_alerta"] != null)
+            {
+                dtgAlertas.Columns["tipo_alerta"].HeaderText = "Tipo alerta";
+            }
+
+            if (dtgAlertas.Columns["estado"] != null)
+            {
+                dtgAlertas.Columns["estado"].HeaderText = "Estado";
+            }
+
+            if (dtgAlertas.Columns["origen"] != null)
+            {
+                dtgAlertas.Columns["origen"].HeaderText = "Origen";
+            }
+
+            if (dtgAlertas.Columns["fecha_programada"] != null)
+            {
+                dtgAlertas.Columns["fecha_programada"].HeaderText = "Fecha programada";
+                dtgAlertas.Columns["fecha_programada"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+            }
+
+            if (dtgAlertas.Columns["fecha_generada"] != null)
+            {
+                dtgAlertas.Columns["fecha_generada"].HeaderText = "Fecha generada";
+                dtgAlertas.Columns["fecha_generada"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+            }
+
+            if (dtgAlertas.Columns["leida"] != null)
+            {
+                dtgAlertas.Columns["leida"].HeaderText = "Leída";
+            }
+
+            if (dtgAlertas.Columns["fecha_lectura"] != null)
+            {
+                dtgAlertas.Columns["fecha_lectura"].HeaderText = "Fecha Lectura";
             }
 
             //CrearBotonesAccion(dtgAlertas);
