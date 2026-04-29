@@ -5,6 +5,7 @@ using Comun.Models.Casos.Civiles;
 using Comun.Models.Casos.Constitucionales;
 using Comun.Models.Casos.Contenciosos;
 using Comun.Models.Casos.Laborales;
+using Dominio.Entidades;
 using Dominio.Entidades.Constitucionales;
 using Presentacion.Casos.Abogados_asignados;
 using Presentacion.Casos.Constitucionales.Agregar_caso;
@@ -74,14 +75,38 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
         = new BindingList<UserListDataResponse>();
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
-        private bool isAdminConstitucional = false;
         private int? idCasoReferencia = null;
-        private void VerificarTipoUsuario()
+        private bool isAdminConstitucional = false;
+        private bool isLectorConstitucional = false;
+        UserModel userModel = new UserModel();
 
+        private async Task VerificarTipoUsuario()
         {
-            isAdminConstitucional = UserSession.Modulos.Any(m =>
-                (m.clave_slug ?? "").Trim().Equals("constitucional", StringComparison.OrdinalIgnoreCase) &&
-                (m.nombre_rol ?? "").Trim().Equals("Administrador", StringComparison.OrdinalIgnoreCase));
+            var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, 3);
+            if (resp.success && resp.data != null)
+            {
+                string rol = resp.data.nombre_rol;
+
+                if (rol == "Administrador")
+                {
+                    isAdminConstitucional = true;
+                    isLectorConstitucional = false;
+                }
+                else if (rol == "Usuario Lector")
+                {
+                    isLectorConstitucional = true;
+                    isAdminConstitucional = false;
+                }
+                else if (rol == "Usuario Normal")
+                {
+                    isLectorConstitucional = false;
+                    isAdminConstitucional = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show(resp.message);
+            }
         }
 
         public async Task LoadAsync()
@@ -256,9 +281,9 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
             LimpiarListasCasoReferencia();
         }
 
-        private void BotonesAdmin()
+        private async Task BotonesAdmin()
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (isAdminConstitucional)
             {
                 //editar caso
@@ -291,6 +316,12 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
 
                 btnAgregarSociosResponsables.Visible = true;
                 btnAgregarSociosResponsables.Enabled = true;
+
+                btnAgregarCasoReferencia.Visible = true;
+                btnAgregarCasoReferencia.Enabled = true;
+
+                btnEliminarCasoReferencia.Visible = true;
+                btnEliminarCasoReferencia.Enabled = true;
             }
             else
             {
@@ -324,7 +355,33 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
 
                 btnAgregarSociosResponsables.Visible = false;
                 btnAgregarSociosResponsables.Enabled = false;
+
+                btnAgregarCasoReferencia.Visible = false;
+                btnAgregarCasoReferencia.Enabled = false;
+
+                btnEliminarCasoReferencia.Visible = false;
+                btnEliminarCasoReferencia.Enabled = false;
             }
+        }
+        void HabilitarBotonesCaso()
+        {
+            txtExpediente.Enabled = isAdminConstitucional;
+            txtNombreParticular.Enabled = isAdminConstitucional;
+            comboboxNotificador.Enabled = isAdminConstitucional;
+            comboBoxCamara.Enabled = isAdminConstitucional;
+            comboBoxCorte.Enabled = isAdminConstitucional;
+            comboboxOficial.Enabled = isAdminConstitucional;
+            btnAgregarDemandados.Enabled = isAdminConstitucional;
+            btnAgregarDemandantes.Enabled = isAdminConstitucional;
+            btnAgregarPartesInteresadas.Enabled = isAdminConstitucional;
+            btnAgregarContactoEmpresa.Enabled = isAdminConstitucional;
+            btnAgregarAbogadosAsistentes.Enabled = isAdminConstitucional;
+            btnAgregarAbogadosDirectores.Enabled = isAdminConstitucional;
+            btnAgregarSociosResponsables.Enabled = isAdminConstitucional;
+            btnAgregarEstado.Enabled = isAdminConstitucional;
+            txtCausaAgravioHechos.Enabled= isAdminConstitucional;
+            btnAgregarCasoReferencia.Enabled = isAdminConstitucional;
+            btnEliminarCasoReferencia.Enabled = isAdminConstitucional;
         }
 
         private async Task CargarDatosCaso(int idCaso)
@@ -405,7 +462,8 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
             EliminarTabPage(Listar);
             btnGuardarCaso.Visible = false;
             btnEditarCaso.Visible = true;
-            BotonesAdmin();
+            HabilitarBotonesCaso();
+            await BotonesAdmin();
         }
 
         private void AjustarFilasSegunRama(string rama)
@@ -793,8 +851,9 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
 
 
 
-        private void CrearBotonesAccion(DataGridView dtg)
+        private async void CrearBotonesAccion(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
@@ -813,7 +872,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            VerificarTipoUsuario();
+            
 
             if (isAdminConstitucional == true)
             {
@@ -833,22 +892,6 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
                     dtg.Columns.Add(btnEliminar);
                 }
 
-                /*
-                if (!dtg.Columns.Contains("Terminar"))
-                {
-                    DataGridViewButtonColumn btnTerminar = new DataGridViewButtonColumn
-                    {
-                        Name = "Terminar",
-                        HeaderText = "",
-                        Text = "🔒",
-                        UseColumnTextForButtonValue = true,
-                        FlatStyle = FlatStyle.Standard,
-                        Width = 40,
-                        MinimumWidth = 40,
-                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                    };
-                    dtg.Columns.Add(btnTerminar);
-                }*/
             }
 
             if (dtg.Columns.Contains("Editar"))
@@ -857,19 +900,21 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
             if (isAdminConstitucional == true && dtg.Columns.Contains("Eliminar"))
                 dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
 
-            //if (isAdminConstitucional == true && dtg.Columns.Contains("Terminar"))
-              //  dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
         }
 
-        private void CrearBotonesAccionHistorial(DataGridView dtg)
+        private async void CrearBotonesAccionHistorial(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
                 {
                     Name = "Editar",
                     HeaderText = "",
-                    Text = "✏️",
+                    Text = isAdminConstitucional
+                    ? "✏️"
+                    : "👁️"
+                    ,
                     UseColumnTextForButtonValue = true,
                     FlatStyle = FlatStyle.Standard,
                     Width = 40,
@@ -878,7 +923,6 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            VerificarTipoUsuario();
 
             if (isAdminConstitucional == true)
             {
@@ -1203,24 +1247,28 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
             dtgAbogadosAsistentes.CellClick += dtgAbogadosAsistentes_CellClick;
         }
 
-        private void CrearBotonQuitarDemandado()
+        private async void CrearBotonQuitarDemandado()
         {
+            await VerificarTipoUsuario();
             if (!dtgDemandados.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (isAdminConstitucional)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandados.Columns.Add(btnQuitar);
-                dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                    dtgDemandados.Columns.Add(btnQuitar);
+                    dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
+                }
             }
         }
 
@@ -1228,40 +1276,46 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
         {
             if (!dtgDemandantes.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (isAdminConstitucional)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgDemandantes.Columns.Add(btnQuitar);
-                dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+                    dtgDemandantes.Columns.Add(btnQuitar);
+                    dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
+                }
             }
         }
         private void CrearBotonQuitarTerceroInteresado()
         {
             if (!dtgTercerosInteresados.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (isAdminConstitucional)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgTercerosInteresados.Columns.Add(btnQuitar);
-                dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                    dtgTercerosInteresados.Columns.Add(btnQuitar);
+                    dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
+                }
             }
         }
 
@@ -1269,20 +1323,23 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
         {
             if (!dtgAbogadosDirectores.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (isAdminConstitucional)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosDirectores.Columns.Add(btnQuitar);
-                dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+                    dtgAbogadosDirectores.Columns.Add(btnQuitar);
+                    dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
+                }
             }
         }
 
@@ -1290,20 +1347,23 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
         {
             if (!dtgContactoEmpresa.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (isAdminConstitucional)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgContactoEmpresa.Columns.Add(btnQuitar);
-                dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+                    dtgContactoEmpresa.Columns.Add(btnQuitar);
+                    dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
+                }
             }
         }
 
@@ -1311,20 +1371,23 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
         {
             if (!dtgSociosResponsables.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (isAdminConstitucional)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgSociosResponsables.Columns.Add(btnQuitar);
-                dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                    dtgSociosResponsables.Columns.Add(btnQuitar);
+                    dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
+                }
             }
         }
 
@@ -1332,26 +1395,29 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
         {
             if (!dtgAbogadosAsistentes.Columns.Contains("Quitar"))
             {
-                var btnQuitar = new DataGridViewButtonColumn
+                if (isAdminConstitucional)
                 {
-                    Name = "Quitar",
-                    HeaderText = "",
-                    Text = "➖",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 40,
-                    MinimumWidth = 40,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
+                    var btnQuitar = new DataGridViewButtonColumn
+                    {
+                        Name = "Quitar",
+                        HeaderText = "",
+                        Text = "➖",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 40,
+                        MinimumWidth = 40,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
 
-                dtgAbogadosAsistentes.Columns.Add(btnQuitar);
-                dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                    dtgAbogadosAsistentes.Columns.Add(btnQuitar);
+                    dtgAbogadosAsistentes.Columns["Quitar"].DisplayIndex = dtgAbogadosAsistentes.ColumnCount - 1;
+                }
             }
         }
 
         private async void Constitucional_Terminado_Load(object sender, EventArgs e)
         {
-            VerificarTipoUsuario();
+            await VerificarTipoUsuario();
             if (!_yaCargo)
                 await LoadAsync();
         }
@@ -2568,8 +2634,9 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
             }
         }
 
-        private void CrearBotonesAccionArchivos(DataGridView dtg)
+        private async void CrearBotonesAccionArchivos(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
             dtg.AutoGenerateColumns = true;
 
             // Abrir
@@ -2606,27 +2673,33 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
                 dtg.Columns.Add(btnDescargar);
             }
 
-            // Eliminar
-            if (!dtg.Columns.Contains("Eliminar"))
+            if (isAdminConstitucional)
             {
-                var btnEliminar = new DataGridViewButtonColumn
+                // Eliminar
+                if (!dtg.Columns.Contains("Eliminar"))
                 {
-                    Name = "Eliminar",
-                    HeaderText = "",
-                    Text = "🗑️",
-                    UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard,
-                    Width = 45,
-                    MinimumWidth = 45,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                };
-                dtg.Columns.Add(btnEliminar);
+                    var btnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "Eliminar",
+                        HeaderText = "",
+                        Text = "🗑️",
+                        UseColumnTextForButtonValue = true,
+                        FlatStyle = FlatStyle.Standard,
+                        Width = 45,
+                        MinimumWidth = 45,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                    };
+                    dtg.Columns.Add(btnEliminar);
+                }
             }
 
             // mover al final (en orden)
-            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 3;
+            dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
             dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2;
-            dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 1;
+            if (isAdminConstitucional)
+            {
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
+            }
         }
 
         private async void btnVerArchivos_Click(object sender, EventArgs e)
@@ -2969,6 +3042,14 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
 
 
         }
+        void HabilitarControlesEdicionHistorial()
+        {
+            comboboxEstado.Enabled = isAdminConstitucional;
+            dateTimePickerFechaEstado.Enabled = isAdminConstitucional;
+            txtObservacionesHistorial.Enabled = isAdminConstitucional;
+            dateTimePickerFechaVencimiento.Enabled = isAdminConstitucional;
+            dateTimePickerHoraVencimiento.Enabled = isAdminConstitucional;
+        }
 
         private void CargarDatosHistorialEnTab(HistorialCasoConstitucionalDetalle item)
         {
@@ -3002,6 +3083,17 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
             txtOrigenHistorial.Text = item.origen ?? "";
             txtUsuarioCreadorHistorial.Text = item.usuario_creador ?? "";
             txtUsuarioEditorHistorial.Text = item.usuario_editor ?? "";
+
+            if (isAdminConstitucional)
+            {
+                btnGuardarEdicionHistorial.Visible = true;
+            }
+            else
+            {
+                btnGuardarEdicionHistorial.Visible = false;
+            }
+
+            HabilitarControlesEdicionHistorial();
         }
 
         private async void btnGuardarEdicionHistorial_Click(object sender, EventArgs e)

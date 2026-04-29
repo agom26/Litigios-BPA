@@ -2253,8 +2253,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
                     MessageBox.Show($"Se subieron {response.data?.Count ?? 0} archivo(s) correctamente.",
                         "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    await RefrescarListaArchivos();
+                    
                 }
                 catch (Exception ex)
                 {
@@ -2263,6 +2262,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                 }
                 finally
                 {
+                    await RefrescarListaArchivos();
                     btnSubirArchivo.Enabled = true;
                     btnSubirArchivo.Text = "Subir archivo";
                 }
