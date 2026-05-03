@@ -1294,11 +1294,11 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 {
                     ApiResponse<object> resultado = null;
 
-                    /*
+                    
                     await EjecutarConLoaderAsync(async () =>
                     {
                         resultado = await casoCivilModel.EliminarCasoCivil(idCaso, UserSession.Id);
-                    });*/
+                    });
 
                     if (resultado == null)
                     {

@@ -98,7 +98,27 @@ namespace Dominio.Entidades.Civiles
                 return new ApiResponseEditarCasoCivil { success = false, message = "Error: " + ex.Message };
             }
         }
+        public async Task<ApiResponse<object>> EliminarCasoCivil(int casoId, int usuarioId)
+        {
+            try
+            {
+                if (casoId <= 0)
+                    return new ApiResponse<object> { success = false, message = "caso_id es requerido" };
 
+                if (usuarioId <= 0)
+                    return new ApiResponse<object> { success = false, message = "usuario_id es requerido" };
+
+                return await casoCivilData.EliminarCaso(casoId, usuarioId);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message
+                };
+            }
+        }
         // Helper interno del Dominio
         private static List<int>? NormalizarIds(List<int>? ids)
         {

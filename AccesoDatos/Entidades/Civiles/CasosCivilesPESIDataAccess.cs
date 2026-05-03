@@ -149,11 +149,11 @@ namespace AccesoDatos.Entidades.Civiles
             }
         }
 
-        public async Task<ApiResponse<object>> EliminarCasoViaApremio(int casoId, int usuarioId)
+        public async Task<ApiResponse<object>> EliminarCaso(int casoId, int usuarioId)
         {
             var parameters = new Dictionary<string, string>
             {
-                { "action", "eliminar_caso_civil_via_apremio" },
+                { "action", "eliminar_caso" },
                 { "caso_id", casoId.ToString() },
                 { "usuario_id", usuarioId.ToString() }
             };

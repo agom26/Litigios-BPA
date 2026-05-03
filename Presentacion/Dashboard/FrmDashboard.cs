@@ -7,6 +7,7 @@ using Comun.Models.Casos.Laborales;
 using DocumentFormat.OpenXml.Vml.Spreadsheet;
 using Dominio.Entidades;
 using Dominio.Entidades.Alertas;
+using Dominio.Entidades.Dashboard;
 using Dominio.Entidades.Plazos;
 using Newtonsoft.Json;
 using Presentacion.Casos.Abogados_asignados;
@@ -43,7 +44,7 @@ namespace Presentacion.Dashboard
         PlazosModel plazosModel = new PlazosModel();
         AlertasModel alertasModel = new AlertasModel();
         UserModel userModel = new UserModel();
-
+        DashboardModel dashboardModel = new DashboardModel();
         private bool isAdminLaboral = false;
         Color normal = ColorTranslator.FromHtml("#ffffff"); // tu color base
         Color hover = ColorTranslator.FromHtml("#e5e5e5");
@@ -365,7 +366,7 @@ namespace Presentacion.Dashboard
 
         private async Task CargarCasosPorUsuario()
         {
-            var resp = await userModel.ObtenerTotalesDashboardUsuario(UserSession.Id);
+            var resp = await dashboardModel.ObtenerTotalesDashboard();
 
             if (resp.success && resp.data != null)
             {

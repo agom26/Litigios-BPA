@@ -24,6 +24,7 @@ using Presentacion.Reportes;
 using Presentacion.Plazos;
 using Presentacion.Alertas_y_notificaciones;
 using Presentacion.Dashboard;
+using Presentacion.Clases;
 namespace Presentacion
 {
 
@@ -64,6 +65,7 @@ namespace Presentacion
 
             panelDatosUsuarioExpandido.Visible = true;
             panelDatosUsuarioContraido.Visible = false;
+            lblUserContraido.Text = UserSession.Usuario;
             toolTip1.SetToolTip(pictureBoxUserContraido,
                 $"Usuario: {UserSession.Usuario}\n" +
                 $"Nombre: {UserSession.Nombres} {UserSession.Apellidos}");
@@ -501,43 +503,133 @@ namespace Presentacion
 
         private void btnMenu_Click_1(object sender, EventArgs e)
         {
+            menuExpandido = panelMenu.Width > 200;
             timerMenu.Start();
 
         }
 
         private void timerMenu_Tick(object sender, EventArgs e)
         {
+            panelMenu.SuspendLayout();
+
             if (menuExpandido)
             {
                 panelMenu.Width -= 20;
 
-                panelTreeView.Visible = false;
-
-                panelDatosUsuarioExpandido.Visible = false;
-                if (panelMenu.Width <= 60)
+                if (panelMenu.Width <= 150)
                 {
-                    panelDatosUsuarioContraido.Visible = true;
-                    menuExpandido = false;
-
                     timerMenu.Stop();
+                    AplicarModoContraido(); // <-- tu lógica del primer método
                 }
             }
             else
             {
                 panelMenu.Width += 20;
 
-
-                panelDatosUsuarioContraido.Visible = false;
-
                 if (panelMenu.Width >= 250)
                 {
-                    panelTreeView.Visible = true;
-                    panelDatosUsuarioExpandido.Visible = true;
-                    panelTreeView.Visible = true;
-                    menuExpandido = true;
                     timerMenu.Stop();
+                    AplicarModoExpandido(); // <-- tu lógica del primer método
                 }
             }
+
+            panelMenu.ResumeLayout();
+        }
+
+        private void AplicarModoContraido()
+        {
+            // Ocultar cosas mientras ajustamos (evita parpadeo)
+            panelMenu.Visible = false;
+            btnMenu.Image = Properties.Resources.doble_flecha_derecha;
+            panelMenu.SuspendLayout();
+            panelTreeView.SuspendLayout();
+            panelDatosUsuarioExpandido.SuspendLayout();
+            panelDatosUsuarioContraido.SuspendLayout();
+            // Tamaño final
+            panelMenu.Width = 140;
+
+            // Panels visibles
+            panelTreeView.Visible = false;
+            panelDatosUsuarioExpandido.Visible = false;
+            panelDatosUsuarioContraido.Visible = true;
+
+            // Ajustar botones (iconos centrados, sin texto)
+            foreach (var pnl in new[] { panelMenu, panelTreeView })
+            {
+                foreach (RoundedButton btn in pnl.Controls.OfType<RoundedButton>())
+                {
+                    btn.Text = "";
+                    btn.ImageAlign = ContentAlignment.MiddleCenter;
+                    btn.TextAlign = ContentAlignment.MiddleCenter;
+                    btn.Padding = Padding.Empty;
+                }
+            }
+
+            panelDatosUsuarioContraido.Visible = true;
+
+            panelColapsarMenu.Visible = true;
+            panelMenu.Controls.SetChildIndex(panelColapsarMenu, 0);
+            // Reanudar layouts
+            panelDatosUsuarioContraido.ResumeLayout(true);
+            panelDatosUsuarioExpandido.ResumeLayout(true);
+            panelTreeView.ResumeLayout(true);
+            panelMenu.ResumeLayout(true);
+            panelMenu.Refresh();
+
+            panelMenu.Visible = true;
+            panelMenu.Refresh();
+        }
+
+        private void AplicarModoExpandido()
+        {
+            //panelMenu.Visible = false;
+
+            btnMenu.Image = Properties.Resources.doble_flecha_izq;
+            panelMenu.SuspendLayout();
+            panelTreeView.SuspendLayout();
+            panelDatosUsuarioExpandido.SuspendLayout();
+            panelDatosUsuarioContraido.SuspendLayout();
+            panelColapsarMenu.SuspendLayout();
+            // Tamaño final
+            panelMenu.Width = 250;
+
+            // Panels visibles
+            panelTreeView.Visible = true;
+            panelDatosUsuarioExpandido.Visible = true;
+            panelColapsarMenu.Visible = true;
+            panelDatosUsuarioContraido.Visible = false;
+
+            // Restaurar botones (texto + icono alineado izquierda)
+            foreach (var pnl in new[] { panelMenu, panelTreeView })
+            {
+                foreach (RoundedButton btn in pnl.Controls.OfType<RoundedButton>())
+                {
+                    btn.TextAlign = ContentAlignment.MiddleLeft;
+                    btn.ImageAlign = ContentAlignment.MiddleLeft;
+
+                    // Recupera texto desde Tag (IMPORTANTE)
+                    if (btn.Tag != null)
+                        btn.Text = btn.Tag.ToString();
+
+                    btn.Padding = new Padding(10, 0, 0, 0);
+                }
+            }
+
+            panelColapsarMenu.Dock = DockStyle.Top;
+            panelColapsarMenu.Height = 50; // por ejemplo
+            panelMenu.Controls.SetChildIndex(panelColapsarMenu, 0);
+
+            panelColapsarMenu.SendToBack();
+            // Reanudar layouts
+            panelDatosUsuarioContraido.ResumeLayout(true);
+            panelDatosUsuarioExpandido.ResumeLayout(true);
+            panelTreeView.ResumeLayout(true);
+            panelColapsarMenu.ResumeLayout(true);
+            panelMenu.ResumeLayout(true);
+
+
+            //panelMenu.Visible = true;
+            panelMenu.Refresh();
         }
 
         private void pictureBox1_MouseHover(object sender, EventArgs e)
@@ -554,7 +646,7 @@ namespace Presentacion
 
         private void treeView1_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
         {
-            treeView1.SelectedNode = e.Node;
+            //treeView1.SelectedNode = e.Node;
         }
 
         private void AjustarAnchoTreeView()
@@ -625,6 +717,21 @@ namespace Presentacion
             if (this.IsDisposed) return;
 
             await AbrirFormularioConLoaderAsync(new FrmDashboard());
+        }
+
+        private void treeView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            TreeNode node = treeView1.GetNodeAt(e.Location);
+
+            if (node != null && treeView1.SelectedNode != node)
+            {
+                treeView1.SelectedNode = node;
+            }
+        }
+
+        private void treeView1_MouseLeave(object sender, EventArgs e)
+        {
+            treeView1.SelectedNode = null;
         }
     }
 }

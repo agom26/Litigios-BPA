@@ -539,16 +539,19 @@ namespace Presentacion.Casos.Laborales
 
         private async Task CargarCasosNoDefinitivas()
         {
-
+            if (this.IsDisposed || !this.IsHandleCreated) return;
             int idUsuario = UserSession.Id;
             string filtro = txtBuscarNoDefinitivas.Text;
             var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, "no_definitiva", filtro);
-
+            if (this.IsDisposed || !this.IsHandleCreated) return;
             if (response.success)
             {
                 // Asignar los datos al BindingSource
                 bsCasosNoDefinitivos.DataSource = response.data;
-                dtgResolucionesNoDefinitivas.Refresh();
+                if (!this.IsDisposed && dtgResolucionesNoDefinitivas.IsHandleCreated)
+                {
+                    dtgResolucionesNoDefinitivas.Refresh();
+                }
                 // Actualizar paginación
                 totalRegistros = response.total;
                 labelTotal.Text = $"Total de casos laborales: {totalRegistros}";
@@ -556,22 +559,28 @@ namespace Presentacion.Casos.Laborales
             }
             else
             {
-                MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!this.IsDisposed)
+                {
+                    MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
         private async Task CargarCasosFinJuicio()
         {
-
+            if (this.IsDisposed || !this.IsHandleCreated) return;
             int idUsuario = UserSession.Id;
             string filtro = txtBuscarFinJuicio.Text;
             var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, "fin_juicio", filtro);
-
+            if (this.IsDisposed || !this.IsHandleCreated) return;
             if (response.success)
             {
                 // Asignar los datos al BindingSource
                 bsCasosFinJuicio.DataSource = response.data;
-                dtgResolucionesFinJuicio.Refresh();
+                if (!this.IsDisposed && dtgResolucionesFinJuicio.IsHandleCreated)
+                {
+                    dtgResolucionesFinJuicio.Refresh();
+                }
                 // Actualizar paginación
                 totalRegistros = response.total;
                 labelTotal2.Text = $"Total de casos laborales: {totalRegistros}";
@@ -579,7 +588,10 @@ namespace Presentacion.Casos.Laborales
             }
             else
             {
-                MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!this.IsDisposed)
+                {
+                    MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

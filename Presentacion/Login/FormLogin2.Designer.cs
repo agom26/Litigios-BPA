@@ -220,7 +220,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FormLogin2";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Login";
+            Text = "Legalia";
             TopMost = true;
             WindowState = FormWindowState.Minimized;
             Load += FormLogin2_Load;

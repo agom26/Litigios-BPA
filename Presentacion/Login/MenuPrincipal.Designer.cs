@@ -65,9 +65,13 @@
             panelMenu = new Panel();
             panelTreeView = new Panel();
             panelColapsarMenu = new Panel();
+            panel1 = new Panel();
+            pictureBoxLogoBPA = new PictureBox();
+            pictureBoxLogoLegalia = new PictureBox();
             btnMenu = new Presentacion.Clases.RoundedButton();
             timerMenu = new System.Windows.Forms.Timer(components);
             toolTip1 = new ToolTip(components);
+            lblUserContraido = new Label();
             panelDatosUsuarioContraido.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxUserContraido).BeginInit();
             panelDatosUsuarioExpandido.SuspendLayout();
@@ -76,6 +80,9 @@
             panelMenu.SuspendLayout();
             panelTreeView.SuspendLayout();
             panelColapsarMenu.SuspendLayout();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogoBPA).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogoLegalia).BeginInit();
             SuspendLayout();
             // 
             // treeView1
@@ -157,12 +164,14 @@
             treeNode20.Text = "Plazos";
             treeView1.Nodes.AddRange(new TreeNode[] { treeNode1, treeNode4, treeNode7, treeNode8, treeNode11, treeNode16, treeNode17, treeNode18, treeNode19, treeNode20 });
             treeView1.SelectedImageIndex = 0;
-            treeView1.Size = new Size(264, 323);
+            treeView1.Size = new Size(264, 310);
             treeView1.TabIndex = 0;
             treeView1.DrawNode += treeView1_DrawNode;
             treeView1.NodeMouseHover += treeView1_NodeMouseHover;
             treeView1.AfterSelect += treeView1_AfterSelect;
             treeView1.NodeMouseClick += treeView1_NodeMouseClick;
+            treeView1.MouseLeave += treeView1_MouseLeave;
+            treeView1.MouseMove += treeView1_MouseMove;
             // 
             // imageList1
             // 
@@ -197,12 +206,13 @@
             // panelDatosUsuarioContraido
             // 
             panelDatosUsuarioContraido.BackColor = Color.White;
+            panelDatosUsuarioContraido.Controls.Add(lblUserContraido);
             panelDatosUsuarioContraido.Controls.Add(pictureBoxUserContraido);
             panelDatosUsuarioContraido.Controls.Add(btnLogOut2);
             panelDatosUsuarioContraido.Dock = DockStyle.Left;
             panelDatosUsuarioContraido.Location = new Point(0, 0);
             panelDatosUsuarioContraido.Name = "panelDatosUsuarioContraido";
-            panelDatosUsuarioContraido.Size = new Size(50, 115);
+            panelDatosUsuarioContraido.Size = new Size(150, 115);
             panelDatosUsuarioContraido.TabIndex = 1;
             // 
             // pictureBoxUserContraido
@@ -231,7 +241,7 @@
             btnLogOut2.Image = Properties.Resources.salida;
             btnLogOut2.Location = new Point(5, 50);
             btnLogOut2.Name = "btnLogOut2";
-            btnLogOut2.Size = new Size(39, 40);
+            btnLogOut2.Size = new Size(126, 40);
             btnLogOut2.TabIndex = 2;
             btnLogOut2.TextAlign = ContentAlignment.MiddleLeft;
             btnLogOut2.TextColor = Color.White;
@@ -310,8 +320,8 @@
             // panelDatosUsuario
             // 
             panelDatosUsuario.BackColor = Color.White;
-            panelDatosUsuario.Controls.Add(panelDatosUsuarioExpandido);
             panelDatosUsuario.Controls.Add(panelDatosUsuarioContraido);
+            panelDatosUsuario.Controls.Add(panelDatosUsuarioExpandido);
             panelDatosUsuario.Dock = DockStyle.Bottom;
             panelDatosUsuario.Location = new Point(0, 360);
             panelDatosUsuario.Name = "panelDatosUsuario";
@@ -334,35 +344,71 @@
             // 
             panelTreeView.Controls.Add(treeView1);
             panelTreeView.Dock = DockStyle.Left;
-            panelTreeView.Location = new Point(0, 37);
+            panelTreeView.Location = new Point(0, 50);
             panelTreeView.Name = "panelTreeView";
-            panelTreeView.Size = new Size(264, 323);
+            panelTreeView.Size = new Size(264, 310);
             panelTreeView.TabIndex = 4;
             // 
             // panelColapsarMenu
             // 
             panelColapsarMenu.BackColor = Color.White;
+            panelColapsarMenu.Controls.Add(panel1);
             panelColapsarMenu.Controls.Add(btnMenu);
             panelColapsarMenu.Dock = DockStyle.Top;
             panelColapsarMenu.Location = new Point(0, 0);
             panelColapsarMenu.Name = "panelColapsarMenu";
-            panelColapsarMenu.Size = new Size(265, 37);
+            panelColapsarMenu.Size = new Size(265, 50);
             panelColapsarMenu.TabIndex = 3;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(pictureBoxLogoBPA);
+            panel1.Controls.Add(pictureBoxLogoLegalia);
+            panel1.Dock = DockStyle.Left;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(108, 50);
+            panel1.TabIndex = 1;
+            // 
+            // pictureBoxLogoBPA
+            // 
+            pictureBoxLogoBPA.BackgroundImage = (Image)resources.GetObject("pictureBoxLogoBPA.BackgroundImage");
+            pictureBoxLogoBPA.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBoxLogoBPA.Dock = DockStyle.Right;
+            pictureBoxLogoBPA.Location = new Point(58, 0);
+            pictureBoxLogoBPA.Name = "pictureBoxLogoBPA";
+            pictureBoxLogoBPA.Padding = new Padding(2);
+            pictureBoxLogoBPA.Size = new Size(50, 50);
+            pictureBoxLogoBPA.TabIndex = 3;
+            pictureBoxLogoBPA.TabStop = false;
+            // 
+            // pictureBoxLogoLegalia
+            // 
+            pictureBoxLogoLegalia.BackgroundImage = Properties.Resources.huella_dactilar;
+            pictureBoxLogoLegalia.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBoxLogoLegalia.Dock = DockStyle.Left;
+            pictureBoxLogoLegalia.Location = new Point(0, 0);
+            pictureBoxLogoLegalia.Name = "pictureBoxLogoLegalia";
+            pictureBoxLogoLegalia.Padding = new Padding(2);
+            pictureBoxLogoLegalia.Size = new Size(50, 50);
+            pictureBoxLogoLegalia.TabIndex = 2;
+            pictureBoxLogoLegalia.TabStop = false;
             // 
             // btnMenu
             // 
             btnMenu.BackColor = Color.White;
             btnMenu.BackgroundColor = Color.White;
             btnMenu.BorderColor = Color.Empty;
-            btnMenu.BorderRadius = 37;
+            btnMenu.BorderRadius = 0;
             btnMenu.BorderSize = 0;
+            btnMenu.Dock = DockStyle.Right;
             btnMenu.FlatAppearance.BorderSize = 0;
             btnMenu.FlatStyle = FlatStyle.Flat;
             btnMenu.ForeColor = Color.White;
-            btnMenu.Image = Properties.Resources.menu;
-            btnMenu.Location = new Point(0, 0);
+            btnMenu.Image = Properties.Resources.doble_flecha_izq;
+            btnMenu.Location = new Point(235, 0);
             btnMenu.Name = "btnMenu";
-            btnMenu.Size = new Size(44, 37);
+            btnMenu.Size = new Size(30, 50);
             btnMenu.TabIndex = 0;
             btnMenu.TextColor = Color.White;
             btnMenu.UseVisualStyleBackColor = false;
@@ -371,6 +417,16 @@
             // timerMenu
             // 
             timerMenu.Tick += timerMenu_Tick;
+            // 
+            // lblUserContraido
+            // 
+            lblUserContraido.AutoSize = true;
+            lblUserContraido.Font = new Font("Segoe UI", 9F);
+            lblUserContraido.Location = new Point(45, 24);
+            lblUserContraido.Name = "lblUserContraido";
+            lblUserContraido.Size = new Size(10, 15);
+            lblUserContraido.TabIndex = 4;
+            lblUserContraido.Text = ".";
             // 
             // MenuPrincipal
             // 
@@ -382,11 +438,13 @@
             Controls.Add(panelMenu);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MenuPrincipal";
+            Text = "LEGALIA";
             WindowState = FormWindowState.Maximized;
             FormClosing += MenuPrincipal_FormClosing_1;
             Load += MenuPrincipal_Load;
             ResizeEnd += MenuPrincipal_ResizeEnd;
             panelDatosUsuarioContraido.ResumeLayout(false);
+            panelDatosUsuarioContraido.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxUserContraido).EndInit();
             panelDatosUsuarioExpandido.ResumeLayout(false);
             panelDatosUsuarioExpandido.PerformLayout();
@@ -395,6 +453,9 @@
             panelMenu.ResumeLayout(false);
             panelTreeView.ResumeLayout(false);
             panelColapsarMenu.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogoBPA).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogoLegalia).EndInit();
             ResumeLayout(false);
         }
 
@@ -418,5 +479,9 @@
         private PictureBox pictureBoxUserContraido;
         private ToolTip toolTip1;
         public ImageList imageList1;
+        private PictureBox pictureBoxLogoLegalia;
+        private PictureBox pictureBoxLogoBPA;
+        private Panel panel1;
+        private Label lblUserContraido;
     }
 }

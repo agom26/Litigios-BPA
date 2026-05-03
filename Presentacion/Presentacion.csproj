@@ -6,7 +6,31 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>huella-dactilar.ico</ApplicationIcon>
+    <SignAssembly>True</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <Company>Sitios En Red</Company>
+    <StartupObject>Presentacion.Program</StartupObject>
+    <AssemblyName>LEGALIA</AssemblyName>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <AssemblyOriginatorKeyFile>C:\Users\LENOVO\source\repos\PIMARK\PIMARK_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <Version>1.0.0</Version>
+    <PackageIcon>huella-dactilar.png</PackageIcon>
+    <PackageOutputPath>D:\</PackageOutputPath>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="huella-dactilar.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\huella-dactilar.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.105.0" />

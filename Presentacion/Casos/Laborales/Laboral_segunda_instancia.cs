@@ -503,16 +503,21 @@ namespace Presentacion.Casos.Laborales
 
         private async Task CargarCasos()
         {
-
+            if (this.IsDisposed || !this.IsHandleCreated) return;
             int idUsuario = UserSession.Id;
             string filtro = txtBuscar.Text;
             var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, filtro);
+            if (this.IsDisposed || !this.IsHandleCreated) return;
 
             if (response.success)
             {
                 // Asignar los datos al BindingSource
                 bsTercerosInteresados.DataSource = response.data;
-                dtgCasosLaborales.Refresh();
+                if (!this.IsDisposed && dtgCasosLaborales.IsHandleCreated)
+                {
+                    dtgCasosLaborales.Refresh();
+                }
+
                 // Actualizar paginación
                 totalRegistros = response.total;
                 labelTotal.Text = $"Total de casos laborales: {totalRegistros}";
@@ -520,7 +525,10 @@ namespace Presentacion.Casos.Laborales
             }
             else
             {
-                MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!this.IsDisposed)
+                {
+                    MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

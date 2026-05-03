@@ -193,6 +193,26 @@ namespace Presentacion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap doble_flecha_derecha {
+            get {
+                object obj = ResourceManager.GetObject("doble_flecha_derecha", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap doble_flecha_izq {
+            get {
+                object obj = ResourceManager.GetObject("doble_flecha_izq", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap documento {
             get {
                 object obj = ResourceManager.GetObject("documento", resourceCulture);
@@ -333,9 +353,29 @@ namespace Presentacion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap logobpa1 {
+            get {
+                object obj = ResourceManager.GetObject("logobpa1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap logoBPA2 {
             get {
                 object obj = ResourceManager.GetObject("logoBPA2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logoBPA3 {
+            get {
+                object obj = ResourceManager.GetObject("logoBPA3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
