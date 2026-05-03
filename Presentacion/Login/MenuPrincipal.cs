@@ -62,7 +62,7 @@ namespace Presentacion
 
             treeView1.DrawNode += treeView1_DrawNode; // Evento para dibujar nodos personalizados
 
-
+            panelBotonesPrincipales.Visible = false; // Inicia oculto, se muestra solo en modo contraído
             panelDatosUsuarioExpandido.Visible = true;
             panelDatosUsuarioContraido.Visible = false;
             lblUserContraido.Text = UserSession.Usuario;
@@ -70,6 +70,7 @@ namespace Presentacion
                 $"Usuario: {UserSession.Usuario}\n" +
                 $"Nombre: {UserSession.Nombres} {UserSession.Apellidos}");
         }
+
 
         private Form activeForm = null;
         public void openChildForm(Form childForm)
@@ -201,7 +202,7 @@ namespace Presentacion
                         sumario.Nodes.Add(CrearNodo("Primer Instancia", "civil"));
                         sumario.Nodes.Add(CrearNodo("Segunda Instancia", "civil"));
 
-                        TreeNode oral = CrearNodo("Juicio oral", "civil");
+                        TreeNode oral = CrearNodo("Juicio Oral", "civil");
                         oral.Nodes.Add(CrearNodo("Primer Instancia", "civil"));
                         oral.Nodes.Add(CrearNodo("Recursos contra resoluciones", "civil"));
                         oral.Nodes.Add(CrearNodo("Segunda Instancia", "civil"));
@@ -281,7 +282,29 @@ namespace Presentacion
             AjustarAnchoTreeView();
             if (this.IsDisposed) return;
 
+
+
+
             await AbrirFormularioConLoaderAsync(new FrmDashboard());
+            rDropDownMenuCivil.IsMainMenu = false;
+            rDropDownMenuCivil.PrimaryColor = Color.FromArgb(214, 205, 188);
+            rDropDownMenuCivil.MenuItemTextColor = Color.Black;
+
+            rDropDownMenuLaboral2.IsMainMenu = false;
+            rDropDownMenuLaboral2.PrimaryColor = Color.FromArgb(214, 205, 188);
+            rDropDownMenuLaboral2.MenuItemTextColor = Color.Black;
+
+            // 🔥 FORZAR que se actualice
+            rDropDownMenuCivil.Renderer = new MenuRenderer(
+                rDropDownMenuCivil.IsMainMenu,
+                Color.FromArgb(214, 205, 188),
+                Color.Black
+            );
+            rDropDownMenuLaboral2.Renderer = new MenuRenderer(
+                rDropDownMenuLaboral2.IsMainMenu,
+                Color.FromArgb(214, 205, 188),
+                Color.Black
+            );
         }
 
         private async void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -357,7 +380,7 @@ namespace Presentacion
                     && nodo.Parent.Text == "Juicio Sumario"
                     && nodo.Parent.Parent.Text == "Civil")
                 {
-                    await AbrirFormularioConLoaderAsync(new Presentacion.Casos.Civiles.Juicio_Sumario.Civil_segunda_instancia());
+                    await AbrirFormularioConLoaderAsync(new Casos.Civiles.Juicio_Sumario.Civil_segunda_instancia());
                 }
                 else if (nodo.Text == "Vía de Apremio"
                     && nodo.Parent != null
@@ -381,12 +404,12 @@ namespace Presentacion
                     && nodo.Parent.Text == "Proceso de ejecución"
                     && nodo.Parent.Parent.Text == "Civil")
                 {
-                    await AbrirFormularioConLoaderAsync(new Presentacion.Casos.Civiles.Proceso_ejecucion.Civil_segunda_instancia());
+                    await AbrirFormularioConLoaderAsync(new Casos.Civiles.Proceso_ejecucion.Civil_segunda_instancia());
                 }
                 else if (nodo.Text == "Primer Instancia"
                     && nodo.Parent != null
                     && nodo.Parent.Parent != null
-                    && nodo.Parent.Text == "Juicio oral"
+                    && nodo.Parent.Text == "Juicio Oral"
                     && nodo.Parent.Parent.Text == "Civil")
                 {
                     await AbrirFormularioConLoaderAsync(new Civil_oral_primer_instancia());
@@ -394,7 +417,7 @@ namespace Presentacion
                 else if (nodo.Text == "Recursos contra resoluciones"
                     && nodo.Parent != null
                     && nodo.Parent.Parent != null
-                    && nodo.Parent.Text == "Juicio oral"
+                    && nodo.Parent.Text == "Juicio Oral"
                     && nodo.Parent.Parent.Text == "Civil")
                 {
                     await AbrirFormularioConLoaderAsync(new Civil_primer_instancia_recursos_resolucion());
@@ -402,7 +425,7 @@ namespace Presentacion
                 else if (nodo.Text == "Segunda Instancia"
                     && nodo.Parent != null
                     && nodo.Parent.Parent != null
-                    && nodo.Parent.Text == "Juicio oral"
+                    && nodo.Parent.Text == "Juicio Oral"
                     && nodo.Parent.Parent.Text == "Civil")
                 {
                     await AbrirFormularioConLoaderAsync(new Civil_oral_segunda_instancia());
@@ -542,6 +565,7 @@ namespace Presentacion
             panelMenu.Visible = false;
             btnMenu.Image = Properties.Resources.doble_flecha_derecha;
             panelMenu.SuspendLayout();
+            panelBotonesPrincipales.SuspendLayout();
             panelTreeView.SuspendLayout();
             panelDatosUsuarioExpandido.SuspendLayout();
             panelDatosUsuarioContraido.SuspendLayout();
@@ -549,6 +573,7 @@ namespace Presentacion
             panelMenu.Width = 140;
 
             // Panels visibles
+            panelBotonesPrincipales.Visible = true; // 👈 nuevo panel con íconos
             panelTreeView.Visible = false;
             panelDatosUsuarioExpandido.Visible = false;
             panelDatosUsuarioContraido.Visible = true;
@@ -569,6 +594,10 @@ namespace Presentacion
 
             panelColapsarMenu.Visible = true;
             panelMenu.Controls.SetChildIndex(panelColapsarMenu, 0);
+            panelMenu.Controls.SetChildIndex(panelBotonesPrincipales, 1);
+
+            panelColapsarMenu.SendToBack();
+
             // Reanudar layouts
             panelDatosUsuarioContraido.ResumeLayout(true);
             panelDatosUsuarioExpandido.ResumeLayout(true);
@@ -594,6 +623,7 @@ namespace Presentacion
             panelMenu.Width = 250;
 
             // Panels visibles
+            panelBotonesPrincipales.Visible = false;
             panelTreeView.Visible = true;
             panelDatosUsuarioExpandido.Visible = true;
             panelColapsarMenu.Visible = true;
@@ -732,6 +762,253 @@ namespace Presentacion
         private void treeView1_MouseLeave(object sender, EventArgs e)
         {
             treeView1.SelectedNode = null;
+        }
+
+        private void btnLaboral_MouseEnter(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void primerInstanciaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Laboral_primer_instancia());
+        }
+
+        private async void recursosContraResolucionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Laboral_primer_instancia_recursos_resolucion());
+        }
+
+        private async void segundaInstanciaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Laboral_segunda_instancia());
+        }
+
+        private async void terminadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Laboral_terminados());
+        }
+
+        private async void víaDeApremioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_via_apremio());
+        }
+
+        private async void comúnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_comun());
+        }
+
+        private async void segundaInstanciaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Casos.Civiles.Proceso_ejecucion.Civil_segunda_instancia());
+        }
+
+        private async void primerInstanciaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_primer_instancia());
+        }
+
+        private async void segundaInstanciaToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Casos.Civiles.Juicio_Sumario.Civil_segunda_instancia());
+        }
+
+        private async void primerInstanciaToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_oral_primer_instancia());
+        }
+
+        private async void recursosContraResolucionesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_primer_instancia_recursos_resolucion());
+        }
+
+        private async void segundaInstanciaToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_oral_segunda_instancia());
+        }
+
+        private async void terToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_Terminados2());
+        }
+
+        private void btnCivil_MouseEnter(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+        private void panelMenu_MouseLeave(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCivil_Click(object sender, EventArgs e)
+        {
+            rDropDownMenuCivil.Show(btnCivil, btnCivil.Width, 0);
+        }
+
+        private void btnLaboral_Click(object sender, EventArgs e)
+        {
+
+            var location = btnLaboral.PointToScreen(new Point(btnLaboral.Width, 0));
+            rDropDownMenuLaboral2.Show(location);
+        }
+
+        private async void segundaInstanicaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Laboral_segunda_instancia());
+
+        }
+
+        private async void primerInstanciaToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Laboral_primer_instancia());
+        }
+
+        private async void recursosContraResolucionesToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Laboral_primer_instancia_recursos_resolucion());
+        }
+
+        private async void víaDeApremioToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_via_apremio());
+        }
+
+        private async void comúnToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_comun());
+        }
+
+        private async void segundaInstanciaToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Presentacion.Casos.Civiles.Proceso_ejecucion.Civil_segunda_instancia());
+        }
+
+        private async void primerInstanciaToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_primer_instancia());
+        }
+
+        private async void segundaInstanciaToolStripMenuItem2_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Presentacion.Casos.Civiles.Juicio_Sumario.Civil_segunda_instancia());
+        }
+
+        private async void primerInstanciaToolStripMenuItem2_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_oral_primer_instancia());
+        }
+
+        private async void recursosContraResolucionesToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_primer_instancia_recursos_resolucion());
+        }
+
+        private async void segundaInstanciaToolStripMenuItem3_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_oral_segunda_instancia());
+        }
+        private async void terToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Civil_Terminados2());
+        }
+
+        private async void amparoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Constitucional_amparo());
+        }
+
+        private async void terminadosToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Constitucional_Terminado());
+        }
+
+        private async void generalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Contencioso_General_PI());
+        }
+
+        private async void tributarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Contencioso_Tributario_PI());
+        }
+
+        private async void recursoDeCasaciónToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Contencioso_RecursoCasacion());
+        }
+
+        private async void terminadosToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Contencioso_Terminado());
+        }
+
+        private async void demandadosAutoridadImpugnadaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Demandados());
+        }
+
+        private async void demandantesSolicitantesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Demandantes());
+        }
+
+        private async void tercerosInteresadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new TercerosInteresados());
+        }
+
+        private async void contactosDeEmpresaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new ContactoEmpresa());
+        }
+
+        private void btnConstitucional_Click(object sender, EventArgs e)
+        {
+            var location = btnConstitucional.PointToScreen(new Point(btnConstitucional.Width, 0));
+            rDropDownMenuConstitucional.Show(location);
+        }
+
+        private void btnContenciosoAdministrativo_Click(object sender, EventArgs e)
+        {
+            var location = btnContenciosoAdministrativo.PointToScreen(new Point(btnContenciosoAdministrativo.Width, 0));
+            rDropDownMenuContencioso.Show(location);
+        }
+
+        private void btnParticipantes_Click(object sender, EventArgs e)
+        {
+            var location = btnParticipantes.PointToScreen(new Point(btnParticipantes.Width, 0));
+            rDropDownMenuPersonas.Show(location);
+        }
+
+        private async void btnVencimientos_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new FrmAlertas());
+        }
+
+        private async void btnPlazos_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new FrmPlazos());
+        }
+
+        private async void btnUsuarios_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new Usuarios());
+        }
+
+        private async void btnReportes_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new FrmReportes());
+        }
+
+        private async void btnInicio_Click(object sender, EventArgs e)
+        {
+            await AbrirFormularioConLoaderAsync(new FrmDashboard());
         }
     }
 }

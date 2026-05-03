@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Sitios En Red")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec7cbddb2b08d462bb01005ef8f65aa74d4e4dad")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cdb3b1a90f3d8eb761285aa711f0c2b7c2ea6878")]
 [assembly: System.Reflection.AssemblyProductAttribute("LEGALIA")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LEGALIA")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0")]

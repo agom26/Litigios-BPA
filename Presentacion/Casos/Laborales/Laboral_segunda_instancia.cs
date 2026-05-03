@@ -503,11 +503,11 @@ namespace Presentacion.Casos.Laborales
 
         private async Task CargarCasos()
         {
-            if (this.IsDisposed || !this.IsHandleCreated) return;
+            if (this.IsDisposed) return;
             int idUsuario = UserSession.Id;
             string filtro = txtBuscar.Text;
             var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, filtro);
-            if (this.IsDisposed || !this.IsHandleCreated) return;
+            if (this.IsDisposed) return;
 
             if (response.success)
             {

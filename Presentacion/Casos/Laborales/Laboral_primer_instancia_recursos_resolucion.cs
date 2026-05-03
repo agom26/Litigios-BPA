@@ -539,11 +539,11 @@ namespace Presentacion.Casos.Laborales
 
         private async Task CargarCasosNoDefinitivas()
         {
-            if (this.IsDisposed || !this.IsHandleCreated) return;
+            if (this.IsDisposed) return;
             int idUsuario = UserSession.Id;
             string filtro = txtBuscarNoDefinitivas.Text;
             var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, "no_definitiva", filtro);
-            if (this.IsDisposed || !this.IsHandleCreated) return;
+            if (this.IsDisposed) return;
             if (response.success)
             {
                 // Asignar los datos al BindingSource
@@ -568,11 +568,11 @@ namespace Presentacion.Casos.Laborales
 
         private async Task CargarCasosFinJuicio()
         {
-            if (this.IsDisposed || !this.IsHandleCreated) return;
+            if (this.IsDisposed) return;
             int idUsuario = UserSession.Id;
             string filtro = txtBuscarFinJuicio.Text;
             var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, "fin_juicio", filtro);
-            if (this.IsDisposed || !this.IsHandleCreated) return;
+            if (this.IsDisposed) return;
             if (response.success)
             {
                 // Asignar los datos al BindingSource
