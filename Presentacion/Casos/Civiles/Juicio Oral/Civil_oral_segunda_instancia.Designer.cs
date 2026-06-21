@@ -145,6 +145,8 @@
             roundedButton22 = new Presentacion.Clases.RoundedButton();
             roundedButton26 = new Presentacion.Clases.RoundedButton();
             panelInformacionPersonal = new Panel();
+            checkBoxSalasFamilia = new CheckBox();
+            checkBoxSalasCiviles = new CheckBox();
             comboBoxJuzgado = new ComboBox();
             comboboxNotificador = new ComboBox();
             comboboxOficial = new ComboBox();
@@ -1617,7 +1619,7 @@
             panel3.Controls.Add(roundedButton26);
             panel3.Location = new Point(55, 340);
             panel3.Name = "panel3";
-            panel3.Size = new Size(557, 287);
+            panel3.Size = new Size(669, 287);
             panel3.TabIndex = 9;
             // 
             // btnAgregarEstado
@@ -1690,7 +1692,7 @@
             txtObservaciones.PlaceholderText = "...";
             txtObservaciones.ReadOnly = true;
             txtObservaciones.ScrollBars = ScrollBars.Vertical;
-            txtObservaciones.Size = new Size(488, 118);
+            txtObservaciones.Size = new Size(600, 118);
             txtObservaciones.TabIndex = 10;
             // 
             // roundedButton23
@@ -1708,7 +1710,7 @@
             roundedButton23.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton23.Location = new Point(23, 135);
             roundedButton23.Name = "roundedButton23";
-            roundedButton23.Size = new Size(512, 139);
+            roundedButton23.Size = new Size(624, 139);
             roundedButton23.TabIndex = 11;
             roundedButton23.TextColor = Color.White;
             roundedButton23.UseVisualStyleBackColor = false;
@@ -1749,7 +1751,7 @@
             roundedButton22.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton22.Location = new Point(0, 0);
             roundedButton22.Name = "roundedButton22";
-            roundedButton22.Size = new Size(557, 43);
+            roundedButton22.Size = new Size(669, 43);
             roundedButton22.TabIndex = 4;
             roundedButton22.Text = "Estado y Observaciones";
             roundedButton22.TextAlign = ContentAlignment.MiddleLeft;
@@ -1771,7 +1773,7 @@
             roundedButton26.ForeColor = Color.White;
             roundedButton26.Location = new Point(0, 45);
             roundedButton26.Name = "roundedButton26";
-            roundedButton26.Size = new Size(557, 242);
+            roundedButton26.Size = new Size(669, 242);
             roundedButton26.TabIndex = 2;
             roundedButton26.TextColor = Color.White;
             roundedButton26.UseVisualStyleBackColor = false;
@@ -1780,6 +1782,8 @@
             // 
             panelInformacionPersonal.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelInformacionPersonal.BackColor = Color.FromArgb(250, 249, 246);
+            panelInformacionPersonal.Controls.Add(checkBoxSalasFamilia);
+            panelInformacionPersonal.Controls.Add(checkBoxSalasCiviles);
             panelInformacionPersonal.Controls.Add(comboBoxJuzgado);
             panelInformacionPersonal.Controls.Add(comboboxNotificador);
             panelInformacionPersonal.Controls.Add(comboboxOficial);
@@ -1796,8 +1800,34 @@
             panelInformacionPersonal.Controls.Add(roundedButton9);
             panelInformacionPersonal.Location = new Point(55, 71);
             panelInformacionPersonal.Name = "panelInformacionPersonal";
-            panelInformacionPersonal.Size = new Size(557, 250);
+            panelInformacionPersonal.Size = new Size(669, 250);
             panelInformacionPersonal.TabIndex = 3;
+            // 
+            // checkBoxSalasFamilia
+            // 
+            checkBoxSalasFamilia.AutoSize = true;
+            checkBoxSalasFamilia.BackColor = Color.White;
+            checkBoxSalasFamilia.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            checkBoxSalasFamilia.Location = new Point(144, 211);
+            checkBoxSalasFamilia.Name = "checkBoxSalasFamilia";
+            checkBoxSalasFamilia.Size = new Size(122, 21);
+            checkBoxSalasFamilia.TabIndex = 30;
+            checkBoxSalasFamilia.Text = "Salas de Familia";
+            checkBoxSalasFamilia.UseVisualStyleBackColor = false;
+            checkBoxSalasFamilia.CheckedChanged += checkBoxSalasFamilia_CheckedChanged;
+            // 
+            // checkBoxSalasCiviles
+            // 
+            checkBoxSalasCiviles.AutoSize = true;
+            checkBoxSalasCiviles.BackColor = Color.White;
+            checkBoxSalasCiviles.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            checkBoxSalasCiviles.Location = new Point(144, 184);
+            checkBoxSalasCiviles.Name = "checkBoxSalasCiviles";
+            checkBoxSalasCiviles.Size = new Size(98, 21);
+            checkBoxSalasCiviles.TabIndex = 29;
+            checkBoxSalasCiviles.Text = "Salas Civiles";
+            checkBoxSalasCiviles.UseVisualStyleBackColor = false;
+            checkBoxSalasCiviles.CheckedChanged += checkBoxSalasCiviles_CheckedChanged;
             // 
             // comboBoxJuzgado
             // 
@@ -1805,9 +1835,9 @@
             comboBoxJuzgado.Font = new Font("Segoe UI", 9.25F);
             comboBoxJuzgado.FormattingEnabled = true;
             comboBoxJuzgado.Items.AddRange(new object[] { "1º", "2º", "3º", "4º", "5º", "6º", "7º", "8º", "9º", "10º", "A", "B", "C", "D", "E", "F", "G", "H" });
-            comboBoxJuzgado.Location = new Point(529, 188);
+            comboBoxJuzgado.Location = new Point(284, 205);
             comboBoxJuzgado.Name = "comboBoxJuzgado";
-            comboBoxJuzgado.Size = new Size(65, 23);
+            comboBoxJuzgado.Size = new Size(313, 23);
             comboBoxJuzgado.TabIndex = 5;
             // 
             // comboboxNotificador
@@ -1816,7 +1846,7 @@
             comboboxNotificador.Font = new Font("Segoe UI", 9.25F);
             comboboxNotificador.FormattingEnabled = true;
             comboboxNotificador.Items.AddRange(new object[] { "1º", "2º", "3º", "4º", "5º", "6º", "7º", "8º", "9º", "10º" });
-            comboboxNotificador.Location = new Point(347, 189);
+            comboboxNotificador.Location = new Point(345, 153);
             comboboxNotificador.Name = "comboboxNotificador";
             comboboxNotificador.Size = new Size(65, 23);
             comboboxNotificador.TabIndex = 4;
@@ -1827,7 +1857,7 @@
             comboboxOficial.Font = new Font("Segoe UI", 9.25F);
             comboboxOficial.FormattingEnabled = true;
             comboboxOficial.Items.AddRange(new object[] { "1º", "2º", "3º", "4º", "5º", "6º", "7º", "8º", "9º", "10º" });
-            comboboxOficial.Location = new Point(128, 188);
+            comboboxOficial.Location = new Point(133, 149);
             comboboxOficial.Name = "comboboxOficial";
             comboboxOficial.Size = new Size(65, 23);
             comboboxOficial.TabIndex = 3;
@@ -1837,7 +1867,7 @@
             label9.AutoSize = true;
             label9.BackColor = Color.White;
             label9.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label9.Location = new Point(245, 189);
+            label9.Location = new Point(243, 153);
             label9.Name = "label9";
             label9.Size = new Size(96, 19);
             label9.TabIndex = 23;
@@ -1899,11 +1929,11 @@
             lblApellido.AutoSize = true;
             lblApellido.BackColor = Color.White;
             lblApellido.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblApellido.Location = new Point(448, 188);
+            lblApellido.Location = new Point(59, 209);
             lblApellido.Name = "lblApellido";
-            lblApellido.Size = new Size(75, 19);
+            lblApellido.Size = new Size(47, 19);
             lblApellido.TabIndex = 5;
-            lblApellido.Text = "Juzgado *";
+            lblApellido.Text = "Sala *";
             // 
             // txtExpediente
             // 
@@ -1920,7 +1950,7 @@
             label2.AutoSize = true;
             label2.BackColor = Color.White;
             label2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label2.Location = new Point(60, 188);
+            label2.Location = new Point(65, 149);
             label2.Name = "label2";
             label2.Size = new Size(62, 19);
             label2.TabIndex = 7;
@@ -1959,7 +1989,7 @@
             roundedButton2.ForeColor = Color.White;
             roundedButton2.Location = new Point(0, 43);
             roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(557, 207);
+            roundedButton2.Size = new Size(669, 207);
             roundedButton2.TabIndex = 2;
             roundedButton2.TextColor = Color.White;
             roundedButton2.UseVisualStyleBackColor = false;
@@ -1980,7 +2010,7 @@
             roundedButton9.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton9.Location = new Point(0, 0);
             roundedButton9.Name = "roundedButton9";
-            roundedButton9.Size = new Size(557, 43);
+            roundedButton9.Size = new Size(669, 43);
             roundedButton9.TabIndex = 4;
             roundedButton9.Text = "Datos Generales";
             roundedButton9.TextAlign = ContentAlignment.MiddleLeft;
@@ -2003,7 +2033,7 @@
             panelBotones.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelBotones.Location = new Point(0, 2125);
             panelBotones.Name = "panelBotones";
-            panelBotones.Size = new Size(610, 48);
+            panelBotones.Size = new Size(602, 48);
             panelBotones.TabIndex = 20;
             // 
             // tabPageHistorial
@@ -2947,5 +2977,7 @@
         private TextBox txtOrigenHistorial;
         private TextBox txtUsuarioEditorHistorial;
         private TextBox txtUsuarioCreadorHistorial;
+        private CheckBox checkBoxSalasFamilia;
+        private CheckBox checkBoxSalasCiviles;
     }
 }

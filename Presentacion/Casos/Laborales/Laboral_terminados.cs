@@ -1930,9 +1930,10 @@ namespace Presentacion.Casos.Laborales
                 Observaciones = EstadoLaboral.observaciones ?? txtObservaciones.Text,
 
                 Fecha = (EstadoLaboral.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
+
                 FechaVencimiento = EstadoLaboral.fechaVencimiento.HasValue
-                        ? EstadoLaboral.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                ? EstadoLaboral.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                : null,
                 Origen = ultimoOrigenHistorial,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),

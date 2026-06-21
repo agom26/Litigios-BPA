@@ -2513,7 +2513,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 Fecha = (EstadoConstitucional.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
                 FechaVencimiento = EstadoConstitucional.fechaVencimiento.HasValue
                         ? EstadoConstitucional.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                        : null,
 
                 Solicitantes = listaDemandantes.Select(x => x.id).ToList(),
                 AutoridadesImpugnadas = listaDemandados.Select(x => x.id).ToList(),

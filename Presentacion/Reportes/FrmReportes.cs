@@ -1053,7 +1053,7 @@ namespace Presentacion.Reportes
             // Encabezados bonitos
             RenombrarColumna("expediente", "Expediente");
             RenombrarColumna("nombre_particular", "Nombre particular");
-            RenombrarColumna("tipo_instancia", "Tipo instancia");
+            //RenombrarColumna("tipo_instancia", "Tipo instancia");
             RenombrarColumna("organo_judicial", "Organo judicial");
             RenombrarColumna("oficial", "Oficial");
             RenombrarColumna("notificador", "Notificador");
@@ -1062,7 +1062,7 @@ namespace Presentacion.Reportes
             RenombrarColumna("motivo_casacion", "Motivo de casacion");
             RenombrarColumna("rama", "Rama");
             RenombrarColumna("estado_actual", "Estado actual");
-            RenombrarColumna("origen_actual", "Origen actual");
+            RenombrarColumna("origen_actual", "Tipo instancia");
             RenombrarColumna("abogados_directores", "Abogados directores");
             RenombrarColumna("socios_responsables", "Socios responsables");
             RenombrarColumna("abogados_asistentes", "Abogados asistentes");

@@ -1930,7 +1930,7 @@ namespace Presentacion.Casos.Contenciosos
                 Fecha = (EstadoContencioso.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
                 FechaVencimiento = EstadoContencioso.fechaVencimiento.HasValue
                         ? EstadoContencioso.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                        : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -1971,7 +1971,7 @@ namespace Presentacion.Casos.Contenciosos
                     Fecha = (EstadoContencioso.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
                     FechaVencimiento = EstadoContencioso.fechaVencimiento.HasValue
                         ? EstadoContencioso.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                        : null,
                 };
             }
             
@@ -2607,7 +2607,7 @@ namespace Presentacion.Casos.Contenciosos
                 Fecha = fechaEstado.ToString("yyyy-MM-dd HH:mm:ss"),
                 FechaVencimiento = fechaVencimiento.HasValue
                     ? fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                    : "",
+                    : null,
                 Estado = comboboxEstado.Text.Trim(),
                 Anotaciones = txtObservacionesHistorial.Text.Trim()
             };

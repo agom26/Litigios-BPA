@@ -12,7 +12,7 @@ namespace Comun.Models.Casos.Contenciosos
         public int CasoId { get; set; }
         public int UsuarioId { get; set; }
         public string Fecha { get; set; }
-        public string FechaVencimiento { get; set; }
+        public string? FechaVencimiento { get; set; }
         public string Estado { get; set; }
         public string Anotaciones { get; set; }
     }

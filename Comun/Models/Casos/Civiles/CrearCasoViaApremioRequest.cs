@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Comun.Models.Casos.Laborales;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 namespace Comun.Models.Casos.Civiles
 {
     public class CrearCasoViaApremioRequest
@@ -28,7 +29,6 @@ namespace Comun.Models.Casos.Civiles
         public List<int>? Demandados { get; set; }
         public List<int>? TercerosInteresados { get; set; }
         public List<int>? ContactosEmpresa { get; set; }
-
         public List<int>? AbogadosDirectores { get; set; }
         public List<int>? SociosResponsables { get; set; }
         public List<int>? AbogadosAsistentes { get; set; }

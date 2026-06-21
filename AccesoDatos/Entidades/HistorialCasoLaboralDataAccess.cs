@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
@@ -12,9 +13,32 @@ namespace AccesoDatos.Entidades
 {
     public class HistorialCasoLaboralDataAccess
     {
-        private readonly string _apiUrl = "http://bpa.com.es/peticiones-litigios/historial_caso_laboral.php";
+        private readonly string _apiUrl = "https://bpa.com.es/peticiones-litigios/historial_caso_laboral.php";
         // Recomendado: reutilizar HttpClient (no crearlo en cada método)
-        private static readonly HttpClient _http = new HttpClient();
+        private static readonly HttpClient _http = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(60)
+        };
+        private async Task<HttpResponseMessage> PostFormAsync(
+            string url,
+            HttpContent content,
+            CancellationToken token = default)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = content,
+                Version = HttpVersion.Version11,
+                VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
+            };
+
+            request.Headers.ConnectionClose = true;
+
+            return await _http.SendAsync(
+                request,
+                HttpCompletionOption.ResponseContentRead,
+                token
+            );
+        }
         public async Task<ApiResponseHistorialCasoLaboral> ListarHistorialCasoLaboral(int casoId)
         {
             var parameters = new Dictionary<string, string>
@@ -27,8 +51,17 @@ namespace AccesoDatos.Entidades
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseHistorialCasoLaboral
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseHistorialCasoLaboral>(jsonResult)
                        ?? new ApiResponseHistorialCasoLaboral { success = false, message = "Respuesta vacía o inválida." };
@@ -38,7 +71,8 @@ namespace AccesoDatos.Entidades
                 return new ApiResponseHistorialCasoLaboral
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -61,8 +95,17 @@ namespace AccesoDatos.Entidades
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
                        ?? new ApiResponse<object>
@@ -76,7 +119,8 @@ namespace AccesoDatos.Entidades
                 return new ApiResponse<object>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -94,8 +138,17 @@ namespace AccesoDatos.Entidades
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
                        ?? new ApiResponse<object> { success = false, message = "Respuesta vacía o inválida." };
@@ -105,34 +158,44 @@ namespace AccesoDatos.Entidades
                 return new ApiResponse<object>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
 
         public async Task<ApiResponse<object>> TerminarCasoLaboral(
-        int casoId,
-        int usuarioId,
-        string fecha,
-        string anotaciones,
-        string origen)
+            int casoId,
+            int usuarioId,
+            string fecha,
+            string anotaciones,
+            string origen)
         {
             var parameters = new Dictionary<string, string>
             {
                 { "action", "terminar_caso_laboral" },
                 { "caso_id", casoId.ToString() },
                 { "usuario_id", usuarioId.ToString() },
-                { "fecha", fecha }, // formato: yyyy-MM-dd HH:mm:ss
+                { "fecha", fecha ?? "" },
                 { "anotaciones", anotaciones ?? "" },
-                { "origen", origen }
+                { "origen", origen ?? "" }
             };
 
             using var content = new FormUrlEncodedContent(parameters);
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
                        ?? new ApiResponse<object>
@@ -146,7 +209,8 @@ namespace AccesoDatos.Entidades
                 return new ApiResponse<object>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }

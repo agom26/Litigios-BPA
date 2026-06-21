@@ -54,7 +54,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
         = new BindingList<UserListDataResponse>();
         private BindingList<UserListDataResponse> listaAbogadosAsistentes
         = new BindingList<UserListDataResponse>();
-        private bool isAdminCivil= false;
+        private bool isAdminCivil = false;
         private bool isLectorCivil = false;
         UserModel userModel = new UserModel();
 
@@ -228,7 +228,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
             var data = resp.data;
 
             // 1) Inputs principales del caso
-            
+
             if (data != null)
             {
                 txtExpediente.Text = data.caso.expediente ?? "";
@@ -376,7 +376,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            
+
 
             if (isAdminCivil == true)
             {
@@ -444,7 +444,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            
+
 
             if (isAdminCivil == true)
             {
@@ -967,7 +967,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                 : null,
                 FechaVencimiento = EstadoCivil.fechaVencimiento.HasValue
                 ? EstadoCivil.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                : "",
+                : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -1116,7 +1116,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                         }
                     }
                 }
-                
+
             }
 
             if (dtgCasosCiviles.Columns[e.ColumnIndex].Name == "Editar")
@@ -1813,7 +1813,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                 Fecha = (EstadoCivil.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
                 FechaVencimiento = EstadoCivil.fechaVencimiento.HasValue
                         ? EstadoCivil.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                        : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -1986,7 +1986,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
                     dtg.Columns.Add(btnEliminar);
                 }
             }
-            
+
             // mover al final (en orden)
             dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
             dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2;
@@ -2253,7 +2253,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
 
                     MessageBox.Show($"Se subieron {response.data?.Count ?? 0} archivo(s) correctamente.",
                         "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -2287,11 +2287,11 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
             var colName = grid.Columns[e.ColumnIndex].Name;
             var item = grid.Rows[e.RowIndex].DataBoundItem as HistorialCasoCivilDetalle;
             if (item == null) return;
-            
+
             // EDITAR
             if (colName == "Editar")
             {
-                
+
                 CargarDatosHistorialEnTab(item);
 
                 AnadirTabPage(tabPageEditarHistorial);
@@ -2559,6 +2559,54 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
         private void dateTimePickerHoraVencimiento_ValueChanged(object sender, EventArgs e)
         {
             ActualizarObservacionEditarHistorial();
+        }
+
+        private void checkBoxSalasCiviles_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxDePaz.Checked)
+            {
+                checkBoxPluripersonales.Checked = false; // opcional (para que no choquen)
+
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+            "Juzgado Primero De Paz Civil Guatemala",
+            "Juzgado Segundo De Paz Civil Guatemala",
+            "Juzgado Tercero De Paz Civil Guatemala",
+            "Juzgado Cuarto De Paz Civil Guatemala",
+            "Juzgado Sexto De Paz Civil Guatemala",
+            "Juzgado Séptimo De Paz Civil Guatemala",
+            "Juzgado Octavo De Paz Civil Guatemala"
+                });
+            }
+        }
+
+        private void checkBoxSalasFamilia_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxPluripersonales.Checked)
+            {
+                checkBoxDePaz.Checked = false; // opcional
+
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+            "Juzgado Primero de Primera Instancia Civil",
+            "Juzgado Segundo de Primera Instancia Civil",
+            "Juzgado Tercero de Primera Instancia Civil",
+            "Juzgado Cuarto de Primera Instancia Civil",
+            "Juzgado Quinto de Primera Instancia Civil",
+            "Juzgado Sexto de Primera Instancia Civil",
+            "Juzgado Séptimo de Primera Instancia Civil",
+            "Juzgado Octavo de Primera Instancia Civil",
+            "Juzgado Noveno de Primera Instancia Civil",
+            "Juzgado Décimo de Primera Instancia Civil",
+            "Juzgado Décimo Primero de Primera Instancia Civil",
+            "Juzgado Décimo Segundo de Primera Instancia Civil",
+            "Juzgado Décimo Tercero de Primera Instancia Civil",
+            "Juzgado Décimo Cuarto de Primera Instancia Civil",
+            "Juzgado Décimo Quinto de Primera Instancia Civil"
+                });
+            }
         }
     }
 }

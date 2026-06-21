@@ -268,7 +268,6 @@
             // 
             checkBoxTieneVencimiento.AutoSize = true;
             checkBoxTieneVencimiento.BackColor = Color.White;
-            checkBoxTieneVencimiento.Enabled = false;
             checkBoxTieneVencimiento.Location = new Point(33, 12);
             checkBoxTieneVencimiento.Name = "checkBoxTieneVencimiento";
             checkBoxTieneVencimiento.Size = new Size(134, 19);

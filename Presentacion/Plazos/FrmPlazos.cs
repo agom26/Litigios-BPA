@@ -396,9 +396,11 @@ namespace Presentacion.Plazos
             comboBoxRama.SelectedIndex = 4;
             await CargarPlazos();
 
-            dtgPlazos.Columns["Editar"].Width = 40;
-
-
+            if (dtgPlazos.Columns.Contains("Editar"))
+            {
+                dtgPlazos.Columns["Editar"].Width = 40;
+            }
+            
             EliminarTabPage(Detalles);
 
         }

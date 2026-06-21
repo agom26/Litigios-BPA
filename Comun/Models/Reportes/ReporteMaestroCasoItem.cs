@@ -11,7 +11,8 @@ namespace Comun.Models.Reportes
         //public int? id { get; set; }
         public string? expediente { get; set; }
         public string? nombre_particular { get; set; }
-        public string? tipo_instancia { get; set; }
+        public string? origen_actual { get; set; }
+        //public string? tipo_instancia { get; set; }
         public string? organo_judicial { get; set; }
         public string? oficial { get; set; }
         public string? notificador { get; set; }
@@ -23,7 +24,7 @@ namespace Comun.Models.Reportes
         public string? rama { get; set; }
         //public string? rama_slug { get; set; }
         public string? estado_actual { get; set; }
-        public string? origen_actual { get; set; }
+        
         //public string? fecha_ultimo_movimiento { get; set; }
         //public string? fecha_vencimiento { get; set; }
         //public int tiene_referencia { get; set; }

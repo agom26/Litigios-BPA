@@ -225,7 +225,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
             var data = resp.data;
 
             // 1) Inputs principales del caso
-            
+
             if (data != null)
             {
                 txtExpediente.Text = data.caso.expediente ?? "";
@@ -374,7 +374,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            
+
 
             if (isAdminCivil == true)
             {
@@ -442,7 +442,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            
+
 
             if (isAdminCivil == true)
             {
@@ -675,7 +675,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtgDemandados.Columns.Add(btnQuitar);
                     dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -700,7 +700,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtgDemandantes.Columns.Add(btnQuitar);
                     dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
                 }
-               
+
             }
         }
         private void CrearBotonQuitarTerceroInteresado()
@@ -724,7 +724,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtgTercerosInteresados.Columns.Add(btnQuitar);
                     dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -749,7 +749,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtgAbogadosDirectores.Columns.Add(btnQuitar);
                     dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -774,7 +774,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtgContactoEmpresa.Columns.Add(btnQuitar);
                     dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -799,7 +799,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtgSociosResponsables.Columns.Add(btnQuitar);
                     dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -971,7 +971,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 : null,
                 FechaVencimiento = EstadoCivil.fechaVencimiento.HasValue
                 ? EstadoCivil.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                : "",
+                : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -1043,15 +1043,15 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     {
                         resultado = await casoCivilModel.EliminarCasoCivil(idCaso, UserSession.Id);
                     });
-                    
-                    if(resultado == null)
+
+                    if (resultado == null)
                     {
                         MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                     if (resultado.success)
                     {
-                        MessageBox.Show("Caso civil eliminado correctamente", "Éxito", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                        MessageBox.Show("Caso civil eliminado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         await EjecutarConLoaderAsync(async () =>
                         {
@@ -1081,10 +1081,10 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     FrmAgregarEstadoCivilTerminado frmAgregarEstado = new FrmAgregarEstadoCivilTerminado();
                     frmAgregarEstado.ShowDialog();
 
-                    if (EstadoCivil.estado != null && EstadoCivil.fechaEstado!= null)
+                    if (EstadoCivil.estado != null && EstadoCivil.fechaEstado != null)
                     {
                         var response = await historialModel.TerminarCasoCivil(
-                            casoId: idCaso, 
+                            casoId: idCaso,
                             usuarioId: UserSession.Id,
                             fecha: EstadoCivil.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                             anotaciones: EstadoCivil.observaciones,
@@ -1115,7 +1115,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
                     }
 
-                    
+
                 }
             }
 
@@ -1238,7 +1238,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 var frm = new FrmAgregarDemandante(listaDemandantes);
                 frm.Show();
             }
-            
+
         }
 
         private void AjustarLayoutPorResolucion()
@@ -1441,7 +1441,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
                     }
                 }
-                
+
             }
         }
         private void LimpiarListas()
@@ -1821,7 +1821,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 Fecha = (EstadoCivil.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
                 FechaVencimiento = EstadoCivil.fechaVencimiento.HasValue
                         ? EstadoCivil.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                        : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -1994,12 +1994,12 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     };
                     dtg.Columns.Add(btnEliminar);
                 }
-                
+
             }
 
             // mover al final (en orden)
             dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
-            dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2; 
+            dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2;
             if (!isLectorCivil)
             {
                 dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
@@ -2297,11 +2297,11 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
             var colName = grid.Columns[e.ColumnIndex].Name;
             var item = grid.Rows[e.RowIndex].DataBoundItem as HistorialCasoCivilDetalle;
             if (item == null) return;
-            
+
             // EDITAR
             if (colName == "Editar")
             {
-                
+
                 CargarDatosHistorialEnTab(item);
 
                 AnadirTabPage(tabPageEditarHistorial);
@@ -2568,6 +2568,54 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
         private void dateTimePickerHoraVencimiento_ValueChanged(object sender, EventArgs e)
         {
             ActualizarObservacionEditarHistorial();
+        }
+
+        private void checkBoxDePaz_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxDePaz.Checked)
+            {
+                checkBoxPluripersonales.Checked = false; // opcional (para que no choquen)
+
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+                    "Juzgado Primero De Paz Civil Guatemala",
+                    "Juzgado Segundo De Paz Civil Guatemala",
+                    "Juzgado Tercero De Paz Civil Guatemala",
+                    "Juzgado Cuarto De Paz Civil Guatemala",
+                    "Juzgado Sexto De Paz Civil Guatemala",
+                    "Juzgado Séptimo De Paz Civil Guatemala",
+                    "Juzgado Octavo De Paz Civil Guatemala"
+                });
+            }
+        }
+
+        private void checkBoxPluripersonales_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxPluripersonales.Checked)
+            {
+                checkBoxDePaz.Checked = false; // opcional
+
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+                    "Juzgado Primero de Primera Instancia Civil",
+                    "Juzgado Segundo de Primera Instancia Civil",
+                    "Juzgado Tercero de Primera Instancia Civil",
+                    "Juzgado Cuarto de Primera Instancia Civil",
+                    "Juzgado Quinto de Primera Instancia Civil",
+                    "Juzgado Sexto de Primera Instancia Civil",
+                    "Juzgado Séptimo de Primera Instancia Civil",
+                    "Juzgado Octavo de Primera Instancia Civil",
+                    "Juzgado Noveno de Primera Instancia Civil",
+                    "Juzgado Décimo de Primera Instancia Civil",
+                    "Juzgado Décimo Primero de Primera Instancia Civil",
+                    "Juzgado Décimo Segundo de Primera Instancia Civil",
+                    "Juzgado Décimo Tercero de Primera Instancia Civil",
+                    "Juzgado Décimo Cuarto de Primera Instancia Civil",
+                    "Juzgado Décimo Quinto de Primera Instancia Civil"
+                });
+            }
         }
     }
 }

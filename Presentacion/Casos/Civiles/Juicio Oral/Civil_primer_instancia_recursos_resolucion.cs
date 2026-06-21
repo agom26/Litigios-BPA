@@ -486,7 +486,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtg.Columns.Add(btnEliminar);
                 }
 
-               
+
             }
 
 
@@ -731,7 +731,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtgDemandados.Columns.Add(btnQuitar);
                     dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -756,7 +756,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtgDemandantes.Columns.Add(btnQuitar);
                     dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
                 }
-                
+
             }
         }
         private void CrearBotonQuitarTerceroInteresado()
@@ -1876,7 +1876,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 Fecha = (EstadoCivil.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
                 FechaVencimiento = EstadoCivil.fechaVencimiento.HasValue
                         ? EstadoCivil.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                        : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -2051,7 +2051,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtg.Columns.Add(btnEliminar);
                 }
             }
-            
+
             // mover al final (en orden)
             dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
             dtg.Columns["Descargar"].DisplayIndex = dtg.ColumnCount - 2;
@@ -2757,6 +2757,54 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtgResolucionesFinJuicio.Enabled = true;
                     _cargandoCaso = false;
                 }
+            }
+        }
+
+        private void checkBoxDePaz_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxDePaz.Checked)
+            {
+                checkBoxPluripersonales.Checked = false; // opcional (para que no choquen)
+
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+                    "Juzgado Primero De Paz Civil Guatemala",
+                    "Juzgado Segundo De Paz Civil Guatemala",
+                    "Juzgado Tercero De Paz Civil Guatemala",
+                    "Juzgado Cuarto De Paz Civil Guatemala",
+                    "Juzgado Sexto De Paz Civil Guatemala",
+                    "Juzgado Séptimo De Paz Civil Guatemala",
+                    "Juzgado Octavo De Paz Civil Guatemala"
+                });
+            }
+        }
+
+        private void checkBoxPluripersonales_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxPluripersonales.Checked)
+            {
+                checkBoxDePaz.Checked = false; // opcional
+
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+                    "Juzgado Primero de Primera Instancia Civil",
+                    "Juzgado Segundo de Primera Instancia Civil",
+                    "Juzgado Tercero de Primera Instancia Civil",
+                    "Juzgado Cuarto de Primera Instancia Civil",
+                    "Juzgado Quinto de Primera Instancia Civil",
+                    "Juzgado Sexto de Primera Instancia Civil",
+                    "Juzgado Séptimo de Primera Instancia Civil",
+                    "Juzgado Octavo de Primera Instancia Civil",
+                    "Juzgado Noveno de Primera Instancia Civil",
+                    "Juzgado Décimo de Primera Instancia Civil",
+                    "Juzgado Décimo Primero de Primera Instancia Civil",
+                    "Juzgado Décimo Segundo de Primera Instancia Civil",
+                    "Juzgado Décimo Tercero de Primera Instancia Civil",
+                    "Juzgado Décimo Cuarto de Primera Instancia Civil",
+                    "Juzgado Décimo Quinto de Primera Instancia Civil"
+                });
             }
         }
     }

@@ -265,7 +265,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             txtNombreParticularCasoReferencia.Text = "";
             txtNombreParticularCasoReferencia.Text = "";
 
-            txtEstado.Text= "";
+            txtEstado.Text = "";
             txtObservaciones.Text = "";
             LimpiarListasCasoReferencia();
         }
@@ -367,7 +367,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             }));
 
             var casoReferencia = data.referencia_comun ?? null;
-            if(casoReferencia != null)
+            if (casoReferencia != null)
             {
                 idCasoReferencia = casoReferencia.caso_referencia_id;
             }
@@ -525,7 +525,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            
+
 
             if (isAdminCivil == true)
             {
@@ -596,7 +596,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            
+
 
             if (isAdminCivil == true)
             {
@@ -989,7 +989,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                     dtgTercerosInteresados.Columns.Add(btnQuitar);
                     dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -1236,7 +1236,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
                 CasoReferenciaId = idCasoReferencia
             };
-            
+
             /*var resultado = await casoCivilModel.CrearCasoCivil(req);
 
             if (resultado.success)
@@ -1294,7 +1294,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 {
                     ApiResponse<object> resultado = null;
 
-                    
+
                     await EjecutarConLoaderAsync(async () =>
                     {
                         resultado = await casoCivilModel.EliminarCasoCivil(idCaso, UserSession.Id);
@@ -1375,12 +1375,12 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             MessageBox.Show(ex.Message, "Error",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        
+
                     }
                     else
                     {
@@ -2280,11 +2280,11 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 HuboCambioEstado = cambioEstado,
                 Estado = EstadoCivil.estado ?? txtEstado.Text,
                 Observaciones = EstadoCivil.observaciones ?? txtObservaciones.Text,
-                Origen= ultimoOrigenHistorial,
+                Origen = ultimoOrigenHistorial,
                 Fecha = (EstadoCivil.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
                 FechaVencimiento = EstadoCivil.fechaVencimiento.HasValue
                         ? EstadoCivil.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                        : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -2300,7 +2300,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
             ApiResponseEditarCasoCivil resultado = null;
 
-            
+
             await EjecutarConLoaderAsync(async () =>
             {
                 resultado = await casoCivilModel.EditarCasoCivil(req);
@@ -2730,7 +2730,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                     MessageBox.Show($"Se subieron {response.data?.Count ?? 0} archivo(s) correctamente.",
                         "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -2826,7 +2826,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                         await CargarDatosCaso(_idCasoEditar);
                     });
                 }
-                
+
             }
 
 
@@ -2854,17 +2854,17 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 comboboxEstado.Items.Clear();
                 comboboxEstado.Items.AddRange(EstadoCivilHelper.ObtenerEstadosPESegundaInstancia().ToArray());
             }
-            else if(origen =="CIVIL PROCESO DE EJECUCIÓN COMÚN SEGUNDA INSTANCIA")
+            else if (origen == "CIVIL PROCESO DE EJECUCIÓN COMÚN SEGUNDA INSTANCIA")
             {
                 comboboxEstado.Items.Clear();
                 comboboxEstado.Items.AddRange(EstadoCivilHelper.ObtenerEstadosPESegundaInstancia().ToArray());
             }
-            else if(origen == "CIVIL PROCESO DE EJECUCIÓN COMÚN")
+            else if (origen == "CIVIL PROCESO DE EJECUCIÓN COMÚN")
             {
                 comboboxEstado.Items.Clear();
                 comboboxEstado.Items.AddRange(EstadoCivilHelper.ObtenerEstadosPEComun().ToArray());
             }
-            else if(origen == "CIVIL PROCESO DE EJECUCIÓN VÍA APREMIO")
+            else if (origen == "CIVIL PROCESO DE EJECUCIÓN VÍA APREMIO")
             {
                 comboboxEstado.Items.Clear();
                 comboboxEstado.Items.AddRange(EstadoCivilHelper.ObtenerEstadosPEViaApremio().ToArray());
@@ -3068,7 +3068,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             if (idCasoReferencia != null && idCasoReferencia != 0)
             {
                 int idCasoR = idCasoReferencia ?? 0;
-                if(idCasoR!= 0)
+                if (idCasoR != 0)
                 {
                     await EjecutarConLoaderAsync(async () =>
                     {
@@ -3076,9 +3076,9 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
                     });
                 }
-                
+
             }
-           
+
 
             AnadirTabPage(tabPageCasoReferencia);
             EliminarTabPage(Detalles);
@@ -3249,6 +3249,38 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             }
 
             dtgSociosResponsablesCasoReferencia.ClearSelection();
+        }
+
+        private void checkBoxSalasCiviles_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxSalasCiviles.Checked)
+            {
+                checkBoxSalasFamilia.Checked = false; // opcional
+
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+            "Sala 1ª. De la Corte de Apelaciones del Ramo Civil y Mercantil",
+            "Sala 2ª. De la Corte de Apelaciones del Ramo Civil y Mercantil",
+            "Sala 3ª. De la Corte de Apelaciones del Ramo Civil y Mercantil",
+            "Sala 5ª. De la Corte de Apelaciones del Ramo Civil y Mercantil"
+                });
+            }
+        }
+
+        private void checkBoxSalasFamilia_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxSalasFamilia.Checked)
+            {
+                checkBoxSalasCiviles.Checked = false; // opcional
+
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+            "Sala 1ª. De la Corte de Apelaciones de Familia",
+            "Sala 2ª. De la Corte de Apelaciones de Familia"
+                });
+            }
         }
     }
 }

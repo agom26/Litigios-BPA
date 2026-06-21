@@ -156,7 +156,7 @@
             comboboxEstado.FormattingEnabled = true;
             comboboxEstado.IntegralHeight = false;
             comboboxEstado.ItemHeight = 15;
-            comboboxEstado.Items.AddRange(new object[] { "Demanda presentada", "Admisión de la demanda y emplazamiento", "Excepciones previas", "Contestación de la demanda", "Excepciones perentorias", "Reconvención", "Apertura a prueba", "Vista", "Auto para mejor fallar", "Sentencia/Recurso de Casación" });
+            comboboxEstado.Items.AddRange(new object[] { "Demanda presentada", "Admisión de la demanda y emplazamiento", "Excepciones previas", "Contestación de la demanda", "Excepciones perentorias", "Reconvención", "Apertura a prueba", "Vista", "Auto para mejor fallar", "Sentencia", "Sentencia/Recurso de Casación" });
             comboboxEstado.Location = new Point(158, 53);
             comboboxEstado.Name = "comboboxEstado";
             comboboxEstado.Size = new Size(250, 23);
@@ -280,7 +280,6 @@
             // 
             checkBoxTieneVencimiento.AutoSize = true;
             checkBoxTieneVencimiento.BackColor = Color.White;
-            checkBoxTieneVencimiento.Enabled = false;
             checkBoxTieneVencimiento.Location = new Point(33, 12);
             checkBoxTieneVencimiento.Name = "checkBoxTieneVencimiento";
             checkBoxTieneVencimiento.Size = new Size(134, 19);

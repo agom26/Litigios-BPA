@@ -284,8 +284,8 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             btnAgregarSociosResponsables.Enabled = !isLectorCivil;
             btnAgregarEstado.Enabled = !isLectorCivil;
 
-            btnAgregarCasoReferencia.Enabled= !isLectorCivil;
-            btnEliminarCasoReferencia.Enabled= !isLectorCivil;
+            btnAgregarCasoReferencia.Enabled = !isLectorCivil;
+            btnEliminarCasoReferencia.Enabled = !isLectorCivil;
         }
         private async Task CargarDatosCaso(int idCaso)
         {
@@ -353,7 +353,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             }));
 
             var casoReferencia = data.referencia_comun ?? null;
-            if(casoReferencia != null)
+            if (casoReferencia != null)
             {
                 idCasoReferencia = casoReferencia.caso_referencia_id;
             }
@@ -511,7 +511,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            
+
 
             if (isAdminCivil == true)
             {
@@ -579,7 +579,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            
+
 
             if (isAdminCivil == true)
             {
@@ -924,7 +924,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                     dtgDemandados.Columns.Add(btnQuitar);
                     dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -949,7 +949,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                     dtgDemandantes.Columns.Add(btnQuitar);
                     dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
                 }
-                
+
             }
         }
         private void CrearBotonQuitarTerceroInteresado()
@@ -997,7 +997,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                     dtgAbogadosDirectores.Columns.Add(btnQuitar);
                     dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -1217,7 +1217,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 : null,
                 FechaVencimiento = EstadoCivil.fechaVencimiento.HasValue
                 ? EstadoCivil.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                : "",
+                : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -1956,7 +1956,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 var frm = new FrmAgregarTerceroInteresado(listaTercerosInteresados);
 
                 frm.Show();
-            } 
+            }
         }
 
         private void dtgPartesInteresadas_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -2258,7 +2258,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 Fecha = (EstadoCivil.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
                 FechaVencimiento = EstadoCivil.fechaVencimiento.HasValue
                         ? EstadoCivil.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                        : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -3019,7 +3019,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             if (idCasoReferencia != null && idCasoReferencia != 0)
             {
                 int idCasoR = idCasoReferencia ?? 0;
-                if(idCasoR!= 0)
+                if (idCasoR != 0)
                 {
                     await EjecutarConLoaderAsync(async () =>
                     {
@@ -3027,9 +3027,9 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
                     });
                 }
-                
+
             }
-           
+
 
             AnadirTabPage(tabPageCasoReferencia);
             EliminarTabPage(Detalles);
@@ -3200,6 +3200,54 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             }
 
             dtgSociosResponsablesCasoReferencia.ClearSelection();
+        }
+
+        private void checkBoxDePaz_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxDePaz.Checked)
+            {
+                checkBoxPluripersonales.Checked = false; // opcional (para que no choquen)
+
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+            "Juzgado Primero De Paz Civil Guatemala",
+            "Juzgado Segundo De Paz Civil Guatemala",
+            "Juzgado Tercero De Paz Civil Guatemala",
+            "Juzgado Cuarto De Paz Civil Guatemala",
+            "Juzgado Sexto De Paz Civil Guatemala",
+            "Juzgado Séptimo De Paz Civil Guatemala",
+            "Juzgado Octavo De Paz Civil Guatemala"
+                });
+            }
+        }
+
+        private void checkBoxPluripersonales_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxPluripersonales.Checked)
+            {
+                checkBoxDePaz.Checked = false; // opcional
+
+                comboBoxJuzgado.Items.Clear();
+                comboBoxJuzgado.Items.AddRange(new string[]
+                {
+            "Juzgado Primero de Primera Instancia Civil",
+            "Juzgado Segundo de Primera Instancia Civil",
+            "Juzgado Tercero de Primera Instancia Civil",
+            "Juzgado Cuarto de Primera Instancia Civil",
+            "Juzgado Quinto de Primera Instancia Civil",
+            "Juzgado Sexto de Primera Instancia Civil",
+            "Juzgado Séptimo de Primera Instancia Civil",
+            "Juzgado Octavo de Primera Instancia Civil",
+            "Juzgado Noveno de Primera Instancia Civil",
+            "Juzgado Décimo de Primera Instancia Civil",
+            "Juzgado Décimo Primero de Primera Instancia Civil",
+            "Juzgado Décimo Segundo de Primera Instancia Civil",
+            "Juzgado Décimo Tercero de Primera Instancia Civil",
+            "Juzgado Décimo Cuarto de Primera Instancia Civil",
+            "Juzgado Décimo Quinto de Primera Instancia Civil"
+                });
+            }
         }
     }
 }

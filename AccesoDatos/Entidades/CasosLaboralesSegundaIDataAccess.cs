@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +13,58 @@ namespace AccesoDatos.Entidades
 {
     public class CasosLaboralesSegundaIDataAccess
     {
-        private readonly string _apiUrl = "http://bpa.com.es/peticiones-litigios/casos_laborales_segunda_instancia.php";
-        private readonly string _apiUrlArchivos = "http://bpa.com.es/peticiones-litigios/archivos_casos_laborales.php";
+        private readonly string _apiUrl = "https://bpa.com.es/peticiones-litigios/casos_laborales_segunda_instancia.php";
+        private readonly string _apiUrlArchivos = "https://bpa.com.es/peticiones-litigios/archivos_casos_laborales.php";
 
         // Recomendado: reutilizar HttpClient (no crearlo en cada método)
-        private static readonly HttpClient _http = new HttpClient();
+        private static readonly HttpClient _http = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(60)
+        };
+        private static readonly HttpClient _httpArchivos = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(120)
+        };
+        private async Task<HttpResponseMessage> PostFormAsync(
+           string url,
+           HttpContent content,
+           CancellationToken token = default)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = content,
+                Version = HttpVersion.Version11,
+                VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
+            };
+
+            request.Headers.ConnectionClose = true;
+
+            return await _http.SendAsync(
+                request,
+                HttpCompletionOption.ResponseContentRead,
+                token
+            );
+        }
+        private async Task<HttpResponseMessage> PostFormAsyncArchivos(
+           string url,
+           HttpContent content,
+           CancellationToken token = default)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = content,
+                Version = HttpVersion.Version11,
+                VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
+            };
+
+            request.Headers.ConnectionClose = true;
+
+            return await _httpArchivos.SendAsync(
+                request,
+                HttpCompletionOption.ResponseContentRead,
+                token
+            );
+        }
 
         public async Task<ApiResponseCasosLaboralesSIList> ListarCasosLaborales(
             int usuarioId,
@@ -38,8 +86,17 @@ namespace AccesoDatos.Entidades
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseCasosLaboralesSIList
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseCasosLaboralesSIList>(jsonResult)
                        ?? new ApiResponseCasosLaboralesSIList { success = false, message = "Respuesta vacía o inválida." };
@@ -49,7 +106,8 @@ namespace AccesoDatos.Entidades
                 return new ApiResponseCasosLaboralesSIList
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -97,8 +155,17 @@ namespace AccesoDatos.Entidades
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseCrearCasoLaboral
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseCrearCasoLaboral>(jsonResult)
                        ?? new ApiResponseCrearCasoLaboral { success = false, message = "Respuesta vacía o inválida." };
@@ -108,7 +175,8 @@ namespace AccesoDatos.Entidades
                 return new ApiResponseCrearCasoLaboral
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -127,8 +195,17 @@ namespace AccesoDatos.Entidades
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<CasoLaboralDetalleData>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<CasoLaboralDetalleData>>(jsonResult)
                        ?? new ApiResponse<CasoLaboralDetalleData> { success = false, message = "Respuesta vacía o inválida." };
@@ -138,7 +215,8 @@ namespace AccesoDatos.Entidades
                 return new ApiResponse<CasoLaboralDetalleData>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -180,15 +258,25 @@ namespace AccesoDatos.Entidades
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseEditarCasoLaboral
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseEditarCasoLaboral>(jsonResult)
                     ?? new ApiResponseEditarCasoLaboral { success = false, message = "Respuesta vacía o inválida." };
             }
             catch (Exception ex)
             {
-                return new ApiResponseEditarCasoLaboral { success = false, message = "Error: " + ex.Message };
+                return new ApiResponseEditarCasoLaboral { success = false, message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "") };
             }
         }
 
@@ -205,8 +293,17 @@ namespace AccesoDatos.Entidades
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
                        ?? new ApiResponse<object>
@@ -220,7 +317,8 @@ namespace AccesoDatos.Entidades
                 return new ApiResponse<object>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -238,8 +336,17 @@ namespace AccesoDatos.Entidades
 
             try
             {
-                var response = await _http.PostAsync(_apiUrlArchivos, content);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, content);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ListarArchivosCasoLaboralResponse
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ListarArchivosCasoLaboralResponse>(json)
                        ?? new ListarArchivosCasoLaboralResponse { success = false, message = "Respuesta vacía o inválida.", data = new List<ArchivoCasoLaboralItem>() };
@@ -249,7 +356,8 @@ namespace AccesoDatos.Entidades
                 return new ListarArchivosCasoLaboralResponse
                 {
                     success = false,
-                    message = "Error: " + ex.Message,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : ""),
                     data = new List<ArchivoCasoLaboralItem>()
                 };
             }
@@ -268,21 +376,34 @@ namespace AccesoDatos.Entidades
                 form.Add(new StringContent("subir_archivo_caso_laboral"), "action");
                 form.Add(new StringContent(casoId.ToString()), "caso_id");
 
-                var fileBytes = await File.ReadAllBytesAsync(filePath);
-                var fileContent = new ByteArrayContent(fileBytes);
+                await using var fs = File.OpenRead(filePath);
+                using var fileContent = new StreamContent(fs);
                 fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-
                 form.Add(fileContent, "archivo", Path.GetFileName(filePath));
 
-                var response = await _http.PostAsync(_apiUrlArchivos, form);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, form);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<SubirArchivoCasoLaboralData>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<SubirArchivoCasoLaboralData>>(json)
                        ?? new ApiResponse<SubirArchivoCasoLaboralData> { success = false, message = "Respuesta vacía o inválida." };
             }
             catch (Exception ex)
             {
-                return new ApiResponse<SubirArchivoCasoLaboralData> { success = false, message = "Error: " + ex.Message };
+                return new ApiResponse<SubirArchivoCasoLaboralData>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
+                };
             }
         }
 
@@ -305,6 +426,7 @@ namespace AccesoDatos.Entidades
                 form.Add(new StringContent("subir_archivos_caso_laboral"), "action");
                 form.Add(new StringContent(casoId.ToString()), "caso_id");
 
+                int archivosAgregados = 0;
                 foreach (var filePath in filePaths)
                 {
                     if (!File.Exists(filePath))
@@ -315,10 +437,31 @@ namespace AccesoDatos.Entidades
                     fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
                     form.Add(fileContent, "archivo[]", Path.GetFileName(filePath));
+                    archivosAgregados++;
                 }
 
-                var response = await _http.PostAsync(_apiUrlArchivos, form);
+                if (archivosAgregados == 0)
+                {
+                    return new ApiResponse<List<SubirArchivoCasoLaboralData>>
+                    {
+                        success = false,
+                        message = "Ningún archivo seleccionado existe o pudo leerse.",
+                        data = new List<SubirArchivoCasoLaboralData>()
+                    };
+                }
+
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, form);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<List<SubirArchivoCasoLaboralData>>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}",
+                        data = new List<SubirArchivoCasoLaboralData>()
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<List<SubirArchivoCasoLaboralData>>>(json)
                        ?? new ApiResponse<List<SubirArchivoCasoLaboralData>>
@@ -333,7 +476,8 @@ namespace AccesoDatos.Entidades
                 return new ApiResponse<List<SubirArchivoCasoLaboralData>>
                 {
                     success = false,
-                    message = "Error: " + ex.Message,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : ""),
                     data = new List<SubirArchivoCasoLaboralData>()
                 };
             }
@@ -353,15 +497,29 @@ namespace AccesoDatos.Entidades
 
             try
             {
-                var response = await _http.PostAsync(_apiUrlArchivos, content);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, content);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<object>>(json)
                        ?? new ApiResponse<object> { success = false, message = "Respuesta vacía o inválida." };
             }
             catch (Exception ex)
             {
-                return new ApiResponse<object> { success = false, message = "Error: " + ex.Message };
+                return new ApiResponse<object>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
+                };
             }
         }
 
@@ -380,19 +538,47 @@ namespace AccesoDatos.Entidades
 
             try
             {
-                var response = await _http.PostAsync(_apiUrlArchivos, content);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, content);
 
                 if (!response.IsSuccessStatusCode)
                     return new ApiResponse<string> { success = false, message = "HTTP Error: " + response.StatusCode };
+                
+                var contentType = response.Content.Headers.ContentType?.MediaType ?? "";
 
+                if (contentType.Contains("application/json"))
+                {
+                    var jsonError = await response.Content.ReadAsStringAsync();
+                    var error = JsonConvert.DeserializeObject<ApiResponse<object>>(jsonError);
+
+                    return new ApiResponse<string>
+                    {
+                        success = false,
+                        message = error?.message ?? "El servidor devolvió un error."
+                    };
+                }
                 var bytes = await response.Content.ReadAsByteArrayAsync();
+
+                if (bytes == null || bytes.Length == 0)
+                {
+                    return new ApiResponse<string>
+                    {
+                        success = false,
+                        message = "El archivo descargado está vacío."
+                    };
+                }
+
                 await File.WriteAllBytesAsync(saveToPath, bytes);
 
                 return new ApiResponse<string> { success = true, message = "Archivo descargado.", data = saveToPath };
             }
             catch (Exception ex)
             {
-                return new ApiResponse<string> { success = false, message = "Error: " + ex.Message };
+                return new ApiResponse<string>
+                {
+                    success = false,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
+                };
             }
         }
     }

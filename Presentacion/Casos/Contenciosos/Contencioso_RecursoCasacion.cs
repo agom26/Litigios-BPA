@@ -248,7 +248,7 @@ namespace Presentacion.Casos.Contenciosos
             btnAgregarEstado.Enabled = !isLectorContencioso;
 
             txtExpedienteAmparo.Enabled = !isLectorContencioso;
-            txtExpedienteReferencia.Enabled = !isLectorContencioso;
+            //txtExpedienteReferencia.Enabled = !isLectorContencioso;
             comboBoxMotivoCasacion.Enabled = !isLectorContencioso;
 
             btnAgregarCasoReferencia.Enabled = !isLectorContencioso;
@@ -1063,7 +1063,7 @@ namespace Presentacion.Casos.Contenciosos
                 : null,
                 FechaVencimiento = EstadoContencioso.fechaVencimiento.HasValue
                 ? EstadoContencioso.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                : "",
+                : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -1888,117 +1888,138 @@ namespace Presentacion.Casos.Contenciosos
 
         private async void btnEditarCaso_Click(object sender, EventArgs e)
         {
-            //aqui actualizo los datos del caso 
-            bool cambioEstado = false;
+            if (!btnEditarCaso.Enabled) return;
+            
+            btnEditarCaso.Enabled = false;
 
-            if (_idCasoEditar <= 0)
+            try
             {
-                MessageBox.Show("No hay caso seleccionado para editar.");
-                return;
-            }
+                //aqui actualizo los datos del caso 
+                bool cambioEstado = false;
 
-            var confirm = MessageBox.Show(
-                "¿Desea guardar los cambios del caso?",
-                "Confirmar",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+                if (_idCasoEditar <= 0)
+                {
+                    MessageBox.Show("No hay caso seleccionado para editar.");
+                    return;
+                }
 
-            if (confirm != DialogResult.Yes) return;
+                var confirm = MessageBox.Show(
+                    "¿Desea guardar los cambios del caso?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
 
-            if (_huboCambioEstado && _actualizandoCaso)
-            {
-                cambioEstado = true;
-            }
-            else
-            {
-                cambioEstado = false;
-            }
+                if (confirm != DialogResult.Yes) return;
 
-            string motivoCasacionCombo = comboBoxMotivoCasacion.Text;
-            string motivoCasacion = "";
-            if(motivoCasacionCombo == "De forma")
-            {
-                motivoCasacion = "FORMA";
-            }
-            else if(motivoCasacionCombo =="De fondo")
-            {
-                motivoCasacion = "FONDO";
-            }
-            else if (motivoCasacionCombo =="De forma y fondo")
-            {
-                motivoCasacion = "FORMA Y FONDO";
-            }
+                if (_huboCambioEstado && _actualizandoCaso)
+                {
+                    cambioEstado = true;
+                }
+                else
+                {
+                    cambioEstado = false;
+                }
 
-            var req = new EditarCasoContenciosoRequest
-            {
-                UsuarioId = UserSession.Id,
-                CasoId = _idCasoEditar,
+                string motivoCasacionCombo = comboBoxMotivoCasacion.Text;
+                string motivoCasacion = "";
+                if (motivoCasacionCombo == "De forma")
+                {
+                    motivoCasacion = "FORMA";
+                }
+                else if (motivoCasacionCombo == "De fondo")
+                {
+                    motivoCasacion = "FONDO";
+                }
+                else if (motivoCasacionCombo == "De forma y fondo")
+                {
+                    motivoCasacion = "FORMA Y FONDO";
+                }
 
-                Expediente = txtExpediente.Text,
-                Juzgado = comboBoxJuzgado.Text,
-                Oficial = comboboxOficial.Text,
-                Notificador = comboboxNotificador.Text,
-                NombreParticular = txtNombreParticular.Text,
+                var req = new EditarCasoContenciosoRequest
+                {
+                    UsuarioId = UserSession.Id,
+                    CasoId = _idCasoEditar,
 
-
-                // historial (tomas lo último elegido en tu modal de estado)
-                HuboCambioEstado = cambioEstado,
-                Estado = EstadoContencioso.estado ?? txtEstado.Text,
-                Observaciones = EstadoContencioso.observaciones ?? txtObservaciones.Text,
-
-                Fecha = (EstadoContencioso.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
-                FechaVencimiento = EstadoContencioso.fechaVencimiento.HasValue
-                                ? EstadoContencioso.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                                : "",
-
-                Demandantes = listaDemandantes.Select(x => x.id).ToList(),
-                Demandados = listaDemandados.Select(x => x.id).ToList(),
-                TercerosInteresados = listaTercerosInteresados.Select(x => x.id).ToList(),
-                ContactosEmpresa = listaContactosEmpresa.Select(x => x.id).ToList(),
-
-                AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
-                SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
-                AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
-                MotivoCasacion = motivoCasacion,
-                expediente_amparo = txtExpedienteAmparo.Text ?? null 
-
-                //MarcaReferenciaId = idMarcaReferencia
-            };
+                    Expediente = txtExpediente.Text,
+                    Juzgado = comboBoxJuzgado.Text,
+                    Oficial = comboboxOficial.Text,
+                    Notificador = comboboxNotificador.Text,
+                    NombreParticular = txtNombreParticular.Text,
 
 
-            ApiResponseEditarCasoContencioso resultado = null;
+                    // historial (tomas lo último elegido en tu modal de estado)
+                    HuboCambioEstado = cambioEstado,
+                    Estado = EstadoContencioso.estado ?? txtEstado.Text,
+                    Observaciones = EstadoContencioso.observaciones ?? txtObservaciones.Text,
 
-            await EjecutarConLoaderAsync(async () =>
-            {
-                resultado = await recursoCasacionModel.EditarRecursoCasacion(req);
-            });
+                    Fecha = (EstadoContencioso.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
+                    FechaVencimiento = EstadoContencioso.fechaVencimiento.HasValue
+                                    ? EstadoContencioso.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                                    : null,
 
-            if (resultado == null)
-            {
-                MessageBox.Show("No se obtuvo respuesta del servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                    Demandantes = listaDemandantes.Select(x => x.id).ToList(),
+                    Demandados = listaDemandados.Select(x => x.id).ToList(),
+                    TercerosInteresados = listaTercerosInteresados.Select(x => x.id).ToList(),
+                    ContactosEmpresa = listaContactosEmpresa.Select(x => x.id).ToList(),
 
-            if (resultado.success)
-            {
-                MessageBox.Show("Recurso de casación actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
+                    SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
+                    AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
+                    MotivoCasacion = motivoCasacion,
+                    expediente_amparo = txtExpedienteAmparo.Text ?? null
+
+                    //MarcaReferenciaId = idMarcaReferencia
+                };
+
+
+                ApiResponseEditarCasoContencioso resultado = null;
 
                 await EjecutarConLoaderAsync(async () =>
                 {
-                    await CargarCasos();
+                    resultado = await recursoCasacionModel.EditarRecursoCasacion(req);
                 });
-                LimpiarFormulario();
-                _idCasoEditar = 0;
 
-                AnadirTabPage(Listar);
-                EliminarTabPage(Detalles);
-                EliminarTabPage(tabPageMarcasReferencia);
-                _actualizandoCaso = false;
+                if (resultado == null)
+                {
+                    MessageBox.Show("No se obtuvo respuesta del servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (resultado.success)
+                {
+                    MessageBox.Show("Recurso de casación actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await CargarCasos();
+                    });
+                    LimpiarFormulario();
+                    _idCasoEditar = 0;
+
+                    AnadirTabPage(Listar);
+                    EliminarTabPage(Detalles);
+                    EliminarTabPage(tabPageMarcasReferencia);
+                    _actualizandoCaso = false;
+                }
+                else
+                {
+                    MessageBox.Show("Error: " + resultado.message);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Error: " + resultado.message);
+                MessageBox.Show(
+                    "Ocurrió un error: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
+            finally
+            {
+                btnEditarCaso.Enabled = true;
+            }
+
+            
         }
 
         private void roundedButton24_Click(object sender, EventArgs e)
@@ -2590,7 +2611,7 @@ namespace Presentacion.Casos.Contenciosos
                     Fecha = fechaEstado.ToString("yyyy-MM-dd HH:mm:ss"),
                     FechaVencimiento = fechaVencimiento.HasValue
                         ? fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                        : null,
                     Estado = comboboxEstado.Text.Trim(),
                     Anotaciones = txtObservacionesHistorial.Text.Trim()
                 };

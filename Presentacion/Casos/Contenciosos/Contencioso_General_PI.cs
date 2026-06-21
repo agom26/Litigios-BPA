@@ -1070,7 +1070,7 @@ namespace Presentacion.Casos.Contenciosos
                 : null,
                 FechaVencimiento = EstadoContencioso.fechaVencimiento.HasValue
                 ? EstadoContencioso.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                : "",
+                : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -1953,171 +1953,189 @@ namespace Presentacion.Casos.Contenciosos
 
         private async void btnEditarCaso_Click(object sender, EventArgs e)
         {
-            //aqui actualizo los datos del caso 
-            bool cambioEstado = false;
+            if (!btnEditarCaso.Enabled) return;
 
-            if (_idCasoEditar <= 0)
+            btnEditarCaso.Enabled = false;
+
+            try
             {
-                MessageBox.Show("No hay caso seleccionado para editar.");
-                return;
-            }
+                //aqui actualizo los datos del caso 
+                bool cambioEstado = false;
 
-            var confirm = MessageBox.Show(
-                "¿Desea guardar los cambios del caso?",
-                "Confirmar",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (confirm != DialogResult.Yes) return;
-
-            if (_huboCambioEstado && _actualizandoCaso)
-            {
-                cambioEstado = true;
-            }
-            else
-            {
-                cambioEstado = false;
-            }
-
-            var req = new EditarCasoContenciosoRequest
-            {
-                UsuarioId = UserSession.Id,
-                CasoId = _idCasoEditar,
-
-                Expediente = txtExpediente.Text,
-                Juzgado = comboBoxJuzgado.Text,
-                Oficial = comboboxOficial.Text,
-                Notificador = comboboxNotificador.Text,
-                NombreParticular = txtNombreParticular.Text,
-
-
-                // historial (tomas lo último elegido en tu modal de estado)
-                HuboCambioEstado = cambioEstado,
-                Estado = EstadoContencioso.estado ?? txtEstado.Text,
-                Observaciones = EstadoContencioso.observaciones ?? txtObservaciones.Text,
-
-                Fecha = (EstadoContencioso.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
-                FechaVencimiento = EstadoContencioso.fechaVencimiento.HasValue
-                        ? EstadoContencioso.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
-
-                Demandantes = listaDemandantes.Select(x => x.id).ToList(),
-                Demandados = listaDemandados.Select(x => x.id).ToList(),
-                TercerosInteresados = listaTercerosInteresados.Select(x => x.id).ToList(),
-                ContactosEmpresa = listaContactosEmpresa.Select(x => x.id).ToList(),
-
-                AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
-                SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
-                AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
-
-                MarcaReferenciaId = idMarcaReferencia
-            };
-
-            var req2 = new CrearCasoContenciosoRequest();
-            switch (comboBoxMotivoCasacion.SelectedItem)
-            {
-                case "De fondo": motivoCasacion = "FONDO"; break;
-                case "De forma": motivoCasacion = "FORMA"; break;
-                case "De forma y fondo": motivoCasacion = "FORMA Y FONDO"; break;
-            }
-
-            if (EstadoContencioso.estado == "Sentencia/Recurso de Casación")
-            {
-                req2 = new CrearCasoContenciosoRequest
+                if (_idCasoEditar <= 0)
                 {
-                    UsuarioCreador = UserSession.Id,
-                    CasoOrigenId = _idCasoEditar,
-                    MotivoCasacion = motivoCasacion,
+                    MessageBox.Show("No hay caso seleccionado para editar.");
+                    return;
+                }
 
-                    Expediente = txtExpedienteRecursoCasacion.Text.Trim(),
-                    Juzgado = "Cámara Civil de la Corte Suprema de Justicia",
+                var confirm = MessageBox.Show(
+                    "¿Desea guardar los cambios del caso?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirm != DialogResult.Yes) return;
+
+                if (_huboCambioEstado && _actualizandoCaso)
+                {
+                    cambioEstado = true;
+                }
+                else
+                {
+                    cambioEstado = false;
+                }
+
+                var req = new EditarCasoContenciosoRequest
+                {
+                    UsuarioId = UserSession.Id,
+                    CasoId = _idCasoEditar,
+
+                    Expediente = txtExpediente.Text,
+                    Juzgado = comboBoxJuzgado.Text,
                     Oficial = comboboxOficial.Text,
                     Notificador = comboboxNotificador.Text,
                     NombreParticular = txtNombreParticular.Text,
 
-                    Estado = "Recurso de Casación",
+
+                    // historial (tomas lo último elegido en tu modal de estado)
+                    HuboCambioEstado = cambioEstado,
+                    Estado = EstadoContencioso.estado ?? txtEstado.Text,
                     Observaciones = EstadoContencioso.observaciones ?? txtObservaciones.Text,
+
                     Fecha = (EstadoContencioso.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
                     FechaVencimiento = EstadoContencioso.fechaVencimiento.HasValue
-                        ? EstadoContencioso.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                            ? EstadoContencioso.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                            : null,
+
+                    Demandantes = listaDemandantes.Select(x => x.id).ToList(),
+                    Demandados = listaDemandados.Select(x => x.id).ToList(),
+                    TercerosInteresados = listaTercerosInteresados.Select(x => x.id).ToList(),
+                    ContactosEmpresa = listaContactosEmpresa.Select(x => x.id).ToList(),
+
+                    AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
+                    SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
+                    AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
+
+                    MarcaReferenciaId = idMarcaReferencia
                 };
-            }
 
+                var req2 = new CrearCasoContenciosoRequest();
+                switch (comboBoxMotivoCasacion.SelectedItem)
+                {
+                    case "De fondo": motivoCasacion = "FONDO"; break;
+                    case "De forma": motivoCasacion = "FORMA"; break;
+                    case "De forma y fondo": motivoCasacion = "FORMA Y FONDO"; break;
+                }
 
-            ApiResponseEditarCasoContencioso resultado = null;
-            ApiResponseCrearCasoContencioso resultado2 = null;
-
-            await EjecutarConLoaderAsync(async () =>
-            {
-                resultado = await casoContenciosoModel.EditarCasoContencioso(req);
                 if (EstadoContencioso.estado == "Sentencia/Recurso de Casación")
                 {
-                    resultado2 = await recursoCasacionModel.CrearRecursoCasacion(req2);
-                }
-
-            });
-
-
-            if (EstadoContencioso.estado == "Sentencia/Recurso de Casación")
-            {
-                if (resultado == null || resultado2 == null)
-                {
-                    MessageBox.Show("No se obtuvo respuesta del servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                if (resultado.success && resultado2.success)
-                {
-                    MessageBox.Show("Caso contencioso actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    await EjecutarConLoaderAsync(async () =>
+                    req2 = new CrearCasoContenciosoRequest
                     {
-                        await CargarCasos();
-                    });
-                    LimpiarFormulario();
-                    _idCasoEditar = 0;
+                        UsuarioCreador = UserSession.Id,
+                        CasoOrigenId = _idCasoEditar,
+                        MotivoCasacion = motivoCasacion,
 
-                    AnadirTabPage(Listar);
-                    EliminarTabPage(Detalles);
-                    EliminarTabPage(tabPageMarcasReferencia);
-                    _actualizandoCaso = false;
+                        Expediente = txtExpedienteRecursoCasacion.Text.Trim(),
+                        Juzgado = "Cámara Civil de la Corte Suprema de Justicia",
+                        Oficial = comboboxOficial.Text,
+                        Notificador = comboboxNotificador.Text,
+                        NombreParticular = txtNombreParticular.Text,
+
+                        Estado = "Recurso de Casación",
+                        Observaciones = EstadoContencioso.observaciones ?? txtObservaciones.Text,
+                        Fecha = (EstadoContencioso.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
+                        FechaVencimiento = EstadoContencioso.fechaVencimiento.HasValue
+                            ? EstadoContencioso.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                            : null,
+                    };
+                }
+
+
+                ApiResponseEditarCasoContencioso resultado = null;
+                ApiResponseCrearCasoContencioso resultado2 = null;
+
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    resultado = await casoContenciosoModel.EditarCasoContencioso(req);
+                    if (EstadoContencioso.estado == "Sentencia/Recurso de Casación")
+                    {
+                        resultado2 = await recursoCasacionModel.CrearRecursoCasacion(req2);
+                    }
+
+                });
+
+
+                if (EstadoContencioso.estado == "Sentencia/Recurso de Casación")
+                {
+                    if (resultado == null || resultado2 == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (resultado.success && resultado2.success)
+                    {
+                        MessageBox.Show("Caso contencioso actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        await EjecutarConLoaderAsync(async () =>
+                        {
+                            await CargarCasos();
+                        });
+                        LimpiarFormulario();
+                        _idCasoEditar = 0;
+
+                        AnadirTabPage(Listar);
+                        EliminarTabPage(Detalles);
+                        EliminarTabPage(tabPageMarcasReferencia);
+                        _actualizandoCaso = false;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error: " + (resultado2?.message ?? resultado.message, MessageBoxButtons.OK, MessageBoxIcon.Error));
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Error: " + (resultado2?.message ?? resultado.message, MessageBoxButtons.OK, MessageBoxIcon.Error));
-                }
-            }
-            else
-            {
-                if (resultado == null)
-                {
-                    MessageBox.Show("No se obtuvo respuesta del servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                if (resultado.success)
-                {
-                    MessageBox.Show("Caso contencioso actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    await EjecutarConLoaderAsync(async () =>
+                    if (resultado == null)
                     {
-                        await CargarCasos();
-                    });
-                    LimpiarFormulario();
-                    _idCasoEditar = 0;
+                        MessageBox.Show("No se obtuvo respuesta del servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-                    AnadirTabPage(Listar);
-                    EliminarTabPage(Detalles);
-                    EliminarTabPage(tabPageMarcasReferencia);
-                    _actualizandoCaso = false;
-                }
-                else
-                {
-                    MessageBox.Show("Error: " + resultado.message);
+                    if (resultado.success)
+                    {
+                        MessageBox.Show("Caso contencioso actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        await EjecutarConLoaderAsync(async () =>
+                        {
+                            await CargarCasos();
+                        });
+                        LimpiarFormulario();
+                        _idCasoEditar = 0;
+
+                        AnadirTabPage(Listar);
+                        EliminarTabPage(Detalles);
+                        EliminarTabPage(tabPageMarcasReferencia);
+                        _actualizandoCaso = false;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error: " + resultado.message);
+                    }
                 }
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Ocurrió un error: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnEditarCaso.Enabled = true;
+            }
         }
 
         private void roundedButton24_Click(object sender, EventArgs e)
@@ -2711,7 +2729,7 @@ namespace Presentacion.Casos.Contenciosos
                     Fecha = fechaEstado.ToString("yyyy-MM-dd HH:mm:ss"),
                     FechaVencimiento = fechaVencimiento.HasValue
                         ? fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                        : null,
                     Estado = comboboxEstado.Text.Trim(),
                     Anotaciones = txtObservacionesHistorial.Text.Trim()
                 };

@@ -39,7 +39,7 @@ namespace Presentacion.Casos.Laborales
         private int _idHistorialEditar = 0;
         private int _casoIdHistorialEditar = 0;
 
-        private BindingSource bsTercerosInteresados = new BindingSource();
+        private BindingSource bscasosLaborales = new BindingSource();
         private int _idCasoEditar;
         HistorialCasoLaboralModel historialModel = new HistorialCasoLaboralModel();
         
@@ -67,6 +67,9 @@ namespace Presentacion.Casos.Laborales
         private async Task VerificarTipoUsuario()
         {
             var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, 1);
+
+            if (IsDisposed || !IsHandleCreated) return;
+
             if (resp.success && resp.data != null)
             {
                 string rol = resp.data.nombre_rol;
@@ -96,12 +99,15 @@ namespace Presentacion.Casos.Laborales
         public async Task LoadAsync()
         {
             if (_yaCargo) return;
-            _yaCargo = true;
 
             panelBotonesCaso.Visible = false;
-            dtgCasosLaborales.DataSource = bsTercerosInteresados;
+            dtgCasosLaborales.DataSource = bscasosLaborales;
 
             await CargarCasos();
+
+            if (IsDisposed || !IsHandleCreated) return;
+
+            _yaCargo = true;
 
             dtgCasosLaborales.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
@@ -179,8 +185,11 @@ namespace Presentacion.Casos.Laborales
                 }
                 finally
                 {
-                    this.Enabled = true;
-                    _cargando = false;
+                    if (!IsDisposed && IsHandleCreated)
+                    {
+                        this.Enabled = true;
+                        _cargando = false;
+                    }
                 }
             }
         }
@@ -227,6 +236,8 @@ namespace Presentacion.Casos.Laborales
         {
             int idUsuario = UserSession.Id;
             var resp = await casoLaboralModel.ObtenerCasoLaboralPorId(idUsuario, idCaso);
+
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (!resp.success || resp.data == null)
             {
@@ -280,16 +291,21 @@ namespace Presentacion.Casos.Laborales
             dtgSociosResponsables.Refresh();
             dtgAbogadosAsistentes.Refresh();
 
-            this.BeginInvoke(new Action(() =>
+            if (!IsDisposed && IsHandleCreated)
             {
-                AjustarAlturaDataGridViewDemandantes();
-                AjustarAlturaDataGridViewDemandados();
-                AjustarAlturaDataGridViewTercerosInteresados();
-                AjustarAlturaDataGridViewContactosEmpresa();
-                AjustarAlturaDataGridViewAbogadosDirectores();
-                AjustarAlturaDataGridViewSociosResponsables();
-                AjustarAlturaDataGridViewAbogadosAsistentes();
-            }));
+                this.BeginInvoke(new Action(() =>
+                {
+                    if (IsDisposed || !IsHandleCreated) return;
+
+                    AjustarAlturaDataGridViewDemandantes();
+                    AjustarAlturaDataGridViewDemandados();
+                    AjustarAlturaDataGridViewTercerosInteresados();
+                    AjustarAlturaDataGridViewContactosEmpresa();
+                    AjustarAlturaDataGridViewAbogadosDirectores();
+                    AjustarAlturaDataGridViewSociosResponsables();
+                    AjustarAlturaDataGridViewAbogadosAsistentes();
+                }));
+            }
 
             // 6) Ir al tab Detalles
             AnadirTabPage(Detalles);
@@ -366,11 +382,10 @@ namespace Presentacion.Casos.Laborales
             tabControl1.SelectedTab = nombre;
         }
 
-
-
-        private async void CrearBotonesAccion(DataGridView dtg)
+        private async Task CrearBotonesAccion(DataGridView dtg)
         {
             await VerificarTipoUsuario();
+            if (IsDisposed || !IsHandleCreated) return;
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
@@ -438,6 +453,7 @@ namespace Presentacion.Casos.Laborales
         private async void CrearBotonesAccionHistorial(DataGridView dtg)
         {
             await VerificarTipoUsuario();
+            if (IsDisposed || !IsHandleCreated) return;
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
@@ -533,14 +549,21 @@ namespace Presentacion.Casos.Laborales
             string filtro = txtBuscar.Text;
             var response = await casoLaboralModel.ObtenerCasosLaborales(idUsuario, paginaActual, registrosPorPagina, filtro);
 
-            if (this.IsDisposed ) return;
+            if (IsDisposed || !IsHandleCreated) return;
+
+            if (response == null)
+            {
+                MessageBox.Show(this,"No se obtuvo respuesta del servidor.","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (response.success)
             {
                 // Asignar los datos al BindingSource
-                bsTercerosInteresados.DataSource = response.data;
+                bscasosLaborales.DataSource = response.data ?? new List<CasoLaboralListItem>();
                 if (!this.IsDisposed && dtgCasosLaborales.IsHandleCreated)
                 {
+                    dtgCasosLaborales.DataSource = bscasosLaborales;
                     dtgCasosLaborales.Refresh();
                 }
                 // Actualizar paginación
@@ -553,7 +576,7 @@ namespace Presentacion.Casos.Laborales
             {
                 if (!this.IsDisposed)
                 {
-                    MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(this,response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -863,9 +886,14 @@ namespace Presentacion.Casos.Laborales
         private async void Laboral_primer_instancia_Load(object sender, EventArgs e)
         {
             await VerificarTipoUsuario();
+            
+            if (IsDisposed || !IsHandleCreated) return;
+            
             if (!_yaCargo)
                 await LoadAsync();
-
+            
+            if (IsDisposed || !IsHandleCreated) return;
+            
             if (isLectorLaboral)
             {
                 btnAdd.Visible = false;
@@ -898,6 +926,7 @@ namespace Presentacion.Casos.Laborales
                 {
                     await CargarCasos();
                 });
+                if (IsDisposed || !IsHandleCreated) return;
             }
         }
 
@@ -910,10 +939,11 @@ namespace Presentacion.Casos.Laborales
                 {
                     await CargarCasos();
                 });
+                if (IsDisposed || !IsHandleCreated) return;
             }
         }
 
-        private void dtgCasosLaborales_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private async void dtgCasosLaborales_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // Oculta la columna 'id'
             if (dtgCasosLaborales.Columns["id"] != null)
@@ -927,31 +957,13 @@ namespace Presentacion.Casos.Laborales
                 dtgCasosLaborales.Columns["id_rol"].Visible = false;
             }
 
-            CrearBotonesAccion(dtgCasosLaborales);
+            await CrearBotonesAccion(dtgCasosLaborales);
+
+            if (IsDisposed || !IsHandleCreated) return;
+
             dtgCasosLaborales.ClearSelection();
         }
 
-        private async Task Filtrar()
-        {
-
-            string filtro = txtBuscar.Text;
-            int pagina = 1;
-            int registrosPorPagina = 10;
-
-            var resultado = await terceroInteresadoModel.ObtenerTercerosInteresadosFiltrados(pagina, registrosPorPagina, filtro);
-
-            if (resultado.success)
-            {
-                bsTercerosInteresados.DataSource = resultado.data;
-                dtgCasosLaborales.Refresh();
-                labelTotal.Text = $"Total de Casos: {resultado.totalRegistros}";
-                lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)totalRegistros / registrosPorPagina)}";
-            }
-            else
-            {
-                MessageBox.Show(resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private async void txtBuscar_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1024,9 +1036,10 @@ namespace Presentacion.Casos.Laborales
                 Fecha = EstadoLaboral.fechaEstado.HasValue
                 ? EstadoLaboral.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss")
                 : null,
+
                 FechaVencimiento = EstadoLaboral.fechaVencimiento.HasValue
                 ? EstadoLaboral.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                : "",
+                : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -1040,6 +1053,8 @@ namespace Presentacion.Casos.Laborales
 
             var resultado = await casoLaboralModel.CrearCasoLaboral(req);
 
+            if (IsDisposed || !IsHandleCreated) return;
+
             if (resultado.success)
             {
                 MessageBox.Show("Caso laboral creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1047,6 +1062,7 @@ namespace Presentacion.Casos.Laborales
                 {
                     await CargarCasos();
                 });
+                if (IsDisposed || !IsHandleCreated) return;
                 LimpiarFormulario();
                 AnadirTabPage(Listar);
                 EliminarTabPage(Detalles);
@@ -1104,6 +1120,7 @@ namespace Presentacion.Casos.Laborales
                         if (resultado == null)
                         {
                             MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
                         }
 
                         if (resultado.success)
@@ -1874,9 +1891,10 @@ namespace Presentacion.Casos.Laborales
                 Observaciones = EstadoLaboral.observaciones ?? txtObservaciones.Text,
 
                 Fecha = (EstadoLaboral.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
+
                 FechaVencimiento = EstadoLaboral.fechaVencimiento.HasValue
-                        ? EstadoLaboral.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                ? EstadoLaboral.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
+                : null,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),
                 Demandados = listaDemandados.Select(x => x.id).ToList(),
@@ -2187,8 +2205,7 @@ namespace Presentacion.Casos.Laborales
                         Filter = "Todos los archivos (*.*)|*.*"
                     };
 
-                    if (sfd.ShowDialog() != DialogResult.OK)
-                        return;
+                    
 
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
@@ -2213,6 +2230,10 @@ namespace Presentacion.Casos.Laborales
 
                         MessageBox.Show("Archivo descargado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+                    else
+                    {
+                        return;
+                    }
                 }
 
                 // ELIMINAR (confirmación)
@@ -2235,6 +2256,8 @@ namespace Presentacion.Casos.Laborales
                                 resp = await casoLaboralModel.EliminarArchivoCasoLaboral(_idCasoEditar, archivoId);
                             });
 
+                            if (IsDisposed || !IsHandleCreated) return;
+                            
                             if (resp == null)
                             {
                                 MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
@@ -2250,6 +2273,7 @@ namespace Presentacion.Casos.Laborales
 
                             MessageBox.Show("Archivo eliminado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             await RefrescarListaArchivos();
+                            if (IsDisposed || !IsHandleCreated) return;
                         }
                     }
                     else
@@ -2265,9 +2289,14 @@ namespace Presentacion.Casos.Laborales
             }
             finally
             {
-                dtgArchivos.Enabled = true;
-                btnSubirArchivo.Enabled = true;
                 _procesandoArchivo = false;
+
+                if(!IsDisposed && IsHandleCreated)
+                {
+                    dtgArchivos.Enabled = true;
+                    btnSubirArchivo.Enabled = true;
+                }
+               
             }
         }
 
@@ -2303,6 +2332,7 @@ namespace Presentacion.Casos.Laborales
                     {
                         response = await casoLaboralModel.SubirArchivosCasoLaboral(_idCasoEditar, ofd.FileNames.ToList());
                     });
+                    if (IsDisposed || !IsHandleCreated) return;
 
                     if (response == null)
                     {
@@ -2329,9 +2359,14 @@ namespace Presentacion.Casos.Laborales
                 }
                 finally
                 {
-                    await RefrescarListaArchivos();
-                    btnSubirArchivo.Enabled = true;
-                    btnSubirArchivo.Text = "Subir archivo";
+                   
+                    if(!IsDisposed && IsHandleCreated)
+                    {
+                        await RefrescarListaArchivos();
+                        btnSubirArchivo.Enabled = true;
+                        btnSubirArchivo.Text = "Subir archivo";
+                    }
+
                 }
             }
             else
@@ -2393,6 +2428,7 @@ namespace Presentacion.Casos.Laborales
                             UserSession.Id
                         );
                     });
+                    if (IsDisposed || !IsHandleCreated) return;
 
                     if (resp == null)
                     {
@@ -2416,6 +2452,7 @@ namespace Presentacion.Casos.Laborales
                         await ListarHistorial();
                         await CargarDatosCaso(_idCasoEditar);
                     });
+                    if (IsDisposed || !IsHandleCreated) return;
                 }
                 else
                 {
@@ -2527,6 +2564,7 @@ namespace Presentacion.Casos.Laborales
                 {
                     resp = await historialModel.EditarHistorialCaso(req);
                 });
+                if (IsDisposed || !IsHandleCreated) return;
 
                 if (resp == null)
                 {
@@ -2550,6 +2588,7 @@ namespace Presentacion.Casos.Laborales
                     await ListarHistorial();
                     await CargarDatosCaso(_idCasoEditar);
                 });
+                if (IsDisposed || !IsHandleCreated) return;
 
                 AnadirTabPage(tabPageHistorial);
                 EliminarTabPage(tabPageEditarHistorial);

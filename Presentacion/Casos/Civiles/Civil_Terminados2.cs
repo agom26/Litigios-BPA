@@ -2329,7 +2329,7 @@ namespace Presentacion.Casos.Civiles
                 Fecha = (EstadoCivil.fechaEstado ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
                 FechaVencimiento = EstadoCivil.fechaVencimiento.HasValue
                         ? EstadoCivil.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                        : "",
+                        : null,
                 Origen = ultimoOrigenHistorial,
 
                 Demandantes = listaDemandantes.Select(x => x.id).ToList(),

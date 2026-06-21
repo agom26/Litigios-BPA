@@ -173,7 +173,7 @@ namespace Presentacion
                 .Select(m => m.clave_slug.ToLower())
                 .ToList();
 
-            treeView1.Nodes.Add(CrearNodo("Inicio", "inicio"));
+            treeView1.Nodes.Add(CrearNodo("INICIO", "inicio"));
             foreach (string modulo in ordenModulos)
             {
                 if (!modulosUsuario.Contains(modulo))
@@ -182,7 +182,7 @@ namespace Presentacion
                 switch (modulo)
                 {
                     case "laboral":
-                        TreeNode laboral = CrearNodo("Laboral", "laboral");
+                        TreeNode laboral = CrearNodo("LABORAL", "laboral");
                         laboral.Nodes.Add(CrearNodo("Primer Instancia", "laboral"));
                         laboral.Nodes.Add(CrearNodo("Recursos contra resoluciones", "laboral"));
                         laboral.Nodes.Add(CrearNodo("Segunda Instancia", "laboral"));
@@ -191,18 +191,18 @@ namespace Presentacion
                         break;
 
                     case "civil":
-                        TreeNode civil = CrearNodo("Civil", "civil");
+                        TreeNode civil = CrearNodo("CIVIL", "civil");
 
-                        TreeNode ejecucion = CrearNodo("Proceso de ejecución", "civil");
+                        TreeNode ejecucion = CrearNodo("PROCESO DE EJECUCIÓN", "civil");
                         ejecucion.Nodes.Add(CrearNodo("Vía de Apremio", "civil"));
                         ejecucion.Nodes.Add(CrearNodo("Común", "civil"));
                         ejecucion.Nodes.Add(CrearNodo("Segunda Instancia", "civil"));
 
-                        TreeNode sumario = CrearNodo("Juicio Sumario", "civil");
+                        TreeNode sumario = CrearNodo("JUICIO SUMARIO", "civil");
                         sumario.Nodes.Add(CrearNodo("Primer Instancia", "civil"));
                         sumario.Nodes.Add(CrearNodo("Segunda Instancia", "civil"));
 
-                        TreeNode oral = CrearNodo("Juicio Oral", "civil");
+                        TreeNode oral = CrearNodo("JUICIO ORAL", "civil");
                         oral.Nodes.Add(CrearNodo("Primer Instancia", "civil"));
                         oral.Nodes.Add(CrearNodo("Recursos contra resoluciones", "civil"));
                         oral.Nodes.Add(CrearNodo("Segunda Instancia", "civil"));
@@ -218,14 +218,14 @@ namespace Presentacion
                         break;
 
                     case "constitucional":
-                        TreeNode constitucional = CrearNodo("Constitucional", "constitucional");
+                        TreeNode constitucional = CrearNodo("CONSTITUCIONAL", "constitucional");
                         constitucional.Nodes.Add(CrearNodo("Amparo", "constitucional"));
                         constitucional.Nodes.Add(CrearNodo("Terminados", "constitucional"));
                         treeView1.Nodes.Add(constitucional);
                         break;
 
                     case "contencioso administrativo":
-                        TreeNode contencioso = CrearNodo("Contencioso Administrativo", "contencioso");
+                        TreeNode contencioso = CrearNodo("CONTENCIOSO ADMINISTRATIVO", "contencioso");
                         contencioso.Nodes.Add(CrearNodo("General", "contencioso"));
                         contencioso.Nodes.Add(CrearNodo("Tributario", "contencioso"));
                         contencioso.Nodes.Add(CrearNodo("Recurso de Casación", "contencioso"));
@@ -233,30 +233,30 @@ namespace Presentacion
                         treeView1.Nodes.Add(contencioso);
                         break;
 
+                        /*
                     case "personas involucradas":
-                        TreeNode personas = CrearNodo("Personas involucradas", "personas");
+                        TreeNode personas = CrearNodo("PERSONAS INVOLUCRADAS", "personas");
                         personas.Nodes.Add(CrearNodo("Demandados / Autoridad Impugnada", "personas"));
                         personas.Nodes.Add(CrearNodo("Demandantes / Solicitantes", "personas"));
                         personas.Nodes.Add(CrearNodo("Terceros Interesados", "personas"));
                         personas.Nodes.Add(CrearNodo("Contactos de Empresa", "personas"));
                         treeView1.Nodes.Add(personas);
                         break;
-
-                    case "vencimientos":
-                        treeView1.Nodes.Add(CrearNodo("Vencimientos", "vencimientos"));
-                        break;
-
-                    case "plazos":
-                        treeView1.Nodes.Add(CrearNodo("Plazos", "plazos"));
-                        break;
-
-                    case "usuarios":
-                        treeView1.Nodes.Add(CrearNodo("Usuarios", "usuarios"));
-                        break;
+                        */
+                    
                 }
             }
 
-            treeView1.Nodes.Add(CrearNodo("Reportes", "reportes"));
+            TreeNode personas = CrearNodo("PERSONAS INVOLUCRADAS", "personas");
+            personas.Nodes.Add(CrearNodo("Demandados / Autoridad Impugnada", "personas"));
+            personas.Nodes.Add(CrearNodo("Demandantes / Solicitantes", "personas"));
+            personas.Nodes.Add(CrearNodo("Terceros Interesados", "personas"));
+            personas.Nodes.Add(CrearNodo("Contactos de Empresa", "personas"));
+            treeView1.Nodes.Add(personas);
+            treeView1.Nodes.Add(CrearNodo("VENCIMIENTOS", "vencimientos"));
+            treeView1.Nodes.Add(CrearNodo("PLAZOS", "plazos"));
+            treeView1.Nodes.Add(CrearNodo("USUARIOS", "usuarios"));
+            treeView1.Nodes.Add(CrearNodo("REPORTES", "reportes"));
             treeView1.ExpandAll();
         }
 
@@ -294,6 +294,14 @@ namespace Presentacion
             rDropDownMenuLaboral2.PrimaryColor = Color.FromArgb(214, 205, 188);
             rDropDownMenuLaboral2.MenuItemTextColor = Color.Black;
 
+            rDropDownMenuContencioso.IsMainMenu = false;
+            rDropDownMenuContencioso.PrimaryColor = Color.FromArgb(214, 205, 188);
+            rDropDownMenuContencioso.MenuItemTextColor = Color.Black;
+
+            rDropDownMenuConstitucional.IsMainMenu = false;
+            rDropDownMenuConstitucional.PrimaryColor = Color.FromArgb(214, 205, 188);
+            rDropDownMenuConstitucional.MenuItemTextColor = Color.Black;
+
             // 🔥 FORZAR que se actualice
             rDropDownMenuCivil.Renderer = new MenuRenderer(
                 rDropDownMenuCivil.IsMainMenu,
@@ -302,6 +310,17 @@ namespace Presentacion
             );
             rDropDownMenuLaboral2.Renderer = new MenuRenderer(
                 rDropDownMenuLaboral2.IsMainMenu,
+                Color.FromArgb(214, 205, 188),
+                Color.Black
+            );
+
+            rDropDownMenuContencioso.Renderer = new MenuRenderer(
+                rDropDownMenuContencioso.IsMainMenu,
+                Color.FromArgb(214, 205, 188),
+                Color.Black
+            );
+            rDropDownMenuConstitucional.Renderer = new MenuRenderer(
+                rDropDownMenuConstitucional.IsMainMenu,
                 Color.FromArgb(214, 205, 188),
                 Color.Black
             );
@@ -314,170 +333,170 @@ namespace Presentacion
             if (nodo != null)
             {
                 // Por ejemplo, si el nodo es "Usuarios"
-                if (nodo.Text == "Usuarios")
+                if (nodo.Text == "USUARIOS")
                 {
                     openChildForm(new Usuarios());
                 }
-                else if (nodo.Text == "Personas involucradas")
+                else if (nodo.Text == "PERSONAS INVOLUCRADAS")
                 {
                     if (nodo.IsExpanded)
                         nodo.Collapse();
                     else
                         nodo.Expand();
                 }
-                else if (nodo.Text == "Demandados / Autoridad Impugnada" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
+                else if (nodo.Text == "Demandados / Autoridad Impugnada" && nodo.Parent != null && nodo.Parent.Text == "PERSONAS INVOLUCRADAS")
                 {
                     openChildForm(new Demandados());
 
                 }
-                else if (nodo.Text == "Demandantes / Solicitantes" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
+                else if (nodo.Text == "Demandantes / Solicitantes" && nodo.Parent != null && nodo.Parent.Text == "PERSONAS INVOLUCRADAS")
                 {
                     openChildForm(new Demandantes());
 
                 }
-                else if (nodo.Text == "Terceros Interesados" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
+                else if (nodo.Text == "Terceros Interesados" && nodo.Parent != null && nodo.Parent.Text == "PERSONAS INVOLUCRADAS")
                 {
                     openChildForm(new TercerosInteresados());
 
                 }
-                else if (nodo.Text == "Contactos de Empresa" && nodo.Parent != null && nodo.Parent.Text == "Personas involucradas")
+                else if (nodo.Text == "Contactos de Empresa" && nodo.Parent != null && nodo.Parent.Text == "PERSONAS INVOLUCRADAS")
                 {
                     openChildForm(new ContactoEmpresa());
 
                 }
                 else if (nodo.Text == "Primer Instancia" && nodo.Parent != null &&
-                    nodo.Parent.Text == "Laboral")
+                    nodo.Parent.Text == "LABORAL")
                 {
                     await AbrirFormularioConLoaderAsync(new Laboral_primer_instancia());
 
                 }
                 else if (nodo.Text == "Recursos contra resoluciones" && nodo.Parent != null &&
-                    nodo.Parent.Text == "Laboral")
+                    nodo.Parent.Text == "LABORAL")
                 {
                     await AbrirFormularioConLoaderAsync(new Laboral_primer_instancia_recursos_resolucion());
                 }
                 else if (nodo.Text == "Segunda Instancia" && nodo.Parent != null &&
-                    nodo.Parent.Text == "Laboral")
+                    nodo.Parent.Text == "LABORAL")
                 {
                     await AbrirFormularioConLoaderAsync(new Laboral_segunda_instancia());
                 }
                 else if (nodo.Text == "Terminados" && nodo.Parent != null &&
-                    nodo.Parent.Text == "Laboral")
+                    nodo.Parent.Text == "LABORAL")
                 {
                     await AbrirFormularioConLoaderAsync(new Laboral_terminados());
                 }
                 else if (nodo.Text == "Primer Instancia"
                     && nodo.Parent != null
                     && nodo.Parent.Parent != null
-                    && nodo.Parent.Text == "Juicio Sumario"
-                    && nodo.Parent.Parent.Text == "Civil")
+                    && nodo.Parent.Text == "JUICIO SUMARIO"
+                    && nodo.Parent.Parent.Text == "CIVIL")
                 {
                     await AbrirFormularioConLoaderAsync(new Civil_primer_instancia());
                 }
                 else if (nodo.Text == "Segunda Instancia"
                     && nodo.Parent != null
                     && nodo.Parent.Parent != null
-                    && nodo.Parent.Text == "Juicio Sumario"
-                    && nodo.Parent.Parent.Text == "Civil")
+                    && nodo.Parent.Text == "JUICIO SUMARIO"
+                    && nodo.Parent.Parent.Text == "CIVIL")
                 {
                     await AbrirFormularioConLoaderAsync(new Casos.Civiles.Juicio_Sumario.Civil_segunda_instancia());
                 }
                 else if (nodo.Text == "Vía de Apremio"
                     && nodo.Parent != null
                     && nodo.Parent.Parent != null
-                    && nodo.Parent.Text == "Proceso de ejecución"
-                    && nodo.Parent.Parent.Text == "Civil")
+                    && nodo.Parent.Text == "PROCESO DE EJECUCIÓN"
+                    && nodo.Parent.Parent.Text == "CIVIL")
                 {
                     await AbrirFormularioConLoaderAsync(new Civil_via_apremio());
                 }
                 else if (nodo.Text == "Común"
                     && nodo.Parent != null
                     && nodo.Parent.Parent != null
-                    && nodo.Parent.Text == "Proceso de ejecución"
-                    && nodo.Parent.Parent.Text == "Civil")
+                    && nodo.Parent.Text == "PROCESO DE EJECUCIÓN"
+                    && nodo.Parent.Parent.Text == "CIVIL")
                 {
                     await AbrirFormularioConLoaderAsync(new Civil_comun());
                 }
                 else if (nodo.Text == "Segunda Instancia"
                     && nodo.Parent != null
                     && nodo.Parent.Parent != null
-                    && nodo.Parent.Text == "Proceso de ejecución"
-                    && nodo.Parent.Parent.Text == "Civil")
+                    && nodo.Parent.Text == "PROCESO DE EJECUCIÓN"
+                    && nodo.Parent.Parent.Text == "CIVIL")
                 {
                     await AbrirFormularioConLoaderAsync(new Casos.Civiles.Proceso_ejecucion.Civil_segunda_instancia());
                 }
                 else if (nodo.Text == "Primer Instancia"
                     && nodo.Parent != null
                     && nodo.Parent.Parent != null
-                    && nodo.Parent.Text == "Juicio Oral"
-                    && nodo.Parent.Parent.Text == "Civil")
+                    && nodo.Parent.Text == "JUICIO ORAL"
+                    && nodo.Parent.Parent.Text == "CIVIL")
                 {
                     await AbrirFormularioConLoaderAsync(new Civil_oral_primer_instancia());
                 }
                 else if (nodo.Text == "Recursos contra resoluciones"
                     && nodo.Parent != null
                     && nodo.Parent.Parent != null
-                    && nodo.Parent.Text == "Juicio Oral"
-                    && nodo.Parent.Parent.Text == "Civil")
+                    && nodo.Parent.Text == "JUICIO ORAL"
+                    && nodo.Parent.Parent.Text == "CIVIL")
                 {
                     await AbrirFormularioConLoaderAsync(new Civil_primer_instancia_recursos_resolucion());
                 }
                 else if (nodo.Text == "Segunda Instancia"
                     && nodo.Parent != null
                     && nodo.Parent.Parent != null
-                    && nodo.Parent.Text == "Juicio Oral"
-                    && nodo.Parent.Parent.Text == "Civil")
+                    && nodo.Parent.Text == "JUICIO ORAL"
+                    && nodo.Parent.Parent.Text == "CIVIL")
                 {
                     await AbrirFormularioConLoaderAsync(new Civil_oral_segunda_instancia());
                 }
                 else if (nodo.Text == "Terminados" && nodo.Parent != null &&
-                    nodo.Parent.Text == "Civil")
+                    nodo.Parent.Text == "CIVIL")
                 {
                     await AbrirFormularioConLoaderAsync(new Civil_Terminados2());
                 }
                 else if (nodo.Text == "General" && nodo.Parent != null &&
-                  nodo.Parent.Text == "Contencioso Administrativo")
+                  nodo.Parent.Text == "CONTENCIOSO ADMINISTRATIVO")
                 {
                     await AbrirFormularioConLoaderAsync(new Contencioso_General_PI());
                 }
                 else if (nodo.Text == "Tributario" && nodo.Parent != null &&
-                  nodo.Parent.Text == "Contencioso Administrativo")
+                  nodo.Parent.Text == "CONTENCIOSO ADMINISTRATIVO")
                 {
                     await AbrirFormularioConLoaderAsync(new Contencioso_Tributario_PI());
                 }
                 else if (nodo.Text == "Recurso de Casación" && nodo.Parent != null &&
-                  nodo.Parent.Text == "Contencioso Administrativo")
+                  nodo.Parent.Text == "CONTENCIOSO ADMINISTRATIVO")
                 {
                     await AbrirFormularioConLoaderAsync(new Contencioso_RecursoCasacion());
                 }
                 else if (nodo.Text == "Terminados" && nodo.Parent != null &&
-                  nodo.Parent.Text == "Contencioso Administrativo")
+                  nodo.Parent.Text == "CONTENCIOSO ADMINISTRATIVO")
                 {
                     await AbrirFormularioConLoaderAsync(new Contencioso_Terminado());
                 }
                 else if (nodo.Text == "Amparo" && nodo.Parent != null &&
-                  nodo.Parent.Text == "Constitucional")
+                  nodo.Parent.Text == "CONSTITUCIONAL")
                 {
                     await AbrirFormularioConLoaderAsync(new Constitucional_amparo());
                 }
                 else if (nodo.Text == "Terminados" && nodo.Parent != null &&
-                  nodo.Parent.Text == "Constitucional")
+                  nodo.Parent.Text == "CONSTITUCIONAL")
                 {
                     await AbrirFormularioConLoaderAsync(new Constitucional_Terminado());
                 }
-                else if (nodo.Text == "Reportes")
+                else if (nodo.Text == "REPORTES")
                 {
                     await AbrirFormularioConLoaderAsync(new FrmReportes());
                 }
-                else if (nodo.Text == "Plazos")
+                else if (nodo.Text == "PLAZOS")
                 {
                     await AbrirFormularioConLoaderAsync(new FrmPlazos());
                 }
-                else if (nodo.Text == "Vencimientos")
+                else if (nodo.Text == "VENCIMIENTOS")
                 {
                     await AbrirFormularioConLoaderAsync(new FrmAlertas());
                 }
-                else if (nodo.Text == "Inicio")
+                else if (nodo.Text == "INICIO")
                 {
                     await AbrirFormularioConLoaderAsync(new FrmDashboard());
                 }
