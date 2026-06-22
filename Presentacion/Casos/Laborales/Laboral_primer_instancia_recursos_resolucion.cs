@@ -30,6 +30,13 @@ namespace Presentacion.Casos.Laborales
         private bool _cargando = false;
         private bool _procesandoArchivo = false;
 
+        private enum OrigenArchivos
+        {
+            ListaCasos,
+            DetallesCaso
+        }
+        private OrigenArchivos _origenArchivos = OrigenArchivos.ListaCasos;
+
         private int paginaActual = 1;
         private int registrosPorPagina = 10;
         private int totalRegistros = 0;
@@ -215,9 +222,9 @@ namespace Presentacion.Casos.Laborales
         private void LimpiarFormulario()
         {
             txtExpediente.Text = "";
-            comboBoxJuzgado.SelectedIndex=-1;
-            comboboxOficial.SelectedIndex=-1;
-            comboboxNotificador.SelectedIndex=-1;
+            comboBoxJuzgado.SelectedIndex = -1;
+            comboboxOficial.SelectedIndex = -1;
+            comboboxNotificador.SelectedIndex = -1;
             txtNombreParticular.Text = "";
             txtNombreParticular.Text = "";
             txtEstado.Text = "";
@@ -241,7 +248,7 @@ namespace Presentacion.Casos.Laborales
             btnAgregarSociosResponsables.Enabled = !isLectorLaboral;
             btnAgregarEstado.Enabled = !isLectorLaboral;
         }
-        private async Task CargarDatosCaso(int idCaso)
+        private async Task CargarDatosCaso(int idCaso, bool mostrarDetalles = true)
         {
             int idUsuario = UserSession.Id;
             var resp = await casoLaboralModel.ObtenerCasoLaboralPorId(idUsuario, idCaso);
@@ -315,8 +322,12 @@ namespace Presentacion.Casos.Laborales
 
 
             // 6) Ir al tab Detalles
-            AnadirTabPage(Detalles);
-            EliminarTabPage(Listar);
+            if (mostrarDetalles)
+            {
+                AnadirTabPage(Detalles);
+                EliminarTabPage(Listar);
+            }
+
 
             if (!isLectorLaboral)
             {
@@ -392,6 +403,8 @@ namespace Presentacion.Casos.Laborales
         private async Task CrearBotonesAccion(DataGridView dtg)
         {
             await VerificarTipoUsuario();
+            if (IsDisposed || !IsHandleCreated) return;
+
             // Editar
             if (!dtg.Columns.Contains("Editar"))
             {
@@ -449,21 +462,41 @@ namespace Presentacion.Casos.Laborales
                 }
             }
 
+            if (!dtg.Columns.Contains("Archivos"))
+            {
+                DataGridViewButtonColumn btnArchivos = new DataGridViewButtonColumn
+                {
+                    Name = "Archivos",
+                    HeaderText = "",
+                    Text = "📎",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
 
-            // Mover los botones al final
-            dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
+                dtg.Columns.Add(btnArchivos);
+            }
+
+            if (dtg.Columns.Contains("Editar"))
+                dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
+
+            if (dtg.Columns.Contains("Archivos"))
+                dtg.Columns["Archivos"].DisplayIndex = dtg.ColumnCount - 2;
 
             if (isAdminLaboral == true && dtg.Columns.Contains("Eliminar"))
-                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
 
             if (isAdminLaboral == true && dtg.Columns.Contains("Terminar"))
-                dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
+                dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 4;
         }
 
         private async Task CrearBotonesAccionHistorial(DataGridView dtg)
         {
             await VerificarTipoUsuario();
-            // Editar
+            if (IsDisposed || !IsHandleCreated) return;
+
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
@@ -1218,6 +1251,42 @@ namespace Presentacion.Casos.Laborales
                 }
             }
 
+            if (dtgResolucionesNoDefinitivas.Columns[e.ColumnIndex].Name == "Archivos")
+            {
+                try
+                {
+                    _cargandoCaso = true;
+                    dtgResolucionesNoDefinitivas.Enabled = false;
+
+                    int idCaso = Convert.ToInt32(dtgResolucionesNoDefinitivas.Rows[e.RowIndex].Cells["id"].Value);
+                    _idCasoEditar = idCaso;
+                    _actualizandoCaso = true;
+                    _origenArchivos = OrigenArchivos.ListaCasos;
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await CargarDatosCaso(idCaso, false);
+                        await ListarArchivosCaso();
+                    });
+
+                    if (IsDisposed || !IsHandleCreated) return;
+
+                    AnadirTabPage(tabPageArchivos);
+                    EliminarTabPage(Listar);
+                    EliminarTabPage(Detalles);
+                    EliminarTabPage(tabPageHistorial);
+
+                }
+                finally
+                {
+                    if (!IsDisposed && IsHandleCreated)
+                        dtgResolucionesNoDefinitivas.Enabled = true;
+                    _cargandoCaso = false;
+                }
+
+                return;
+            }
+
             if (dtgResolucionesNoDefinitivas.Columns[e.ColumnIndex].Name == "Editar")
             {
                 try
@@ -1342,7 +1411,7 @@ namespace Presentacion.Casos.Laborales
 
                 frm.Show();
             }
-            
+
         }
 
         private void AjustarLayoutPorResolucion()
@@ -2028,11 +2097,6 @@ namespace Presentacion.Casos.Laborales
             {
                 dtgArchivos.DataSource = res.data;
 
-                dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
-                dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
-                dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
-                dtgArchivos.Columns["archivo_id"].Visible = false;
-
                 CrearBotonesAccionArchivos(dtgArchivos);
             }
         }
@@ -2094,7 +2158,7 @@ namespace Presentacion.Casos.Laborales
                     dtg.Columns.Add(btnEliminar);
                 }
             }
-            
+
 
             // mover al final (en orden)
             dtg.Columns["Abrir"].DisplayIndex = dtg.ColumnCount - 1;
@@ -2125,8 +2189,21 @@ namespace Presentacion.Casos.Laborales
 
         private void btnRegresarDetalleDeArchivos_Click(object sender, EventArgs e)
         {
-            AnadirTabPage(Detalles);
-            EliminarTabPage(tabPageArchivos);
+            if (_origenArchivos == OrigenArchivos.ListaCasos)
+            {
+                AnadirTabPage(Listar);
+
+                EliminarTabPage(Detalles);
+                EliminarTabPage(tabPageArchivos);
+                EliminarTabPage(tabPageHistorial);
+            }
+            else
+            {
+                AnadirTabPage(Detalles);
+
+                EliminarTabPage(Listar);
+                EliminarTabPage(tabPageArchivos);
+            }
         }
 
         private async void dtgHistorial_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -2167,10 +2244,6 @@ namespace Presentacion.Casos.Laborales
             }
 
             dtgArchivos.DataSource = resp.data;
-            dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
-            dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
-            dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
-            dtgArchivos.Columns["archivo_id"].Visible = false;
             CrearBotonesAccionArchivos(dtgArchivos);
         }
 
@@ -2766,7 +2839,11 @@ namespace Presentacion.Casos.Laborales
                         {
                             MessageBox.Show("Caso terminado correctamente", "Éxito",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                            await EjecutarConLoaderAsync(async () =>
+                            {
+                                await CargarCasosFinJuicio();
+                                await CargarCasosNoDefinitivas();
+                            });
                         }
                         else
                         {
@@ -2785,6 +2862,42 @@ namespace Presentacion.Casos.Laborales
                 }
             }
 
+            if (dtgResolucionesFinJuicio.Columns[e.ColumnIndex].Name == "Archivos")
+            {
+                try
+                {
+                    _cargandoCaso = true;
+                    dtgResolucionesFinJuicio.Enabled = false;
+
+                    int idCaso = Convert.ToInt32(dtgResolucionesFinJuicio.Rows[e.RowIndex].Cells["id"].Value);
+                    _idCasoEditar = idCaso;
+                    _actualizandoCaso = true;
+                    _origenArchivos = OrigenArchivos.ListaCasos;
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await CargarDatosCaso(idCaso, false);
+                        await ListarArchivosCaso();
+                    });
+
+                    if (IsDisposed || !IsHandleCreated) return;
+
+                    AnadirTabPage(tabPageArchivos);
+                    EliminarTabPage(Listar);
+                    EliminarTabPage(Detalles);
+                    EliminarTabPage(tabPageHistorial);
+
+                }
+                finally
+                {
+                    if (!IsDisposed && IsHandleCreated)
+                        dtgResolucionesFinJuicio.Enabled = true;
+
+                    _cargandoCaso = false;
+                }
+
+                return;
+            }
 
             if (dtgResolucionesFinJuicio.Columns[e.ColumnIndex].Name == "Editar")
             {
@@ -2816,6 +2929,51 @@ namespace Presentacion.Casos.Laborales
                     _cargandoCaso = false;
                 }
             }
+        }
+        private static string FormatearTamano(long bytes)
+        {
+            string[] sufijos = { "B", "KB", "MB", "GB", "TB" };
+
+            double tamano = bytes;
+            int indice = 0;
+
+            while (tamano >= 1024 && indice < sufijos.Length - 1)
+            {
+                tamano /= 1024;
+                indice++;
+            }
+
+            return $"{tamano:N2} {sufijos[indice]}";
+        }
+        private void dtgArchivos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dtgArchivos.Columns[e.ColumnIndex].Name == "tamano_bytes" && e.Value != null)
+            {
+                if (long.TryParse(e.Value.ToString(), out long bytes))
+                {
+                    e.Value = FormatearTamano(bytes);
+                    e.FormattingApplied = true;
+                }
+            }
+        }
+
+        private void dtgArchivos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgArchivos.Columns.Contains("nombre"))
+                dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
+
+            if (dtgArchivos.Columns.Contains("tamano_bytes"))
+                dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
+
+            if (dtgArchivos.Columns.Contains("fecha"))
+                dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
+
+            if (dtgArchivos.Columns.Contains("archivo_id"))
+                dtgArchivos.Columns["archivo_id"].Visible = false;
+
+            CrearBotonesAccionArchivos(dtgArchivos);
+
+            dtgArchivos.ClearSelection();
         }
     }
 }

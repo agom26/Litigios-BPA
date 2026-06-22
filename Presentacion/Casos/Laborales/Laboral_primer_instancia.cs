@@ -255,8 +255,6 @@ namespace Presentacion.Casos.Laborales
 
             var data = resp.data;
 
-
-
             // 1) Inputs principales del caso
             var caso = data.caso;
             if (caso != null)
@@ -397,6 +395,7 @@ namespace Presentacion.Casos.Laborales
         {
             await VerificarTipoUsuario();
             if (IsDisposed || !IsHandleCreated) return;
+
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
@@ -2244,7 +2243,6 @@ namespace Presentacion.Casos.Laborales
             if (dtgArchivos.Columns.Contains("archivo_id"))
                 dtgArchivos.Columns["archivo_id"].Visible = false;
 
-            CrearBotonesAccionArchivos(dtgArchivos);
             CrearBotonesAccionArchivos(dtgArchivos);
         }
 

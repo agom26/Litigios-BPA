@@ -30,6 +30,14 @@ namespace Presentacion.Casos.Laborales
         private bool _cargando = false;
         private bool _procesandoArchivo = false;
 
+        private enum OrigenArchivos
+        {
+            ListaCasos,
+            DetallesCaso
+        }
+
+        private OrigenArchivos _origenArchivos = OrigenArchivos.ListaCasos;
+
         private int paginaActual = 1;
         private int registrosPorPagina = 10;
         private int totalRegistros = 0;
@@ -288,7 +296,7 @@ namespace Presentacion.Casos.Laborales
             btnAgregarSociosResponsables.Enabled = isAdminLaboral;
             btnAgregarEstado.Enabled = isAdminLaboral;
         }
-        private async Task CargarDatosCaso(int idCaso)
+        private async Task CargarDatosCaso(int idCaso, bool mostrarDetalles = true)
         {
             int idUsuario = UserSession.Id;
             var resp = await casoLaboralModel.ObtenerCasoLaboralPorId(idUsuario, idCaso);
@@ -471,11 +479,14 @@ namespace Presentacion.Casos.Laborales
             }
 
             // 6) Ir al tab Detalles
-            AnadirTabPage(Detalles);
-            EliminarTabPage(Listar);
-            btnGuardarCaso.Visible = false;
-            btnEditarCaso.Visible = true;
-
+            if (mostrarDetalles)
+            {
+                AnadirTabPage(Detalles);
+                EliminarTabPage(Listar);
+                btnGuardarCaso.Visible = false;
+                btnEditarCaso.Visible = true;
+            }
+            
             await BotonesAdmin();
             HabilitarBotonesCaso();
         }
@@ -540,6 +551,8 @@ namespace Presentacion.Casos.Laborales
         private async Task CrearBotonesAccion(DataGridView dtg)
         {
             await VerificarTipoUsuario();
+            if (IsDisposed || !IsHandleCreated) return;
+
             // Editar
             if (!dtg.Columns.Contains("Editar"))
             {
@@ -579,12 +592,32 @@ namespace Presentacion.Casos.Laborales
                     dtg.Columns.Add(btnEliminar);
                 }
             }
-            
+
+            if (!dtg.Columns.Contains("Archivos"))
+            {
+                DataGridViewButtonColumn btnArchivos = new DataGridViewButtonColumn
+                {
+                    Name = "Archivos",
+                    HeaderText = "",
+                    Text = "📎",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtg.Columns.Add(btnArchivos);
+            }
 
             // Mover los botones al final
             dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
+            
+            if (dtg.Columns.Contains("Archivos"))
+                dtg.Columns["Archivos"].DisplayIndex = dtg.ColumnCount - 2;
+
             if (isAdminLaboral == true && dtg.Columns.Contains("Eliminar"))
-                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
         }
 
         private async Task CrearBotonesAccionHistorial(DataGridView dtg)
@@ -1067,6 +1100,8 @@ namespace Presentacion.Casos.Laborales
             }
 
             await CrearBotonesAccion(dtgCasosLaborales);
+            if (IsDisposed || !IsHandleCreated) return;
+
             dtgCasosLaborales.ClearSelection();
         }
 
@@ -1260,6 +1295,43 @@ namespace Presentacion.Casos.Laborales
                     }
 
                 }
+            }
+
+            if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Archivos")
+            {
+                try
+                {
+                    _cargandoCaso = true;
+                    dtgCasosLaborales.Enabled = false;
+
+                    int idCaso = Convert.ToInt32(dtgCasosLaborales.Rows[e.RowIndex].Cells["id"].Value);
+                    _idCasoEditar = idCaso;
+                    _actualizandoCaso = true;
+                    _origenArchivos = OrigenArchivos.ListaCasos;
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await CargarDatosCaso(idCaso, false);
+                        await ListarArchivosCaso();
+                    });
+
+                    if (IsDisposed || !IsHandleCreated) return;
+
+                    AnadirTabPage(tabPageArchivos);
+                    EliminarTabPage(Listar);
+                    EliminarTabPage(Detalles);
+                    EliminarTabPage(tabPageHistorial);
+
+                }
+                finally
+                {
+                    if (!IsDisposed && IsHandleCreated)
+                        dtgCasosLaborales.Enabled = true;
+
+                    _cargandoCaso = false;
+                }
+
+                return;
             }
 
             if (dtgCasosLaborales.Columns[e.ColumnIndex].Name == "Editar")
@@ -2048,10 +2120,6 @@ namespace Presentacion.Casos.Laborales
             {
                 dtgArchivos.DataSource = res.data;
 
-                dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
-                dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
-                dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
-                dtgArchivos.Columns["archivo_id"].Visible = false;
 
                 await CrearBotonesAccionArchivos(dtgArchivos);
             }
@@ -2148,8 +2216,21 @@ namespace Presentacion.Casos.Laborales
 
         private void btnRegresarDetalleDeArchivos_Click(object sender, EventArgs e)
         {
-            AnadirTabPage(Detalles);
-            EliminarTabPage(tabPageArchivos);
+            if (_origenArchivos == OrigenArchivos.ListaCasos)
+            {
+                AnadirTabPage(Listar);
+
+                EliminarTabPage(Detalles);
+                EliminarTabPage(tabPageArchivos);
+                EliminarTabPage(tabPageHistorial);
+            }
+            else
+            {
+                AnadirTabPage(Detalles);
+
+                EliminarTabPage(Listar);
+                EliminarTabPage(tabPageArchivos);
+            }
         }
 
         private async void dtgHistorial_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
