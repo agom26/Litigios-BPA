@@ -95,7 +95,6 @@ namespace Presentacion.Casos.Laborales
         public async Task LoadAsync()
         {
             if (_yaCargo) return;
-            _yaCargo = true;
 
             panelBotonesCaso.Visible = false;
             dtgResolucionesNoDefinitivas.DataSource = bsCasosNoDefinitivos;
@@ -103,7 +102,12 @@ namespace Presentacion.Casos.Laborales
             dtgResolucionesFinJuicio.DataSource = bsCasosFinJuicio;
 
             await CargarCasosFinJuicio();
+            if (IsDisposed || !IsHandleCreated) return;
+
             await CargarCasosNoDefinitivas();
+            if (IsDisposed || !IsHandleCreated) return;
+
+            _yaCargo = true;
 
             //no definitivas
             dtgResolucionesNoDefinitivas.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
@@ -193,7 +197,11 @@ namespace Presentacion.Casos.Laborales
                 }
                 finally
                 {
-                    this.Enabled = true;
+                    if (!IsDisposed && IsHandleCreated)
+                    {
+                        this.Enabled = true;
+                    }
+
                     _cargando = false;
                 }
             }
@@ -237,6 +245,7 @@ namespace Presentacion.Casos.Laborales
         {
             int idUsuario = UserSession.Id;
             var resp = await casoLaboralModel.ObtenerCasoLaboralPorId(idUsuario, idCaso);
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (!resp.success || resp.data == null)
             {
@@ -288,16 +297,22 @@ namespace Presentacion.Casos.Laborales
             dtgSociosResponsables.Refresh();
             dtgAbogadosAsistentes.Refresh();
 
-            this.BeginInvoke(new Action(() =>
+            if (!IsDisposed && IsHandleCreated)
             {
-                AjustarAlturaDataGridViewDemandantes();
-                AjustarAlturaDataGridViewDemandados();
-                AjustarAlturaDataGridViewTercerosInteresados();
-                AjustarAlturaDataGridViewContactosEmpresa();
-                AjustarAlturaDataGridViewAbogadosDirectores();
-                AjustarAlturaDataGridViewSociosResponsables();
-                AjustarAlturaDataGridViewAbogadosAsistentes();
-            }));
+                this.BeginInvoke(new Action(() =>
+                {
+                    if (IsDisposed || !IsHandleCreated) return;
+
+                    AjustarAlturaDataGridViewDemandantes();
+                    AjustarAlturaDataGridViewDemandados();
+                    AjustarAlturaDataGridViewTercerosInteresados();
+                    AjustarAlturaDataGridViewContactosEmpresa();
+                    AjustarAlturaDataGridViewAbogadosDirectores();
+                    AjustarAlturaDataGridViewSociosResponsables();
+                    AjustarAlturaDataGridViewAbogadosAsistentes();
+                }));
+            }
+
 
             // 6) Ir al tab Detalles
             AnadirTabPage(Detalles);
@@ -374,7 +389,7 @@ namespace Presentacion.Casos.Laborales
             tabControl1.SelectedTab = nombre;
         }
 
-        private async void CrearBotonesAccion(DataGridView dtg)
+        private async Task CrearBotonesAccion(DataGridView dtg)
         {
             await VerificarTipoUsuario();
             // Editar
@@ -445,7 +460,7 @@ namespace Presentacion.Casos.Laborales
                 dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
         }
 
-        private async void CrearBotonesAccionHistorial(DataGridView dtg)
+        private async Task CrearBotonesAccionHistorial(DataGridView dtg)
         {
             await VerificarTipoUsuario();
             // Editar
@@ -937,7 +952,7 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private void dtgCasosLaborales_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private async void dtgCasosLaborales_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // Oculta la columna 'id'
             if (dtgResolucionesNoDefinitivas.Columns["id"] != null)
@@ -951,7 +966,7 @@ namespace Presentacion.Casos.Laborales
                 dtgResolucionesNoDefinitivas.Columns["id_rol"].Visible = false;
             }
 
-            CrearBotonesAccion(dtgResolucionesNoDefinitivas);
+            await CrearBotonesAccion(dtgResolucionesNoDefinitivas);
             dtgResolucionesNoDefinitivas.ClearSelection();
         }
 
@@ -1063,6 +1078,7 @@ namespace Presentacion.Casos.Laborales
             };
 
             var resultado = await casoLaboralModel.CrearCasoLaboral(req);
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (resultado.success)
             {
@@ -1127,6 +1143,7 @@ namespace Presentacion.Casos.Laborales
                     if (resultado == null)
                     {
                         MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
 
                     if (resultado.success)
@@ -1176,6 +1193,12 @@ namespace Presentacion.Casos.Laborales
                             MessageBox.Show("Caso terminado correctamente", "Éxito",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                            await EjecutarConLoaderAsync(async () =>
+                            {
+                                await CargarCasosFinJuicio();
+                                await CargarCasosNoDefinitivas();
+                            });
+
                         }
                         else
                         {
@@ -1217,7 +1240,11 @@ namespace Presentacion.Casos.Laborales
                 }
                 finally
                 {
-                    dtgResolucionesNoDefinitivas.Enabled = true;
+                    if (!IsDisposed && IsHandleCreated)
+                    {
+                        dtgResolucionesNoDefinitivas.Enabled = true;
+                    }
+
                     _cargandoCaso = false;
                 }
             }
@@ -2102,7 +2129,7 @@ namespace Presentacion.Casos.Laborales
             EliminarTabPage(tabPageArchivos);
         }
 
-        private void dtgHistorial_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private async void dtgHistorial_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
 
             if (dtgHistorial.Columns["id"] != null)
@@ -2125,7 +2152,7 @@ namespace Presentacion.Casos.Laborales
                 dtgHistorial.Columns["caso_id"].Visible = false;
             }
 
-            CrearBotonesAccionHistorial(dtgHistorial);
+            await CrearBotonesAccionHistorial(dtgHistorial);
             dtgHistorial.ClearSelection();
         }
         private async Task RefrescarListaArchivos()
@@ -2203,9 +2230,6 @@ namespace Presentacion.Casos.Laborales
                         Filter = "Todos los archivos (*.*)|*.*"
                     };
 
-                    if (sfd.ShowDialog() != DialogResult.OK)
-                        return;
-
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
                         ApiResponse<string> resp = null;
@@ -2228,6 +2252,10 @@ namespace Presentacion.Casos.Laborales
                         }
 
                         MessageBox.Show("Archivo descargado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
 
@@ -2280,8 +2308,12 @@ namespace Presentacion.Casos.Laborales
             }
             finally
             {
-                dtgArchivos.Enabled = true;
-                btnSubirArchivo.Enabled = true;
+                if (!IsDisposed && IsHandleCreated)
+                {
+                    dtgArchivos.Enabled = true;
+                    btnSubirArchivo.Enabled = true;
+                }
+
                 _procesandoArchivo = false;
             }
         }
@@ -2345,8 +2377,11 @@ namespace Presentacion.Casos.Laborales
                 }
                 finally
                 {
-                    btnSubirArchivo.Enabled = true;
-                    btnSubirArchivo.Text = "Subir archivo";
+                    if (!IsDisposed && IsHandleCreated)
+                    {
+                        btnSubirArchivo.Enabled = true;
+                        btnSubirArchivo.Text = "Subir archivo";
+                    }
                 }
             }
             else
@@ -2637,7 +2672,7 @@ namespace Presentacion.Casos.Laborales
             ActualizarObservacionEditarHistorial();
         }
 
-        private void dtgResolucionesFinJuicio_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private async void dtgResolucionesFinJuicio_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // Oculta la columna 'id'
             if (dtgResolucionesFinJuicio.Columns["id"] != null)
@@ -2651,7 +2686,7 @@ namespace Presentacion.Casos.Laborales
                 dtgResolucionesFinJuicio.Columns["id_rol"].Visible = false;
             }
 
-            CrearBotonesAccion(dtgResolucionesFinJuicio);
+            await CrearBotonesAccion(dtgResolucionesFinJuicio);
             dtgResolucionesFinJuicio.ClearSelection();
         }
 
@@ -2682,6 +2717,7 @@ namespace Presentacion.Casos.Laborales
                     if (resultado == null)
                     {
                         MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
 
                     if (resultado.success)
@@ -2721,7 +2757,7 @@ namespace Presentacion.Casos.Laborales
                         var response = await historialModel.TerminarCasoLaboral(
                             casoId: idCaso,
                             usuarioId: UserSession.Id,
-                            fecha: EstadoLaboral.fechaEstado.ToString(),
+                            fecha: EstadoLaboral.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                             anotaciones: EstadoLaboral.observaciones,
                             origen: "LABORAL PRIMER INSTANCIA"
                         );
@@ -2772,7 +2808,11 @@ namespace Presentacion.Casos.Laborales
                 }
                 finally
                 {
-                    dtgResolucionesFinJuicio.Enabled = true;
+                    if (!IsDisposed && IsHandleCreated)
+                    {
+                        dtgResolucionesFinJuicio.Enabled = true;
+                    }
+
                     _cargandoCaso = false;
                 }
             }

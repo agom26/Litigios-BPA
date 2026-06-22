@@ -93,12 +93,14 @@ namespace Presentacion.Casos.Laborales
         public async Task LoadAsync()
         {
             if (_yaCargo) return;
-            _yaCargo = true;
-
+            
             panelBotonesCaso.Visible = false;
             dtgCasosLaborales.DataSource = bsTercerosInteresados;
 
             await CargarCasos();
+            if (IsDisposed || !IsHandleCreated) return;
+
+            _yaCargo = true;
 
             dtgCasosLaborales.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
@@ -174,7 +176,9 @@ namespace Presentacion.Casos.Laborales
                 }
                 finally
                 {
-                    this.Enabled = true;
+                    if (!IsDisposed && IsHandleCreated)
+                        this.Enabled = true;
+
                     _cargando = false;
                 }
             }
@@ -197,7 +201,7 @@ namespace Presentacion.Casos.Laborales
             txtObservaciones.Text = "";
             LimpiarListas();
         }
-        private async void BotonesAdmin()
+        private async Task BotonesAdmin()
         {
             await VerificarTipoUsuario();
             if (isAdminLaboral)
@@ -288,6 +292,7 @@ namespace Presentacion.Casos.Laborales
         {
             int idUsuario = UserSession.Id;
             var resp = await casoLaboralModel.ObtenerCasoLaboralPorId(idUsuario, idCaso);
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (!resp.success || resp.data == null)
             {
@@ -449,16 +454,21 @@ namespace Presentacion.Casos.Laborales
             dtgSociosResponsables.Refresh();
             dtgAbogadosAsistentes.Refresh();
 
-            this.BeginInvoke(new Action(() =>
+            if (!IsDisposed && IsHandleCreated)
             {
-                AjustarAlturaDataGridViewDemandantes();
-                AjustarAlturaDataGridViewDemandados();
-                AjustarAlturaDataGridViewTercerosInteresados();
-                AjustarAlturaDataGridViewContactosEmpresa();
-                AjustarAlturaDataGridViewAbogadosDirectores();
-                AjustarAlturaDataGridViewSociosResponsables();
-                AjustarAlturaDataGridViewAbogadosAsistentes();
-            }));
+                this.BeginInvoke(new Action(() =>
+                {
+                    if (IsDisposed || !IsHandleCreated) return;
+
+                    AjustarAlturaDataGridViewDemandantes();
+                    AjustarAlturaDataGridViewDemandados();
+                    AjustarAlturaDataGridViewTercerosInteresados();
+                    AjustarAlturaDataGridViewContactosEmpresa();
+                    AjustarAlturaDataGridViewAbogadosDirectores();
+                    AjustarAlturaDataGridViewSociosResponsables();
+                    AjustarAlturaDataGridViewAbogadosAsistentes();
+                }));
+            }
 
             // 6) Ir al tab Detalles
             AnadirTabPage(Detalles);
@@ -466,7 +476,7 @@ namespace Presentacion.Casos.Laborales
             btnGuardarCaso.Visible = false;
             btnEditarCaso.Visible = true;
 
-            BotonesAdmin();
+            await BotonesAdmin();
             HabilitarBotonesCaso();
         }
 
@@ -527,7 +537,7 @@ namespace Presentacion.Casos.Laborales
             tabControl1.SelectedTab = nombre;
         }
 
-        private async void CrearBotonesAccion(DataGridView dtg)
+        private async Task CrearBotonesAccion(DataGridView dtg)
         {
             await VerificarTipoUsuario();
             // Editar
@@ -577,7 +587,7 @@ namespace Presentacion.Casos.Laborales
                 dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
         }
 
-        private async void CrearBotonesAccionHistorial(DataGridView dtg)
+        private async Task CrearBotonesAccionHistorial(DataGridView dtg)
         {
             await VerificarTipoUsuario();
             // Editar
@@ -687,7 +697,7 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private void alistarListaDemandados()
+        private async Task alistarListaDemandados()
         {
             dtgDemandados.DataSource = listaDemandados;
 
@@ -701,11 +711,11 @@ namespace Presentacion.Casos.Laborales
                 AjustarAlturaDataGridViewDemandados();
             };
 
-            CrearBotonQuitarDemandado();
+            await CrearBotonQuitarDemandado();
             dtgDemandados.CellClick -= dtgDemandados_CellClick;
             dtgDemandados.CellClick += dtgDemandados_CellClick;
         }
-        private void alistarListaDemandantes()
+        private async Task alistarListaDemandantes()
         {
             dtgDemandantes.DataSource = listaDemandantes;
 
@@ -719,12 +729,12 @@ namespace Presentacion.Casos.Laborales
                 AjustarAlturaDataGridViewDemandantes();
             };
 
-            CrearBotonQuitarDemandante();
+            await CrearBotonQuitarDemandante();
             dtgDemandantes.CellClick -= dtgDemandantes_CellClick;
             dtgDemandantes.CellClick += dtgDemandantes_CellClick;
         }
 
-        private void alistarListaTercerosInteresados()
+        private async Task alistarListaTercerosInteresados()
         {
             dtgTercerosInteresados.DataSource = listaTercerosInteresados;
 
@@ -738,11 +748,11 @@ namespace Presentacion.Casos.Laborales
                 AjustarAlturaDataGridViewTercerosInteresados();
             };
 
-            CrearBotonQuitarTerceroInteresado();
+            await CrearBotonQuitarTerceroInteresado();
             dtgTercerosInteresados.CellClick -= dtgPartesInteresadas_CellClick;
             dtgTercerosInteresados.CellClick += dtgPartesInteresadas_CellClick;
         }
-        private void alistarListaContactosEmpresa()
+        private async Task alistarListaContactosEmpresa()
         {
             dtgContactoEmpresa.DataSource = listaContactosEmpresa;
 
@@ -756,12 +766,12 @@ namespace Presentacion.Casos.Laborales
                 AjustarAlturaDataGridViewContactosEmpresa();
             };
 
-            CrearBotonQuitarContactoEmpresa();
+            await CrearBotonQuitarContactoEmpresa();
             dtgContactoEmpresa.CellClick -= dtgContactoEmpresa_CellClick;
             dtgContactoEmpresa.CellClick += dtgContactoEmpresa_CellClick;
         }
 
-        private void alistarListaAbogadosDirectores()
+        private async Task alistarListaAbogadosDirectores()
         {
             dtgAbogadosDirectores.DataSource = listaAbogadosDirectores;
 
@@ -775,12 +785,12 @@ namespace Presentacion.Casos.Laborales
                 AjustarAlturaDataGridViewAbogadosDirectores();
             };
 
-            CrearBotonQuitarAbogadoDirector();
+            await CrearBotonQuitarAbogadoDirector();
             dtgAbogadosDirectores.CellClick -= dtgAbogadosDirectores_CellClick;
             dtgAbogadosDirectores.CellClick += dtgAbogadosDirectores_CellClick;
         }
 
-        private void alistarListaSociosResponsables()
+        private async Task alistarListaSociosResponsables()
         {
             dtgSociosResponsables.DataSource = listaSociosResponsables;
 
@@ -794,12 +804,12 @@ namespace Presentacion.Casos.Laborales
                 AjustarAlturaDataGridViewSociosResponsables();
             };
 
-            CrearBotonQuitarSocioResponsable();
+            await CrearBotonQuitarSocioResponsable();
             dtgSociosResponsables.CellClick -= dtgSociosResponsables_CellClick;
             dtgSociosResponsables.CellClick += dtgSociosResponsables_CellClick;
         }
 
-        private void alistarListaAbogadosAsistentes()
+        private async Task alistarListaAbogadosAsistentes()
         {
             dtgAbogadosAsistentes.DataSource = listaAbogadosAsistentes;
 
@@ -813,12 +823,12 @@ namespace Presentacion.Casos.Laborales
                 AjustarAlturaDataGridViewAbogadosAsistentes();
             };
 
-            CrearBotonQuitarAbogadoAsistente();
+            await CrearBotonQuitarAbogadoAsistente();
             dtgAbogadosAsistentes.CellClick -= dtgAbogadosAsistentes_CellClick;
             dtgAbogadosAsistentes.CellClick += dtgAbogadosAsistentes_CellClick;
         }
 
-        private async void CrearBotonQuitarDemandado()
+        private async Task CrearBotonQuitarDemandado()
         {
             await VerificarTipoUsuario();
             if (isAdminLaboral)
@@ -844,7 +854,7 @@ namespace Presentacion.Casos.Laborales
 
         }
 
-        private async void CrearBotonQuitarDemandante()
+        private async Task CrearBotonQuitarDemandante()
         {
             await VerificarTipoUsuario();
             if (isAdminLaboral)
@@ -869,7 +879,7 @@ namespace Presentacion.Casos.Laborales
             }
 
         }
-        private async void CrearBotonQuitarTerceroInteresado()
+        private async Task CrearBotonQuitarTerceroInteresado()
         {
             await VerificarTipoUsuario();
             if (isAdminLaboral)
@@ -894,7 +904,7 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private async void CrearBotonQuitarAbogadoDirector()
+        private async Task CrearBotonQuitarAbogadoDirector()
         {
             await VerificarTipoUsuario();
             if (isAdminLaboral)
@@ -920,7 +930,7 @@ namespace Presentacion.Casos.Laborales
 
         }
 
-        private async void CrearBotonQuitarContactoEmpresa()
+        private async Task CrearBotonQuitarContactoEmpresa()
         {
             await VerificarTipoUsuario();
             if (isAdminLaboral)
@@ -946,7 +956,7 @@ namespace Presentacion.Casos.Laborales
 
         }
 
-        private async void CrearBotonQuitarSocioResponsable()
+        private async Task CrearBotonQuitarSocioResponsable()
         {
             await VerificarTipoUsuario();
             if (isAdminLaboral)
@@ -971,7 +981,7 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private async void CrearBotonQuitarAbogadoAsistente()
+        private async Task CrearBotonQuitarAbogadoAsistente()
         {
             await VerificarTipoUsuario();
             if (isAdminLaboral)
@@ -1042,7 +1052,7 @@ namespace Presentacion.Casos.Laborales
             }
         }
 
-        private void dtgCasosLaborales_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private async void dtgCasosLaborales_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // Oculta la columna 'id'
             if (dtgCasosLaborales.Columns["id"] != null)
@@ -1056,7 +1066,7 @@ namespace Presentacion.Casos.Laborales
                 dtgCasosLaborales.Columns["id_rol"].Visible = false;
             }
 
-            CrearBotonesAccion(dtgCasosLaborales);
+            await CrearBotonesAccion(dtgCasosLaborales);
             dtgCasosLaborales.ClearSelection();
         }
 
@@ -1168,6 +1178,7 @@ namespace Presentacion.Casos.Laborales
             };
 
             var resultado = await casoLaboralModel.CrearCasoLaboral(req);
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (resultado.success)
             {
@@ -1231,6 +1242,7 @@ namespace Presentacion.Casos.Laborales
                     if (resultado == null)
                     {
                         MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
 
                     if (resultado.success)
@@ -1272,7 +1284,9 @@ namespace Presentacion.Casos.Laborales
                 }
                 finally
                 {
-                    dtgCasosLaborales.Enabled = true;
+                    if (!IsDisposed && IsHandleCreated)
+                        dtgCasosLaborales.Enabled = true;
+
                     _cargandoCaso = false;
                 }
             }
@@ -2039,11 +2053,11 @@ namespace Presentacion.Casos.Laborales
                 dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
                 dtgArchivos.Columns["archivo_id"].Visible = false;
 
-                CrearBotonesAccionArchivos(dtgArchivos);
+                await CrearBotonesAccionArchivos(dtgArchivos);
             }
         }
 
-        private async void CrearBotonesAccionArchivos(DataGridView dtg)
+        private async Task CrearBotonesAccionArchivos(DataGridView dtg)
         {
             dtg.AutoGenerateColumns = true;
 
@@ -2138,7 +2152,7 @@ namespace Presentacion.Casos.Laborales
             EliminarTabPage(tabPageArchivos);
         }
 
-        private void dtgHistorial_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private async void dtgHistorial_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
 
             if (dtgHistorial.Columns["id"] != null)
@@ -2161,7 +2175,7 @@ namespace Presentacion.Casos.Laborales
                 dtgHistorial.Columns["caso_id"].Visible = false;
             }
 
-            CrearBotonesAccionHistorial(dtgHistorial);
+            await CrearBotonesAccionHistorial(dtgHistorial);
             dtgHistorial.ClearSelection();
             dtgHistorial.CurrentCell = null;
         }
@@ -2181,7 +2195,7 @@ namespace Presentacion.Casos.Laborales
             dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
             dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
             dtgArchivos.Columns["archivo_id"].Visible = false;
-            CrearBotonesAccionArchivos(dtgArchivos);
+            await CrearBotonesAccionArchivos(dtgArchivos);
         }
 
         private async void dtgArchivos_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -2240,9 +2254,6 @@ namespace Presentacion.Casos.Laborales
                         Filter = "Todos los archivos (*.*)|*.*"
                     };
 
-                    if (sfd.ShowDialog() != DialogResult.OK)
-                        return;
-
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
                         ApiResponse<string> resp = null;
@@ -2265,6 +2276,10 @@ namespace Presentacion.Casos.Laborales
                         }
 
                         MessageBox.Show("Archivo descargado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
 
@@ -2310,8 +2325,12 @@ namespace Presentacion.Casos.Laborales
             }
             finally
             {
-                dtgArchivos.Enabled = true;
-                btnSubirArchivo.Enabled = true;
+                if (!IsDisposed && IsHandleCreated)
+                {
+                    dtgArchivos.Enabled = true;
+                    btnSubirArchivo.Enabled = true;
+                }
+
                 _procesandoArchivo = false;
             }
         }
@@ -2373,8 +2392,11 @@ namespace Presentacion.Casos.Laborales
             }
             finally
             {
-                btnSubirArchivo.Enabled = true;
-                btnSubirArchivo.Text = "Subir archivo";
+                if (!IsDisposed && IsHandleCreated)
+                {
+                    btnSubirArchivo.Enabled = true;
+                    btnSubirArchivo.Text = "Subir archivo";
+                }
             }
         }
 
@@ -2681,6 +2703,7 @@ namespace Presentacion.Casos.Laborales
 
         private void comboboxEstado_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (_historialSeleccionado == null) return;
             VerificarEstadoEditarHistorial(_historialSeleccionado.origen);
             ActualizarObservacionEditarHistorial();
         }
