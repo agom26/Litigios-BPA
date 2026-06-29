@@ -2585,5 +2585,15 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 });
             }
         }
+
+        private void dtgArchivos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+        }
+
+        private void dtgArchivos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+
+        }
     }
 }

@@ -52,7 +52,6 @@ namespace Presentacion.Casos.Laborales
         HistorialCasoLaboralModel historialModel = new HistorialCasoLaboralModel();
 
         CasosLaboralesModel casoLaboralModel = new CasosLaboralesModel();
-        TerceroInteresadoModel terceroInteresadoModel = new TerceroInteresadoModel();
         private BindingList<PersonaListDataResponse> listaDemandados
         = new BindingList<PersonaListDataResponse>();
         private BindingList<PersonaListDataResponse> listaDemandantes
@@ -484,6 +483,7 @@ namespace Presentacion.Casos.Laborales
         {
             await VerificarTipoUsuario();
             if (IsDisposed || !IsHandleCreated) return;
+
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
@@ -590,9 +590,9 @@ namespace Presentacion.Casos.Laborales
             if (response.success)
             {
                 // Asignar los datos al BindingSource
-                bscasosLaborales.DataSource = response.data ?? new List<CasoLaboralListItem>();
                 if (!this.IsDisposed && dtgCasosLaborales.IsHandleCreated)
                 {
+                    bscasosLaborales.DataSource = response.data ?? new List<CasoLaboralListItem>();
                     dtgCasosLaborales.DataSource = bscasosLaborales;
                     dtgCasosLaborales.Refresh();
                 }
@@ -618,8 +618,6 @@ namespace Presentacion.Casos.Laborales
             dtgDemandados.AllowUserToAddRows = false;
             dtgDemandados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dtgDemandados.DataSource = listaDemandados;
-
             listaDemandados.ListChanged += (s, e) =>
             {
                 AjustarAlturaDataGridViewDemandados();
@@ -635,8 +633,6 @@ namespace Presentacion.Casos.Laborales
 
             dtgDemandantes.AllowUserToAddRows = false;
             dtgDemandantes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            dtgDemandantes.DataSource = listaDemandantes;
 
             listaDemandantes.ListChanged += (s, e) =>
             {
@@ -655,8 +651,6 @@ namespace Presentacion.Casos.Laborales
             dtgTercerosInteresados.AllowUserToAddRows = false;
             dtgTercerosInteresados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dtgTercerosInteresados.DataSource = listaTercerosInteresados;
-
             listaTercerosInteresados.ListChanged += (s, e) =>
             {
                 AjustarAlturaDataGridViewTercerosInteresados();
@@ -672,8 +666,6 @@ namespace Presentacion.Casos.Laborales
 
             dtgContactoEmpresa.AllowUserToAddRows = false;
             dtgContactoEmpresa.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            dtgContactoEmpresa.DataSource = listaContactosEmpresa;
 
             listaContactosEmpresa.ListChanged += (s, e) =>
             {
@@ -692,8 +684,6 @@ namespace Presentacion.Casos.Laborales
             dtgAbogadosDirectores.AllowUserToAddRows = false;
             dtgAbogadosDirectores.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dtgAbogadosDirectores.DataSource = listaAbogadosDirectores;
-
             listaAbogadosDirectores.ListChanged += (s, e) =>
             {
                 AjustarAlturaDataGridViewAbogadosDirectores();
@@ -711,8 +701,6 @@ namespace Presentacion.Casos.Laborales
             dtgSociosResponsables.AllowUserToAddRows = false;
             dtgSociosResponsables.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dtgSociosResponsables.DataSource = listaSociosResponsables;
-
             listaSociosResponsables.ListChanged += (s, e) =>
             {
                 AjustarAlturaDataGridViewSociosResponsables();
@@ -729,8 +717,6 @@ namespace Presentacion.Casos.Laborales
 
             dtgAbogadosAsistentes.AllowUserToAddRows = false;
             dtgAbogadosAsistentes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            dtgAbogadosAsistentes.DataSource = listaAbogadosAsistentes;
 
             listaAbogadosAsistentes.ListChanged += (s, e) =>
             {
@@ -1005,7 +991,7 @@ namespace Presentacion.Casos.Laborales
                 {
                     await CargarCasos();
                 });
-
+                if (IsDisposed || !IsHandleCreated) return;
             }
         }
 
@@ -2219,6 +2205,8 @@ namespace Presentacion.Casos.Laborales
         private async Task RefrescarListaArchivos()
         {
             var resp = await casoLaboralModel.ListarArchivosCasoLaboral(_idCasoEditar);
+            
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (!resp.success)
             {
@@ -2231,18 +2219,7 @@ namespace Presentacion.Casos.Laborales
             dtgArchivos.DataSource = null;
             dtgArchivos.DataSource = resp.data ?? new List<ArchivoCasoLaboralItem>();
 
-            if (dtgArchivos.Columns.Contains("nombre"))
-                dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
-
-            if (dtgArchivos.Columns.Contains("tamano_bytes"))
-                dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
-
-            if (dtgArchivos.Columns.Contains("fecha"))
-                dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
-
-            if (dtgArchivos.Columns.Contains("archivo_id"))
-                dtgArchivos.Columns["archivo_id"].Visible = false;
-
+            
             CrearBotonesAccionArchivos(dtgArchivos);
         }
 

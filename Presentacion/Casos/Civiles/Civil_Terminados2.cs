@@ -372,7 +372,7 @@ namespace Presentacion.Casos.Civiles
 
             var data = resp.data;
 
-            
+
 
             if (data != null)
             {
@@ -427,7 +427,7 @@ namespace Presentacion.Casos.Civiles
                 AjustarAlturaDataGridViewAbogadosAsistentes();
             }));
 
-            if(resp.data.ultimo_historial.origen =="CIVIL PROCESO DE EJECUCIÓN VÍA APREMIO" ||
+            if (resp.data.ultimo_historial.origen == "CIVIL PROCESO DE EJECUCIÓN VÍA APREMIO" ||
                 resp.data.ultimo_historial.origen == "CIVIL PROCESO DE EJECUCIÓN VÍA APREMIO SEGUNDA INSTANCIA")
             {
                 var casoReferencia = data.referencia_comun ?? null;
@@ -598,7 +598,7 @@ namespace Presentacion.Casos.Civiles
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            
+
 
             if (isAdminCivil == true)
             {
@@ -1018,7 +1018,7 @@ namespace Presentacion.Casos.Civiles
                     dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
                 }
             }
-            
+
         }
         private void CrearBotonQuitarTerceroInteresado()
         {
@@ -1042,7 +1042,7 @@ namespace Presentacion.Casos.Civiles
                     dtgTercerosInteresados.Columns["Quitar"].DisplayIndex = dtgTercerosInteresados.ColumnCount - 1;
                 }
             }
-            
+
         }
 
         private void CrearBotonQuitarAbogadoDirector()
@@ -1067,7 +1067,7 @@ namespace Presentacion.Casos.Civiles
                     dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
                 }
             }
-            
+
         }
 
         private void CrearBotonQuitarContactoEmpresa()
@@ -1092,7 +1092,7 @@ namespace Presentacion.Casos.Civiles
                     dtgContactoEmpresa.Columns["Quitar"].DisplayIndex = dtgContactoEmpresa.ColumnCount - 1;
                 }
             }
-            
+
         }
 
         private void CrearBotonQuitarSocioResponsable()
@@ -1117,7 +1117,7 @@ namespace Presentacion.Casos.Civiles
                     dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
                 }
             }
-            
+
         }
 
         private void CrearBotonQuitarAbogadoAsistente()
@@ -3058,7 +3058,7 @@ namespace Presentacion.Casos.Civiles
             if (idCasoReferencia != null && idCasoReferencia != 0)
             {
                 int idCasoR = idCasoReferencia ?? 0;
-                if(idCasoR!= 0)
+                if (idCasoR != 0)
                 {
                     await EjecutarConLoaderAsync(async () =>
                     {
@@ -3066,9 +3066,9 @@ namespace Presentacion.Casos.Civiles
 
                     });
                 }
-                
+
             }
-           
+
 
             AnadirTabPage(tabPageCasoReferencia);
             EliminarTabPage(Detalles);
@@ -3239,6 +3239,16 @@ namespace Presentacion.Casos.Civiles
             }
 
             dtgSociosResponsablesCasoReferencia.ClearSelection();
+        }
+
+        private void dtgArchivos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+        }
+
+        private void dtgArchivos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+
         }
     }
 }

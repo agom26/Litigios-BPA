@@ -86,6 +86,22 @@ namespace Dominio.Entidades
                 req.SociosResponsables = NormalizarIds(req.SociosResponsables);
                 req.AbogadosAsistentes = NormalizarIds(req.AbogadosAsistentes);
 
+                // Validar que no estén vacías
+                if (!req.Demandantes.Any())
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Debe ingresar al menos un demandante" };
+
+                if (!req.Demandados.Any())
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Debe ingresar al menos un demandado" };
+
+                if (!req.AbogadosDirectores.Any())
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Debe ingresar al menos un abogado director" };
+
+                if (!req.SociosResponsables.Any())
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Debe ingresar al menos un socio responsable" };
+
+                if (!req.AbogadosAsistentes.Any())
+                    return new ApiResponseCrearCasoLaboral { success = false, message = "Debe ingresar al menos un abogado asistente" };
+
                 // Llamar DataAccess
                 return await casoLaboralData.CrearCasoLaboral(req);
             }
@@ -167,6 +183,22 @@ namespace Dominio.Entidades
                 req.AbogadosDirectores = NormalizarIds(req.AbogadosDirectores);
                 req.SociosResponsables = NormalizarIds(req.SociosResponsables);
                 req.AbogadosAsistentes = NormalizarIds(req.AbogadosAsistentes);
+
+                // Validar que no estén vacías
+                if (!req.Demandantes.Any())
+                    return new ApiResponseEditarCasoLaboral { success = false, message = "Debe ingresar al menos un demandante" };
+
+                if (!req.Demandados.Any())
+                    return new ApiResponseEditarCasoLaboral { success = false, message = "Debe ingresar al menos un demandado" };
+
+                if (!req.AbogadosDirectores.Any())
+                    return new ApiResponseEditarCasoLaboral { success = false, message = "Debe ingresar al menos un abogado director" };
+
+                if (!req.SociosResponsables.Any())
+                    return new ApiResponseEditarCasoLaboral { success = false, message = "Debe ingresar al menos un socio responsable" };
+
+                if (!req.AbogadosAsistentes.Any())
+                    return new ApiResponseEditarCasoLaboral { success = false, message = "Debe ingresar al menos un abogado asistente" };
 
                 return await casoLaboralData.EditarCasoLaboral(req);
             }

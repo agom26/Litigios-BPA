@@ -31,6 +31,7 @@ namespace Presentacion
     public partial class MenuPrincipal : Form
     {
         bool menuExpandido = true;
+        private bool _abriendoFormulario;
 
         private readonly List<string> ordenModulos = new List<string>
         {
@@ -75,7 +76,13 @@ namespace Presentacion
         private Form activeForm = null;
         public void openChildForm(Form childForm)
         {
-            if (activeForm != null)
+            if (IsDisposed || !IsHandleCreated)
+            {
+                childForm.Dispose();
+                return;
+            }
+
+            if (activeForm != null && !activeForm.IsDisposed)
                 activeForm.Close();
 
             activeForm = childForm;
@@ -101,8 +108,22 @@ namespace Presentacion
 
         private async Task AbrirFormularioConLoaderAsync(Form frm)
         {
+            if (_abriendoFormulario)
+            {
+                frm.Dispose();
+                return;
+            }
+
+            _abriendoFormulario = true;
+
             try
             {
+                if (IsDisposed || !IsHandleCreated)
+                {
+                    frm.Dispose();
+                    return;
+                }
+
                 if (frm is IAsyncLoadable asyncForm)
                 {
                     using (var loading = new FrmLoading(async () => await asyncForm.LoadAsync()))
@@ -117,6 +138,12 @@ namespace Presentacion
                     }
                 }
 
+                if (IsDisposed || !IsHandleCreated)
+                {
+                    frm.Dispose();
+                    return;
+                }
+
                 openChildForm(frm);
             }
             catch (Exception ex)
@@ -127,6 +154,10 @@ namespace Presentacion
                     MessageBoxIcon.Error);
 
                 frm.Dispose();
+            }
+            finally
+            {
+                _abriendoFormulario = false;
             }
         }
 
@@ -160,7 +191,8 @@ namespace Presentacion
 
                 UserSession.Logout();
 
-                this.Close();
+                if (!IsDisposed)
+                    this.Close();
 
             }
         }
@@ -282,10 +314,10 @@ namespace Presentacion
             AjustarAnchoTreeView();
             if (this.IsDisposed) return;
 
-
-
-
             await AbrirFormularioConLoaderAsync(new FrmDashboard());
+            if (IsDisposed || !IsHandleCreated)
+                return;
+
             rDropDownMenuCivil.IsMainMenu = false;
             rDropDownMenuCivil.PrimaryColor = Color.FromArgb(214, 205, 188);
             rDropDownMenuCivil.MenuItemTextColor = Color.Black;
@@ -761,11 +793,11 @@ namespace Presentacion
 
         }
 
-        private async void MenuPrincipal_ResizeEnd(object sender, EventArgs e)
+        private void MenuPrincipal_ResizeEnd(object sender, EventArgs e)
         {
-            if (this.IsDisposed) return;
+            //if (this.IsDisposed) return;
 
-            await AbrirFormularioConLoaderAsync(new FrmDashboard());
+            //await AbrirFormularioConLoaderAsync(new FrmDashboard());
         }
 
         private void treeView1_MouseMove(object sender, MouseEventArgs e)

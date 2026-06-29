@@ -740,6 +740,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
             MapUsuarios(u, "Abogado Asistente", listaAbogadosAsistentesCasoReferencia);
 
             dtgDemandadosCasoReferencia.Refresh();
+            dataGridViewDemandantesCasoReferencia.Refresh();
             dtgTercerosInteresadosCasoReferencia.Refresh();
             dtgContactosEmpresaCasoReferencia.Refresh();
             dtgAbogadosDirectoresCasoReferencia.Refresh();
@@ -1030,7 +1031,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_Terminado
             dataGridViewDemandantesCasoReferencia.AllowUserToAddRows = false;
             dataGridViewDemandantesCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dataGridViewDemandantesCasoReferencia.DataSource = listaDemandadosCasoReferencia;
+            dataGridViewDemandantesCasoReferencia.DataSource = listaDemandantesCasoReferencia;
 
             listaDemandantesCasoReferencia.ListChanged += (s, e) =>
             {

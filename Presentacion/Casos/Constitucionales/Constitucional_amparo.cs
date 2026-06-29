@@ -974,7 +974,6 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             dataGridViewDemandantesCasoReferencia.AllowUserToAddRows = false;
             dataGridViewDemandantesCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dataGridViewDemandantesCasoReferencia.DataSource = listaDemandadosCasoReferencia;
 
             listaDemandantesCasoReferencia.ListChanged += (s, e) =>
             {

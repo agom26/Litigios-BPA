@@ -277,9 +277,9 @@
             labelTotal.AutoSize = true;
             labelTotal.Location = new Point(36, 132);
             labelTotal.Name = "labelTotal";
-            labelTotal.Size = new Size(38, 15);
+            labelTotal.Size = new Size(143, 15);
             labelTotal.TabIndex = 5;
-            labelTotal.Text = "label2";
+            labelTotal.Text = "Total de casos laborales: 0";
             // 
             // panelBusquedaCaso
             // 
@@ -390,9 +390,9 @@
             lblPagina.AutoSize = true;
             lblPagina.Location = new Point(693, 132);
             lblPagina.Name = "lblPagina";
-            lblPagina.Size = new Size(38, 15);
+            lblPagina.Size = new Size(77, 15);
             lblPagina.TabIndex = 2;
-            lblPagina.Text = "label2";
+            lblPagina.Text = "Página 1 de 1";
             // 
             // dtgCasosLaborales
             // 
@@ -879,9 +879,9 @@
             label7.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             label7.Location = new Point(28, 55);
             label7.Name = "label7";
-            label7.Size = new Size(177, 19);
+            label7.Size = new Size(167, 19);
             label7.TabIndex = 8;
-            label7.Text = "Tercero(s) Interesado(s) *";
+            label7.Text = "Tercero(s) Interesado(s)";
             // 
             // dtgTercerosInteresados
             // 
@@ -1608,7 +1608,7 @@
             panel3.Controls.Add(roundedButton26);
             panel3.Location = new Point(55, 340);
             panel3.Name = "panel3";
-            panel3.Size = new Size(581, 287);
+            panel3.Size = new Size(669, 287);
             panel3.TabIndex = 9;
             // 
             // btnAgregarEstado
@@ -1681,7 +1681,7 @@
             txtObservaciones.PlaceholderText = "...";
             txtObservaciones.ReadOnly = true;
             txtObservaciones.ScrollBars = ScrollBars.Vertical;
-            txtObservaciones.Size = new Size(512, 118);
+            txtObservaciones.Size = new Size(600, 118);
             txtObservaciones.TabIndex = 10;
             // 
             // roundedButton23
@@ -1699,7 +1699,7 @@
             roundedButton23.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton23.Location = new Point(23, 135);
             roundedButton23.Name = "roundedButton23";
-            roundedButton23.Size = new Size(536, 139);
+            roundedButton23.Size = new Size(624, 139);
             roundedButton23.TabIndex = 11;
             roundedButton23.TextColor = Color.White;
             roundedButton23.UseVisualStyleBackColor = false;
@@ -1740,7 +1740,7 @@
             roundedButton22.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton22.Location = new Point(0, 0);
             roundedButton22.Name = "roundedButton22";
-            roundedButton22.Size = new Size(581, 43);
+            roundedButton22.Size = new Size(669, 43);
             roundedButton22.TabIndex = 4;
             roundedButton22.Text = "Estado y Observaciones";
             roundedButton22.TextAlign = ContentAlignment.MiddleLeft;
@@ -1762,7 +1762,7 @@
             roundedButton26.ForeColor = Color.White;
             roundedButton26.Location = new Point(0, 45);
             roundedButton26.Name = "roundedButton26";
-            roundedButton26.Size = new Size(581, 242);
+            roundedButton26.Size = new Size(669, 242);
             roundedButton26.TabIndex = 2;
             roundedButton26.TextColor = Color.White;
             roundedButton26.UseVisualStyleBackColor = false;
@@ -1787,7 +1787,7 @@
             panelInformacionPersonal.Controls.Add(roundedButton9);
             panelInformacionPersonal.Location = new Point(55, 71);
             panelInformacionPersonal.Name = "panelInformacionPersonal";
-            panelInformacionPersonal.Size = new Size(581, 250);
+            panelInformacionPersonal.Size = new Size(669, 250);
             panelInformacionPersonal.TabIndex = 3;
             // 
             // comboBoxJuzgado
@@ -1950,7 +1950,7 @@
             roundedButton2.ForeColor = Color.White;
             roundedButton2.Location = new Point(0, 43);
             roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(581, 207);
+            roundedButton2.Size = new Size(669, 207);
             roundedButton2.TabIndex = 2;
             roundedButton2.TextColor = Color.White;
             roundedButton2.UseVisualStyleBackColor = false;
@@ -1971,7 +1971,7 @@
             roundedButton9.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton9.Location = new Point(0, 0);
             roundedButton9.Name = "roundedButton9";
-            roundedButton9.Size = new Size(581, 43);
+            roundedButton9.Size = new Size(669, 43);
             roundedButton9.TabIndex = 4;
             roundedButton9.Text = "Datos Generales";
             roundedButton9.TextAlign = ContentAlignment.MiddleLeft;
@@ -1994,7 +1994,7 @@
             panelBotones.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelBotones.Location = new Point(0, 2125);
             panelBotones.Name = "panelBotones";
-            panelBotones.Size = new Size(633, 48);
+            panelBotones.Size = new Size(625, 48);
             panelBotones.TabIndex = 20;
             // 
             // tabPageHistorial

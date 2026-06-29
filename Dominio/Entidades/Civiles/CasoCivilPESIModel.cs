@@ -91,6 +91,22 @@ namespace Dominio.Entidades.Civiles
                 req.SociosResponsables = NormalizarIds(req.SociosResponsables);
                 req.AbogadosAsistentes = NormalizarIds(req.AbogadosAsistentes);
 
+                // Validar que no estén vacías
+                if (!req.Demandantes.Any())
+                    return new ApiResponseEditarCasoCivil { success = false, message = "Debe ingresar al menos un demandante" };
+
+                if (!req.Demandados.Any())
+                    return new ApiResponseEditarCasoCivil { success = false, message = "Debe ingresar al menos un demandado" };
+
+                if (!req.AbogadosDirectores.Any())
+                    return new ApiResponseEditarCasoCivil { success = false, message = "Debe ingresar al menos un abogado director" };
+
+                if (!req.SociosResponsables.Any())
+                    return new ApiResponseEditarCasoCivil { success = false, message = "Debe ingresar al menos un socio responsable" };
+
+                if (!req.AbogadosAsistentes.Any())
+                    return new ApiResponseEditarCasoCivil { success = false, message = "Debe ingresar al menos un abogado asistente" };
+
                 return await casoCivilData.EditarCasoViaApremio(req);
             }
             catch (Exception ex)
