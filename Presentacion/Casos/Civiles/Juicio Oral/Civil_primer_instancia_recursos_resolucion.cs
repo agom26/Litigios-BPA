@@ -31,10 +31,20 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
         private bool _cargandoCaso = false;
         private bool _cargando = false;
         private bool _procesandoArchivo = false;
+        private enum OrigenArchivos
+        {
+            ListaCasos,
+            DetallesCaso
+        }
 
-        private int paginaActual = 1;
-        private int registrosPorPagina = 10;
-        private int totalRegistros = 0;
+        private OrigenArchivos _origenArchivos = OrigenArchivos.ListaCasos;
+        private int paginaActualNoDefinitivas = 1;
+        private int registrosPorPaginaNoDefinitivas = 10;
+        private int totalRegistrosNoDefinitivas = 0;
+
+        private int paginaActualFinJuicio = 1;
+        private int registrosPorPaginaFinJuicio = 10;
+        private int totalRegistrosFinJuicio = 0;
 
         private HistorialCasoCivilDetalle _historialSeleccionado;
         private int _idHistorialEditar = 0;
@@ -70,6 +80,8 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
         private async Task VerificarTipoUsuario()
         {
             var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, 2);
+            if (IsDisposed || !IsHandleCreated) return;
+
             if (resp.success && resp.data != null)
             {
                 string rol = resp.data.nombre_rol;
@@ -99,16 +111,16 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
         public async Task LoadAsync()
         {
             if (_yaCargo) return;
-            _yaCargo = true;
-
             panelBotonesCaso.Visible = false;
             dtgResolucionesNoDefinitivas.DataSource = bsCasosNoDefinitivos;
-
             dtgResolucionesFinJuicio.DataSource = bsCasosFinJuicio;
 
             await CargarCasosFinJuicio();
+            if (IsDisposed || !IsHandleCreated) return;
             await CargarCasosNoDefinitivas();
+            if (IsDisposed || !IsHandleCreated) return;
 
+            _yaCargo = true;
             //no definitivas
             dtgResolucionesNoDefinitivas.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
@@ -197,7 +209,9 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 }
                 finally
                 {
-                    this.Enabled = true;
+                    if (!IsDisposed && IsHandleCreated)
+                        this.Enabled = true;
+
                     _cargando = false;
                 }
             }
@@ -237,10 +251,11 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
             btnAgregarSociosResponsables.Enabled = !isLectorCivil;
             btnAgregarEstado.Enabled = !isLectorCivil;
         }
-        private async Task CargarDatosCaso(int idCaso)
+        private async Task CargarDatosCaso(int idCaso, bool mostrarDetalles = true)
         {
             int idUsuario = UserSession.Id;
             var resp = await casoCivilModel.ObtenerCasoCivilPorId(idUsuario, idCaso);
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (!resp.success || resp.data == null)
             {
@@ -292,20 +307,26 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
             dtgSociosResponsables.Refresh();
             dtgAbogadosAsistentes.Refresh();
 
-            this.BeginInvoke(new Action(() =>
+            if (!IsDisposed && IsHandleCreated)
             {
-                AjustarAlturaDataGridViewDemandantes();
-                AjustarAlturaDataGridViewDemandados();
-                AjustarAlturaDataGridViewTercerosInteresados();
-                AjustarAlturaDataGridViewContactosEmpresa();
-                AjustarAlturaDataGridViewAbogadosDirectores();
-                AjustarAlturaDataGridViewSociosResponsables();
-                AjustarAlturaDataGridViewAbogadosAsistentes();
-            }));
-
+                this.BeginInvoke(new Action(() =>
+                {
+                    if (IsDisposed || !IsHandleCreated) return;
+                    AjustarAlturaDataGridViewDemandantes();
+                    AjustarAlturaDataGridViewDemandados();
+                    AjustarAlturaDataGridViewTercerosInteresados();
+                    AjustarAlturaDataGridViewContactosEmpresa();
+                    AjustarAlturaDataGridViewAbogadosDirectores();
+                    AjustarAlturaDataGridViewSociosResponsables();
+                    AjustarAlturaDataGridViewAbogadosAsistentes();
+                }));
+            }
             // 6) Ir al tab Detalles
-            AnadirTabPage(Detalles);
-            EliminarTabPage(Listar);
+            if (mostrarDetalles)
+            {
+                AnadirTabPage(Detalles);
+                EliminarTabPage(Listar);
+            }
 
             if (!isLectorCivil)
             {
@@ -381,6 +402,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
         private async void CrearBotonesAccion(DataGridView dtg)
         {
             await VerificarTipoUsuario();
+            if (IsDisposed || !IsHandleCreated) return;
             // Editar
             if (!dtg.Columns.Contains("Editar"))
             {
@@ -393,10 +415,10 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     : "✏️"
                     ,
                     UseColumnTextForButtonValue = true,
-                    FlatStyle = FlatStyle.Standard, // estilo estándar, sin colores
+                    FlatStyle = FlatStyle.Standard,
                     Width = 40,
-                    MinimumWidth = 40,   // Evita que se haga más pequeño al redimensionar
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None // Mantiene el tamaño fijo
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
                 };
                 dtg.Columns.Add(btnEditar);
             }
@@ -438,18 +460,40 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 }
             }
 
-            // Mover los botones al final
-            dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
+            if (!dtg.Columns.Contains("Archivos"))
+            {
+                DataGridViewButtonColumn btnArchivos = new DataGridViewButtonColumn
+                {
+                    Name = "Archivos",
+                    HeaderText = "",
+                    Text = "📎",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtg.Columns.Add(btnArchivos);
+            }
+
+            if (dtg.Columns.Contains("Editar"))
+                dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
+
+            if (dtg.Columns.Contains("Archivos"))
+                dtg.Columns["Archivos"].DisplayIndex = dtg.ColumnCount - 2;
 
             if (isAdminCivil == true && dtg.Columns.Contains("Eliminar"))
-                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
 
             if (isAdminCivil == true && dtg.Columns.Contains("Terminar"))
-                dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
+                dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 4;
         }
 
-        private void CrearBotonesAccionHistorial(DataGridView dtg)
+        private async void CrearBotonesAccionHistorial(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
+            if (IsDisposed || !IsHandleCreated) return;
             // Editar
             if (!dtg.Columns.Contains("Editar"))
             {
@@ -524,58 +568,92 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            lblTitulo.Text = "Nuevo Caso Laboral";
+            lblTitulo.Text = "Caso Civil";
             btnGuardarCaso.Text = "Guardar";
             LimpiarFormulario();
             AnadirTabPage(Detalles);
             EliminarTabPage(Listar);
-            btnGuardarCaso.Visible = true;
-            btnEditarCaso.Visible = false;
+            if (!isLectorCivil)
+            {
+                btnGuardarCaso.Visible = true;
+                btnEditarCaso.Visible = false;
+            }
+            else
+            {
+                btnGuardarCaso.Visible = false;
+                btnEditarCaso.Visible = false;
+            }
         }
 
         private async Task CargarCasosNoDefinitivas()
         {
-
+            if (this.IsDisposed) return;
             int idUsuario = UserSession.Id;
             string filtro = txtBuscarNoDefinitivas.Text;
-            var response = await casoCivilModel.ObtenerCasosCiviles(idUsuario, paginaActual, registrosPorPagina, "no_definitiva", filtro);
+            var response = await casoCivilModel.ObtenerCasosCiviles(idUsuario, paginaActualNoDefinitivas, registrosPorPaginaNoDefinitivas, "no_definitiva", filtro);
+            if (IsDisposed || !IsHandleCreated) return;
 
+            if (response == null)
+            {
+                MessageBox.Show(this, "No se obtuvo respuesta del servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+
+            }
             if (response.success)
             {
                 // Asignar los datos al BindingSource
-                bsCasosNoDefinitivos.DataSource = response.data;
-                dtgResolucionesNoDefinitivas.Refresh();
+                if (!this.IsDisposed && dtgResolucionesNoDefinitivas.IsHandleCreated)
+                {
+                    bsCasosNoDefinitivos.DataSource = response.data;
+                    dtgResolucionesNoDefinitivas.Refresh();
+                }
                 // Actualizar paginación
-                totalRegistros = response.total;
-                labelTotal.Text = $"Total de casos civiles: {totalRegistros}";
-                lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)totalRegistros / registrosPorPagina)}";
+                totalRegistrosNoDefinitivas = response.total;
+                labelTotal.Text = $"Total de casos civiles: {totalRegistrosNoDefinitivas}";
+                lblPagina.Text = $"Página {paginaActualNoDefinitivas} de {Math.Ceiling((double)totalRegistrosNoDefinitivas / registrosPorPaginaNoDefinitivas)}";
             }
             else
             {
-                MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!this.IsDisposed)
+                {
+                    MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
         private async Task CargarCasosFinJuicio()
         {
-
+            if (this.IsDisposed) return;
             int idUsuario = UserSession.Id;
             string filtro = txtBuscarFinJuicio.Text;
-            var response = await casoCivilModel.ObtenerCasosCiviles(idUsuario, paginaActual, registrosPorPagina, "fin_juicio", filtro);
+            var response = await casoCivilModel.ObtenerCasosCiviles(idUsuario, paginaActualFinJuicio, registrosPorPaginaFinJuicio, "fin_juicio", filtro);
+            if (IsDisposed || !IsHandleCreated) return;
+
+            if (response == null)
+            {
+                MessageBox.Show(this, "No se obtuvo respuesta del servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (response.success)
             {
                 // Asignar los datos al BindingSource
-                bsCasosFinJuicio.DataSource = response.data;
-                dtgResolucionesFinJuicio.Refresh();
+                if (!this.IsDisposed && dtgResolucionesFinJuicio.IsHandleCreated)
+                {
+                    bsCasosFinJuicio.DataSource = response.data;
+                    dtgResolucionesFinJuicio.Refresh();
+                }
                 // Actualizar paginación
-                totalRegistros = response.total;
-                labelTotal2.Text = $"Total de casos civiles: {totalRegistros}";
-                lblPagina2.Text = $"Página {paginaActual} de {Math.Ceiling((double)totalRegistros / registrosPorPagina)}";
+                totalRegistrosFinJuicio = response.total;
+                labelTotal2.Text = $"Total de casos civiles: {totalRegistrosFinJuicio}";
+                lblPagina2.Text = $"Página {paginaActualFinJuicio} de {Math.Ceiling((double)totalRegistrosFinJuicio / registrosPorPaginaFinJuicio)}";
             }
             else
             {
-                MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!this.IsDisposed)
+                {
+                    MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -585,8 +663,6 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
             dtgDemandados.AllowUserToAddRows = false;
             dtgDemandados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            dtgDemandados.DataSource = listaDemandados;
 
             listaDemandados.ListChanged += (s, e) =>
             {
@@ -603,8 +679,6 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
             dtgDemandantes.AllowUserToAddRows = false;
             dtgDemandantes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            dtgDemandantes.DataSource = listaDemandantes;
 
             listaDemandantes.ListChanged += (s, e) =>
             {
@@ -623,8 +697,6 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
             dtgTercerosInteresados.AllowUserToAddRows = false;
             dtgTercerosInteresados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dtgTercerosInteresados.DataSource = listaTercerosInteresados;
-
             listaTercerosInteresados.ListChanged += (s, e) =>
             {
                 AjustarAlturaDataGridViewTercerosInteresados();
@@ -640,8 +712,6 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
             dtgContactoEmpresa.AllowUserToAddRows = false;
             dtgContactoEmpresa.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            dtgContactoEmpresa.DataSource = listaContactosEmpresa;
 
             listaContactosEmpresa.ListChanged += (s, e) =>
             {
@@ -660,8 +730,6 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
             dtgAbogadosDirectores.AllowUserToAddRows = false;
             dtgAbogadosDirectores.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dtgAbogadosDirectores.DataSource = listaAbogadosDirectores;
-
             listaAbogadosDirectores.ListChanged += (s, e) =>
             {
                 AjustarAlturaDataGridViewAbogadosDirectores();
@@ -679,8 +747,6 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
             dtgSociosResponsables.AllowUserToAddRows = false;
             dtgSociosResponsables.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dtgSociosResponsables.DataSource = listaSociosResponsables;
-
             listaSociosResponsables.ListChanged += (s, e) =>
             {
                 AjustarAlturaDataGridViewSociosResponsables();
@@ -697,8 +763,6 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
             dtgAbogadosAsistentes.AllowUserToAddRows = false;
             dtgAbogadosAsistentes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            dtgAbogadosAsistentes.DataSource = listaAbogadosAsistentes;
 
             listaAbogadosAsistentes.ListChanged += (s, e) =>
             {
@@ -882,8 +946,12 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
         private async void Civil_primer_instancia_recursos_resolucion_Load(object sender, EventArgs e)
         {
             await VerificarTipoUsuario();
+            if (IsDisposed || !IsHandleCreated) return;
+
             if (!_yaCargo)
                 await LoadAsync();
+            if (IsDisposed || !IsHandleCreated) return;
+
         }
 
 
@@ -901,25 +969,27 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
         private async void btnSiguiente_Click(object sender, EventArgs e)
         {
-            if (paginaActual * registrosPorPagina < totalRegistros)
+            if (paginaActualNoDefinitivas * registrosPorPaginaNoDefinitivas < totalRegistrosNoDefinitivas)
             {
-                paginaActual++;
+                paginaActualNoDefinitivas++;
                 await EjecutarConLoaderAsync(async () =>
                 {
                     await CargarCasosNoDefinitivas();
                 });
+                if (IsDisposed || !IsHandleCreated) return;
             }
         }
 
         private async void btnAnterior_Click(object sender, EventArgs e)
         {
-            if (paginaActual > 1)
+            if (paginaActualNoDefinitivas > 1)
             {
-                paginaActual--;
+                paginaActualNoDefinitivas--;
                 await EjecutarConLoaderAsync(async () =>
                 {
                     await CargarCasosNoDefinitivas();
                 });
+                if (IsDisposed || !IsHandleCreated) return;
             }
         }
 
@@ -941,27 +1011,6 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
             dtgResolucionesNoDefinitivas.ClearSelection();
         }
 
-        private async Task Filtrar()
-        {
-
-            string filtro = txtBuscarNoDefinitivas.Text;
-            int pagina = 1;
-            int registrosPorPagina = 10;
-
-            var resultado = await terceroInteresadoModel.ObtenerTercerosInteresadosFiltrados(pagina, registrosPorPagina, filtro);
-
-            if (resultado.success)
-            {
-                bsCasosNoDefinitivos.DataSource = resultado.data;
-                dtgResolucionesNoDefinitivas.Refresh();
-                labelTotal.Text = $"Total de Casos: {resultado.totalRegistros}";
-                lblPagina.Text = $"Página {paginaActual} de {Math.Ceiling((double)totalRegistros / registrosPorPagina)}";
-            }
-            else
-            {
-                MessageBox.Show(resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private async void txtBuscar_KeyDown(object sender, KeyEventArgs e)
         {
@@ -973,105 +1022,10 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 {
                     await CargarCasosNoDefinitivas();
                 });
-
+                if (IsDisposed || !IsHandleCreated) return;
             }
         }
 
-        private async Task GuardarCaso()
-        {
-            if (string.IsNullOrWhiteSpace(txtExpediente.Text))
-            {
-                MessageBox.Show("Expediente es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtExpediente.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(comboBoxJuzgado.Text))
-            {
-                MessageBox.Show("Juzgado es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                comboBoxJuzgado.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(comboboxOficial.Text))
-            {
-                MessageBox.Show("Oficial es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                comboboxOficial.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(comboboxNotificador.Text))
-            {
-                MessageBox.Show("Notificador es requerido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                comboboxNotificador.Focus();
-                return;
-            }
-
-            // Estado/Fecha: tu app depende de EstadoLaboral
-            if (string.IsNullOrWhiteSpace(EstadoCivil.estado) && string.IsNullOrWhiteSpace(txtEstado.Text))
-            {
-                MessageBox.Show("Debe agregar un estado antes de guardar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (!EstadoCivil.fechaEstado.HasValue)
-            {
-                MessageBox.Show("Debe agregar la fecha del estado antes de guardar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            var req = new CrearCasoCivilRequest
-            {
-                Expediente = txtExpediente.Text,
-                Juzgado = comboBoxJuzgado.Text,
-                Oficial = comboboxOficial.Text,
-                Notificador = comboboxNotificador.Text,
-                NombreParticular = txtNombreParticular.Text,
-
-                Estado = EstadoCivil.estado ?? txtEstado.Text,
-                Observaciones = EstadoCivil.observaciones ?? txtObservaciones.Text,
-                UsuarioCreador = UserSession.Id,
-                Fecha = EstadoCivil.fechaEstado.HasValue
-                ? EstadoCivil.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                : null,
-                FechaVencimiento = EstadoCivil.fechaVencimiento.HasValue
-                ? EstadoCivil.fechaVencimiento.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                : "",
-
-                Demandantes = listaDemandantes.Select(x => x.id).ToList(),
-                Demandados = listaDemandados.Select(x => x.id).ToList(),
-                TercerosInteresados = listaTercerosInteresados.Select(x => x.id).ToList(),
-                ContactosEmpresa = listaContactosEmpresa.Select(x => x.id).ToList(),
-
-                AbogadosDirectores = listaAbogadosDirectores.Select(x => x.id).ToList(),
-                SociosResponsables = listaSociosResponsables.Select(x => x.id).ToList(),
-                AbogadosAsistentes = listaAbogadosAsistentes.Select(x => x.id).ToList(),
-            };
-
-            var resultado = await casoCivilModel.CrearCasoCivil(req);
-
-            if (resultado.success)
-            {
-                MessageBox.Show("Caso civil creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await EjecutarConLoaderAsync(async () =>
-                {
-                    await CargarCasosFinJuicio();
-                    await CargarCasosNoDefinitivas();
-                });
-                LimpiarFormulario();
-                AnadirTabPage(Listar);
-                EliminarTabPage(Detalles);
-            }
-            else
-            {
-                MessageBox.Show("Error: " + resultado.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async void roundedButton18_Click(object sender, EventArgs e)
-        {
-            await GuardarCaso();
-        }
 
         private async void roundedButton19_Click(object sender, EventArgs e)
         {
@@ -1113,6 +1067,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     if (resultado == null)
                     {
                         MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
 
                     if (resultado.success)
@@ -1144,6 +1099,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
                 if (confirm == DialogResult.Yes)
                 {
+                    EstadoCivil.LimpiarEstado();
                     FrmAgregarEstadoCivilTerminado frmAgregarEstado = new FrmAgregarEstadoCivilTerminado();
                     frmAgregarEstado.ShowDialog();
 
@@ -1154,14 +1110,18 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                             usuarioId: UserSession.Id,
                             fecha: EstadoCivil.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                             anotaciones: EstadoCivil.observaciones,
-                            origen: "LABORAL PRIMER INSTANCIA"
+                            origen: "CIVIL JUICIO ORAL PRIMER INSTANCIA"
                         );
 
                         if (response.success)
                         {
                             MessageBox.Show("Caso terminado correctamente", "Éxito",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                            EstadoCivil.LimpiarEstado();
+                            await EjecutarConLoaderAsync(async () =>
+                            {
+                                await CargarCasosNoDefinitivas();
+                            });
                         }
                         else
                         {
@@ -1181,6 +1141,43 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 }
             }
 
+            if (dtgResolucionesNoDefinitivas.Columns[e.ColumnIndex].Name == "Archivos")
+            {
+                try
+                {
+                    _cargandoCaso = true;
+                    dtgResolucionesNoDefinitivas.Enabled = false;
+
+                    int idCaso = Convert.ToInt32(dtgResolucionesNoDefinitivas.Rows[e.RowIndex].Cells["id"].Value);
+                    _idCasoEditar = idCaso;
+                    _actualizandoCaso = true;
+                    _origenArchivos = OrigenArchivos.ListaCasos;
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await CargarDatosCaso(idCaso, false);
+                        await ListarArchivosCaso();
+                    });
+
+                    if (IsDisposed || !IsHandleCreated) return;
+
+                    AnadirTabPage(tabPageArchivos);
+                    EliminarTabPage(Listar);
+                    EliminarTabPage(Detalles);
+                    EliminarTabPage(tabPageHistorial);
+
+                }
+                finally
+                {
+                    if (!IsDisposed && IsHandleCreated)
+                        dtgResolucionesNoDefinitivas.Enabled = true;
+
+                    _cargandoCaso = false;
+                }
+
+                return;
+            }
+
             if (dtgResolucionesNoDefinitivas.Columns[e.ColumnIndex].Name == "Editar")
             {
                 try
@@ -1189,7 +1186,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     dtgResolucionesNoDefinitivas.Enabled = false;
 
                     btnGuardarCaso.Text = "Actualizar";
-                    lblTitulo.Text = "Editar Caso Laboral";
+                    lblTitulo.Text = "Editar Caso Civil";
 
                     int idCaso = Convert.ToInt32(dtgResolucionesNoDefinitivas.Rows[e.RowIndex].Cells["id"].Value);
                     _idCasoEditar = idCaso;
@@ -1203,7 +1200,9 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 }
                 finally
                 {
-                    dtgResolucionesNoDefinitivas.Enabled = true;
+                    if (!IsDisposed && IsHandleCreated)
+                        dtgResolucionesNoDefinitivas.Enabled = true;
+
                     _cargandoCaso = false;
                 }
             }
@@ -1822,9 +1821,8 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
         {
             if (!this.IsHandleCreated || this.IsDisposed) return;
 
-
             this.BeginInvoke(new Action(AjustarLayoutPorResolucion));
-            //MessageBox.Show("ancho flow  " + flowLayoutPanel1.ClientSize.Width);
+
         }
 
 
@@ -1912,6 +1910,8 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 });
                 LimpiarFormulario();
                 _idCasoEditar = 0;
+                EstadoCivil.LimpiarEstado();
+                _huboCambioEstado = false;
 
                 AnadirTabPage(Listar);
                 EliminarTabPage(Detalles);
@@ -1929,7 +1929,6 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
         }
         private async Task ListarHistorial()
         {
-
             var datosHistorial = await historialModel.ObtenerHistorialCasoCivil(_idCasoEditar);
 
             if (!datosHistorial.success || datosHistorial.data == null)
@@ -1983,13 +1982,9 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
             }
             else
             {
-                dtgArchivos.DataSource = res.data;
-
-                dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
-                dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
-                dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
-                dtgArchivos.Columns["archivo_id"].Visible = false;
-
+                dtgArchivos.DataSource = null;
+                dtgArchivos.DataSource = res.data ?? new List<ArchivoCasoCivilItem>();
+                dtgArchivos.Refresh();
                 CrearBotonesAccionArchivos(dtgArchivos);
             }
         }
@@ -2063,6 +2058,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
         private async void btnVerArchivos_Click(object sender, EventArgs e)
         {
+            _origenArchivos = OrigenArchivos.DetallesCaso;
             AnadirTabPage(tabPageArchivos);
             EliminarTabPage(tabPageHistorial);
             EliminarTabPage(Detalles);
@@ -2081,8 +2077,21 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
         private void btnRegresarDetalleDeArchivos_Click(object sender, EventArgs e)
         {
-            AnadirTabPage(Detalles);
-            EliminarTabPage(tabPageArchivos);
+            if (_origenArchivos == OrigenArchivos.ListaCasos)
+            {
+                AnadirTabPage(Listar);
+
+                EliminarTabPage(Detalles);
+                EliminarTabPage(tabPageArchivos);
+                EliminarTabPage(tabPageHistorial);
+            }
+            else
+            {
+                AnadirTabPage(Detalles);
+
+                EliminarTabPage(Listar);
+                EliminarTabPage(tabPageArchivos);
+            }
         }
 
         private void dtgHistorial_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -2114,6 +2123,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
         private async Task RefrescarListaArchivos()
         {
             var resp = await archivosModel.ListarArchivosCasoCivil(_idCasoEditar);
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (!resp.success)
             {
@@ -2122,11 +2132,9 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 return;
             }
 
-            dtgArchivos.DataSource = resp.data;
-            dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
-            dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
-            dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
-            dtgArchivos.Columns["archivo_id"].Visible = false;
+            dtgArchivos.AutoGenerateColumns = true;
+            dtgArchivos.DataSource = null;
+            dtgArchivos.DataSource = resp.data ?? new List<ArchivoCasoCivilItem>();
             CrearBotonesAccionArchivos(dtgArchivos);
         }
 
@@ -2189,29 +2197,27 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     if (sfd.ShowDialog() != DialogResult.OK)
                         return;
 
-                    if (sfd.ShowDialog() == DialogResult.OK)
+                    ApiResponse<string> resp = null;
+
+                    await EjecutarConLoaderAsync(async () =>
                     {
-                        ApiResponse<string> resp = null;
+                        resp = await archivosModel.DescargarArchivoCasoCivil(_idCasoEditar, archivoId, sfd.FileName);
+                    });
 
-                        await EjecutarConLoaderAsync(async () =>
-                        {
-                            resp = await archivosModel.DescargarArchivoCasoCivil(_idCasoEditar, archivoId, sfd.FileName);
-                        });
-
-                        if (resp == null)
-                        {
-                            MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        if (!resp.success)
-                        {
-                            MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        MessageBox.Show("Archivo descargado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (resp == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
+                    if (!resp.success)
+                    {
+                        MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    MessageBox.Show("Archivo descargado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
 
                 // ELIMINAR (confirmación)
@@ -2225,31 +2231,30 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                         if (r != DialogResult.Yes)
                             return;
 
-                        if (r == DialogResult.Yes)
+                        ApiResponse<object> resp = null;
+
+                        await EjecutarConLoaderAsync(async () =>
                         {
-                            ApiResponse<object> resp = null;
+                            resp = await archivosModel.EliminarArchivoCasoCivil(_idCasoEditar, archivoId);
+                        });
+                        if (IsDisposed || !IsHandleCreated) return;
 
-                            await EjecutarConLoaderAsync(async () =>
-                            {
-                                resp = await archivosModel.EliminarArchivoCasoCivil(_idCasoEditar, archivoId);
-                            });
-
-                            if (resp == null)
-                            {
-                                MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-
-                            if (!resp.success)
-                            {
-                                MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-
-                            MessageBox.Show("Archivo eliminado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            await RefrescarListaArchivos();
+                        if (resp == null)
+                        {
+                            MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
                         }
+
+                        if (!resp.success)
+                        {
+                            MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        MessageBox.Show("Archivo eliminado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        await RefrescarListaArchivos();
+                        if (IsDisposed || !IsHandleCreated) return;
                     }
                     else
                     {
@@ -2263,9 +2268,12 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
             }
             finally
             {
-                dtgArchivos.Enabled = true;
-                btnSubirArchivo.Enabled = true;
                 _procesandoArchivo = false;
+                if (!IsDisposed && IsHandleCreated)
+                {
+                    dtgArchivos.Enabled = true;
+                    btnSubirArchivo.Enabled = !isLectorCivil;
+                }
             }
         }
 
@@ -2301,6 +2309,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     {
                         response = await archivosModel.SubirArchivosCasoCivil(_idCasoEditar, ofd.FileNames.ToList());
                     });
+                    if (IsDisposed || !IsHandleCreated) return;
 
                     if (response == null)
                     {
@@ -2328,8 +2337,12 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 }
                 finally
                 {
-                    btnSubirArchivo.Enabled = true;
-                    btnSubirArchivo.Text = "Subir archivo";
+                    if (!IsDisposed && IsHandleCreated)
+                    {
+                        await RefrescarListaArchivos();
+                        btnSubirArchivo.Enabled = !isLectorCivil;
+                        btnSubirArchivo.Text = "Subir archivo";
+                    }
                 }
             }
             else
@@ -2391,6 +2404,8 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                         );
                     });
 
+                    if (IsDisposed || !IsHandleCreated) return;
+
                     if (resp == null)
                     {
                         MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
@@ -2413,6 +2428,8 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                         await ListarHistorial();
                         await CargarDatosCaso(_idCasoEditar);
                     });
+
+                    if (IsDisposed || !IsHandleCreated) return;
                 }
                 else
                 {
@@ -2522,6 +2539,8 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     resp = await historialModel.EditarHistorialCaso(req);
                 });
 
+                if (IsDisposed || !IsHandleCreated) return;
+
                 if (resp == null)
                 {
                     MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
@@ -2546,6 +2565,8 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     await CargarCasosFinJuicio();
                     await CargarCasosNoDefinitivas();
                 });
+
+                if (IsDisposed || !IsHandleCreated) return;
 
                 AnadirTabPage(tabPageHistorial);
                 EliminarTabPage(tabPageEditarHistorial);
@@ -2593,7 +2614,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
         private void comboboxEstado_SelectedValueChanged(object sender, EventArgs e)
         {
-            VerificarEstadoEditarHistorial(_historialSeleccionado.origen);
+            VerificarEstadoEditarHistorial(_historialSeleccionado?.origen ?? "");
             ActualizarObservacionEditarHistorial();
         }
 
@@ -2664,6 +2685,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     if (resultado == null)
                     {
                         MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
 
                     if (resultado.success)
@@ -2695,15 +2717,16 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
 
                 if (confirm == DialogResult.Yes)
                 {
+                    EstadoCivil.LimpiarEstado();
                     FrmAgregarEstadoCivilTerminado frmAgregarEstado = new FrmAgregarEstadoCivilTerminado();
                     frmAgregarEstado.ShowDialog();
 
-                    if (EstadoCivil.estado != null)
+                    if (EstadoCivil.estado != null && EstadoCivil.fechaEstado != null)
                     {
                         var response = await historialModel.TerminarCasoCivil(
                             casoId: idCaso,
                             usuarioId: UserSession.Id,
-                            fecha: EstadoCivil.fechaEstado.ToString(),
+                            fecha: EstadoCivil.fechaEstado.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                             anotaciones: EstadoCivil.observaciones,
                             origen: "CIVIL JUICIO ORAL PRIMER INSTANCIA"
                         );
@@ -2712,7 +2735,11 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                         {
                             MessageBox.Show("Caso terminado correctamente", "Éxito",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                            EstadoCivil.LimpiarEstado();
+                            await EjecutarConLoaderAsync(async () =>
+                            {
+                                await CargarCasosFinJuicio();
+                            });
                         }
                         else
                         {
@@ -2731,6 +2758,42 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 }
             }
 
+            if (dtgResolucionesFinJuicio.Columns[e.ColumnIndex].Name == "Archivos")
+            {
+                try
+                {
+                    _cargandoCaso = true;
+                    dtgResolucionesFinJuicio.Enabled = false;
+
+                    int idCaso = Convert.ToInt32(dtgResolucionesFinJuicio.Rows[e.RowIndex].Cells["id"].Value);
+                    _idCasoEditar = idCaso;
+                    _actualizandoCaso = true;
+                    _origenArchivos = OrigenArchivos.ListaCasos;
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await CargarDatosCaso(idCaso, false);
+                        await ListarArchivosCaso();
+                    });
+
+                    if (IsDisposed || !IsHandleCreated) return;
+
+                    AnadirTabPage(tabPageArchivos);
+                    EliminarTabPage(Listar);
+                    EliminarTabPage(Detalles);
+                    EliminarTabPage(tabPageHistorial);
+
+                }
+                finally
+                {
+                    if (!IsDisposed && IsHandleCreated)
+                        dtgResolucionesFinJuicio.Enabled = true;
+
+                    _cargandoCaso = false;
+                }
+
+                return;
+            }
 
             if (dtgResolucionesFinJuicio.Columns[e.ColumnIndex].Name == "Editar")
             {
@@ -2746,6 +2809,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                     _idCasoEditar = idCaso;
                     _actualizandoCaso = true;
                     _huboCambioEstado = false;
+                    _origenArchivos = OrigenArchivos.ListaCasos;
 
                     await EjecutarConLoaderAsync(async () =>
                     {
@@ -2754,7 +2818,9 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 }
                 finally
                 {
-                    dtgResolucionesFinJuicio.Enabled = true;
+                    if (!IsDisposed && IsHandleCreated)
+                        dtgResolucionesFinJuicio.Enabled = true;
+
                     _cargandoCaso = false;
                 }
             }
@@ -2807,15 +2873,76 @@ namespace Presentacion.Casos.Civiles.Juicio_Oral
                 });
             }
         }
+        private static string FormatearTamano(long bytes)
+        {
+            string[] sufijos = { "B", "KB", "MB", "GB", "TB" };
 
+            double tamano = bytes;
+            int indice = 0;
+
+            while (tamano >= 1024 && indice < sufijos.Length - 1)
+            {
+                tamano /= 1024;
+                indice++;
+            }
+
+            return $"{tamano:N2} {sufijos[indice]}";
+        }
         private void dtgArchivos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-
+            if (dtgArchivos.Columns[e.ColumnIndex].Name == "tamano_bytes" && e.Value != null)
+            {
+                if (long.TryParse(e.Value.ToString(), out long bytes))
+                {
+                    e.Value = FormatearTamano(bytes);
+                    e.FormattingApplied = true;
+                }
+            }
         }
 
         private void dtgArchivos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
+            if (dtgArchivos.Columns.Contains("nombre"))
+                dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
 
+            if (dtgArchivos.Columns.Contains("tamano_bytes"))
+                dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
+
+            if (dtgArchivos.Columns.Contains("fecha"))
+                dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
+
+            if (dtgArchivos.Columns.Contains("archivo_id"))
+                dtgArchivos.Columns["archivo_id"].Visible = false;
+
+            CrearBotonesAccionArchivos(dtgArchivos);
+
+            dtgArchivos.ClearSelection();
+        }
+
+        private async void btnAnteriorFinJuicio_Click(object sender, EventArgs e)
+        {
+            if (paginaActualFinJuicio > 1)
+            {
+                paginaActualFinJuicio--;
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    await CargarCasosFinJuicio();
+                });
+                if (IsDisposed || !IsHandleCreated) return;
+            }
+        }
+
+        private async void btnSiguienteFinJuicio_Click(object sender, EventArgs e)
+        {
+            if (paginaActualFinJuicio * registrosPorPaginaFinJuicio < totalRegistrosFinJuicio)
+            {
+                paginaActualFinJuicio++;
+                await EjecutarConLoaderAsync(async () =>
+                {
+                    await CargarCasosFinJuicio();
+                });
+                if (IsDisposed || !IsHandleCreated) return;
+            }
         }
     }
 }

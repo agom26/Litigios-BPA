@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,9 +13,32 @@ namespace AccesoDatos.Entidades.Civiles
 {
     public class CasosCivilesRecursosDataAccess
     {
-        private readonly string _apiUrl = "http://bpa.com.es/peticiones-litigios/civiles/juicio_oral/recursos.php";
+        private readonly string _apiUrl = "https://bpa.com.es/peticiones-litigios/civiles/juicio_oral/recursos.php";
 
-        private static readonly HttpClient _http = new HttpClient();
+        private static readonly HttpClient _http = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(60)
+        };
+        private async Task<HttpResponseMessage> PostFormAsync(
+            string url,
+            HttpContent content,
+            CancellationToken token = default)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = content,
+                Version = HttpVersion.Version11,
+                VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
+            };
+
+            request.Headers.ConnectionClose = true;
+
+            return await _http.SendAsync(
+                request,
+                HttpCompletionOption.ResponseContentRead,
+                token
+            );
+        }
 
         public async Task<ApiResponseCasosCivilesList> ListarCasosCiviles(
             int usuarioId,
@@ -38,9 +62,19 @@ namespace AccesoDatos.Entidades.Civiles
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
 
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseCasosCivilesList
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+
+
+                }
                 return JsonConvert.DeserializeObject<ApiResponseCasosCivilesList>(jsonResult)
                        ?? new ApiResponseCasosCivilesList{ success = false, message = "Respuesta vacía o inválida." };
             }
@@ -49,7 +83,8 @@ namespace AccesoDatos.Entidades.Civiles
                 return new ApiResponseCasosCivilesList
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                        (ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -97,8 +132,17 @@ namespace AccesoDatos.Entidades.Civiles
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseCrearCasoCivil
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseCrearCasoCivil>(jsonResult)
                        ?? new ApiResponseCrearCasoCivil { success = false, message = "Respuesta vacía o inválida." };
@@ -108,7 +152,8 @@ namespace AccesoDatos.Entidades.Civiles
                 return new ApiResponseCrearCasoCivil
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                        (ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -127,8 +172,17 @@ namespace AccesoDatos.Entidades.Civiles
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<CasoCivilDetalleData>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<CasoCivilDetalleData>>(jsonResult)
                        ?? new ApiResponse<CasoCivilDetalleData> { success = false, message = "Respuesta vacía o inválida." };
@@ -138,7 +192,8 @@ namespace AccesoDatos.Entidades.Civiles
                 return new ApiResponse<CasoCivilDetalleData>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                        (ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -180,15 +235,28 @@ namespace AccesoDatos.Entidades.Civiles
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseEditarCasoCivil
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseEditarCasoCivil>(jsonResult)
                     ?? new ApiResponseEditarCasoCivil { success = false, message = "Respuesta vacía o inválida." };
             }
             catch (Exception ex)
             {
-                return new ApiResponseEditarCasoCivil { success = false, message = "Error: " + ex.Message };
+                return new ApiResponseEditarCasoCivil { 
+                    success = false, 
+                    message = "Error: " + ex.Message +
+                        (ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")
+                };
             }
         }
 
@@ -205,8 +273,17 @@ namespace AccesoDatos.Entidades.Civiles
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
                        ?? new ApiResponse<object>
@@ -220,7 +297,8 @@ namespace AccesoDatos.Entidades.Civiles
                 return new ApiResponse<object>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                        (ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")
                 };
             }
         }

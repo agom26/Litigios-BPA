@@ -2623,29 +2623,28 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                     if (sfd.ShowDialog() != DialogResult.OK)
                         return;
 
-                    if (sfd.ShowDialog() == DialogResult.OK)
+                    ApiResponse<string> resp = null;
+
+                    await EjecutarConLoaderAsync(async () =>
                     {
-                        ApiResponse<string> resp = null;
+                        resp = await archivoModel.DescargarArchivoCasoCivil(_idCasoEditar, archivoId, sfd.FileName);
+                    });
 
-                        await EjecutarConLoaderAsync(async () =>
-                        {
-                            resp = await archivoModel.DescargarArchivoCasoCivil(_idCasoEditar, archivoId, sfd.FileName);
-                        });
-
-                        if (resp == null)
-                        {
-                            MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        if (!resp.success)
-                        {
-                            MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        MessageBox.Show("Archivo descargado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (resp == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
+                    if (!resp.success)
+                    {
+                        MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    MessageBox.Show("Archivo descargado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
                 }
 
                 // ELIMINAR (confirmación)
@@ -2702,7 +2701,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 if (!IsDisposed && IsHandleCreated)
                 {
                     dtgArchivos.Enabled = true;
-                    btnSubirArchivo.Enabled = true;
+                    btnSubirArchivo.Enabled = !isLectorCivil;
                 }
             }
         }
@@ -2767,7 +2766,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 finally
                 {
                     await RefrescarListaArchivos();
-                    btnSubirArchivo.Enabled = true;
+                    btnSubirArchivo.Enabled = !isLectorCivil;
                     btnSubirArchivo.Text = "Subir archivo";
                 }
             }
@@ -3115,7 +3114,6 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             AnadirTabPage(tabPageCasoReferencia);
             EliminarTabPage(Detalles);
             EliminarTabPage(Listar);
-            EliminarTabPage(tabPageEditarHistorial);
             EliminarTabPage(tabPageEditarHistorial);
 
         }

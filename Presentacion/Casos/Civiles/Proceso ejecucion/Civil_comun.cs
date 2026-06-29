@@ -186,10 +186,9 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 finally
                 {
                     if (!IsDisposed && IsHandleCreated)
-                    {
                         this.Enabled = true;
-                        _cargando = false;
-                    }
+
+                    _cargando = false;
                 }
             }
         }
@@ -1141,6 +1140,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
 
                 if (confirm == DialogResult.Yes)
                 {
+                    EstadoCivil.LimpiarEstado();
                     FrmAgregarEstadoCivilTerminado frmAgregarEstado = new FrmAgregarEstadoCivilTerminado();
                     frmAgregarEstado.ShowDialog();
 
@@ -1158,7 +1158,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                         {
                             MessageBox.Show("Caso terminado correctamente", "Éxito",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                            EstadoCivil.LimpiarEstado();
                             await EjecutarConLoaderAsync(async () =>
                             {
                                 await CargarCasos();
@@ -2022,7 +2022,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
             }
             else
             {
-                dtgArchivos.DataSource = res.data;
+                dtgArchivos.DataSource = null;
                 dtgArchivos.DataSource = res.data ?? new List<ArchivoCasoCivilItem>();
                 dtgArchivos.Refresh();
                 CrearBotonesAccionArchivos(dtgArchivos);
@@ -2317,7 +2317,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                 if (!IsDisposed && IsHandleCreated)
                 {
                     dtgArchivos.Enabled = true;
-                    btnSubirArchivo.Enabled = true;
+                    btnSubirArchivo.Enabled = !isLectorCivil;
                 }
             }
         }
@@ -2383,7 +2383,7 @@ namespace Presentacion.Casos.Civiles.Proceso_ejecucion
                     if (!IsDisposed && IsHandleCreated)
                     {
                         await RefrescarListaArchivos();
-                        btnSubirArchivo.Enabled = true;
+                        btnSubirArchivo.Enabled = !isLectorCivil;
                         btnSubirArchivo.Text = "Subir archivo";
                     }
                 }

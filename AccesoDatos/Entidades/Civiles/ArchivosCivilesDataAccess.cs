@@ -1,9 +1,11 @@
 ﻿using Comun.Models;
 using Comun.Models.Casos.Civiles;
+using Comun.Models.Casos.Laborales;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +15,32 @@ namespace AccesoDatos.Entidades.Civiles
 {
     public class ArchivosCivilesDataAccess
     {
-        private readonly string _apiUrlArchivos = "http://bpa.com.es/peticiones-litigios/civiles/archivos_casos_civiles.php";
+        private readonly string _apiUrlArchivos = "https://bpa.com.es/peticiones-litigios/civiles/archivos_casos_civiles.php";
         // Recomendado: reutilizar HttpClient (no crearlo en cada método)
-        private static readonly HttpClient _http = new HttpClient();
+        private static readonly HttpClient _http = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(120)
+        };
+        private async Task<HttpResponseMessage> PostFormAsyncArchivos(
+           string url,
+           HttpContent content,
+           CancellationToken token = default)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = content,
+                Version = HttpVersion.Version11,
+                VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
+            };
+
+            request.Headers.ConnectionClose = true;
+
+            return await _http.SendAsync(
+                request,
+                HttpCompletionOption.ResponseContentRead,
+                token
+            );
+        }
         // LISTAR
         public async Task<ListarArchivosCasoCivilResponse> ListarArchivos(int casoId)
         {
@@ -29,8 +54,17 @@ namespace AccesoDatos.Entidades.Civiles
 
             try
             {
-                var response = await _http.PostAsync(_apiUrlArchivos, content);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, content);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ListarArchivosCasoCivilResponse
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ListarArchivosCasoCivilResponse>(json)
                        ?? new ListarArchivosCasoCivilResponse { success = false, message = "Respuesta vacía o inválida.", data = new List<ArchivoCasoCivilItem>() };
@@ -40,7 +74,8 @@ namespace AccesoDatos.Entidades.Civiles
                 return new ListarArchivosCasoCivilResponse
                 {
                     success = false,
-                    message = "Error: " + ex.Message,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : ""),
                     data = new List<ArchivoCasoCivilItem>()
                 };
             }
@@ -59,21 +94,33 @@ namespace AccesoDatos.Entidades.Civiles
                 form.Add(new StringContent("subir_archivo_caso_civil"), "action");
                 form.Add(new StringContent(casoId.ToString()), "caso_id");
 
-                var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
-                var fileContent = new ByteArrayContent(fileBytes);
+                await using var fs = System.IO.File.OpenRead(filePath);
+                using var fileContent = new StreamContent(fs);
                 fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-
                 form.Add(fileContent, "archivo", Path.GetFileName(filePath));
 
-                var response = await _http.PostAsync(_apiUrlArchivos, form);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, form);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<SubirArchivoCasoCivilData>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<SubirArchivoCasoCivilData>>(json)
                        ?? new ApiResponse<SubirArchivoCasoCivilData> { success = false, message = "Respuesta vacía o inválida." };
             }
             catch (Exception ex)
             {
-                return new ApiResponse<SubirArchivoCasoCivilData> { success = false, message = "Error: " + ex.Message };
+                return new ApiResponse<SubirArchivoCasoCivilData> { 
+                    success = false, 
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
+                };
             }
         }
 
@@ -96,6 +143,7 @@ namespace AccesoDatos.Entidades.Civiles
                 form.Add(new StringContent("subir_archivos_caso_civil"), "action");
                 form.Add(new StringContent(casoId.ToString()), "caso_id");
 
+                int archivosAgregados = 0;
                 foreach (var filePath in filePaths)
                 {
                     if (!System.IO.File.Exists(filePath))
@@ -106,10 +154,30 @@ namespace AccesoDatos.Entidades.Civiles
                     fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
                     form.Add(fileContent, "archivo[]", Path.GetFileName(filePath));
+                    archivosAgregados++;
                 }
 
-                var response = await _http.PostAsync(_apiUrlArchivos, form);
+                if (archivosAgregados == 0)
+                {
+                    return new ApiResponse<List<SubirArchivoCasoCivilData>>
+                    {
+                        success = false,
+                        message = "Ningún archivo seleccionado existe o pudo leerse.",
+                        data = new List<SubirArchivoCasoCivilData>()
+                    };
+                }
+
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, form);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<List<SubirArchivoCasoCivilData>>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<List<SubirArchivoCasoCivilData>>>(json)
                        ?? new ApiResponse<List<SubirArchivoCasoCivilData>>
@@ -124,7 +192,8 @@ namespace AccesoDatos.Entidades.Civiles
                 return new ApiResponse<List<SubirArchivoCasoCivilData>>
                 {
                     success = false,
-                    message = "Error: " + ex.Message,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : ""),
                     data = new List<SubirArchivoCasoCivilData>()
                 };
             }
@@ -144,15 +213,28 @@ namespace AccesoDatos.Entidades.Civiles
 
             try
             {
-                var response = await _http.PostAsync(_apiUrlArchivos, content);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, content);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<object>>(json)
                        ?? new ApiResponse<object> { success = false, message = "Respuesta vacía o inválida." };
             }
             catch (Exception ex)
             {
-                return new ApiResponse<object> { success = false, message = "Error: " + ex.Message };
+                return new ApiResponse<object> { 
+                    success = false, 
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
+                };
             }
         }
 
@@ -171,12 +253,36 @@ namespace AccesoDatos.Entidades.Civiles
 
             try
             {
-                var response = await _http.PostAsync(_apiUrlArchivos, content);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, content);
 
                 if (!response.IsSuccessStatusCode)
                     return new ApiResponse<string> { success = false, message = "HTTP Error: " + response.StatusCode };
 
+                var contentType = response.Content.Headers.ContentType?.MediaType ?? "";
+
+                if (contentType.Contains("application/json"))
+                {
+                    var jsonError = await response.Content.ReadAsStringAsync();
+                    var error = JsonConvert.DeserializeObject<ApiResponse<object>>(jsonError);
+
+                    return new ApiResponse<string>
+                    {
+                        success = false,
+                        message = error?.message ?? "El servidor devolvió un error."
+                    };
+                }
+
                 var bytes = await response.Content.ReadAsByteArrayAsync();
+
+                if (bytes == null || bytes.Length == 0)
+                {
+                    return new ApiResponse<string>
+                    {
+                        success = false,
+                        message = "El archivo descargado está vacío."
+                    };
+                }
+
                 await System.IO.File.WriteAllBytesAsync(saveToPath, bytes);
 
                 return new ApiResponse<string> { success = true, message = "Archivo descargado.", data = saveToPath };
