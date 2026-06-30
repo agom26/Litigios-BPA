@@ -159,7 +159,7 @@ namespace AccesoDatos.Entidades.Constitucionales
                     {
                         success = false,
                         message = "Ningún archivo seleccionado existe o pudo leerse.",
-                        data = new List<SubirArchivoCasoConstitucionalData>
+                        data = new List<SubirArchivoCasoConstitucionalData>()
                     };
                 }
 
