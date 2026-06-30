@@ -61,10 +61,6 @@
             DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle37 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle38 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle39 = new DataGridViewCellStyle();
@@ -97,6 +93,10 @@
             DataGridViewCellStyle dataGridViewCellStyle66 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle67 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle68 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
             tabControl1 = new TabControl();
             Listar = new TabPage();
             labelTotal = new Label();
@@ -194,7 +194,6 @@
             panelBotones = new Panel();
             tabPageHistorial = new TabPage();
             btnRegresarDetalleDeHistorial = new Presentacion.Clases.RoundedButton();
-            dtgHistorial = new DataGridView();
             label18 = new Label();
             label19 = new Label();
             label20 = new Label();
@@ -368,6 +367,7 @@
             btnGuardarCaso = new Presentacion.Clases.RoundedButton();
             panelBotonesCaso = new Panel();
             btnCasoReferencia = new Presentacion.Clases.RoundedButton();
+            dtgHistorial = new DataGridView();
             tabControl1.SuspendLayout();
             Listar.SuspendLayout();
             panelBusquedaCaso.SuspendLayout();
@@ -396,7 +396,6 @@
             panel3.SuspendLayout();
             panelInformacionPersonal.SuspendLayout();
             tabPageHistorial.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgHistorial).BeginInit();
             tabPageArchivos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgArchivos).BeginInit();
             tabPageEditarHistorial.SuspendLayout();
@@ -434,6 +433,7 @@
             ((System.ComponentModel.ISupportInitialize)dtgSociosResponsablesCasoReferencia).BeginInit();
             panel19.SuspendLayout();
             panelBotonesCaso.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgHistorial).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -696,7 +696,7 @@
             dtgCasosCiviles.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dtgCasosCiviles.RowTemplate.Height = 45;
             dtgCasosCiviles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgCasosCiviles.Size = new Size(719, 262);
+            dtgCasosCiviles.Size = new Size(719, 280);
             dtgCasosCiviles.TabIndex = 1;
             dtgCasosCiviles.CellClick += dtgCasosCiviles_CellClick;
             dtgCasosCiviles.CellFormatting += dtgCasosCiviles_CellFormatting;
@@ -1812,7 +1812,7 @@
             panel3.Controls.Add(roundedButton26);
             panel3.Location = new Point(55, 397);
             panel3.Name = "panel3";
-            panel3.Size = new Size(676, 287);
+            panel3.Size = new Size(672, 287);
             panel3.TabIndex = 9;
             // 
             // btnAgregarEstado
@@ -1885,7 +1885,7 @@
             txtObservaciones.PlaceholderText = "...";
             txtObservaciones.ReadOnly = true;
             txtObservaciones.ScrollBars = ScrollBars.Vertical;
-            txtObservaciones.Size = new Size(608, 118);
+            txtObservaciones.Size = new Size(604, 118);
             txtObservaciones.TabIndex = 10;
             // 
             // roundedButton23
@@ -1903,7 +1903,7 @@
             roundedButton23.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton23.Location = new Point(23, 135);
             roundedButton23.Name = "roundedButton23";
-            roundedButton23.Size = new Size(632, 139);
+            roundedButton23.Size = new Size(628, 139);
             roundedButton23.TabIndex = 11;
             roundedButton23.TextColor = Color.White;
             roundedButton23.UseVisualStyleBackColor = false;
@@ -1944,7 +1944,7 @@
             roundedButton22.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton22.Location = new Point(0, 0);
             roundedButton22.Name = "roundedButton22";
-            roundedButton22.Size = new Size(676, 43);
+            roundedButton22.Size = new Size(672, 43);
             roundedButton22.TabIndex = 4;
             roundedButton22.Text = "Estado y Observaciones";
             roundedButton22.TextAlign = ContentAlignment.MiddleLeft;
@@ -1966,7 +1966,7 @@
             roundedButton26.ForeColor = Color.White;
             roundedButton26.Location = new Point(0, 45);
             roundedButton26.Name = "roundedButton26";
-            roundedButton26.Size = new Size(676, 242);
+            roundedButton26.Size = new Size(672, 242);
             roundedButton26.TabIndex = 2;
             roundedButton26.TextColor = Color.White;
             roundedButton26.UseVisualStyleBackColor = false;
@@ -1994,7 +1994,7 @@
             panelInformacionPersonal.Controls.Add(roundedButton9);
             panelInformacionPersonal.Location = new Point(55, 71);
             panelInformacionPersonal.Name = "panelInformacionPersonal";
-            panelInformacionPersonal.Size = new Size(676, 311);
+            panelInformacionPersonal.Size = new Size(672, 311);
             panelInformacionPersonal.TabIndex = 3;
             // 
             // label31
@@ -2202,7 +2202,7 @@
             roundedButton2.ForeColor = Color.White;
             roundedButton2.Location = new Point(0, 43);
             roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(676, 268);
+            roundedButton2.Size = new Size(672, 268);
             roundedButton2.TabIndex = 2;
             roundedButton2.TextColor = Color.White;
             roundedButton2.UseVisualStyleBackColor = false;
@@ -2223,7 +2223,7 @@
             roundedButton9.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton9.Location = new Point(0, 0);
             roundedButton9.Name = "roundedButton9";
-            roundedButton9.Size = new Size(676, 43);
+            roundedButton9.Size = new Size(672, 43);
             roundedButton9.TabIndex = 4;
             roundedButton9.Text = "Datos Generales";
             roundedButton9.TextAlign = ContentAlignment.MiddleLeft;
@@ -2246,7 +2246,7 @@
             panelBotones.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelBotones.Location = new Point(0, 2125);
             panelBotones.Name = "panelBotones";
-            panelBotones.Size = new Size(360, 48);
+            panelBotones.Size = new Size(356, 48);
             panelBotones.TabIndex = 20;
             // 
             // tabPageHistorial
@@ -2281,56 +2281,6 @@
             btnRegresarDetalleDeHistorial.TextColor = Color.Silver;
             btnRegresarDetalleDeHistorial.UseVisualStyleBackColor = false;
             btnRegresarDetalleDeHistorial.Click += roundedButton19_Click_1;
-            // 
-            // dtgHistorial
-            // 
-            dtgHistorial.AllowUserToAddRows = false;
-            dtgHistorial.AllowUserToDeleteRows = false;
-            dtgHistorial.AllowUserToResizeRows = false;
-            dataGridViewCellStyle33.BackColor = Color.FromArgb(249, 247, 242);
-            dtgHistorial.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle33;
-            dtgHistorial.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dtgHistorial.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dtgHistorial.BackgroundColor = Color.White;
-            dtgHistorial.BorderStyle = BorderStyle.None;
-            dtgHistorial.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dtgHistorial.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle34.BackColor = Color.FromArgb(250, 248, 245);
-            dataGridViewCellStyle34.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle34.ForeColor = Color.FromArgb(80, 80, 80);
-            dataGridViewCellStyle34.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle34.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle34.WrapMode = DataGridViewTriState.True;
-            dtgHistorial.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle34;
-            dtgHistorial.ColumnHeadersHeight = 40;
-            dtgHistorial.EnableHeadersVisualStyles = false;
-            dtgHistorial.Location = new Point(39, 115);
-            dtgHistorial.MinimumSize = new Size(719, 226);
-            dtgHistorial.MultiSelect = false;
-            dtgHistorial.Name = "dtgHistorial";
-            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle35.BackColor = Color.White;
-            dataGridViewCellStyle35.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle35.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle35.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle35.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle35.WrapMode = DataGridViewTriState.True;
-            dtgHistorial.RowHeadersDefaultCellStyle = dataGridViewCellStyle35;
-            dtgHistorial.RowHeadersVisible = false;
-            dtgHistorial.RowHeadersWidth = 62;
-            dataGridViewCellStyle36.BackColor = Color.White;
-            dataGridViewCellStyle36.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle36.ForeColor = Color.FromArgb(60, 60, 60);
-            dataGridViewCellStyle36.SelectionBackColor = Color.FromArgb(220, 235, 252);
-            dataGridViewCellStyle36.SelectionForeColor = Color.Black;
-            dtgHistorial.RowsDefaultCellStyle = dataGridViewCellStyle36;
-            dtgHistorial.RowTemplate.Height = 45;
-            dtgHistorial.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgHistorial.Size = new Size(719, 294);
-            dtgHistorial.TabIndex = 21;
-            dtgHistorial.CellContentClick += dtgHistorial_CellContentClick;
-            dtgHistorial.DataBindingComplete += dtgHistorial_DataBindingComplete;
             // 
             // label18
             // 
@@ -2472,6 +2422,8 @@
             dtgArchivos.Size = new Size(719, 294);
             dtgArchivos.TabIndex = 25;
             dtgArchivos.CellContentClick += dtgArchivos_CellContentClick;
+            dtgArchivos.CellFormatting += dtgArchivos_CellFormatting;
+            dtgArchivos.DataBindingComplete += dtgArchivos_DataBindingComplete;
             // 
             // label21
             // 
@@ -2886,7 +2838,7 @@
             btnEliminarCasoReferencia.ForeColor = Color.FromArgb(181, 32, 31);
             btnEliminarCasoReferencia.Image = Properties.Resources.cubo_de_basura;
             btnEliminarCasoReferencia.ImageAlign = ContentAlignment.MiddleRight;
-            btnEliminarCasoReferencia.Location = new Point(328, 32);
+            btnEliminarCasoReferencia.Location = new Point(311, 32);
             btnEliminarCasoReferencia.Name = "btnEliminarCasoReferencia";
             btnEliminarCasoReferencia.Padding = new Padding(3, 0, 0, 0);
             btnEliminarCasoReferencia.Size = new Size(246, 32);
@@ -2922,7 +2874,7 @@
             txtCasoReferenciaId.Anchor = AnchorStyles.Top;
             txtCasoReferenciaId.BorderStyle = BorderStyle.None;
             txtCasoReferenciaId.Font = new Font("Segoe UI", 9F);
-            txtCasoReferenciaId.Location = new Point(-49, 84);
+            txtCasoReferenciaId.Location = new Point(-57, 84);
             txtCasoReferenciaId.Name = "txtCasoReferenciaId";
             txtCasoReferenciaId.Size = new Size(51, 16);
             txtCasoReferenciaId.TabIndex = 32;
@@ -2942,7 +2894,7 @@
             btnAgregarCasoReferencia.ForeColor = Color.FromArgb(52, 109, 235);
             btnAgregarCasoReferencia.Image = Properties.Resources.boton_agregar__1_;
             btnAgregarCasoReferencia.ImageAlign = ContentAlignment.MiddleRight;
-            btnAgregarCasoReferencia.Location = new Point(327, 70);
+            btnAgregarCasoReferencia.Location = new Point(310, 70);
             btnAgregarCasoReferencia.Name = "btnAgregarCasoReferencia";
             btnAgregarCasoReferencia.Padding = new Padding(3, 0, 0, 0);
             btnAgregarCasoReferencia.Size = new Size(246, 32);
@@ -3009,7 +2961,7 @@
             panelDatosGenerales.Controls.Add(roundedButton35);
             panelDatosGenerales.Location = new Point(65, 115);
             panelDatosGenerales.Name = "panelDatosGenerales";
-            panelDatosGenerales.Size = new Size(509, 333);
+            panelDatosGenerales.Size = new Size(492, 333);
             panelDatosGenerales.TabIndex = 25;
             // 
             // comboBoxTituloCasoReferencia
@@ -3238,7 +3190,7 @@
             roundedButton34.ForeColor = Color.White;
             roundedButton34.Location = new Point(0, 43);
             roundedButton34.Name = "roundedButton34";
-            roundedButton34.Size = new Size(509, 290);
+            roundedButton34.Size = new Size(492, 290);
             roundedButton34.TabIndex = 2;
             roundedButton34.TextColor = Color.White;
             roundedButton34.UseVisualStyleBackColor = false;
@@ -3259,7 +3211,7 @@
             roundedButton35.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton35.Location = new Point(0, 0);
             roundedButton35.Name = "roundedButton35";
-            roundedButton35.Size = new Size(509, 43);
+            roundedButton35.Size = new Size(492, 43);
             roundedButton35.TabIndex = 4;
             roundedButton35.Text = "Datos Generales";
             roundedButton35.TextAlign = ContentAlignment.MiddleLeft;
@@ -3733,7 +3685,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 150F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 311F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 8F));
-            tableLayoutPanel1.Size = new Size(520, 2330);
+            tableLayoutPanel1.Size = new Size(503, 2330);
             tableLayoutPanel1.TabIndex = 37;
             // 
             // panelExpedienteReferencia
@@ -3742,7 +3694,7 @@
             panelExpedienteReferencia.Controls.Add(panel18);
             panelExpedienteReferencia.Location = new Point(3, 153);
             panelExpedienteReferencia.Name = "panelExpedienteReferencia";
-            panelExpedienteReferencia.Size = new Size(514, 129);
+            panelExpedienteReferencia.Size = new Size(497, 129);
             panelExpedienteReferencia.TabIndex = 36;
             // 
             // panel14
@@ -3757,7 +3709,7 @@
             panel14.Dock = DockStyle.Fill;
             panel14.Location = new Point(0, 43);
             panel14.Name = "panel14";
-            panel14.Size = new Size(514, 86);
+            panel14.Size = new Size(497, 86);
             panel14.TabIndex = 1;
             // 
             // labelNombreParticularCRRC
@@ -3856,7 +3808,7 @@
             roundedButton57.ForeColor = Color.White;
             roundedButton57.Location = new Point(0, 0);
             roundedButton57.Name = "roundedButton57";
-            roundedButton57.Size = new Size(514, 86);
+            roundedButton57.Size = new Size(497, 86);
             roundedButton57.TabIndex = 0;
             roundedButton57.TextColor = Color.White;
             roundedButton57.UseVisualStyleBackColor = false;
@@ -3867,7 +3819,7 @@
             panel18.Dock = DockStyle.Top;
             panel18.Location = new Point(0, 0);
             panel18.Name = "panel18";
-            panel18.Size = new Size(514, 43);
+            panel18.Size = new Size(497, 43);
             panel18.TabIndex = 0;
             // 
             // roundedButton60
@@ -3886,7 +3838,7 @@
             roundedButton60.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton60.Location = new Point(0, 0);
             roundedButton60.Name = "roundedButton60";
-            roundedButton60.Size = new Size(514, 43);
+            roundedButton60.Size = new Size(497, 43);
             roundedButton60.TabIndex = 5;
             roundedButton60.Text = "Expediente de referencia";
             roundedButton60.TextAlign = ContentAlignment.MiddleLeft;
@@ -3900,7 +3852,7 @@
             panelRecursoCasacion.Controls.Add(panel11);
             panelRecursoCasacion.Location = new Point(3, 3);
             panelRecursoCasacion.Name = "panelRecursoCasacion";
-            panelRecursoCasacion.Size = new Size(514, 129);
+            panelRecursoCasacion.Size = new Size(497, 129);
             panelRecursoCasacion.TabIndex = 35;
             // 
             // panel9
@@ -3914,7 +3866,7 @@
             panel9.Dock = DockStyle.Fill;
             panel9.Location = new Point(0, 43);
             panel9.Name = "panel9";
-            panel9.Size = new Size(514, 86);
+            panel9.Size = new Size(497, 86);
             panel9.TabIndex = 1;
             // 
             // comboBoxMotivoCasacionCR
@@ -3995,7 +3947,7 @@
             roundedButton36.ForeColor = Color.White;
             roundedButton36.Location = new Point(0, 0);
             roundedButton36.Name = "roundedButton36";
-            roundedButton36.Size = new Size(514, 86);
+            roundedButton36.Size = new Size(497, 86);
             roundedButton36.TabIndex = 0;
             roundedButton36.TextColor = Color.White;
             roundedButton36.UseVisualStyleBackColor = false;
@@ -4006,7 +3958,7 @@
             panel11.Dock = DockStyle.Top;
             panel11.Location = new Point(0, 0);
             panel11.Name = "panel11";
-            panel11.Size = new Size(514, 43);
+            panel11.Size = new Size(497, 43);
             panel11.TabIndex = 0;
             // 
             // roundedButton39
@@ -4025,7 +3977,7 @@
             roundedButton39.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton39.Location = new Point(0, 0);
             roundedButton39.Name = "roundedButton39";
-            roundedButton39.Size = new Size(514, 43);
+            roundedButton39.Size = new Size(497, 43);
             roundedButton39.TabIndex = 5;
             roundedButton39.Text = "Recurso de Casación";
             roundedButton39.TextAlign = ContentAlignment.MiddleLeft;
@@ -4047,7 +3999,7 @@
             panel2.Controls.Add(roundedButton31);
             panel2.Location = new Point(3, 303);
             panel2.Name = "panel2";
-            panel2.Size = new Size(514, 287);
+            panel2.Size = new Size(497, 287);
             panel2.TabIndex = 26;
             // 
             // label34
@@ -4095,7 +4047,7 @@
             textBoxObervacionesCasoReferencia.PlaceholderText = "...";
             textBoxObervacionesCasoReferencia.ReadOnly = true;
             textBoxObervacionesCasoReferencia.ScrollBars = ScrollBars.Vertical;
-            textBoxObervacionesCasoReferencia.Size = new Size(442, 118);
+            textBoxObervacionesCasoReferencia.Size = new Size(425, 118);
             textBoxObervacionesCasoReferencia.TabIndex = 10;
             textBoxObervacionesCasoReferencia.TextChanged += textBox6_TextChanged;
             // 
@@ -4114,7 +4066,7 @@
             roundedButton28.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton28.Location = new Point(23, 135);
             roundedButton28.Name = "roundedButton28";
-            roundedButton28.Size = new Size(466, 139);
+            roundedButton28.Size = new Size(449, 139);
             roundedButton28.TabIndex = 11;
             roundedButton28.TextColor = Color.White;
             roundedButton28.UseVisualStyleBackColor = false;
@@ -4154,7 +4106,7 @@
             roundedButton30.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton30.Location = new Point(0, 0);
             roundedButton30.Name = "roundedButton30";
-            roundedButton30.Size = new Size(514, 43);
+            roundedButton30.Size = new Size(497, 43);
             roundedButton30.TabIndex = 4;
             roundedButton30.Text = "Estado y Observaciones";
             roundedButton30.TextAlign = ContentAlignment.MiddleLeft;
@@ -4176,7 +4128,7 @@
             roundedButton31.ForeColor = Color.White;
             roundedButton31.Location = new Point(0, 45);
             roundedButton31.Name = "roundedButton31";
-            roundedButton31.Size = new Size(514, 242);
+            roundedButton31.Size = new Size(497, 242);
             roundedButton31.TabIndex = 2;
             roundedButton31.TextColor = Color.White;
             roundedButton31.UseVisualStyleBackColor = false;
@@ -4197,7 +4149,7 @@
             flowLayoutPanel2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             flowLayoutPanel2.Location = new Point(3, 614);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
-            flowLayoutPanel2.Size = new Size(514, 1687);
+            flowLayoutPanel2.Size = new Size(497, 1687);
             flowLayoutPanel2.TabIndex = 30;
             flowLayoutPanel2.WrapContents = false;
             // 
@@ -5209,6 +5161,57 @@
             btnCasoReferencia.UseVisualStyleBackColor = false;
             btnCasoReferencia.Click += btnCasoReferencia_Click;
             // 
+            // dtgHistorial
+            // 
+            dtgHistorial.AllowUserToAddRows = false;
+            dtgHistorial.AllowUserToDeleteRows = false;
+            dtgHistorial.AllowUserToResizeRows = false;
+            dataGridViewCellStyle33.BackColor = Color.FromArgb(249, 247, 242);
+            dtgHistorial.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle33;
+            dtgHistorial.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dtgHistorial.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgHistorial.BackgroundColor = Color.White;
+            dtgHistorial.BorderStyle = BorderStyle.None;
+            dtgHistorial.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgHistorial.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle34.BackColor = Color.FromArgb(250, 248, 245);
+            dataGridViewCellStyle34.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle34.ForeColor = Color.FromArgb(80, 80, 80);
+            dataGridViewCellStyle34.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle34.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle34.WrapMode = DataGridViewTriState.True;
+            dtgHistorial.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle34;
+            dtgHistorial.ColumnHeadersHeight = 40;
+            dtgHistorial.EnableHeadersVisualStyles = false;
+            dtgHistorial.Location = new Point(39, 115);
+            dtgHistorial.MinimumSize = new Size(719, 226);
+            dtgHistorial.MultiSelect = false;
+            dtgHistorial.Name = "dtgHistorial";
+            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle35.BackColor = Color.White;
+            dataGridViewCellStyle35.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle35.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle35.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle35.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle35.WrapMode = DataGridViewTriState.True;
+            dtgHistorial.RowHeadersDefaultCellStyle = dataGridViewCellStyle35;
+            dtgHistorial.RowHeadersVisible = false;
+            dtgHistorial.RowHeadersWidth = 62;
+            dataGridViewCellStyle36.BackColor = Color.White;
+            dataGridViewCellStyle36.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle36.ForeColor = Color.FromArgb(60, 60, 60);
+            dataGridViewCellStyle36.SelectionBackColor = Color.FromArgb(220, 235, 252);
+            dataGridViewCellStyle36.SelectionForeColor = Color.Black;
+            dtgHistorial.RowsDefaultCellStyle = dataGridViewCellStyle36;
+            dtgHistorial.RowTemplate.Height = 45;
+            dtgHistorial.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgHistorial.Size = new Size(719, 294);
+            dtgHistorial.TabIndex = 21;
+            dtgHistorial.CellContentClick += dtgHistorial_CellContentClick;
+            dtgHistorial.CellFormatting += dtgHistorial_CellFormatting;
+            dtgHistorial.DataBindingComplete += dtgHistorial_DataBindingComplete;
+            // 
             // Constitucional_amparo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -5265,7 +5268,6 @@
             panelInformacionPersonal.PerformLayout();
             tabPageHistorial.ResumeLayout(false);
             tabPageHistorial.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgHistorial).EndInit();
             tabPageArchivos.ResumeLayout(false);
             tabPageArchivos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgArchivos).EndInit();
@@ -5323,6 +5325,7 @@
             ((System.ComponentModel.ISupportInitialize)dtgSociosResponsablesCasoReferencia).EndInit();
             panel19.ResumeLayout(false);
             panelBotonesCaso.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dtgHistorial).EndInit();
             ResumeLayout(false);
         }
 
@@ -5414,7 +5417,6 @@
         private Label label18;
         private Label label19;
         private Label label20;
-        private DataGridView dtgHistorial;
         private Clases.RoundedButton btnEditarCaso;
         private Clases.RoundedButton roundedButton6;
         private Panel panelHeader;
@@ -5598,5 +5600,6 @@
         private Label label31;
         private TextBox txtCausaAgravioHechos;
         private Clases.RoundedButton roundedButton63;
+        private DataGridView dtgHistorial;
     }
 }

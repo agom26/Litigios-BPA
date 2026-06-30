@@ -289,7 +289,10 @@ namespace AccesoDatos.Entidades.Civiles
             }
             catch (Exception ex)
             {
-                return new ApiResponse<string> { success = false, message = "Error: " + ex.Message };
+                return new ApiResponse<string> { success = false,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
+                };
             }
         }
     }

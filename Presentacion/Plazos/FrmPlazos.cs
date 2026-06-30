@@ -29,9 +29,13 @@ namespace Presentacion.Plazos
         private bool isLectorPlazos= false;
         UserModel userModel = new UserModel();
 
-        private async Task VerificarTipoUsuario()
+        private async Task VerificarPermisoPorRamaDelPlazo(int moduloId)
         {
-            var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, 6);
+            var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, moduloId);
+
+            isAdminPlazos = false;
+            isLectorPlazos = true;
+
             if (resp.success && resp.data != null)
             {
                 string rol = resp.data.nombre_rol;
@@ -41,20 +45,16 @@ namespace Presentacion.Plazos
                     isAdminPlazos = true;
                     isLectorPlazos = false;
                 }
-                else if (rol == "Usuario Lector")
-                {
-                    isLectorPlazos = true;
-                    isAdminPlazos = false;
-                }
                 else if (rol == "Usuario Normal")
                 {
-                    isLectorPlazos = false;
                     isAdminPlazos = false;
+                    isLectorPlazos = false;
                 }
-            }
-            else
-            {
-                MessageBox.Show(resp.message);
+                else if (rol == "Usuario Lector")
+                {
+                    isAdminPlazos = false;
+                    isLectorPlazos = true;
+                }
             }
         }
 
@@ -193,9 +193,26 @@ namespace Presentacion.Plazos
                     }
             }
         }
+        private int ObtenerModuloIdPorOrigen(string origen)
+        {
+            if (origen.StartsWith("LABORAL"))
+                return 1;
 
+            if (origen.StartsWith("CIVIL"))
+                return 2;
+
+            if (origen.StartsWith("CONSTITUCIONAL"))
+                return 3;
+
+            if (origen.StartsWith("ADMINISTRATIVO") ||
+                origen.StartsWith("RECURSO DE CASACIÓN"))
+                return 4;
+
+            return 0;
+        }
         private async Task CargarDatosPlazo(int historialId)
         {
+
             int usuarioId = UserSession.Id;
             var plazo = await plazosModel.ObtenerPlazoPorId(usuarioId, historialId);
 
@@ -205,6 +222,20 @@ namespace Presentacion.Plazos
                 if (plazo.data.fecha_inicio.HasValue)
                     dateTimePickerFechaEstado.Value = plazo.data.fecha_inicio.Value;
                 origenActual = plazo.data.origen ?? "";
+                int moduloId = ObtenerModuloIdPorOrigen(origenActual);
+
+                if (moduloId == 0)
+                {
+                    MessageBox.Show(
+                        "No se pudo determinar la rama del plazo.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    return;
+                }
+
+                await VerificarPermisoPorRamaDelPlazo(moduloId);
                 CargarEstadosComboBoxSegunOrigen(origenActual);
                 
                 txtObservaciones.Text = plazo.data.anotaciones;
@@ -259,9 +290,8 @@ namespace Presentacion.Plazos
             tabControl1.SelectedTab = nombre;
         }
 
-        private async void CrearBotonesAccion(DataGridView dtg)
+        private void CrearBotonesAccion(DataGridView dtg)
         {
-            await VerificarTipoUsuario();
             
             // Editar
             if (!dtg.Columns.Contains("Editar"))
@@ -693,7 +723,7 @@ namespace Presentacion.Plazos
             EliminarTabPage(Detalles);
         }
 
-
+        
         private async void dtgTercerosInteresados_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -703,6 +733,8 @@ namespace Presentacion.Plazos
                 btnActualizar.Text = "Actualizar";
                 lblTitulo.Text = "Editar Plazo";
                 int historialId = Convert.ToInt32(dtgPlazos.Rows[e.RowIndex].Cells["historial_id"].Value);
+               
+               
                 _idPlazo = historialId;
                 await CargarDatosPlazo(historialId);
             }

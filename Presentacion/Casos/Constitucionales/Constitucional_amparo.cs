@@ -29,6 +29,13 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
         private bool _cargandoCaso = false;
         private bool _cargando = false;
         private bool _procesandoArchivo = false;
+        private enum OrigenArchivos
+        {
+            ListaCasos,
+            DetallesCaso
+        }
+
+        private OrigenArchivos _origenArchivos = OrigenArchivos.ListaCasos;
 
         private int paginaActual = 1;
         private int registrosPorPagina = 10;
@@ -43,7 +50,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
         CasoConstitucionalAmparoModel casoConstitucionalModel = new CasoConstitucionalAmparoModel();
         HistorialCasoConstitucionalModel historialModel = new HistorialCasoConstitucionalModel();
         ArchivosCasosConstitucionalesModel archivoModel = new ArchivosCasosConstitucionalesModel();
-        
+
         //caso referencia
         private BindingList<PersonaListDataResponse> listaDemandadosCasoReferencia
         = new BindingList<PersonaListDataResponse>();
@@ -85,6 +92,8 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
         private async Task VerificarTipoUsuario()
         {
             var resp = await userModel.ObtenerPermisoPorModulo(UserSession.Id, 3);
+            if (IsDisposed || !IsHandleCreated) return;
+
             if (resp.success && resp.data != null)
             {
                 string rol = resp.data.nombre_rol;
@@ -96,12 +105,12 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 }
                 else if (rol == "Usuario Lector")
                 {
-                    isLectorConstitucional= true;
+                    isLectorConstitucional = true;
                     isAdminConstitucional = false;
                 }
                 else if (rol == "Usuario Normal")
                 {
-                    isLectorConstitucional= false;
+                    isLectorConstitucional = false;
                     isAdminConstitucional = false;
                 }
             }
@@ -114,13 +123,13 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
         public async Task LoadAsync()
         {
             if (_yaCargo) return;
-            _yaCargo = true;
-
             panelBotonesCaso.Visible = false;
             dtgCasosCiviles.DataSource = bsTercerosInteresados;
 
             await CargarCasos();
+            if (IsDisposed || !IsHandleCreated) return;
 
+            _yaCargo = true;
             dtgCasosCiviles.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
             if (dtgCasosCiviles.Columns.Contains("Editar"))
@@ -235,7 +244,9 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 }
                 finally
                 {
-                    this.Enabled = true;
+                    if (!IsDisposed && IsHandleCreated)
+                        this.Enabled = true;
+
                     _cargando = false;
                 }
             }
@@ -307,11 +318,12 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             btnEliminarCasoReferencia.Enabled = !isLectorConstitucional;
         }
 
-        private async Task CargarDatosCaso(int idCaso)
+        private async Task CargarDatosCaso(int idCaso, bool mostrarDetalles = true)
         {
             LimpiarListas();
             int idUsuario = UserSession.Id;
             var resp = await casoConstitucionalModel.ObtenerCasoConstitucionalPorId(idUsuario, idCaso);
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (!resp.success || resp.data == null)
             {
@@ -326,7 +338,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 txtExpediente.Text = data.caso?.expediente ?? "";
                 comboboxOficial.Text = data.caso?.oficial ?? "";
                 txtNombreParticular.Text = data.caso?.nombre_particular ?? "";
-                txtCausaAgravioHechos.Text= data.caso?.causa ?? "";
+                txtCausaAgravioHechos.Text = data.caso?.causa ?? "";
                 comboBoxCorte.SelectedItem = data.caso?.corte ?? "";
                 txtEstado.Text = data.caso?.estado ?? "";
                 txtObservaciones.Text = (data.caso?.observaciones ?? "")
@@ -367,21 +379,26 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             dtgAbogadosDirectores.Refresh();
             dtgSociosResponsables.Refresh();
             dtgAbogadosAsistentes.Refresh();
-
-            this.BeginInvoke(new Action(() =>
+            if (!IsDisposed && IsHandleCreated)
             {
-                AjustarAlturaDataGridViewDemandantes();
-                AjustarAlturaDataGridViewDemandados();
-                AjustarAlturaDataGridViewTercerosInteresados();
-                AjustarAlturaDataGridViewContactosEmpresa();
-                AjustarAlturaDataGridViewAbogadosDirectores();
-                AjustarAlturaDataGridViewSociosResponsables();
-                AjustarAlturaDataGridViewAbogadosAsistentes();
-            }));
-
+                this.BeginInvoke(new Action(() =>
+                {
+                    if (IsDisposed || !IsHandleCreated) return;
+                    AjustarAlturaDataGridViewDemandantes();
+                    AjustarAlturaDataGridViewDemandados();
+                    AjustarAlturaDataGridViewTercerosInteresados();
+                    AjustarAlturaDataGridViewContactosEmpresa();
+                    AjustarAlturaDataGridViewAbogadosDirectores();
+                    AjustarAlturaDataGridViewSociosResponsables();
+                    AjustarAlturaDataGridViewAbogadosAsistentes();
+                }));
+            }
             // 6) Ir al tab Detalles
-            AnadirTabPage(Detalles);
-            EliminarTabPage(Listar);
+            if (mostrarDetalles)
+            {
+                AnadirTabPage(Detalles);
+                EliminarTabPage(Listar);
+            }
 
             if (!isLectorConstitucional)
             {
@@ -442,9 +459,9 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             comboBoxJuzgadoCasoReferencia.Visible = true;
 
             labelCamaraCasoReferencia.Visible = false;
-            comboBoxCamara.Visible= false;
+            comboBoxCamara.Visible = false;
             labelTitulo.Visible = false;
-            comboBoxTituloCasoReferencia.Visible= false;
+            comboBoxTituloCasoReferencia.Visible = false;
             labelMotivoCasacion.Visible = false;
             comboBoxMotivoCasacion.Visible = false;
             labelMotivoCasacionCR.Visible = false;
@@ -684,6 +701,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             int idUsuario = UserSession.Id;
 
             var caso = await model.ObtenerCaso(idUsuario, idCaso);
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (caso == null)
             {
@@ -782,9 +800,10 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
 
 
 
-        private async void CrearBotonesAccion(DataGridView dtg)
+        private async Task CrearBotonesAccion(DataGridView dtg)
         {
             await VerificarTipoUsuario();
+            if (IsDisposed || !IsHandleCreated) return;
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
@@ -839,18 +858,41 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 }
             }
 
+            if (!dtg.Columns.Contains("Archivos"))
+            {
+                DataGridViewButtonColumn btnArchivos = new DataGridViewButtonColumn
+                {
+                    Name = "Archivos",
+                    HeaderText = "",
+                    Text = "📎",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Standard,
+                    Width = 40,
+                    MinimumWidth = 40,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                };
+
+                dtg.Columns.Add(btnArchivos);
+            }
+
             if (dtg.Columns.Contains("Editar"))
                 dtg.Columns["Editar"].DisplayIndex = dtg.ColumnCount - 1;
 
+            if (dtg.Columns.Contains("Archivos"))
+                dtg.Columns["Archivos"].DisplayIndex = dtg.ColumnCount - 2;
+
             if (isAdminConstitucional == true && dtg.Columns.Contains("Eliminar"))
-                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 2;
+                dtg.Columns["Eliminar"].DisplayIndex = dtg.ColumnCount - 3;
 
             if (isAdminConstitucional == true && dtg.Columns.Contains("Terminar"))
-                dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 3;
+                dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 4;
         }
 
-        private void CrearBotonesAccionHistorial(DataGridView dtg)
+        private async void CrearBotonesAccionHistorial(DataGridView dtg)
         {
+            await VerificarTipoUsuario();
+            if (IsDisposed || !IsHandleCreated) return;
+
             if (!dtg.Columns.Contains("Editar"))
             {
                 DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
@@ -866,7 +908,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 };
                 dtg.Columns.Add(btnEditar);
             }
-            VerificarTipoUsuario();
+
 
             if (isAdminConstitucional == true)
             {
@@ -918,27 +960,45 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             lblTitulo.Text = "Nuevo Caso Constitucional";
             btnGuardarCaso.Text = "Guardar";
             idCasoReferencia = null;
-            _actualizandoCaso= false;
+            _actualizandoCaso = false;
             LimpiarFormulario();
             LimpiarFormularioCR();
             AnadirTabPage(Detalles);
             EliminarTabPage(Listar);
-            btnGuardarCaso.Visible = true;
-            btnEditarCaso.Visible = false;
+            if (!isLectorConstitucional)
+            {
+                btnGuardarCaso.Visible = true;
+                btnEditarCaso.Visible = false;
+            }
+            else
+            {
+                btnGuardarCaso.Visible = false;
+                btnEditarCaso.Visible = false;
+            }
         }
 
         private async Task CargarCasos()
         {
-
+            if (this.IsDisposed) return;
             int idUsuario = UserSession.Id;
             string filtro = txtBuscar.Text;
             var response = await casoConstitucionalModel.ObtenerCasosConstitucionales(idUsuario, paginaActual, registrosPorPagina, filtro);
+            if (IsDisposed || !IsHandleCreated) return;
+
+            if (response == null)
+            {
+                MessageBox.Show(this, "No se obtuvo respuesta del servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (response.success)
             {
                 // Asignar los datos al BindingSource
-                bsTercerosInteresados.DataSource = response.data;
-                dtgCasosCiviles.Refresh();
+                if (!this.IsDisposed && dtgCasosCiviles.IsHandleCreated)
+                {
+                    bsTercerosInteresados.DataSource = response.data;
+                    dtgCasosCiviles.Refresh();
+                }
                 // Actualizar paginación
                 totalRegistros = response.total;
                 labelTotal.Text = $"Total de casos constitucionales: {totalRegistros}";
@@ -946,7 +1006,10 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             }
             else
             {
-                MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!this.IsDisposed)
+                {
+                    MessageBox.Show(response.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
         //caso referencia
@@ -957,16 +1020,11 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             dtgDemandadosCasoReferencia.AllowUserToAddRows = false;
             dtgDemandadosCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dtgDemandadosCasoReferencia.DataSource = listaDemandadosCasoReferencia;
-
             listaDemandadosCasoReferencia.ListChanged += (s, e) =>
             {
                 AjustarAlturaDataGridViewDemandadosCR();
             };
 
-            //CrearBotonQuitarDemandado();
-            //dtgDemandadosCasoReferencia.CellClick -= dtgDemandados_CellClick;
-            //dtgDemandadosCasoReferencia.CellClick += dtgDemandados_CellClick;
         }
         private void alistarListaDemandantesCR()
         {
@@ -988,8 +1046,6 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             dtgTercerosInteresadosCasoReferencia.AllowUserToAddRows = false;
             dtgTercerosInteresadosCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dtgTercerosInteresadosCasoReferencia.DataSource = listaTercerosInteresadosCasoReferencia;
-
             listaTercerosInteresadosCasoReferencia.ListChanged += (s, e) =>
             {
                 AjustarAlturaDataGridViewTercerosInteresadosCR();
@@ -1003,8 +1059,6 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
 
             dtgContactosEmpresaCasoReferencia.AllowUserToAddRows = false;
             dtgContactosEmpresaCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            dtgContactosEmpresaCasoReferencia.DataSource = listaContactosEmpresaCasoReferencia;
 
             listaContactosEmpresaCasoReferencia.ListChanged += (s, e) =>
             {
@@ -1020,8 +1074,6 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             dtgAbogadosDirectoresCasoReferencia.AllowUserToAddRows = false;
             dtgAbogadosDirectoresCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dtgAbogadosDirectoresCasoReferencia.DataSource = listaAbogadosDirectoresCasoReferencia;
-
             listaAbogadosDirectoresCasoReferencia.ListChanged += (s, e) =>
             {
                 AjustarAlturaDataGridViewAbogadosDirectoresCR();
@@ -1036,8 +1088,6 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             dtgSociosResponsablesCasoReferencia.AllowUserToAddRows = false;
             dtgSociosResponsablesCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dtgSociosResponsablesCasoReferencia.DataSource = listaSociosResponsablesCasoReferencia;
-
             listaSociosResponsablesCasoReferencia.ListChanged += (s, e) =>
             {
                 AjustarAlturaDataGridViewSociosResponsablesCR();
@@ -1050,8 +1100,6 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
 
             dtgAbogadosAsistentesCasoReferencia.AllowUserToAddRows = false;
             dtgAbogadosAsistentesCasoReferencia.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            dtgAbogadosAsistentesCasoReferencia.DataSource = listaAbogadosAsistentesCasoReferencia;
 
             listaAbogadosAsistentesCasoReferencia.ListChanged += (s, e) =>
             {
@@ -1191,7 +1239,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             dtgAbogadosAsistentes.CellClick += dtgAbogadosAsistentes_CellClick;
         }
 
-        private async void CrearBotonQuitarDemandado()
+        private async Task CrearBotonQuitarDemandado()
         {
             await VerificarTipoUsuario();
             if (!dtgDemandados.Columns.Contains("Quitar"))
@@ -1213,7 +1261,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                     dtgDemandados.Columns.Add(btnQuitar);
                     dtgDemandados.Columns["Quitar"].DisplayIndex = dtgDemandados.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -1238,7 +1286,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                     dtgDemandantes.Columns.Add(btnQuitar);
                     dtgDemandantes.Columns["Quitar"].DisplayIndex = dtgDemandantes.ColumnCount - 1;
                 }
-               
+
             }
         }
         private void CrearBotonQuitarTerceroInteresado()
@@ -1286,7 +1334,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                     dtgAbogadosDirectores.Columns.Add(btnQuitar);
                     dtgAbogadosDirectores.Columns["Quitar"].DisplayIndex = dtgAbogadosDirectores.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -1335,7 +1383,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                     dtgSociosResponsables.Columns.Add(btnQuitar);
                     dtgSociosResponsables.Columns["Quitar"].DisplayIndex = dtgSociosResponsables.ColumnCount - 1;
                 }
-                
+
             }
         }
 
@@ -1366,8 +1414,11 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
         private async void Constitucional_amparo_Load(object sender, EventArgs e)
         {
             await VerificarTipoUsuario();
+            if (IsDisposed || !IsHandleCreated) return;
+
             if (!_yaCargo)
                 await LoadAsync();
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (isLectorConstitucional)
             {
@@ -1403,6 +1454,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 {
                     await CargarCasos();
                 });
+                if (IsDisposed || !IsHandleCreated) return;
             }
         }
 
@@ -1415,10 +1467,11 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 {
                     await CargarCasos();
                 });
+                if (IsDisposed || !IsHandleCreated) return;
             }
         }
 
-        private void dtgCasosCiviles_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private async void dtgCasosCiviles_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             // Oculta la columna 'id'
             if (dtgCasosCiviles.Columns["id"] != null)
@@ -1432,7 +1485,8 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 dtgCasosCiviles.Columns["id_rol"].Visible = false;
             }
 
-            CrearBotonesAccion(dtgCasosCiviles);
+            await CrearBotonesAccion(dtgCasosCiviles);
+            if (IsDisposed || !IsHandleCreated) return;
             dtgCasosCiviles.ClearSelection();
         }
 
@@ -1446,6 +1500,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 {
                     await CargarCasos();
                 });
+                if (IsDisposed || !IsHandleCreated) return;
 
             }
         }
@@ -1482,6 +1537,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             };
 
             var resultado = await casoConstitucionalModel.CrearCasoAmparo(req);
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (resultado.success)
             {
@@ -1490,6 +1546,10 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 {
                     await CargarCasos();
                 });
+                if (IsDisposed || !IsHandleCreated) return;
+
+                EstadoConstitucional.LimpiarEstado();
+                _huboCambioEstado = false;
                 LimpiarFormulario();
                 AnadirTabPage(Listar);
                 EliminarTabPage(Detalles);
@@ -1546,6 +1606,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                     if (resultado == null)
                     {
                         MessageBox.Show("No se obtuvo respuesta del servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
 
                     if (resultado.success)
@@ -1577,6 +1638,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
 
                 if (confirm == DialogResult.Yes)
                 {
+                    EstadoConstitucional.LimpiarEstado();
                     FrmAgregarEstadoConstitucionalTerminado frmAgregarEstado = new FrmAgregarEstadoConstitucionalTerminado();
                     frmAgregarEstado.ShowDialog();
 
@@ -1594,7 +1656,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                         {
                             MessageBox.Show("Caso terminado correctamente", "Éxito",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                            EstadoConstitucional.LimpiarEstado();
                             await EjecutarConLoaderAsync(async () =>
                             {
                                 await CargarCasos();
@@ -1617,6 +1679,43 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 }
             }
 
+            if (dtgCasosCiviles.Columns[e.ColumnIndex].Name == "Archivos")
+            {
+                try
+                {
+                    _cargandoCaso = true;
+                    dtgCasosCiviles.Enabled = false;
+
+                    int idCaso = Convert.ToInt32(dtgCasosCiviles.Rows[e.RowIndex].Cells["id"].Value);
+                    _idCasoEditar = idCaso;
+                    _actualizandoCaso = true;
+                    _origenArchivos = OrigenArchivos.ListaCasos;
+
+                    await EjecutarConLoaderAsync(async () =>
+                    {
+                        await CargarDatosCaso(idCaso, false);
+                        await ListarArchivosCaso();
+                    });
+
+                    if (IsDisposed || !IsHandleCreated) return;
+
+                    AnadirTabPage(tabPageArchivos);
+                    EliminarTabPage(Listar);
+                    EliminarTabPage(Detalles);
+                    EliminarTabPage(tabPageHistorial);
+
+                }
+                finally
+                {
+                    if (!IsDisposed && IsHandleCreated)
+                        dtgCasosCiviles.Enabled = true;
+
+                    _cargandoCaso = false;
+                }
+
+                return;
+            }
+
             if (dtgCasosCiviles.Columns[e.ColumnIndex].Name == "Editar")
             {
                 try
@@ -1626,7 +1725,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
 
                     btnGuardarCaso.Text = "Actualizar";
                     lblTitulo.Text = "Editar Caso Constitucional";
-                    
+
                     int idCaso = Convert.ToInt32(dtgCasosCiviles.Rows[e.RowIndex].Cells["id"].Value);
                     _idCasoEditar = idCaso;
                     _actualizandoCaso = true;
@@ -1642,7 +1741,9 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 }
                 finally
                 {
-                    dtgCasosCiviles.Enabled = true;
+                    if (!IsDisposed && IsHandleCreated)
+                        dtgCasosCiviles.Enabled = true;
+
                     _cargandoCaso = false;
                 }
             }
@@ -2550,6 +2651,9 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 LimpiarFormulario();
                 _idCasoEditar = 0;
 
+                EstadoConstitucional.LimpiarEstado();
+                _huboCambioEstado = false;
+
                 AnadirTabPage(Listar);
                 EliminarTabPage(Detalles);
                 EliminarTabPage(tabPageCasoReferencia);
@@ -2621,13 +2725,9 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             }
             else
             {
-                dtgArchivos.DataSource = res.data;
-
-                dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
-                dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
-                dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
-                dtgArchivos.Columns["archivo_id"].Visible = false;
-
+                dtgArchivos.DataSource = null;
+                dtgArchivos.DataSource = res.data ?? new List<ArchivoCasoConstitucionalItem>();
+                dtgArchivos.Refresh();
                 CrearBotonesAccionArchivos(dtgArchivos);
             }
         }
@@ -2702,6 +2802,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
 
         private async void btnVerArchivos_Click(object sender, EventArgs e)
         {
+            _origenArchivos = OrigenArchivos.DetallesCaso;
             AnadirTabPage(tabPageArchivos);
             EliminarTabPage(tabPageHistorial);
             EliminarTabPage(Detalles);
@@ -2720,8 +2821,21 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
 
         private void btnRegresarDetalleDeArchivos_Click(object sender, EventArgs e)
         {
-            AnadirTabPage(Detalles);
-            EliminarTabPage(tabPageArchivos);
+            if (_origenArchivos == OrigenArchivos.ListaCasos)
+            {
+                AnadirTabPage(Listar);
+
+                EliminarTabPage(Detalles);
+                EliminarTabPage(tabPageArchivos);
+                EliminarTabPage(tabPageHistorial);
+            }
+            else
+            {
+                AnadirTabPage(Detalles);
+
+                EliminarTabPage(Listar);
+                EliminarTabPage(tabPageArchivos);
+            }
         }
 
         private void dtgHistorial_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -2753,6 +2867,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
         private async Task RefrescarListaArchivos()
         {
             var resp = await archivoModel.ListarArchivosCasoConstitucional(_idCasoEditar);
+            if (IsDisposed || !IsHandleCreated) return;
 
             if (!resp.success)
             {
@@ -2761,11 +2876,9 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 return;
             }
 
-            dtgArchivos.DataSource = resp.data;
-            dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
-            dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
-            dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
-            dtgArchivos.Columns["archivo_id"].Visible = false;
+            dtgArchivos.AutoGenerateColumns = true;
+            dtgArchivos.DataSource = null;
+            dtgArchivos.DataSource = resp.data ?? new List<ArchivoCasoConstitucionalItem>();
             CrearBotonesAccionArchivos(dtgArchivos);
         }
 
@@ -2828,29 +2941,27 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                     if (sfd.ShowDialog() != DialogResult.OK)
                         return;
 
-                    if (sfd.ShowDialog() == DialogResult.OK)
+                    ApiResponse<string> resp = null;
+
+                    await EjecutarConLoaderAsync(async () =>
                     {
-                        ApiResponse<string> resp = null;
+                        resp = await archivoModel.DescargarArchivoCasoConstitucional(_idCasoEditar, archivoId, sfd.FileName);
+                    });
 
-                        await EjecutarConLoaderAsync(async () =>
-                        {
-                            resp = await archivoModel.DescargarArchivoCasoConstitucional(_idCasoEditar, archivoId, sfd.FileName);
-                        });
-
-                        if (resp == null)
-                        {
-                            MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        if (!resp.success)
-                        {
-                            MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        MessageBox.Show("Archivo descargado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (resp == null)
+                    {
+                        MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
+                    if (!resp.success)
+                    {
+                        MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    MessageBox.Show("Archivo descargado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
 
                 // ELIMINAR (confirmación)
@@ -2864,31 +2975,31 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                         if (r != DialogResult.Yes)
                             return;
 
-                        if (r == DialogResult.Yes)
+                        ApiResponse<object> resp = null;
+
+                        await EjecutarConLoaderAsync(async () =>
                         {
-                            ApiResponse<object> resp = null;
+                            resp = await archivoModel.EliminarArchivoCasoConstitucional(_idCasoEditar, archivoId);
+                        });
 
-                            await EjecutarConLoaderAsync(async () =>
-                            {
-                                resp = await archivoModel.EliminarArchivoCasoConstitucional(_idCasoEditar, archivoId);
-                            });
+                        if (IsDisposed || !IsHandleCreated) return;
 
-                            if (resp == null)
-                            {
-                                MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-
-                            if (!resp.success)
-                            {
-                                MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-
-                            MessageBox.Show("Archivo eliminado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            await RefrescarListaArchivos();
+                        if (resp == null)
+                        {
+                            MessageBox.Show("No se obtuvo respuesta del servidor.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
                         }
+
+                        if (!resp.success)
+                        {
+                            MessageBox.Show(resp.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        MessageBox.Show("Archivo eliminado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        await RefrescarListaArchivos();
+                        if (IsDisposed || !IsHandleCreated) return;
                     }
                     else
                     {
@@ -2902,9 +3013,12 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             }
             finally
             {
-                dtgArchivos.Enabled = true;
-                btnSubirArchivo.Enabled = true;
                 _procesandoArchivo = false;
+                if (!IsDisposed && IsHandleCreated)
+                {
+                    dtgArchivos.Enabled = true;
+                    btnSubirArchivo.Enabled = !isLectorConstitucional;
+                }
             }
         }
 
@@ -2940,6 +3054,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                     {
                         response = await archivoModel.SubirArchivosCasoConstitucional(_idCasoEditar, ofd.FileNames.ToList());
                     });
+                    if (IsDisposed || !IsHandleCreated) return;
 
                     if (response == null)
                     {
@@ -2958,7 +3073,6 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                     MessageBox.Show($"Se subieron {response.data?.Count ?? 0} archivo(s) correctamente.",
                         "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                   
                 }
                 catch (Exception ex)
                 {
@@ -2967,9 +3081,12 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 }
                 finally
                 {
-                    await RefrescarListaArchivos();
-                    btnSubirArchivo.Enabled = true;
-                    btnSubirArchivo.Text = "Subir archivo";
+                    if (!IsDisposed && IsHandleCreated)
+                    {
+                        await RefrescarListaArchivos();
+                        btnSubirArchivo.Enabled = !isLectorConstitucional;
+                        btnSubirArchivo.Text = "Subir archivo";
+                    }
                 }
             }
             else
@@ -3030,6 +3147,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                             UserSession.Id
                         );
                     });
+                    if (IsDisposed || !IsHandleCreated) return;
 
                     if (resp == null)
                     {
@@ -3053,6 +3171,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                         await ListarHistorial();
                         await CargarDatosCaso(_idCasoEditar);
                     });
+                    if (IsDisposed || !IsHandleCreated) return;
                 }
                 else
                 {
@@ -3163,6 +3282,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 {
                     resp = await historialModel.EditarHistorialCaso(req);
                 });
+                if (IsDisposed || !IsHandleCreated) return;
 
                 if (resp == null)
                 {
@@ -3186,6 +3306,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                     await ListarHistorial();
                     await CargarDatosCaso(_idCasoEditar);
                 });
+                if (IsDisposed || !IsHandleCreated) return;
 
                 AnadirTabPage(tabPageHistorial);
                 EliminarTabPage(tabPageEditarHistorial);
@@ -3214,7 +3335,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 checkBoxTieneVencimiento.Checked = false;
             }
 
-                dateTimePickerFechaVencimiento.Enabled = checkBoxTieneVencimiento.Checked;
+            dateTimePickerFechaVencimiento.Enabled = checkBoxTieneVencimiento.Checked;
             dateTimePickerHoraVencimiento.Enabled = checkBoxTieneVencimiento.Checked;
         }
 
@@ -3293,7 +3414,6 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             EliminarTabPage(Detalles);
             EliminarTabPage(Listar);
             EliminarTabPage(tabPageEditarHistorial);
-            EliminarTabPage(tabPageEditarHistorial);
         }
 
         private async void btnAgregarCasoReferencia_Click(object sender, EventArgs e)
@@ -3312,6 +3432,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                     {
                         await CargarDatosCasoReferencia(idCasoR);
                     });
+                    if (IsDisposed || !IsHandleCreated) return;
                 }
                 else
                 {
@@ -3462,6 +3583,57 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
         private void tabPageCasoReferencia_Click(object sender, EventArgs e)
         {
 
+        }
+        private static string FormatearTamano(long bytes)
+        {
+            string[] sufijos = { "B", "KB", "MB", "GB", "TB" };
+
+            double tamano = bytes;
+            int indice = 0;
+
+            while (tamano >= 1024 && indice < sufijos.Length - 1)
+            {
+                tamano /= 1024;
+                indice++;
+            }
+
+            return $"{tamano:N2} {sufijos[indice]}";
+        }
+
+        private void dtgHistorial_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+        }
+
+        private void dtgArchivos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dtgArchivos.Columns[e.ColumnIndex].Name == "tamano_bytes" && e.Value != null)
+            {
+                if (long.TryParse(e.Value.ToString(), out long bytes))
+                {
+                    e.Value = FormatearTamano(bytes);
+                    e.FormattingApplied = true;
+                }
+            }
+        }
+
+        private void dtgArchivos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dtgArchivos.Columns.Contains("nombre"))
+                dtgArchivos.Columns["nombre"].HeaderText = "Nombre";
+
+            if (dtgArchivos.Columns.Contains("tamano_bytes"))
+                dtgArchivos.Columns["tamano_bytes"].HeaderText = "Tamaño";
+
+            if (dtgArchivos.Columns.Contains("fecha"))
+                dtgArchivos.Columns["fecha"].HeaderText = "Fecha";
+
+            if (dtgArchivos.Columns.Contains("archivo_id"))
+                dtgArchivos.Columns["archivo_id"].Visible = false;
+
+            CrearBotonesAccionArchivos(dtgArchivos);
+
+            dtgArchivos.ClearSelection();
         }
     }
 }

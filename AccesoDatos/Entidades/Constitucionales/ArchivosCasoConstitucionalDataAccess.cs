@@ -1,10 +1,12 @@
 ﻿using Comun.Models;
+using Comun.Models.Casos.Civiles;
 using Comun.Models.Casos.Constitucionales;
 using Comun.Models.Casos.Contenciosos;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +15,32 @@ namespace AccesoDatos.Entidades.Constitucionales
 {
     public class ArchivosCasoConstitucionalDataAccess
     {
-        private readonly string _apiUrlArchivos = "http://bpa.com.es/peticiones-litigios/constitucionales/archivos_casos_constitucionales.php";
+        private readonly string _apiUrlArchivos = "https://bpa.com.es/peticiones-litigios/constitucionales/archivos_casos_constitucionales.php";
 
-        private static readonly HttpClient _http = new HttpClient();
+        private static readonly HttpClient _http = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(120)
+        };
+        private async Task<HttpResponseMessage> PostFormAsyncArchivos(
+           string url,
+           HttpContent content,
+           CancellationToken token = default)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = content,
+                Version = HttpVersion.Version11,
+                VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
+            };
+
+            request.Headers.ConnectionClose = true;
+
+            return await _http.SendAsync(
+                request,
+                HttpCompletionOption.ResponseContentRead,
+                token
+            );
+        }
         // LISTAR
         public async Task<ListarArchivosCasoConstitucionalResponse> ListarArchivos(int casoId)
         {
@@ -29,8 +54,17 @@ namespace AccesoDatos.Entidades.Constitucionales
 
             try
             {
-                var response = await _http.PostAsync(_apiUrlArchivos, content);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, content);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ListarArchivosCasoConstitucionalResponse
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ListarArchivosCasoConstitucionalResponse>(json)
                        ?? new ListarArchivosCasoConstitucionalResponse { success = false, message = "Respuesta vacía o inválida.", data = new List<ArchivoCasoConstitucionalItem>() };
@@ -40,7 +74,8 @@ namespace AccesoDatos.Entidades.Constitucionales
                 return new ListarArchivosCasoConstitucionalResponse
                 {
                     success = false,
-                    message = "Error: " + ex.Message,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : ""),
                     data = new List<ArchivoCasoConstitucionalItem>()
                 };
             }
@@ -58,21 +93,31 @@ namespace AccesoDatos.Entidades.Constitucionales
                 form.Add(new StringContent("subir_archivo_caso_constitucional"), "action");
                 form.Add(new StringContent(casoId.ToString()), "caso_id");
 
-                var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
-                var fileContent = new ByteArrayContent(fileBytes);
+                await using var fs = System.IO.File.OpenRead(filePath);
+                using var fileContent = new StreamContent(fs);
                 fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-
                 form.Add(fileContent, "archivo", Path.GetFileName(filePath));
 
-                var response = await _http.PostAsync(_apiUrlArchivos, form);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, form);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<SubirArchivoCasoConstitucionalData>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<SubirArchivoCasoConstitucionalData>>(json)
                        ?? new ApiResponse<SubirArchivoCasoConstitucionalData> { success = false, message = "Respuesta vacía o inválida." };
             }
             catch (Exception ex)
             {
-                return new ApiResponse<SubirArchivoCasoConstitucionalData> { success = false, message = "Error: " + ex.Message };
+                return new ApiResponse<SubirArchivoCasoConstitucionalData> { success = false, message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
+                };
             }
         }
 
@@ -94,7 +139,7 @@ namespace AccesoDatos.Entidades.Constitucionales
 
                 form.Add(new StringContent("subir_archivos_caso_constitucional"), "action");
                 form.Add(new StringContent(casoId.ToString()), "caso_id");
-
+                int archivosAgregados = 0;
                 foreach (var filePath in filePaths)
                 {
                     if (!System.IO.File.Exists(filePath))
@@ -105,10 +150,30 @@ namespace AccesoDatos.Entidades.Constitucionales
                     fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
                     form.Add(fileContent, "archivo[]", Path.GetFileName(filePath));
+                    archivosAgregados++;
                 }
 
-                var response = await _http.PostAsync(_apiUrlArchivos, form);
+                if (archivosAgregados == 0)
+                {
+                    return new ApiResponse<List<SubirArchivoCasoConstitucionalData>>
+                    {
+                        success = false,
+                        message = "Ningún archivo seleccionado existe o pudo leerse.",
+                        data = new List<SubirArchivoCasoConstitucionalData>
+                    };
+                }
+
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, form);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<List<SubirArchivoCasoConstitucionalData>>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<List<SubirArchivoCasoConstitucionalData>>>(json)
                        ?? new ApiResponse<List<SubirArchivoCasoConstitucionalData>>
@@ -123,7 +188,8 @@ namespace AccesoDatos.Entidades.Constitucionales
                 return new ApiResponse<List<SubirArchivoCasoConstitucionalData>>
                 {
                     success = false,
-                    message = "Error: " + ex.Message,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : ""),
                     data = new List<SubirArchivoCasoConstitucionalData>()
                 };
             }
@@ -143,15 +209,29 @@ namespace AccesoDatos.Entidades.Constitucionales
 
             try
             {
-                var response = await _http.PostAsync(_apiUrlArchivos, content);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, content);
                 var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {json}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<object>>(json)
                        ?? new ApiResponse<object> { success = false, message = "Respuesta vacía o inválida." };
             }
             catch (Exception ex)
             {
-                return new ApiResponse<object> { success = false, message = "Error: " + ex.Message };
+                return new ApiResponse<object> { 
+                    success = false,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
+                
+                };
             }
         }
 
@@ -168,19 +248,46 @@ namespace AccesoDatos.Entidades.Constitucionales
 
             try
             {
-                var response = await _http.PostAsync(_apiUrlArchivos, content);
+                using var response = await PostFormAsyncArchivos(_apiUrlArchivos, content);
 
                 if (!response.IsSuccessStatusCode)
                     return new ApiResponse<string> { success = false, message = "HTTP Error: " + response.StatusCode };
 
+                var contentType = response.Content.Headers.ContentType?.MediaType ?? "";
+
+                if (contentType.Contains("application/json"))
+                {
+                    var jsonError = await response.Content.ReadAsStringAsync();
+                    var error = JsonConvert.DeserializeObject<ApiResponse<object>>(jsonError);
+
+                    return new ApiResponse<string>
+                    {
+                        success = false,
+                        message = error?.message ?? "El servidor devolvió un error."
+                    };
+                }
+
                 var bytes = await response.Content.ReadAsByteArrayAsync();
+
+                if (bytes == null || bytes.Length == 0)
+                {
+                    return new ApiResponse<string>
+                    {
+                        success = false,
+                        message = "El archivo descargado está vacío."
+                    };
+                }
+
                 await System.IO.File.WriteAllBytesAsync(saveToPath, bytes);
 
                 return new ApiResponse<string> { success = true, message = "Archivo descargado.", data = saveToPath };
             }
             catch (Exception ex)
             {
-                return new ApiResponse<string> { success = false, message = "Error: " + ex.Message };
+                return new ApiResponse<string> { success = false,
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
+                };
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Comun.Models;
+using Comun.Models.Casos.Civiles;
 using Comun.Models.Casos.Constitucionales;
 using Comun.Models.Casos.Contenciosos;
 using Comun.Models.Casos.Laborales;
@@ -6,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,8 +15,32 @@ namespace AccesoDatos.Entidades.Constitucionales
 {
     public class CasosConstitucionalesAmparoDataAccess
     {
-        private readonly string _apiUrl = "http://bpa.com.es/peticiones-litigios/constitucionales/amparo.php";
-        private static readonly HttpClient _http = new HttpClient();
+        private readonly string _apiUrl = "https://bpa.com.es/peticiones-litigios/constitucionales/amparo.php";
+        private static readonly HttpClient _http = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(60)
+        };
+
+        private async Task<HttpResponseMessage> PostFormAsync(
+            string url,
+            HttpContent content,
+            CancellationToken token = default)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = content,
+                Version = HttpVersion.Version11,
+                VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
+            };
+
+            request.Headers.ConnectionClose = true;
+
+            return await _http.SendAsync(
+                request,
+                HttpCompletionOption.ResponseContentRead,
+                token
+            );
+        }
 
         public async Task<ApiResponseCasosLaboralesList> ListarCasosPorRama(
             int usuarioId,
@@ -38,8 +64,18 @@ namespace AccesoDatos.Entidades.Constitucionales
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseCasosLaboralesList
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseCasosLaboralesList>(jsonResult)
                        ?? new ApiResponseCasosLaboralesList { success = false, message = "Respuesta vacía o inválida." };
@@ -49,7 +85,8 @@ namespace AccesoDatos.Entidades.Constitucionales
                 return new ApiResponseCasosLaboralesList
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -67,8 +104,18 @@ namespace AccesoDatos.Entidades.Constitucionales
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseCasoRama<dynamic>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseCasoRama<dynamic>>(jsonResult)
                     ?? new ApiResponseCasoRama<dynamic>
@@ -82,7 +129,8 @@ namespace AccesoDatos.Entidades.Constitucionales
                 return new ApiResponseCasoRama<dynamic>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -125,8 +173,18 @@ namespace AccesoDatos.Entidades.Constitucionales
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseCrearCasoAmparo
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseCrearCasoAmparo>(jsonResult)
                        ?? new ApiResponseCrearCasoAmparo
@@ -140,7 +198,8 @@ namespace AccesoDatos.Entidades.Constitucionales
                 return new ApiResponseCrearCasoAmparo
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -166,8 +225,18 @@ namespace AccesoDatos.Entidades.Constitucionales
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseCasosConstitucionalesList
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseCasosConstitucionalesList>(jsonResult)
                        ?? new ApiResponseCasosConstitucionalesList { success = false, message = "Respuesta vacía o inválida." };
@@ -177,7 +246,8 @@ namespace AccesoDatos.Entidades.Constitucionales
                 return new ApiResponseCasosConstitucionalesList
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -224,8 +294,18 @@ namespace AccesoDatos.Entidades.Constitucionales
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseEditarCasoAmparo
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseEditarCasoAmparo>(jsonResult)
                        ?? new ApiResponseEditarCasoAmparo
@@ -239,7 +319,8 @@ namespace AccesoDatos.Entidades.Constitucionales
                 return new ApiResponseEditarCasoAmparo
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -258,8 +339,18 @@ namespace AccesoDatos.Entidades.Constitucionales
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<CasoConstitucionalDetalleData>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<CasoConstitucionalDetalleData>>(jsonResult)
                     ?? new ApiResponse<CasoConstitucionalDetalleData>
@@ -273,7 +364,8 @@ namespace AccesoDatos.Entidades.Constitucionales
                 return new ApiResponse<CasoConstitucionalDetalleData>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                    (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -292,8 +384,18 @@ namespace AccesoDatos.Entidades.Constitucionales
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
                     ?? new ApiResponse<object>
@@ -307,7 +409,7 @@ namespace AccesoDatos.Entidades.Constitucionales
                 return new ApiResponse<object>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message + (ex.InnerException != null ? " | Detalle: " + ex.InnerException.Message : "")
                 };
             }
         }

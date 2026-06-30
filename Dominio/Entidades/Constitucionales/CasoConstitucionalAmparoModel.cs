@@ -128,6 +128,25 @@ namespace Dominio.Entidades.Constitucionales
                 req.SociosResponsables = NormalizarIds(req.SociosResponsables);
                 req.AbogadosAsistentes = NormalizarIds(req.AbogadosAsistentes);
 
+                // Validar que no estén vacías
+                if (!req.Solicitantes.Any())
+                    return new ApiResponseCrearCasoAmparo { success = false, message = "Debe ingresar al menos un solicitante" };
+
+                if (!req.AutoridadesImpugnadas.Any())
+                    return new ApiResponseCrearCasoAmparo { success = false, message = "Debe ingresar al menos una autoridad impugnada" };
+                
+                if (!req.TercerosInteresados.Any())
+                    return new ApiResponseCrearCasoAmparo { success = false, message = "Debe ingresar al menos un tercero interesado" };
+
+                if (!req.AbogadosDirectores.Any())
+                    return new ApiResponseCrearCasoAmparo { success = false, message = "Debe ingresar al menos un abogado director" };
+
+                if (!req.SociosResponsables.Any())
+                    return new ApiResponseCrearCasoAmparo { success = false, message = "Debe ingresar al menos un socio responsable" };
+
+                if (!req.AbogadosAsistentes.Any())
+                    return new ApiResponseCrearCasoAmparo { success = false, message = "Debe ingresar al menos un abogado asistente" };
+
                 // 🔥 Llamar DataAccess
                 return await casoConstitucionalData.CrearCasoAmparo(req);
             }
@@ -223,6 +242,24 @@ namespace Dominio.Entidades.Constitucionales
                 req.SociosResponsables = NormalizarIds(req.SociosResponsables);
                 req.AbogadosAsistentes = NormalizarIds(req.AbogadosAsistentes);
 
+                // Validar que no estén vacías
+                if (!req.Solicitantes.Any())
+                    return new ApiResponseEditarCasoAmparo { success = false, message = "Debe ingresar al menos un solicitante" };
+
+                if (!req.AutoridadesImpugnadas.Any())
+                    return new ApiResponseEditarCasoAmparo { success = false, message = "Debe ingresar al menos una autoridad impugnada" };
+
+                if (!req.TercerosInteresados.Any())
+                    return new ApiResponseEditarCasoAmparo { success = false, message = "Debe ingresar al menos un tercero interesado" };
+
+                if (!req.AbogadosDirectores.Any())
+                    return new ApiResponseEditarCasoAmparo { success = false, message = "Debe ingresar al menos un abogado director" };
+
+                if (!req.SociosResponsables.Any())
+                    return new ApiResponseEditarCasoAmparo { success = false, message = "Debe ingresar al menos un socio responsable" };
+
+                if (!req.AbogadosAsistentes.Any())
+                    return new ApiResponseEditarCasoAmparo { success = false, message = "Debe ingresar al menos un abogado asistente" };
                 // LLAMADA AL DATA ACCESS
                 return await casoConstitucionalData.EditarCasoAmparo(req);
             }
