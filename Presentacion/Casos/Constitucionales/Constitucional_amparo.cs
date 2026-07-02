@@ -888,7 +888,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 dtg.Columns["Terminar"].DisplayIndex = dtg.ColumnCount - 4;
         }
 
-        private async void CrearBotonesAccionHistorial(DataGridView dtg)
+        private async Task CrearBotonesAccionHistorial(DataGridView dtg)
         {
             await VerificarTipoUsuario();
             if (IsDisposed || !IsHandleCreated) return;
@@ -2838,7 +2838,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
             }
         }
 
-        private void dtgHistorial_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private async void dtgHistorial_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
 
             if (dtgHistorial.Columns["id"] != null)
@@ -2861,7 +2861,7 @@ namespace Presentacion.Casos.Constitucionales.Constitucional_amparo
                 dtgHistorial.Columns["caso_id"].Visible = false;
             }
 
-            CrearBotonesAccionHistorial(dtgHistorial);
+            await CrearBotonesAccionHistorial(dtgHistorial);
             dtgHistorial.ClearSelection();
         }
         private async Task RefrescarListaArchivos()

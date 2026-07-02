@@ -1,6 +1,7 @@
 ﻿using AccesoDatos.Entidades.Contenciosos;
 using Comun.Models;
 using Comun.Models.Casos.Civiles;
+using Comun.Models.Casos.Constitucionales;
 using Comun.Models.Casos.Contenciosos;
 using System;
 using System.Collections.Generic;
@@ -101,6 +102,24 @@ namespace Dominio.Entidades.Contenciosos
                 if (req.MarcaReferenciaId.HasValue && req.MarcaReferenciaId.Value <= 0)
                     req.MarcaReferenciaId = null;
 
+                if (!req.Demandados.Any())
+                    return new ApiResponseCrearCasoContencioso { success = false, message = "Debe ingresar al menos un demandado" };
+
+                if (!req.Demandantes.Any())
+                    return new ApiResponseCrearCasoContencioso { success = false, message = "Debe ingresar al menos un demandante" };
+
+                if (!req.TercerosInteresados.Any())
+                    return new ApiResponseCrearCasoContencioso { success = false, message = "Debe ingresar al menos un tercero interesado" };
+
+                if (!req.AbogadosDirectores.Any())
+                    return new ApiResponseCrearCasoContencioso { success = false, message = "Debe ingresar al menos un abogado director" };
+
+                if (!req.SociosResponsables.Any())
+                    return new ApiResponseCrearCasoContencioso { success = false, message = "Debe ingresar al menos un socio responsable" };
+
+                if (!req.AbogadosAsistentes.Any())
+                    return new ApiResponseCrearCasoContencioso { success = false, message = "Debe ingresar al menos un abogado asistente" };
+
                 return await casoContenciosoData.CrearCasoContencioso(req);
             }
             catch (Exception ex)
@@ -184,6 +203,24 @@ namespace Dominio.Entidades.Contenciosos
 
                 if (req.MarcaReferenciaId.HasValue && req.MarcaReferenciaId.Value <= 0)
                     req.MarcaReferenciaId = null;
+
+                if (!req.Demandados.Any())
+                    return new ApiResponseEditarCasoContencioso{ success = false, message = "Debe ingresar al menos un demandado" };
+
+                if (!req.Demandantes.Any())
+                    return new ApiResponseEditarCasoContencioso { success = false, message = "Debe ingresar al menos un demandante" };
+
+                if (!req.TercerosInteresados.Any())
+                    return new ApiResponseEditarCasoContencioso { success = false, message = "Debe ingresar al menos un tercero interesado" };
+
+                if (!req.AbogadosDirectores.Any())
+                    return new ApiResponseEditarCasoContencioso { success = false, message = "Debe ingresar al menos un abogado director" };
+
+                if (!req.SociosResponsables.Any())
+                    return new ApiResponseEditarCasoContencioso { success = false, message = "Debe ingresar al menos un socio responsable" };
+
+                if (!req.AbogadosAsistentes.Any())
+                    return new ApiResponseEditarCasoContencioso { success = false, message = "Debe ingresar al menos un abogado asistente" };
 
                 return await casoContenciosoData.EditarCasoContencioso(req);
             }

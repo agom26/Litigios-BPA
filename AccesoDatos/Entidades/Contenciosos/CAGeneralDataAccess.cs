@@ -1,10 +1,12 @@
 ﻿using Comun.Models;
 using Comun.Models.Casos.Civiles;
 using Comun.Models.Casos.Contenciosos;
+using Comun.Models.Casos.Laborales;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,10 +14,32 @@ namespace AccesoDatos.Entidades.Contenciosos
 {
     public class CAGeneralDataAccess
     {
-        private readonly string _apiUrl = "http://bpa.com.es/peticiones-litigios/contenciosos/general.php";
+        private readonly string _apiUrl = "https://bpa.com.es/peticiones-litigios/contenciosos/general.php";
 
-        private static readonly HttpClient _http = new HttpClient();
+        private static readonly HttpClient _http = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(60)
+        };
+        private async Task<HttpResponseMessage> PostFormAsync(
+            string url,
+            HttpContent content,
+            CancellationToken token = default)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = content,
+                Version = HttpVersion.Version11,
+                VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
+            };
 
+            request.Headers.ConnectionClose = true;
+
+            return await _http.SendAsync(
+                request,
+                HttpCompletionOption.ResponseContentRead,
+                token
+            );
+        }
         public async Task<ApiResponseCasosContenciososList> ListarCasos(
             int usuarioId,
             int pagina,
@@ -36,8 +60,18 @@ namespace AccesoDatos.Entidades.Contenciosos
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseCasosContenciososList
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseCasosContenciososList>(jsonResult)
                     ?? new ApiResponseCasosContenciososList
@@ -51,7 +85,8 @@ namespace AccesoDatos.Entidades.Contenciosos
                 return new ApiResponseCasosContenciososList
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                        (ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -95,8 +130,18 @@ namespace AccesoDatos.Entidades.Contenciosos
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseCrearCasoContencioso
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseCrearCasoContencioso>(jsonResult)
                     ?? new ApiResponseCrearCasoContencioso
@@ -110,7 +155,8 @@ namespace AccesoDatos.Entidades.Contenciosos
                 return new ApiResponseCrearCasoContencioso
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                        (ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -128,8 +174,17 @@ namespace AccesoDatos.Entidades.Contenciosos
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<CasoContenciosoDetalleData>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<CasoContenciosoDetalleData>>(jsonResult)
                     ?? new ApiResponse<CasoContenciosoDetalleData>
@@ -143,7 +198,8 @@ namespace AccesoDatos.Entidades.Contenciosos
                 return new ApiResponse<CasoContenciosoDetalleData>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                        (ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -188,8 +244,17 @@ namespace AccesoDatos.Entidades.Contenciosos
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponseEditarCasoContencioso
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponseEditarCasoContencioso>(jsonResult)
                     ?? new ApiResponseEditarCasoContencioso
@@ -203,7 +268,8 @@ namespace AccesoDatos.Entidades.Contenciosos
                 return new ApiResponseEditarCasoContencioso
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                        (ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")
                 };
             }
         }
@@ -221,8 +287,17 @@ namespace AccesoDatos.Entidades.Contenciosos
 
             try
             {
-                var response = await _http.PostAsync(_apiUrl, content);
+                using var response = await PostFormAsync(_apiUrl, content);
                 var jsonResult = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<object>
+                    {
+                        success = false,
+                        message = $"HTTP {(int)response.StatusCode}: {response.ReasonPhrase}. Respuesta: {jsonResult}"
+                    };
+                }
 
                 return JsonConvert.DeserializeObject<ApiResponse<object>>(jsonResult)
                     ?? new ApiResponse<object>
@@ -236,7 +311,8 @@ namespace AccesoDatos.Entidades.Contenciosos
                 return new ApiResponse<object>
                 {
                     success = false,
-                    message = "Error: " + ex.Message
+                    message = "Error: " + ex.Message +
+                        (ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")
                 };
             }
         }
