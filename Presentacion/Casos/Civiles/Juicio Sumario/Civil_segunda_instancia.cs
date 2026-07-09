@@ -220,6 +220,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
             btnAgregarSociosResponsables.Enabled = !isLectorCivil;
             btnAgregarEstado.Enabled = !isLectorCivil;
         }
+        
         private async Task CargarDatosCaso(int idCaso, bool mostrarDetalles = true)
         {
             int idUsuario = UserSession.Id;

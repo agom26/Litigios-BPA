@@ -663,7 +663,7 @@
             dtgCasosCiviles.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dtgCasosCiviles.RowTemplate.Height = 45;
             dtgCasosCiviles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgCasosCiviles.Size = new Size(719, 280);
+            dtgCasosCiviles.Size = new Size(719, 244);
             dtgCasosCiviles.TabIndex = 1;
             dtgCasosCiviles.CellClick += dtgCasosCiviles_CellClick;
             dtgCasosCiviles.CellFormatting += dtgCasosCiviles_CellFormatting;
@@ -1779,7 +1779,7 @@
             panel3.Controls.Add(roundedButton26);
             panel3.Location = new Point(55, 390);
             panel3.Name = "panel3";
-            panel3.Size = new Size(665, 287);
+            panel3.Size = new Size(657, 287);
             panel3.TabIndex = 9;
             // 
             // btnAgregarEstado
@@ -1852,7 +1852,7 @@
             txtObservaciones.PlaceholderText = "...";
             txtObservaciones.ReadOnly = true;
             txtObservaciones.ScrollBars = ScrollBars.Vertical;
-            txtObservaciones.Size = new Size(597, 118);
+            txtObservaciones.Size = new Size(589, 118);
             txtObservaciones.TabIndex = 10;
             // 
             // roundedButton23
@@ -1870,7 +1870,7 @@
             roundedButton23.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton23.Location = new Point(23, 135);
             roundedButton23.Name = "roundedButton23";
-            roundedButton23.Size = new Size(621, 139);
+            roundedButton23.Size = new Size(613, 139);
             roundedButton23.TabIndex = 11;
             roundedButton23.TextColor = Color.White;
             roundedButton23.UseVisualStyleBackColor = false;
@@ -1911,7 +1911,7 @@
             roundedButton22.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton22.Location = new Point(0, 0);
             roundedButton22.Name = "roundedButton22";
-            roundedButton22.Size = new Size(665, 43);
+            roundedButton22.Size = new Size(657, 43);
             roundedButton22.TabIndex = 4;
             roundedButton22.Text = "Estado y Observaciones";
             roundedButton22.TextAlign = ContentAlignment.MiddleLeft;
@@ -1933,7 +1933,7 @@
             roundedButton26.ForeColor = Color.White;
             roundedButton26.Location = new Point(0, 45);
             roundedButton26.Name = "roundedButton26";
-            roundedButton26.Size = new Size(665, 242);
+            roundedButton26.Size = new Size(657, 242);
             roundedButton26.TabIndex = 2;
             roundedButton26.TextColor = Color.White;
             roundedButton26.UseVisualStyleBackColor = false;
@@ -1962,7 +1962,7 @@
             panelInformacionPersonal.Controls.Add(roundedButton9);
             panelInformacionPersonal.Location = new Point(55, 71);
             panelInformacionPersonal.Name = "panelInformacionPersonal";
-            panelInformacionPersonal.Size = new Size(665, 300);
+            panelInformacionPersonal.Size = new Size(657, 300);
             panelInformacionPersonal.TabIndex = 3;
             // 
             // checkBoxSalasFamilia
@@ -2021,7 +2021,7 @@
             comboBoxJuzgado.Items.AddRange(new object[] { "1º", "2º", "3º", "4º", "5º", "6º", "7º", "8º", "9º", "10º", "A", "B", "C", "D", "E", "F", "G", "H" });
             comboBoxJuzgado.Location = new Point(283, 261);
             comboBoxJuzgado.Name = "comboBoxJuzgado";
-            comboBoxJuzgado.Size = new Size(313, 23);
+            comboBoxJuzgado.Size = new Size(321, 23);
             comboBoxJuzgado.TabIndex = 5;
             // 
             // comboboxNotificador
@@ -2173,7 +2173,7 @@
             roundedButton2.ForeColor = Color.White;
             roundedButton2.Location = new Point(0, 43);
             roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(665, 257);
+            roundedButton2.Size = new Size(657, 257);
             roundedButton2.TabIndex = 2;
             roundedButton2.TextColor = Color.White;
             roundedButton2.UseVisualStyleBackColor = false;
@@ -2194,7 +2194,7 @@
             roundedButton9.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton9.Location = new Point(0, 0);
             roundedButton9.Name = "roundedButton9";
-            roundedButton9.Size = new Size(665, 43);
+            roundedButton9.Size = new Size(657, 43);
             roundedButton9.TabIndex = 4;
             roundedButton9.Text = "Datos Generales";
             roundedButton9.TextAlign = ContentAlignment.MiddleLeft;
@@ -2217,7 +2217,7 @@
             panelBotones.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelBotones.Location = new Point(0, 2125);
             panelBotones.Name = "panelBotones";
-            panelBotones.Size = new Size(396, 48);
+            panelBotones.Size = new Size(388, 48);
             panelBotones.TabIndex = 20;
             // 
             // tabPageHistorial
@@ -2859,7 +2859,7 @@
             btnEliminarCasoReferencia.ForeColor = Color.FromArgb(181, 32, 31);
             btnEliminarCasoReferencia.Image = Properties.Resources.cubo_de_basura;
             btnEliminarCasoReferencia.ImageAlign = ContentAlignment.MiddleRight;
-            btnEliminarCasoReferencia.Location = new Point(396, 37);
+            btnEliminarCasoReferencia.Location = new Point(362, 37);
             btnEliminarCasoReferencia.Name = "btnEliminarCasoReferencia";
             btnEliminarCasoReferencia.Padding = new Padding(3, 0, 0, 0);
             btnEliminarCasoReferencia.Size = new Size(246, 32);
@@ -2895,7 +2895,7 @@
             txtCasoReferenciaId.Anchor = AnchorStyles.Top;
             txtCasoReferenciaId.BorderStyle = BorderStyle.None;
             txtCasoReferenciaId.Font = new Font("Segoe UI", 9F);
-            txtCasoReferenciaId.Location = new Point(23, 84);
+            txtCasoReferenciaId.Location = new Point(7, 84);
             txtCasoReferenciaId.Name = "txtCasoReferenciaId";
             txtCasoReferenciaId.Size = new Size(51, 16);
             txtCasoReferenciaId.TabIndex = 32;
@@ -2915,7 +2915,7 @@
             btnAgregarCasoReferencia.ForeColor = Color.FromArgb(52, 109, 235);
             btnAgregarCasoReferencia.Image = Properties.Resources.boton_agregar__1_;
             btnAgregarCasoReferencia.ImageAlign = ContentAlignment.MiddleRight;
-            btnAgregarCasoReferencia.Location = new Point(395, 75);
+            btnAgregarCasoReferencia.Location = new Point(361, 75);
             btnAgregarCasoReferencia.Name = "btnAgregarCasoReferencia";
             btnAgregarCasoReferencia.Padding = new Padding(3, 0, 0, 0);
             btnAgregarCasoReferencia.Size = new Size(246, 32);
@@ -3834,7 +3834,7 @@
             panel2.Controls.Add(roundedButton31);
             panel2.Location = new Point(65, 385);
             panel2.Name = "panel2";
-            panel2.Size = new Size(577, 287);
+            panel2.Size = new Size(543, 287);
             panel2.TabIndex = 26;
             // 
             // label34
@@ -3882,7 +3882,7 @@
             textBoxObervacionesCasoReferencia.PlaceholderText = "...";
             textBoxObervacionesCasoReferencia.ReadOnly = true;
             textBoxObervacionesCasoReferencia.ScrollBars = ScrollBars.Vertical;
-            textBoxObervacionesCasoReferencia.Size = new Size(505, 118);
+            textBoxObervacionesCasoReferencia.Size = new Size(471, 118);
             textBoxObervacionesCasoReferencia.TabIndex = 10;
             textBoxObervacionesCasoReferencia.TextChanged += textBox6_TextChanged;
             // 
@@ -3901,7 +3901,7 @@
             roundedButton28.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton28.Location = new Point(23, 135);
             roundedButton28.Name = "roundedButton28";
-            roundedButton28.Size = new Size(529, 139);
+            roundedButton28.Size = new Size(495, 139);
             roundedButton28.TabIndex = 11;
             roundedButton28.TextColor = Color.White;
             roundedButton28.UseVisualStyleBackColor = false;
@@ -3941,7 +3941,7 @@
             roundedButton30.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton30.Location = new Point(0, 0);
             roundedButton30.Name = "roundedButton30";
-            roundedButton30.Size = new Size(577, 43);
+            roundedButton30.Size = new Size(543, 43);
             roundedButton30.TabIndex = 4;
             roundedButton30.Text = "Estado y Observaciones";
             roundedButton30.TextAlign = ContentAlignment.MiddleLeft;
@@ -3963,7 +3963,7 @@
             roundedButton31.ForeColor = Color.White;
             roundedButton31.Location = new Point(0, 45);
             roundedButton31.Name = "roundedButton31";
-            roundedButton31.Size = new Size(577, 242);
+            roundedButton31.Size = new Size(543, 242);
             roundedButton31.TabIndex = 2;
             roundedButton31.TextColor = Color.White;
             roundedButton31.UseVisualStyleBackColor = false;
@@ -3988,7 +3988,7 @@
             panel4.Controls.Add(roundedButton35);
             panel4.Location = new Point(65, 115);
             panel4.Name = "panel4";
-            panel4.Size = new Size(577, 250);
+            panel4.Size = new Size(543, 250);
             panel4.TabIndex = 25;
             // 
             // comboBoxJuzgadoCasoReferencia
@@ -4151,7 +4151,7 @@
             roundedButton34.ForeColor = Color.White;
             roundedButton34.Location = new Point(0, 43);
             roundedButton34.Name = "roundedButton34";
-            roundedButton34.Size = new Size(577, 207);
+            roundedButton34.Size = new Size(543, 207);
             roundedButton34.TabIndex = 2;
             roundedButton34.TextColor = Color.White;
             roundedButton34.UseVisualStyleBackColor = false;
@@ -4172,7 +4172,7 @@
             roundedButton35.ImageAlign = ContentAlignment.MiddleLeft;
             roundedButton35.Location = new Point(0, 0);
             roundedButton35.Name = "roundedButton35";
-            roundedButton35.Size = new Size(577, 43);
+            roundedButton35.Size = new Size(543, 43);
             roundedButton35.TabIndex = 4;
             roundedButton35.Text = "Datos Generales";
             roundedButton35.TextAlign = ContentAlignment.MiddleLeft;

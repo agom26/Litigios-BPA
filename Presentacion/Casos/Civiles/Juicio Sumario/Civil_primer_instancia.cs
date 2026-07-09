@@ -226,6 +226,32 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
             btnAgregarSociosResponsables.Enabled = !isLectorCivil;
             btnAgregarEstado.Enabled = !isLectorCivil;
         }
+        private void SeleccionarJuzgado(string juzgado)
+        {
+            if (string.IsNullOrWhiteSpace(juzgado))
+                return;
+
+            // Evita que queden ambos marcados
+            checkBoxDePaz.Checked = false;
+            checkBoxPluripersonales.Checked = false;
+
+            // Determinar a qué grupo pertenece
+            if (juzgado.Contains("Paz Civil"))
+            {
+                checkBoxDePaz.Checked = true;
+            }
+            else if (juzgado.Contains("Primera Instancia Civil"))
+            {
+                checkBoxPluripersonales.Checked = true;
+            }
+
+            // Seleccionar el juzgado en el ComboBox
+            comboBoxJuzgado.SelectedItem = juzgado;
+
+            // Si por alguna diferencia de mayúsculas o espacios no lo encuentra
+            if (comboBoxJuzgado.SelectedIndex == -1)
+                comboBoxJuzgado.Text = juzgado;
+        }
         private async Task CargarDatosCaso(int idCaso, bool mostrarDetalles = true)
         {
             int idUsuario = UserSession.Id;
@@ -245,7 +271,7 @@ namespace Presentacion.Casos.Civiles.Juicio_Sumario
             if (data != null)
             {
                 txtExpediente.Text = data.caso.expediente ?? "";
-                comboBoxJuzgado.Text = data.caso.juzgado ?? "";
+                SeleccionarJuzgado(data.caso.juzgado);
                 comboboxOficial.Text = data.caso.oficial ?? "";
                 comboboxNotificador.Text = data.caso.notificador ?? "";
                 txtNombreParticular.Text = data.caso.nombre_particular ?? "";

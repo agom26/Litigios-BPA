@@ -11,7 +11,7 @@ namespace AccesoDatos.Entidades.Contenciosos
 {
     public class CARecursoCasacionDataAccess
     {
-        private readonly string _apiUrl = "http://bpa.com.es/peticiones-litigios/contenciosos/recurso_casacion.php";
+        private readonly string _apiUrl = "https://bpa.com.es/peticiones-litigios/contenciosos/recurso_casacion.php";
         private static readonly HttpClient _http = new HttpClient();
 
         /* ==== LISTAR === */
